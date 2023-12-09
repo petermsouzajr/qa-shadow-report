@@ -2,6 +2,14 @@
 
 Our package bridges Cypress test runs with Google Sheets or Microsoft Excel, streamlining test result integration and boosting team collaboration. It not only provides immediate insights into automation project health but also fosters a paradigm shift in organizational methods, promoting clearer coordination and efficiency.
 
+### Daily Report Sample
+
+![Screenshot of Feature](images/dailyReport.png)
+
+### Monlthy Summary Sample
+
+![Screenshot of Feature](images/monthlySummary.png)
+
 ## Setup Guide
 
 #### Prerequisites
