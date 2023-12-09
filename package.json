@@ -5,7 +5,7 @@
     "cy-shadow-report": "./cli.js"
   },
   "description": "npm package that prints formatted cypress reports into a google sheet",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/.bin/jest"
   },
