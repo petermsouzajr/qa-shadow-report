@@ -1,11 +1,52 @@
-let packageConfig = {};
+import fs from 'fs';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-export const setConfig = (config) => {
-  packageConfig = config;
-};
+// Since __dirname is not available in ES modules, we need to derive it
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-// Export packageConfig if needed elsewhere
-export { packageConfig };
+// Start the search from the parent directory of the current __dirname
+const parentDir = dirname(dirname(__dirname));
+
+// Function to find the config file
+function findConfigFile(startPath, baseFileName) {
+  const extensions = ['.js', '.ts']; // Array of possible extensions
+  let currentDir = startPath;
+  while (currentDir !== path.parse(currentDir).root) {
+    for (const ext of extensions) {
+      const fileNameWithExt = baseFileName + ext;
+      const filePath = path.join(currentDir, fileNameWithExt);
+
+      if (fs.existsSync(filePath)) {
+        return filePath;
+      }
+    }
+    currentDir = path.dirname(currentDir);
+  }
+  return null;
+}
+
+// Function to get config path from arguments
+function getConfigPathFromArgs() {
+  const args = process.argv;
+  const configIndex = args.findIndex((arg) => arg === '--config') + 1;
+  return configIndex > 0 ? args[configIndex] : null;
+}
+
+// Main logic to determine config path
+const configPath =
+  getConfigPathFromArgs() || findConfigFile(parentDir, 'shadowReportConfig');
+
+if (!configPath) {
+  console.error(
+    'Please specify the path to the shadowReportConfig.js file or ensure it exists in the project root.'
+  );
+  process.exit(1);
+}
+
+const shadowConfig = await import(configPath);
+const shadowConfigDetails = shadowConfig.default;
 
 // Define the formula keys for daily report header metrics.
 export const FORMULA_KEYS = [
@@ -16,15 +57,19 @@ export const FORMULA_KEYS = [
 ];
 
 export const GOOGLE_SHEET_ID = () => {
-  return packageConfig && packageConfig.googleSpreadsheetId
-    ? packageConfig.googleSpreadsheetId
-    : '6d567d67576fgd76dfg76dghfg';
+  const sheetId =
+    shadowConfigDetails && shadowConfigDetails.googleSpreadsheetId
+      ? shadowConfigDetails.googleSpreadsheetId
+      : '6d567d67576fgd76dfg76dghfg';
+  return sheetId;
 };
 
 export const TEST_DATA = () => {
-  return packageConfig && packageConfig.testData
-    ? packageConfig.testData
-    : 'output.json';
+  const testData =
+    shadowConfigDetails && shadowConfigDetails.testData
+      ? shadowConfigDetails.testData
+      : 'output2.json';
+  return testData;
 };
 
 // Define the formula template for daily report header metrics.
@@ -36,57 +81,63 @@ export const FORMULA_TEMPLATES = [
 ];
 
 export const COLUMNS_AVAILABLE = () => {
-  return packageConfig && packageConfig.columns
-    ? packageConfig.columns
-    : [
-        'area',
-        'spec',
-        'test name',
-        'type',
-        'category',
-        'team',
-        'priority',
-        'status',
-        'state',
-        'testrail id',
-        'error',
-        'speed',
-      ];
+  const columns =
+    shadowConfigDetails && shadowConfigDetails.columns
+      ? shadowConfigDetails.columns
+      : [
+          'area',
+          'spec',
+          'test name',
+          'type',
+          'category',
+          'team',
+          'priority',
+          'status',
+          'state',
+          'testrail id',
+          'error',
+          'speed',
+        ];
+  return columns;
 };
 
 export const TEST_TARGETS_AVAILABLE = () => {
-  return packageConfig && packageConfig.testTargets
-    ? packageConfig.testTargets
-    : [
-        'api',
-        'ui',
-        'unit',
-        'integration',
-        'endToEnd',
-        'performance',
-        'security',
-        'database',
-        'accessibility',
-        'mobile',
-      ];
+  const targets =
+    shadowConfigDetails && shadowConfigDetails.testTargets
+      ? shadowConfigDetails.testTargets
+      : [
+          'api',
+          'ui',
+          'unit',
+          'integration',
+          'endToEnd',
+          'performance',
+          'security',
+          'database',
+          'accessibility',
+          'mobile',
+        ];
+  return targets;
 };
 
 export const TEST_PURPOSES_AVAILABLE = () => {
-  return packageConfig && packageConfig.testPurposes
-    ? packageConfig.testPurposes
-    : [
-        'smoke',
-        'regression',
-        'sanity',
-        'exploratory',
-        'functional',
-        'load',
-        'stress',
-        'usability',
-        'compitibility',
-        'alpha',
-        'beta',
-      ];
+  const purposes =
+    shadowConfigDetails && shadowConfigDetails.testPurposes
+      ? shadowConfigDetails.testPurposes
+      : [
+          'smoke',
+          'regression',
+          'sanity',
+          'exploratory',
+          'functional',
+          'load',
+          'stress',
+          'usability',
+          'compitibility',
+          'alpha',
+          'beta',
+        ];
+  return purposes;
 };
 
 export const DEFAULT_HEADER_METRICS = [
@@ -101,7 +152,9 @@ export const HEADER_INDICATORS = ['test name', 'state'];
 export const FOOTER_ROW = '- END -';
 
 export const ALL_TEAM_NAMES = () => {
-  return packageConfig && packageConfig.teamNames
-    ? packageConfig.teamNames
-    : ['oregano', 'spoofer', 'juniper', 'occaecati', 'wilkins', 'canonicus'];
+  const teams =
+    shadowConfigDetails && shadowConfigDetails.teamNames
+      ? shadowConfigDetails.teamNames
+      : ['oregano', 'spoofer', 'juniper', 'occaecati', 'wilkins', 'canonicus'];
+  return teams;
 };
