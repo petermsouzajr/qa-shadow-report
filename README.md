@@ -13,7 +13,18 @@ Before you begin, ensure you have:
 - Google Spreadsheet ID: Find this in your sheet's URL and store it in an environment variable.
 
 - Service Account Credentials for Google Sheets: Follow the detailed guide on [node-google-spreadsheet](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=authentication-methods)
-  to set up and safely store your credentials, updating `cypress.config.*` with the path to these credentials. Use `.gitignore` to secure your credentials within your project.
+  to set up and safely store your credentials, updating `shadowReportConfig.*` (`js`, or`.ts`) with the path to these credentials. Use `.gitignore` to secure your credentials within your project.
+
+- Create a configuration file `shadowReportConfig.*` (`js`, or`.ts`)
+
+```
+module.exports = {
+  googleSpreadsheetId: 'v544j5h4h456v6n',
+  googleKeyFilePath: 'googleCredentials.json',
+  testData: 'cypress/results/output.json',
+};
+
+```
 
 #### Recommended package.json Scripts
 
@@ -32,66 +43,43 @@ To ensure tests and reports are processed correctly, configure your package.json
 
 Adjust these scripts as needed for your project's requirements.
 
-#### Cypress Configuration
-
-Incorporate `cy-shadow-report` configuration into your `cypress.config.*` file:
-
-```
-const { defineConfig } = require('cypress');
-const cyShadowReport = require('cy-shadow-report');
-
-module.exports = defineConfig({
-  e2e: {
-    setupNodeEvents(on, config) {
-
-      const shadowConfig = {
-        teamNames: [],
-        testTargets: [],
-        testPurposes: [],
-        columns: [],
-        googleSpreadsheetId: process.env.googleSheetId,
-        googleKeyFilePath: 'googleCredentials.json',
-        testData: 'cypress/results/output.json',
-      };
-      cyShadowReport.setConfig(shadowConfig);
-    },
-  },
-});
-
-```
-
 ### Minimum Configuration
 
-Include the following in your `cypress.config.*` file for basic functionality:
+Include the following in your `shadowReportConfig.*` (`js`, or`.ts`) file for basic functionality:
 
 - `googleSpreadsheetId`: This is the Sheet ID for your Google Sheets project.
 - `googleKeyFilePath`: The file path to your Google service account credentials.
+- `testData`: The file path to your Cypress test rusults JSON file.
 
 ```
-const shadowConfig = {
-        teamNames: [],
-        testTargets: [],
-        testPurposes: [],
-        columns: [],
-        googleSpreadsheetId: process.env.googleSheetId,
-        googleKeyFilePath: 'googleCredentials.json',
-        testData: 'cypress/results/output.json',
-      };
+module.exports = {
+  googleSpreadsheetId: 'v544j5h4h456v6n',
+  googleKeyFilePath: 'googleCredentials.json',
+  testData: 'cypress/results/output.json',
+};
 ```
 
 ### Enhanced Configuration
 
 #### Column: Team Name
 
-If you have team names or labels indicating ownership of a test or code feature, you need to specify them to ensure visibility on the report sheet. Add them to your `cypress.config.*` file:
+If you have team names or labels indicating ownership of a test or code feature, you need to specify them to ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`js`, or`.ts`) file:
 
 ```
-const shadowConfig = {
-  teamNames: ['oregano', 'juniper', 'windsor'],
-  googleSpreadsheetId: process.env.googleSheetId,
+module.exports = {
+  teamNames: [
+    'oregano',
+    'spoofer',
+    'juniper',
+    'occaecati',
+    'wilkins',
+    'canonicus',
+  ],
+  googleSpreadsheetId: 'v544j5h4h456v6n',
   googleKeyFilePath: 'googleCredentials.json',
   testData: 'cypress/results/output.json',
-},
+};
+
 ```
 
 The Team Name column aggregates and displays data based on the team names you define. Include the team name within square brackets in the describe block string to identify the team responsible for the feature code. For instance, `[Windsor]` is used as the team name in this example:
@@ -122,10 +110,10 @@ This configuration allows for a more organized and comprehensive report, showcas
 
 ### Column: Test Target
 
-The Test Target column compiles and categorizes data based on predefined categories. To ensure visibility on the report sheet. Add them to your `cypress.config.*` file. If you do not specify a list of Test Targets, the reporting software will use the default list, and will only compile metrics based on the default list of: `["api", "ui", "unit", "integration", "endToEnd", "performance", "security", "database", "accessibility", "mobile"]`.
+The Test Target column compiles and categorizes data based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`js`, or`.ts`) file. If you do not specify a list of Test Targets, the reporting software will use the default list, and will only compile metrics based on the default list of: `["api", "ui", "unit", "integration", "endToEnd", "performance", "security", "database", "accessibility", "mobile"]`.
 
 ```
-const shadowConfig = {
+module.exports = {
       teamNames: ['oregano'],
       testTargets: [
         'api',
@@ -139,10 +127,10 @@ const shadowConfig = {
         'accessibility',
         'mobile',
       ],
-      googleSpreadsheetId: process.env.googleSheetId,
+      googleSpreadsheetId: 'v544j5h4h456v6n',
       googleKeyFilePath: 'googleCredentials.json',
       testData: 'cypress/results/output.json',
-},
+};
 ```
 
 To incorporate a Test Target into your Cypress report, it's essential, and highly recommended, to integrate the Target Type into your Cypress file structure. This practice enhances organizational clarity within your team. For instance, in this example, 'api' is added after the e2e directory:
@@ -158,10 +146,10 @@ This method of file organization facilitates easy identification and categorizat
 
 ### Column: Test Purpose
 
-The Test Purpose column compiles data to represent the specific purpose of each test, based on predefined categories. To ensure visibility on the report sheet. Add them to your `cypress.config.*` file. If you do not specify a list of Test Purposes, the reporting software will use the default list, and will only compile metrics based on the default list of: `["smoke", "regression", "sanity", "exploratory", "functional", "load", "stress", "usability", "compatibility", "alpha", "beta"]`.
+The Test Purpose column compiles data to represent the specific purpose of each test, based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`js`, or`.ts`) file. If you do not specify a list of Test Purposes, the reporting software will use the default list, and will only compile metrics based on the default list of: `["smoke", "regression", "sanity", "exploratory", "functional", "load", "stress", "usability", "compatibility", "alpha", "beta"]`.
 
 ```
-    const shadowConfig = {
+module.exports = {
       teamNames: ['oregano'],
       testTargets: ['mobile'],
       testPurposes: [
@@ -177,10 +165,10 @@ The Test Purpose column compiles data to represent the specific purpose of each 
         'alpha',
         'beta',
       ],
-      googleSpreadsheetId: process.env.googleSheetId,
+      googleSpreadsheetId: 'v544j5h4h456v6n',
       googleKeyFilePath: 'googleCredentials.json',
       testData: 'cypress/results/output.json',
-    },
+    };
 ```
 
 To indicate the purpose of a test within your Cypress suite, add the Test Purpose in square brackets at the end of the string in the `it` block. This annotation specifies the intended coverage of the test. For example, in this snippet, `[smoke]` and `[usability]` are used to denote Test Purposes:
@@ -239,10 +227,10 @@ This method ensures that each test is accurately linked to its corresponding Tes
 
 ### Customizing Report Columns
 
-The columns themselves can be customized, based on what data you want to report or not report. To ensure visibility on the report sheet. Add them to your `cypress.config.*` file. If you do not specify a list of columns you want on your report, the reporting software will use the default list, and will only compile metrics based on the default list of: `['area', 'spec', 'test', 'name', 'type', 'category', 'team', 'priority', 'status', 'state', 'testrail id', 'error', 'speed'].
+The columns themselves can be customized, based on what data you want to report or not report. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`js`, or`.ts`) file. If you do not specify a list of columns you want on your report, the reporting software will use the default list, and will only compile metrics based on the default list of: `['area', 'spec', 'test', 'name', 'type', 'category', 'team', 'priority', 'status', 'state', 'testrail id', 'error', 'speed'].
 
 ```
-    const shadowConfig = {
+module.exports = {
       teamNames: ['oregano'],
       testTargets: ['mobile'],
       testPurposes: ['functional'],
@@ -260,20 +248,20 @@ The columns themselves can be customized, based on what data you want to report 
         'error',
         'speed',
       ],
-      googleSpreadsheetId: process.env.googleSheetId,
+      googleSpreadsheetId: 'v544j5h4h456v6n',
       googleKeyFilePath: 'googleCredentials.json',
       testData: 'cypress/results/output.json',
-    },
+    };
 ```
 
 This approach not only categorizes your tests effectively but also adds clarity to the specific objectives they aim to achieve, thereby enhancing the insightfulness of your test reporting. To reiterate, if you do not have specific values for `testTarget`, `testPurpose`, and `column`, they will fall back to default values mentined in this document
 
 #### 'The Works'
 
-When specifying your Team Names, Test Targets, Test Purposes, and even Columns, your `cypress.config.*` can look like this:
+When specifying your Team Names, Test Targets, Test Purposes, and even Columns, your `shadowReportConfig.*` (`js`, or`.ts`) can look like this:
 
 ```
-    const shadowConfig = {
+module.exports = {
       teamNames: [
         'oregano',
         'spoofer',
@@ -321,10 +309,10 @@ When specifying your Team Names, Test Targets, Test Purposes, and even Columns, 
         'error',
         'speed',
       ],
-      googleSpreadsheetId: process.env.googleSheetId,
+      googleSpreadsheetId: 'v544j5h4h456v6n',
       googleKeyFilePath: 'googleCredentials.json',
       testData: 'cypress/results/output.json',
-    },
+    };
 ```
 
 ### Header Metrics Panel
@@ -340,16 +328,16 @@ The Header Metrics Panel is designed to automatically generate key statistics fr
   - there must be Json data present from cypress test output.
   - there must be no tab named with the current date title.
 
-  - run `cy-shadow-report todays-report`
+  - run `npx cy-shadow-report todays-report`
 
 - to run the monthly summary report only:
 
   - there must be daily reports present from previous month.
   - there must be no tab named with the last months summary title.
 
-  - run `cy-shadow-report monthly-summary`
+  - run `npx cy-shadow-report monthly-summary`
 
-- to run the standard global functionality, run the command: `cy-shadow-report`
+- to run the standard global functionality, run the command: `npx cy-shadow-report`
 
   - This command will process the test data and present a detailed report, enhancing your test analysis and decision-making process.
 
