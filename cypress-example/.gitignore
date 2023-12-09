@@ -1,0 +1,6 @@
+cypress/results/
+cypress/screenshots/
+node_modules/
+.env
+/googleCredentials.json
+```
