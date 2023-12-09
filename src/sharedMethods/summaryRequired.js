@@ -1,10 +1,6 @@
 import { createSummaryTitle } from '../google/sheetDataMethods/createTabNames.js';
 import { getExistingTabTitlesInRange } from '../google/sheetDataMethods/getSheetInfo.js';
-import {
-  getCurrentDay,
-  getFormattedMonth,
-  getFormattedYear,
-} from './dateFormatting.js';
+import { getFormattedMonth, getFormattedYear } from './dateFormatting.js';
 
 /**
  * Determines whether a summary sheet title for the provided sheet tab titles

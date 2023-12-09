@@ -1,5 +1,5 @@
 import { google } from 'googleapis';
-import { GOOGLE_SHEET_ID } from '../../constants';
+import { GOOGLE_SHEET_ID } from '../../constants.js';
 
 // const keyFilePath = '../googleCredentials.json';
 const keyFilePath = 'googleCredentials.json';
@@ -14,5 +14,3 @@ const client = await auth.getClient();
 export const sheets = google.sheets({ version: 'v4', auth: client });
 
 export const spreadsheetId = GOOGLE_SHEET_ID();
-
-// export const spreadsheetId = '1Y8tFpbNEKPtQWmo3U9idGxxoSB3zIbLrQFsllr1mySs';

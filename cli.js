@@ -1,9 +1,7 @@
 #!/usr/bin/env node
-const { main } = require('./src/index.js');
-const {
-  handleDailyReport,
-} = require('./src/sharedMethods/dailyReportHandler.js');
-const { handleSummary } = require('./src/sharedMethods/summaryHandler.js');
+import { main } from './src/index.js';
+import { handleDailyReport } from './src/sharedMethods/dailyReportHandler.js';
+import { handleSummary } from './src/sharedMethods/summaryHandler.js';
 
 // Retrieve the third argument from command line
 const command = process.argv[2];
@@ -11,14 +9,14 @@ const command = process.argv[2];
 switch (command) {
   case 'todays-report':
     // Execute another function
-    handleDailyReport();
+    await handleDailyReport();
     break;
   case 'monthly-summary':
     // Execute another function
-    handleSummary();
+    await handleSummary();
     break;
   default:
     // Execute the main function of your package
-    main();
+    await main();
     break;
 }
