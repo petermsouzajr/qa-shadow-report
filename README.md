@@ -2,20 +2,45 @@
 
 Our package bridges Cypress test runs with Google Sheets or Microsoft Excel, streamlining test result integration and boosting team collaboration. It not only provides immediate insights into automation project health but also fosters a paradigm shift in organizational methods, promoting clearer coordination and efficiency.
 
+## Table of Contents
+
+1. [Daily Report Sample](#daily-report-sample)
+2. [Monthly Summary Sample](#monthly-summary-sample)
+3. [Setup Guide](#setup-guide)
+
+   - [Prerequisites](#prerequisites)
+
+4. [Generating a Report](#generating-a-report)
+5. [Minimum Configuration](#minimum-configuration)
+6. [Enhanced Configuration](#enhanced-configuration)
+
+   - [Column: Team Name](#column-team-name)
+   - [Column: Test Target](#column-test-target)
+   - [Column: Test Purpose](#column-test-purpose)
+   - [Column: Testrail Id](#column-testrail-id)
+   - ['The Works'](#the-works)
+
+7. [Github CI/CD](#github-cicd)
+
+### Daily Report Sample
+
+![Screenshot of Feature](images/dailyReport.png)
+
+### Monthly Summary Sample
+
+![Screenshot of Feature](images/monthlySummary.png)
+
 ## Setup Guide
 
 #### Prerequisites
 
 Before you begin, ensure you have:
 
-- Mochawesome and Mochawesome Merge: Install these for Cypress test report generation: `npm install --save-dev mochawesome mochawesome-merge`
-
-- Google Spreadsheet ID: Find this in your sheet's URL and store it in an environment variable.
-
-- Service Account Credentials for Google Sheets: Follow the detailed guide on [node-google-spreadsheet](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=authentication-methods)
-  to set up and safely store your credentials, updating `shadowReportConfig.*` (`js`, or`.ts`) with the path to these credentials. Use `.gitignore` to secure your credentials within your project.
-
-- Create a configuration file `shadowReportConfig.*` (`js`, or`.ts`)
+- **Mochawesome and Mochawesome Merge:** Install these for Cypress test report generation: `npm install --save-dev mochawesome mochawesome-merge`.
+- **Google Spreadsheet ID:** Find this in your sheet's URL and store it in an environment variable.
+- **Service Account Credentials for Google Sheets:** Follow the detailed guide on [node-google-spreadsheet](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=authentication-methods)
+  to set up and safely store your credentials, updating `shadowReportConfig.*` (`js`, or `ts`) with the path to these credentials. Use `.gitignore` to secure your credentials within your project.
+- **Create a configuration file:** `shadowReportConfig.*` (`js`, or `ts`).
 
 ```
 module.exports = {
@@ -23,12 +48,32 @@ module.exports = {
   googleKeyFilePath: 'googleCredentials.json',
   testData: 'cypress/results/output.json',
 };
-
 ```
 
-#### Recommended package.json Scripts
+## Generating a Report
 
-To ensure tests and reports are processed correctly, configure your package.json scripts as follows:
+#### To generate a report using `cy-shadow-report`:
+
+- **To run the daily report only:**
+
+  - Ensure JSON data is present from Cypress test output.
+  - No tab should be named with the current date title.
+  - Run `npx cy-shadow-report todays-report`.
+
+- **To run the monthly summary report only:**
+
+  - Ensure daily reports from the previous month are present.
+  - No tab should be named with the last month's summary title.
+  - Run `npx cy-shadow-report monthly-summary`.
+
+- **To run the standard global functionality:**
+  - Run the command `npx cy-shadow-report`.
+  - This command processes the test data and presents a detailed report.
+  - The report will fail if JSON test data is not present.
+
+#### Recommended `package.json` Scripts
+
+To ensure tests and reports are processed correctly, configure your `package.json` scripts as follows:
 
 ```
   "scripts": {
@@ -45,11 +90,11 @@ Adjust these scripts as needed for your project's requirements.
 
 ### Minimum Configuration
 
-Include the following in your `shadowReportConfig.*` (`js`, or`.ts`) file for basic functionality:
+Include the following in your `shadowReportConfig.*` (`.js`, or`.ts`) file for basic functionality:
 
-- `googleSpreadsheetId`: This is the Sheet ID for your Google Sheets project.
-- `googleKeyFilePath`: The file path to your Google service account credentials.
-- `testData`: The file path to your Cypress test rusults JSON file.
+- `googleSpreadsheetId`: This is the Sheet ID for your Google Sheets project (found in the URL of your Google Sheet).
+- `googleKeyFilePath`: Path to your Google service account credentials.
+- `testData`: Path to your Cypress test results JSON file
 
 ```
 module.exports = {
@@ -63,7 +108,7 @@ module.exports = {
 
 #### Column: Team Name
 
-If you have team names or labels indicating ownership of a test or code feature, you need to specify them to ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`js`, or`.ts`) file:
+If you have team names or labels indicating ownership of a test or code feature, you need to specify them to ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`.js`, or`.ts`) file:
 
 ```
 module.exports = {
@@ -110,7 +155,7 @@ This configuration allows for a more organized and comprehensive report, showcas
 
 ### Column: Test Target
 
-The Test Target column compiles and categorizes data based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`js`, or`.ts`) file. If you do not specify a list of Test Targets, the reporting software will use the default list, and will only compile metrics based on the default list of: `["api", "ui", "unit", "integration", "endToEnd", "performance", "security", "database", "accessibility", "mobile"]`.
+The Test Target column compiles and categorizes data based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`.js`, or`.ts`) file. If you do not specify a list of Test Targets, the reporting software will use the default list, and will only compile metrics based on the default list of: `["api", "ui", "unit", "integration", "endToEnd", "performance", "security", "database", "accessibility", "mobile"]`.
 
 ```
 module.exports = {
@@ -146,7 +191,7 @@ This method of file organization facilitates easy identification and categorizat
 
 ### Column: Test Purpose
 
-The Test Purpose column compiles data to represent the specific purpose of each test, based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`js`, or`.ts`) file. If you do not specify a list of Test Purposes, the reporting software will use the default list, and will only compile metrics based on the default list of: `["smoke", "regression", "sanity", "exploratory", "functional", "load", "stress", "usability", "compatibility", "alpha", "beta"]`.
+The Test Purpose column compiles data to represent the specific purpose of each test, based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`.js`, or`.ts`) file. If you do not specify a list of Test Purposes, the reporting software will use the default list, and will only compile metrics based on the default list of: `["smoke", "regression", "sanity", "exploratory", "functional", "load", "stress", "usability", "compatibility", "alpha", "beta"]`.
 
 ```
 module.exports = {
@@ -225,89 +270,28 @@ describe('[Windsor] Unit test our math functions', () => {
 
 This method ensures that each test is accurately linked to its corresponding TestRail ID, facilitating a more detailed and organized approach to test tracking, reporting, and auditing.
 
-### Customizing Report Columns
+### 'The Works'
 
-The columns themselves can be customized, based on what data you want to report or not report. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`js`, or`.ts`) file. If you do not specify a list of columns you want on your report, the reporting software will use the default list, and will only compile metrics based on the default list of: `['area', 'spec', 'test', 'name', 'type', 'category', 'team', 'priority', 'status', 'state', 'testrail id', 'error', 'speed'].
-
-```
-module.exports = {
-      teamNames: ['oregano'],
-      testTargets: ['mobile'],
-      testPurposes: ['functional'],
-      columns: [
-        'area',
-        'spec',
-        'test name',
-        'type',
-        'category',
-        'team',
-        'priority',
-        'status',
-        'state',
-        'testrail id',
-        'error',
-        'speed',
-      ],
-      googleSpreadsheetId: 'v544j5h4h456v6n',
-      googleKeyFilePath: 'googleCredentials.json',
-      testData: 'cypress/results/output.json',
-    };
-```
-
-This approach not only categorizes your tests effectively but also adds clarity to the specific objectives they aim to achieve, thereby enhancing the insightfulness of your test reporting. To reiterate, if you do not have specific values for `testTarget`, `testPurpose`, and `column`, they will fall back to default values mentined in this document
-
-#### 'The Works'
-
-When specifying your Team Names, Test Targets, Test Purposes, and even Columns, your `shadowReportConfig.*` (`js`, or`.ts`) can look like this:
+When specifying your Team Names, Test Targets, and Test Purposes, your `shadowReportConfig.*` (`.js`, or`.ts`) can look like this:
 
 ```
 module.exports = {
       teamNames: [
         'oregano',
-        'spoofer',
-        'juniper',
-        'occaecati',
         'wilkins',
         'canonicus',
       ],
       testTargets: [
         'api',
         'ui',
-        'unit',
-        'integration',
-        'endToEnd',
-        'performance',
-        'security',
-        'database',
         'accessibility',
         'mobile',
       ],
       testPurposes: [
         'smoke',
-        'regression',
-        'sanity',
-        'exploratory',
-        'functional',
-        'load',
-        'stress',
-        'usability',
         'compitibility',
         'alpha',
         'beta',
-      ],
-      columns: [
-        'area',
-        'spec',
-        'test name',
-        'type',
-        'category',
-        'team',
-        'priority',
-        'status',
-        'state',
-        'testrail id',
-        'error',
-        'speed',
       ],
       googleSpreadsheetId: 'v544j5h4h456v6n',
       googleKeyFilePath: 'googleCredentials.json',
@@ -315,37 +299,75 @@ module.exports = {
     };
 ```
 
-### Header Metrics Panel
+### Github CI/CD
 
-The Header Metrics Panel is designed to automatically generate key statistics from the test output JSON file. This feature enables a quick and comprehensive overview of test results.
+This package is best suited for automated nightly runs, enabling teams to efficiently monitor project status and collaborate on test results every morning.
 
-## Generating a Report
+**Integrating Google Sheets Credentials with GitHub Actions:**
 
-#### To generate a report using `cy-shadow-report`:
+For seamless integration in GitHub Actions, as required for manual package operation, the Google Sheets credentials need to be appropriately configured. Given the length constraints of GitHub secrets, it may be necessary to compact the Google Sheets key using GPG encryption.
 
-- to run the daily report only:
+**Steps for Secure Key Management:**
 
-  - there must be Json data present from cypress test output.
-  - there must be no tab named with the current date title.
+1. **Local Encryption of the Secret Key**
 
-  - run `npx cy-shadow-report todays-report`
+   - **Generate a GPG Key Pair:** If not already available, generate a new GPG key pair using the command `gpg --gen-key`.
+   - **Encrypt the Secret File:** For a secret file named `google-key.json`, encrypt it by executing `gpg --output google-key.json.gpg --symmetric --cipher-algo AES256 google-key.json`.
 
-- to run the monthly summary report only:
+2. **Storing Encrypted Secrets in GitHub**
 
-  - there must be daily reports present from previous month.
-  - there must be no tab named with the last months summary title.
+   - **Repository Storage:** Include the encrypted file (`google-key.json.gpg`) in the repository.
+   - **Creating a GitHub Secret:** Generate a GitHub secret named `GPG_PASSPHRASE` containing the passphrase used for file encryption.
 
-  - run `npx cy-shadow-report monthly-summary`
+3. **Decrypting the Secret in GitHub Actions**
+   - **Workflow Modification:** Incorporate steps in your GitHub Actions workflow to decrypt the secret file using the stored passphrase. The modifications should align with your project's encryption setup.
 
-- to run the standard global functionality, run the command: `npx cy-shadow-report`
+**Note:** A suitable GitHub Action configuration is required for this process to function correctly:
 
-  - This command will process the test data and present a detailed report, enhancing your test analysis and decision-making process.
+```
+name: Nightly Cypress Test and Report
 
-  - The report will fail if JSON test data is not present.
+on:
+  schedule:
+    # Schedule to run at 00:00 UTC (You can adjust the time as needed)
+    - cron: '0 0 * * *'
 
-  - The Daily Report will not run if the current day's report already exists (based on tab title). The current day's tab title can be modified to run a new report for the same day.
+jobs:
+  cypress-test-and-report:
+    runs-on: ubuntu-latest
 
-  - The Monthly Summary will not generate if a monthly summary already exists for the previous month (based on tab title). The previous month's summary tab title can be modified to run a new summary for the previous month.
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14' # Specify the Node.js version
+
+    - name: Install GPG
+      run: sudo apt-get install -y gpg
+
+    - name: Decrypt Google Sheets Key
+      run: |
+        echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --passphrase-fd 0 --output google-key.json --decrypt google-key.json.gpg
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run Cypress Tests and Generate Report
+      run: |
+        npm run cypress:prerun
+        npm run cypress:run
+        npm run postcypress:run
+        npm run report:generate
+```
+
+Additional Notes:
+
+- **Security:** Be cautious with the passphrase and the encrypted file. If someone gains access to both, they can decrypt your secret.
+- **GPG Version:** Ensure that the GPG version you use locally for encryption is compatible with the version installed in the GitHub Actions runner.
+- **File Paths:** Adjust file paths in the script according to where you store the encrypted file and where the decrypted file is needed.
 
 ## Copyright
 
