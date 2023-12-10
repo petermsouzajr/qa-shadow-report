@@ -2,3 +2,4 @@
 /node_modules
 /googleCredentials.json
 /shadowReportConfig.js
+/cypress-example
