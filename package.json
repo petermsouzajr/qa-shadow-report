@@ -1,6 +1,6 @@
 {
   "name": "cy-shadow-report",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "bin": {
     "cy-shadow-report": "./cli.js"
   },
