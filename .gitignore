@@ -1,5 +1,4 @@
-/.DS_Store
-/node_modules
-/googleCredentials.json
-/shadowReportConfig.js
-/cypress-example
+.DS_Store
+node_modules
+googleCredentials.json
+shadowReportConfig.js
