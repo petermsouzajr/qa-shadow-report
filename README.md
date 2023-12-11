@@ -35,11 +35,11 @@ Our package bridges Cypress test runs with Google Sheets or Microsoft Excel, str
 
 #### Prerequisites
 
-Before you begin, ensure you have:
+Before you begin, ensure you have the following packages and authentication:
 
 - **Mochawesome and Mochawesome Merge:** Install these for Cypress test report generation: `npm install --save-dev mochawesome mochawesome-merge`.
 - **Google Spreadsheet ID:** Find this in your sheet's URL and store it in an environment variable.
-- **Service Account Credentials for Google Sheets:** Follow the detailed guide on [node-google-spreadsheet](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=authentication-methods)
+- **Service Account Credentials for Google Sheets:** Follow the detailed guide from `node-google-spreadsheet` they have a great document describing Google Service Accounts [node-google-spreadsheet Google Service Account](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=authentication-methods)
   to set up and safely store your credentials, updating `shadowReportConfig.*` (`js`, or `ts`) with the path to these credentials. Use `.gitignore` to secure your credentials within your project.
 - **Create a configuration file:** `shadowReportConfig.*` (`js`, or `ts`).
 
@@ -389,9 +389,8 @@ For those who want to see `cy-shadow-report` in action before integrating it int
 3. **Install Dependencies:** Navigate to `cypress-example` and install dependencies using the command `cd cypress-example && npm install`.
 4. **Run the Tests:** While in the `cypress-example` folder, use the provided command `npm test` to run Cypress tests and generate reports.
 5. **Observe the Results:** Check the generated reports in the specified Google Sheet or Microsoft Excel file.
-   
-The demo branch is an excellent resource for understanding how `cy-shadow-report` functions in a real-world scenario. Feel free to explore and modify the demo setup to test different configurations and features.
 
+The demo branch is an excellent resource for understanding how `cy-shadow-report` functions in a real-world scenario. Feel free to explore and modify the demo setup to test different configurations and features.
 
 ## Copyright
 
