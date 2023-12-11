@@ -20,7 +20,8 @@ Our package bridges Cypress test runs with Google Sheets or Microsoft Excel, str
    - [Column: Testrail Id](#column-testrail-id)
    - ['The Works'](#the-works)
 
-7. [Github CI/CD](#github-cicd)
+7. [Demo Branch](#demo-branch)
+8. [Github CI/CD](#github-cicd)
 
 ### Daily Report Sample
 
@@ -73,7 +74,7 @@ module.exports = {
 
 #### Recommended `package.json` Scripts
 
-To ensure tests and reports are processed correctly, configure your `package.json` scripts as follows:
+To ensure tests and reports are processed correctly, configure your `package.json` similarly to the following example:
 
 ```
   "scripts": {
@@ -85,6 +86,14 @@ To ensure tests and reports are processed correctly, configure your `package.jso
     "test": "npm run cypress:run"
   },
 ```
+
+In this example, running `npm test` will:
+
+- `cypress:prerun` delete all previous test run data.
+- `cypress:run` run all Cypress tests and add each test result to a `results` folder, in JSON format.
+- `postcypress:run` call `report:merge`.
+- `report:merge` merge individual test results into one large JSON object.
+- `report:generate` extract data from the merged test result JSON object and place the pertinent data into a sheet.
 
 Adjust these scripts as needed for your project's requirements.
 
@@ -368,6 +377,19 @@ Additional Notes:
 - **Security:** Be cautious with the passphrase and the encrypted file. If someone gains access to both, they can decrypt your secret.
 - **GPG Version:** Ensure that the GPG version you use locally for encryption is compatible with the version installed in the GitHub Actions runner.
 - **File Paths:** Adjust file paths in the script according to where you store the encrypted file and where the decrypted file is needed.
+
+### Demo Branch
+
+For those who want to see `cy-shadow-report` in action before integrating it into their projects, we have set up a `demo branch` in the repository. This branch includes a fully configured setup where you can run and observe the report generation process.
+
+#### How to Use the Demo
+
+1. **Switch to the Demo Branch:** Navigate to our repository and switch to the branch named `demo`.
+2. **Follow the Setup Instructions:** Ensure you meet the prerequisites and follow the setup steps outlined in the [Setup Guide](#setup-guide).
+3. **Install Dependencies:** Navigate to `cypress-example` and install dependencies using the command `cd cypress-example && npm install`.
+4. **Run the Tests:** While in the `cypress-example` folder, use the provided command `npm test` to run Cypress tests and generate reports.
+5. **Observe the Results:** Check the generated reports in the specified Google Sheet or Microsoft Excel file.
+   The demo branch is an excellent resource for understanding how `cy-shadow-report` functions in a real-world scenario. Feel free to explore and modify the demo setup to test different configurations and features.
 
 ## Copyright
 
