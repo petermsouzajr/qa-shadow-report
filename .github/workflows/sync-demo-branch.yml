@@ -9,17 +9,27 @@ jobs:
   sync-demo-branch:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout demo branch
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0 # Fetch all history for all branches and tags
+          ref: 'demo'
 
-      - name: Squash and Merge main into demo
+      - name: Checkout main branch
+        uses: actions/checkout@v2
+        with:
+          ref: 'main'
+          path: 'main-branch'
+
+      - name: Sync files from main branch to demo branch
+        run: |
+          # Exclude the 'cypress-example/' and '.github/' directories
+          rsync -a --exclude='/cypress-example' --exclude='/github' main-branch/ ./
+          rm -rf main-branch/
+
+      - name: Push changes to demo branch
         run: |
           git config --global user.email "peter@petermsouzajr.com"
           git config --global user.name "Peter Souza"
-          git fetch origin
-          git checkout demo
-          git merge --squash origin/main
-          git commit -m "Squash and merge from main"
+          git add .
+          git commit -m "Update files from main branch"
           git push origin demo
