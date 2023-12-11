@@ -1,0 +1,25 @@
+name: Sync Demo Branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-demo-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Fetch all history for all branches and tags
+
+      - name: Squash and Merge main into demo
+        run: |
+          git config --global user.email "peter@petermsouzajr.com"
+          git config --global user.name "Peter Souza"
+          git fetch origin
+          git checkout demo
+          git merge --squash origin/main
+          git commit -m "Squash and merge from main"
+          git push origin demo
