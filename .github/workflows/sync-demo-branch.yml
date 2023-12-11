@@ -22,10 +22,10 @@ jobs:
           token: ${{ secrets.DEMO_UPDATE_PAT }} # Use the PAT for checkout
           path: 'main-branch'
 
-      - name: Sync files from main branch to demo branch, excluding .github
+      - name: Sync files from main branch to demo branch, excluding .github and preserving cypress-example
         run: |
-          # Exclude the '.github/' directory
-          rsync -a --exclude='.github/' main-branch/ ./
+          # Exclude the '.github/' and 'cypress-example/' directories
+          rsync -a --exclude='.github/' --exclude='cypress-example/' main-branch/ ./
           rm -rf main-branch/
 
       - name: Commit and push changes to demo branch
