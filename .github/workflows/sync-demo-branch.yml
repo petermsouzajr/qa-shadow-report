@@ -32,4 +32,5 @@ jobs:
           git config --global user.name "Peter Souza"
           git add .
           git commit -m "Update files from main branch"
-          git push origin demo
+          # Use the 'force' flag with push, and use the PAT for authentication
+          git push --force https://${{ secrets.DEMO_UPDATE_PAT }}@github.com/petermsouzajr/cy-shadow-report.git demo
