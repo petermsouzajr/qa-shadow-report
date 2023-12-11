@@ -20,20 +20,20 @@ jobs:
           ref: 'main'
           path: 'main-branch'
 
-      - name: Sync files from main branch to demo branch
+      - name: Sync files from main branch to demo branch, excluding .github
         run: |
-          # Exclude the 'cypress-example/' and '.github/' directories
-          rsync -a --exclude='/cypress-example' --exclude='/github' main-branch/ ./
+          # Exclude the '.github/' directory
+          rsync -a --exclude='.github/' main-branch/ ./
           rm -rf main-branch/
 
-      - name: List remotes
-        run: git remote -v
-
-      - name: Push changes to demo branch
+      - name: Commit and push changes to demo branch
         run: |
-          git config --global user.email "petermsouzajr@mail.com"
+          git config --global user.email "peter@petermsouzajr.com"
           git config --global user.name "Peter Souza"
-          git add .
-          git commit -m "Update files from main branch"
-          # Use the 'force' flag with push, and use the PAT for authentication
+          # Add all changes except the 'cypress-example/' directory
+          git add . -- ':!cypress-example'
+          # Commit only if there are changes. The `||` operator will ensure the
+          # command doesn't fail if there's nothing to commit.
+          git commit -m "Update files from main branch" || true
+          # Push the changes. No need to force push if you're not rewriting history.
           git push origin demo
