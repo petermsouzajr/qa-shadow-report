@@ -389,7 +389,9 @@ For those who want to see `cy-shadow-report` in action before integrating it int
 3. **Install Dependencies:** Navigate to `cypress-example` and install dependencies using the command `cd cypress-example && npm install`.
 4. **Run the Tests:** While in the `cypress-example` folder, use the provided command `npm test` to run Cypress tests and generate reports.
 5. **Observe the Results:** Check the generated reports in the specified Google Sheet or Microsoft Excel file.
-   The demo branch is an excellent resource for understanding how `cy-shadow-report` functions in a real-world scenario. Feel free to explore and modify the demo setup to test different configurations and features.
+   
+The demo branch is an excellent resource for understanding how `cy-shadow-report` functions in a real-world scenario. Feel free to explore and modify the demo setup to test different configurations and features.
+
 
 ## Copyright
 
