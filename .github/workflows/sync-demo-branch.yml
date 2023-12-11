@@ -15,27 +15,16 @@ jobs:
           ref: 'demo'
           token: ${{ secrets.DEMO_UPDATE_PAT }} # Use the PAT for checkout
 
-      - name: Checkout main branch
-        uses: actions/checkout@v2
-        with:
-          ref: 'main'
-          token: ${{ secrets.DEMO_UPDATE_PAT }} # Use the PAT for checkout
-          path: 'main-branch'
+      - name: Fetch changes from main branch
+        run: git fetch origin main
 
-      - name: Sync files from main branch to demo branch, excluding .github and preserving cypress-example
+      - name: Checkout main branch files excluding .github and cypress-example
         run: |
-          # Exclude the '.github/' and 'cypress-example/' directories
-          rsync -a --exclude='.github/' --exclude='cypress-example/' main-branch/ ./
-          rm -rf main-branch/
+          git checkout origin/main -- . ':!/.github' ':!/cypress-example'
 
       - name: Commit and push changes to demo branch
         run: |
           git config --global user.email "peter@petermsouzajr.com"
           git config --global user.name "Peter Souza"
-          # Add all changes except the 'cypress-example/' directory
-          git add . -- ':!cypress-example'
-          # Commit only if there are changes. The `||` operator will ensure the
-          # command doesn't fail if there's nothing to commit.
-          git commit -m "Update files from main branch" || true
-          # Use the 'force' flag with push, and use the PAT for authentication
-          git push --force https://${{ secrets.DEMO_UPDATE_PAT }}@github.com/petermsouzajr/cy-shadow-report.git demo
+          git commit -am "Sync changes from main branch to demo" || echo "No changes to commit"
+          git push https://${{ secrets.DEMO_UPDATE_PAT }}@github.com/petermsouzajr/cy-shadow-report.git demo
