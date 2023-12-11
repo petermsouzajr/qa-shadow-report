@@ -28,15 +28,6 @@ jobs:
           rsync -a --exclude='.github/' main-branch/ ./
           rm -rf main-branch/
 
-      - name: Check if secret is being read
-        run: |
-          if [ -z "${{ secrets.DEMO_UPDATE_PAT }}" ]; then
-            echo "DEMO_UPDATE_PAT is empty"
-            exit 1
-          else
-            echo "DEMO_UPDATE_PAT is not empty"
-          fi
-
       - name: Commit and push changes to demo branch
         run: |
           git config --global user.email "peter@petermsouzajr.com"
