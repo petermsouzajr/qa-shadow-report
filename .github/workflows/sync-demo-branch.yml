@@ -26,6 +26,9 @@ jobs:
           rsync -a --exclude='/cypress-example' --exclude='/github' main-branch/ ./
           rm -rf main-branch/
 
+      - name: List remotes
+        run: git remote -v
+
       - name: Push changes to demo branch
         run: |
           git config --global user.email "peter@petermsouzajr.com"
@@ -33,4 +36,4 @@ jobs:
           git add .
           git commit -m "Update files from main branch"
           # Use the 'force' flag with push, and use the PAT for authentication
-          git push --force https://${{ secrets.DEMO_UPDATE_PAT }}@github.com/petermsouzajr/cy-shadow-report.git demo
+          git push origin demo
