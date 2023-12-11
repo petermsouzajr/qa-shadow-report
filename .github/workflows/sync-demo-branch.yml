@@ -35,5 +35,5 @@ jobs:
           # Commit only if there are changes. The `||` operator will ensure the
           # command doesn't fail if there's nothing to commit.
           git commit -m "Update files from main branch" || true
-          # Push the changes. No need to force push if you're not rewriting history.
-          git push origin demo
+          # Use the 'force' flag with push, and use the PAT for authentication
+          git push --force https://${{ secrets.DEMO_UPDATE_PAT }}@github.com/petermsouzajr/cy-shadow-report.git demo
