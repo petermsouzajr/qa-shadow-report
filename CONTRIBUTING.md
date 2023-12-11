@@ -79,4 +79,17 @@ While the prerequisites above must be satisfied prior to having your pull reques
 ### Testing Styleguide
 
 - All new features must be accompanied by Jest tests.
--
+- Write tests that cover core functionalities and edge cases.
+- Ensure tests are reproducible and run consistently.
+- Follow test-driven development (TDD) practices when applicable.
+
+## Local Development
+
+To run module tests locally, follow these steps:
+
+1. Ensure you have Node.js and npm installed.
+2. Clone the repository and navigate to the project directory.
+3. Install dependencies by running `npm install`.
+4. Run the module tests using `npm test`.
+
+These steps will help you set up the project environment and ensure that your contributions do not break existing functionalities.
