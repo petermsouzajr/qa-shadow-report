@@ -133,7 +133,7 @@ export const TEST_PURPOSES_AVAILABLE = () => {
           'load',
           'stress',
           'usability',
-          'compitibility',
+          'compatibility',
           'alpha',
           'beta',
         ];

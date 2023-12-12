@@ -20,8 +20,8 @@ Our package bridges Cypress test runs with Google Sheets or Microsoft Excel, str
    - [Column: Testrail Id](#column-testrail-id)
    - ['The Works'](#the-works)
 
-7. [Demo Branch](#demo-branch)
-8. [Github CI/CD](#github-cicd)
+7. [Github CI/CD](#github-cicd)
+8. [Demo Branch](#demo-branch)
 
 ### Daily Report Sample
 
@@ -215,7 +215,7 @@ module.exports = {
         'load',
         'stress',
         'usability',
-        'compitibility',
+        'compatibility',
         'alpha',
         'beta',
       ],
@@ -298,7 +298,7 @@ module.exports = {
       ],
       testPurposes: [
         'smoke',
-        'compitibility',
+        'compatibility',
         'alpha',
         'beta',
       ],
@@ -394,7 +394,7 @@ For those who want to see `cy-shadow-report` in action before integrating it int
      This will install the `cy-shadow-report` package from npm along with any other required dependencies.
 
    - **For Advanced Users (Local Development):**
-     If you are contributing to the `cy-shadow-report` code and need to test your changes within `cypress-example`, you can use a locally linked version of the package. Run this command at the root of the project: `npm link && cd cypress-example && npm link cy-shadow-report && npm install`
+     If you are contributing to the `cy-shadow-report` code and need to test your changes within `cypress-example`, you can use a locally linked version of the package. Run this command at the root of the project: `npm link && cd cypress-example && npm install && npm link cy-shadow-report`
 
      This sequence of commands first creates a local link to your development version of `cy-shadow-report`, then sets up `cypress-example` to use this local version, and finally installs any other dependencies.
 

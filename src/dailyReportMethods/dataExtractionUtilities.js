@@ -84,14 +84,7 @@ export const extractSpecFromFullFile = (fullFilePath) => {
   const segments = fullFilePath.split('/');
   const fileName = segments.pop();
   const regex = /\.(spec|cy|test)\.(ts|js|jsx|tsx)$/;
-
-  if (!fileName || !regex.test(fileName)) {
-    throw new TypeError(
-      'The file path does not end with a recognized Cypress test file pattern (e.g., ".spec.ts", ".spec.js", ".cy.ts", ".test.js", etc.).'
-    );
-  }
-
-  const spec = fileName.replace(/\.spec\.(js|ts)|\.cy\.(js|ts)$/, '');
+  const spec = fileName.replace(regex, '');
   return spec;
 };
 
@@ -152,18 +145,25 @@ export const extractTestNameFromFullTitle = (fullTitle = '') => {
  * @throws {TypeError} If the input 'test' is not an object with a string 'title' property.
  */
 export const extracttestrailIdFromTest = (test) => {
+  const testPurposesTypes = TEST_PURPOSES_AVAILABLE();
+  const testRailIdMatch = test.title.match(/\[C[^\]]+\]/);
+
   if (!test || typeof test.title !== 'string') {
     throw new TypeError(
       'The "test" argument must be an object with a "title" property of type string.'
     );
   }
 
-  const testRailIdMatch = test.title.match(/\[C[^\]]+\]/);
-  const testRailId = testRailIdMatch
-    ? testRailIdMatch[0].replace(/[\[\]]/g, '')
-    : null;
+  // Check if the testRailIdMatch is not included in testPurposesTypes
+  if (
+    testRailIdMatch &&
+    !testPurposesTypes.includes(testRailIdMatch[0].replace(/[\[\]]/g, ''))
+  ) {
+    const testRailId = testRailIdMatch[0].replace(/[\[\]]/g, '');
+    return testRailId;
+  }
 
-  return testRailId;
+  return null;
 };
 
 /**
