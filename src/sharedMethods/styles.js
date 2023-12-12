@@ -1,14 +1,9 @@
 import { batchUpdateMasterSheet } from '../google/googleSheetIntegration/writeToSheet.js';
-import { getHeaderAndFooterDataByTabTitle } from '../google/sheetDataMethods/getSheetInfo.js';
-import {
-  findHeaderRowIndex,
-  getHeaderIndicatorsLength,
-} from '../monthlySummaryMethods/summaryGenerationHelpers.js';
+import { findHeaderRowIndex } from '../monthlySummaryMethods/summaryGenerationHelpers.js';
 import {
   solidBlackWidthOne,
   solidBlackWidthTwo,
 } from '../monthlySummaryMethods/summaryStyles.js';
-import { getTodaysFormattedDate } from './dateFormatting.js';
 
 /**
  * Creates a grid style for a specific tab with defined borders.
@@ -538,6 +533,8 @@ export const setColumnWidths = async (sheetId, fullDailyPayload) => {
   const testNameTargetIndex = headerRow.indexOf('test name');
   const categoryTargetIndex = headerRow.indexOf('category');
   const statusTargetIndex = headerRow.indexOf('status');
+  const typeTargetIndex = headerRow.indexOf('type');
+  const teamTargetIndex = headerRow.indexOf('team');
 
   const columnWidths = [
     // { startIndex: areaTargetIndex, endIndex: areaTargetIndex + 1, width: 200 }, // Column A
@@ -556,7 +553,16 @@ export const setColumnWidths = async (sheetId, fullDailyPayload) => {
       endIndex: statusTargetIndex + 1,
       width: 160,
     }, // Column B
-    // Add more columns as needed
+    {
+      // startIndex: testNameTargetIndex,
+      endIndex: typeTargetIndex + 1,
+      width: 120,
+    }, // Column B
+    {
+      // startIndex: testNameTargetIndex,
+      endIndex: teamTargetIndex + 1,
+      width: 120,
+    }, // Column B
   ];
   const requests = columnWidths.map((columnWidth) => ({
     updateDimensionProperties: {
