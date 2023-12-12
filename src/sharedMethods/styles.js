@@ -554,12 +554,12 @@ export const setColumnWidths = async (sheetId, fullDailyPayload) => {
       width: 160,
     }, // Column B
     {
-      // startIndex: testNameTargetIndex,
+      startIndex: typeTargetIndex,
       endIndex: typeTargetIndex + 1,
       width: 120,
     }, // Column B
     {
-      // startIndex: testNameTargetIndex,
+      startIndex: teamTargetIndex,
       endIndex: teamTargetIndex + 1,
       width: 120,
     }, // Column B
