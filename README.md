@@ -388,8 +388,15 @@ For those who want to see `cy-shadow-report` in action before integrating it int
 2. **Follow the Setup Instructions:** Ensure you meet the prerequisites and follow the setup steps outlined in the [Setup Guide](#setup-guide).
 3. **Install Dependencies:**
 
-- For general use, install the package from npm using: `cd cypress-example && npm install cy-shadow-report && npm install`
-- For advanced use, install dependencies and local package from project root using the command `npm link && cd cypress-example && npm link cy-shadow-report && npm install`.
+   - **For General Use:**
+     If you're looking to use the plugin without modifying its code, you can easily install the published package from npm. Execute the following commands at the root of your project: `cd cypress-example && npm install cy-shadow-report && npm install`
+
+     This will install the `cy-shadow-report` package from npm along with any other required dependencies.
+
+   - **For Advanced Users (Local Development):**
+     If you are contributing to the `cy-shadow-report` code and need to test your changes within `cypress-example`, you can use a locally linked version of the package. Run this command at the root of the project: `npm link && cd cypress-example && npm link cy-shadow-report && npm install`
+
+     This sequence of commands first creates a local link to your development version of `cy-shadow-report`, then sets up `cypress-example` to use this local version, and finally installs any other dependencies.
 
 4. **Run the Tests:** While in the `cypress-example` folder, use the provided command `npm test` to run Cypress tests and generate reports.
 5. **Observe the Results:** Check the generated reports in the specified Google Sheet or Microsoft Excel file.
