@@ -20,6 +20,6 @@
     "mochawesome-merge": "^4.3.0"
   },
   "dependencies": {
-    "cy-shadow-report": "^1.0.1"
+    "cy-shadow-report": "^1.0.6"
   }
 }
