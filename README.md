@@ -386,7 +386,11 @@ For those who want to see `cy-shadow-report` in action before integrating it int
 
 1. **Switch to the Demo Branch:** Navigate to our repository and switch to the branch named `demo`.
 2. **Follow the Setup Instructions:** Ensure you meet the prerequisites and follow the setup steps outlined in the [Setup Guide](#setup-guide).
-3. **Install Dependencies:** Navigate to the `cypress-example` folder using the command `cd cypress-example && npm install cy-shadow-report`, and then install the dependencies.
+3. **Install Dependencies:**
+
+- For general use, install the package from npm using: `cd cypress-example && npm install cy-shadow-report && npm install`
+- For advanced use, install dependencies and local package from project root using the command `npm link && cd cypress-example && npm link cy-shadow-report && npm install`.
+
 4. **Run the Tests:** While in the `cypress-example` folder, use the provided command `npm test` to run Cypress tests and generate reports.
 5. **Observe the Results:** Check the generated reports in the specified Google Sheet or Microsoft Excel file.
 
