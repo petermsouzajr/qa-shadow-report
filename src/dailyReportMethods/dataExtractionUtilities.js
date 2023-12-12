@@ -91,7 +91,7 @@ export const extractSpecFromFullFile = (fullFilePath) => {
     );
   }
 
-  const spec = fileName.replace('.spec.ts', '');
+  const spec = fileName.replace(/\.spec\.(js|ts)|\.cy\.(js|ts)$/, '');
   return spec;
 };
 
