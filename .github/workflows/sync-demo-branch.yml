@@ -22,10 +22,11 @@ jobs:
         run: |
           git checkout origin/main -- . ':!/.github' ':!/cypress-example'
 
-      - name: Update cy-shadow-report version in cypress-example
+      - name: Update cy-shadow-report using local version
         run: |
+          npm link  # Link the cy-shadow-report package at the root
           cd cypress-example
-          npm install cy-shadow-report
+          npm link cy-shadow-report  # Link the package inside cypress-example
           cd ..
 
       - name: Commit and push changes to demo branch

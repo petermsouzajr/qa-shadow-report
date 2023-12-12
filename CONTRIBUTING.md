@@ -8,7 +8,7 @@ This project and everyone participating in it is governed by the cy-shadow-repor
 
 ## I don't want to read this whole thing I just have a question!!!
 
-cy-shadow-report is actively developed and we are here to help! If you have a question or are unsure if the issue you're experiencing is a bug, please search our [GitHub issues](https://github.com/your_username/your_project/issues) and [StackOverflow](https://stackoverflow.com/questions/tagged/your-project-tag) to see if it has already been reported or answered.
+cy-shadow-report is actively developed and we are here to help! If you have a question or are unsure if the issue you're experiencing is a bug, please search our [GitHub issues](https://github.com/petermsouzajr/cy-shadow-report/issues) and [StackOverflow](https://stackoverflow.com/questions/tagged/[cy-shadow-report]) to see if it has already been reported or answered.
 
 If your question or issue is not addressed yet, feel free to open a new issue.
 
@@ -40,8 +40,8 @@ This section guides you through submitting an enhancement suggestion for cy-shad
 
 Unsure where to begin contributing to cy-shadow-report? You can start by looking through `beginner` and `help-wanted` issues:
 
-- [Beginner issues](https://github.com/your_username/your_project/issues?q=label%3Abeginner) - issues which should only require a few lines of code, and a test or two.
-- [Help wanted issues](https://github.com/your_username/your_project/issues?q=label%3A%22help+wanted%22) - issues which should be a bit more involved than `beginner` issues.
+- [Beginner issues](https://github.com/petermsouzajr/cy-shadow-report/issues?q=label%3Abeginner) - issues which should only require a few lines of code, and a test or two.
+- [Help wanted issues](https://github.com/petermsouzajr/cy-shadow-report/issues?q=label%3A%22help+wanted%22) - issues which should be a bit more involved than `beginner` issues.
 
 ### Pull Requests
 
