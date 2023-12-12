@@ -22,12 +22,6 @@ jobs:
         run: |
           git checkout origin/main -- . ':!/.github' ':!/cypress-example'
 
-      - name: Update cy-shadow-report version in cypress-example
-        run: |
-          cd cypress-example
-          npm install cy-shadow-report
-          cd ..
-
       - name: Commit and push changes to demo branch
         run: |
           git config --global user.email "peter@petermsouzajr.com"
