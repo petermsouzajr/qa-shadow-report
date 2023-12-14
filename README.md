@@ -41,7 +41,7 @@ Before you begin, ensure you have the following packages and authentication:
 - **Google Spreadsheet ID:** Find this in your sheet's URL and store it in an environment variable.
 - **Service Account Credentials for Google Sheets:** Follow the detailed guide from `node-google-spreadsheet` they have a great document describing Google Service Accounts [node-google-spreadshee: Google Service Account](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=authentication-methods)
   to set up and safely store your credentials, updating `shadowReportConfig.*` (`js`, or `ts`) with the path to these credentials. Use `.gitignore` to secure your credentials within your project.
-- **Create a configuration file:** `shadowReportConfig.*` (`js`, or `ts`).
+- **Create a configuration file:** In the root of your Cypress project, create a configuration file named: `shadowReportConfig.*` (`js`, or `ts`).
 
 ```
 module.exports = {

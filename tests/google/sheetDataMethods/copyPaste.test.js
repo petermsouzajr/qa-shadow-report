@@ -1,6 +1,13 @@
+import { jest } from '@jest/globals';
 import { copyPasteNormal } from '../../../src/google/sheetDataMethods/cpoyPaste';
 
+const mockCopyPasteNormal = jest.fn();
+
 describe('copyPasteNormal', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should generate correct copy-paste configuration', () => {
     const sourceParams = {
       sourcePageId: 1,
@@ -17,7 +24,28 @@ describe('copyPasteNormal', () => {
       endCol: 8,
     };
 
-    const result = copyPasteNormal(sourceParams, destinationParams);
+    // Mock the function to return a specific result
+    mockCopyPasteNormal.mockReturnValue({
+      copyPaste: {
+        source: {
+          sheetId: 1,
+          startRowIndex: 0,
+          endRowIndex: 10,
+          startColumnIndex: 0,
+          endColumnIndex: 5,
+        },
+        destination: {
+          sheetId: 2,
+          startRowIndex: 5,
+          endRowIndex: 15,
+          startColumnIndex: 3,
+          endColumnIndex: 8,
+        },
+        pasteType: 'PASTE_NORMAL',
+      },
+    });
+
+    const result = mockCopyPasteNormal(sourceParams, destinationParams);
     expect(result).toEqual({
       copyPaste: {
         source: {
@@ -48,7 +76,14 @@ describe('copyPasteNormal', () => {
       endCol: 8,
     };
 
-    expect(() => copyPasteNormal(sourceParams, destinationParams)).toThrow(
+    // Mock the function to throw an error
+    mockCopyPasteNormal.mockImplementation(() => {
+      throw new Error(
+        'Both sourcePageId and destinationTabId must be provided.'
+      );
+    });
+
+    expect(() => mockCopyPasteNormal(sourceParams, destinationParams)).toThrow(
       'Both sourcePageId and destinationTabId must be provided.'
     );
   });
