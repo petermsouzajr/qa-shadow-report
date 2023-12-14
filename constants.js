@@ -34,9 +34,13 @@ function getConfigPathFromArgs() {
   return configIndex > 0 ? args[configIndex] : null;
 }
 
+const defaultConfigPath = path.join(__dirname, 'shadowReportConfig.js');
+
 // Main logic to determine config path
 const configPath =
-  getConfigPathFromArgs() || findConfigFile(parentDir, 'shadowReportConfig');
+  getConfigPathFromArgs() ||
+  findConfigFile(parentDir, 'shadowReportConfig') ||
+  defaultConfigPath;
 
 if (!configPath) {
   console.error(

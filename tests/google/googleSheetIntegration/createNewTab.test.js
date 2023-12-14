@@ -23,6 +23,8 @@ describe('createNewTab', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    // Mock console.error to prevent it from logging during tests
+    global.console.error = jest.fn();
   });
 
   it('should create a new summary tab and update summaryTabData', async () => {
@@ -83,6 +85,14 @@ describe('createNewTab', () => {
         mockSheetsAPI
       )
     ).rejects.toThrow('API Error');
+
+    expect(mockBatchUpdate).toHaveBeenCalledWith({
+      auth: dummyAuth,
+      spreadsheetId: dummySpreadsheetId,
+      requestBody: {
+        requests: [{ addSheet: { properties: { title: mockSheetName } } }],
+      },
+    });
   });
 
   it('should call createSummaryTitle with specific parameters', async () => {
