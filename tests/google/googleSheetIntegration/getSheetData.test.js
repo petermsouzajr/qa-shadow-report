@@ -20,6 +20,8 @@ const mockDataObjects = { topLevelSpreadsheetData: null };
 describe('Google Sheets Integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    // Mock console.error to prevent it from logging during tests
+    global.console.error = jest.fn();
   });
 
   describe('getTopLevelSpreadsheetData', () => {
