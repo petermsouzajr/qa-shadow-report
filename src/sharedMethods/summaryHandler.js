@@ -59,7 +59,6 @@ async function sendSummaryBody(payload) {
  * await addColumnsAndRows();
  */
 async function addColumnsAndRows(
-  summaryPageTitle,
   lastMonthSheetTitles,
   headerIndicators,
   payload,
@@ -120,51 +119,6 @@ async function sendSummaryHeaders(payload) {
         data: payload, // Using provided payload directly
       },
     });
-  } catch (error) {
-    console.error('An error occurred:', error);
-  }
-}
-
-/**
- * Update a Google Sheets spreadsheet grid using a batch update request.
- *
- * This function sends a payload in a batch update request to the Google Sheets API to update the grid of a spreadsheet.
- * If the API request encounters an error, it is logged to the console but not thrown. A callback function is used
- * to handle errors and responses from the API separately from the main Promise error handling.
- *
- * @async
- * @function sendSummaryGrid
- * @param {Object} payload - The request payload containing the details of updates to be made to the sheet's grid.
- * @returns {Promise<void>} - A promise that resolves when the API request is complete.
- * Does not resolve with any value. Errors are logged, not thrown.
- * @throws Will log an error to the console if the API request fails.
- * @example
- * const payload = {
- *   updateCells: {
- *     range: {sheetId: 0, startRowIndex: 0, endRowIndex: 1},
- *     fields: 'userEnteredValue',
- *     rows: [{values: [{userEnteredValue: {stringValue: 'Header1'}}]}],
- *   },
- * };
- * await sendSummaryGrid(payload);
- */
-async function sendSummaryGrid(payload) {
-  try {
-    await sheets.spreadsheets.batchUpdate(
-      {
-        auth,
-        spreadsheetId,
-        resource: {
-          requests: [payload],
-        },
-      },
-      (err, response) => {
-        if (err) {
-          console.error('The API returned an error: ' + err);
-          return;
-        }
-      }
-    );
   } catch (error) {
     console.error('An error occurred:', error);
   }
@@ -232,6 +186,5 @@ export async function handleSummary() {
   );
   await sendSummaryHeaders(fullSummaryPayload.headerPayload);
   await sendSummaryBody(fullSummaryPayload.bodyPayload, summaryPageTitle);
-  // await sendSummaryGrid(fullSummaryPayload.summaryGridStyles);
   await summaryHeaderStyling(fullSummaryPayload.summaryHeaderStylePayload);
 }
