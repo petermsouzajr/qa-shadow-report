@@ -178,7 +178,6 @@ export async function handleSummary() {
   );
 
   await addColumnsAndRows(
-    summaryPageTitle,
     lastMonthSheetTitles,
     HEADER_INDICATORS,
     fullSummaryPayload.bodyPayload,
