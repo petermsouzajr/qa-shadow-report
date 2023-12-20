@@ -7,10 +7,7 @@ import {
  * Creates a title for a summary report based on the previous month and year.
  * @returns {string} The title for the summary report.
  */
-export const createSummaryTitle = (
-  getFormattedMonthFn,
-  getPreviousMonthsYearFn
-) => {
+export const createSummaryTitle = () => {
   try {
     const lastMonth = getFormattedMonth('lastMonth');
     const currentMonth = getFormattedMonth();
