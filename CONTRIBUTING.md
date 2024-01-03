@@ -67,7 +67,13 @@ While the prerequisites above must be satisfied prior to having your pull reques
 - Use the present tense ("Add feature" not "Added feature").
 - Use the imperative mood ("Move cursor to..." not "Moves cursor to...").
 - Limit the first line to 72 characters or less.
-- Reference issues and pull requests liberally after the first line.
+- Contributors are encouraged, but not required, to use this format:
+
+  - Prepend commit title with one of the Work Type indicators (`feat`, `fix`, `chore`, `docs`)
+  - Example: `git commit -m "Feat: Title of the commit" -m "Description or second line of the commit message. This line is optional with the intention of adding more detail and context to the change."`
+
+- Keep in mind, your logs and commit messages will live on, happy coding!
+
 
 ### JavaScript Styleguide
 
