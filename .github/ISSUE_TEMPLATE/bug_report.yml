@@ -1,0 +1,58 @@
+name: Bug report
+description: File a bug report to help us improve this project
+title: "Bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: Give a clear description of what the bug is and the current behavior.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Provide a step-by-step instructions to reproduce the bug. Include links to files or GitHub projects, or copy and paste the snippets that you use.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: Explain the behavior you expected to see and why.
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Screenshots or screen recordings
+      description: Please provide screenshots or screen recordings to show the problem.
+    validations:
+      required: false
+  - type: dropdown
+    attributes:
+      multiple: true
+      label: Browsers
+      description: What browsers are you seeing the problem on?
+      options:
+        - "Chrome"
+        - "Firefox"
+        - "Safari"
+        - "Edge"
+        - "Opera"
+        - "Other (add additional context)"
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/petermsouzajr/cy-shadow-report/blob/main/CONTRIBUTING.md#code-of-conduct)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
