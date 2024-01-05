@@ -10,14 +10,14 @@ body:
   - type: textarea
     attributes:
       label: Describe the suggestion
-      description: Give a clear description and examples of what kind of enhancement you would like to see.
+      description: Give a clear description and examples of what kind of feature you would like to see.
     validations:
       required: true
   - type: dropdown
     attributes:
       multiple: false
-      label: Type of enhancement
-      description: Select the type of enhancement request.
+      label: Type of feature
+      description: Select the type of feature request.
       options:
         - "✨ Feature"
         - "🐞 Fix"
@@ -27,20 +27,20 @@ body:
   - type: textarea
     attributes:
       label: Current behavior
-      description: Describe the current behavior and how your enhancement would change/improve it.
+      description: Describe the current behavior and how your feature would change/improve it.
     validations:
       required: true
   - type: textarea
     attributes:
       label: Suggested solution
-      description: Explain your solution and why this enhancement would be useful to most cy-shadow-report users.
+      description: Explain your solution and why this feature would be useful to most cy-shadow-report users.
     validations:
       required: true
   - type: input
     id: context
     attributes:
       label: Additional context
-      description: List some other projects where this enhancement exists.
+      description: List some other projects where this feature exists.
     validations:
       required: false
   - type: checkboxes
