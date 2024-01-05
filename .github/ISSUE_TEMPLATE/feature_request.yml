@@ -1,0 +1,53 @@
+name: ✨ Feature request
+description: Suggest an enhancement idea for this project
+title: "Feature: "
+labels: [feature]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature request!
+  - type: textarea
+    attributes:
+      label: Describe the suggestion
+      description: Give a clear description and examples of what kind of enhancement you would like to see.
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      multiple: false
+      label: Type of enhancement
+      description: Select the type of enhancement request.
+      options:
+        - "✨ Feature"
+        - "🐞 Fix"
+        - "📝 Documentation"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Current behavior
+      description: Describe the current behavior and how your enhancement would change/improve it.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Suggested solution
+      description: Explain your solution and why this enhancement would be useful to most cy-shadow-report users.
+    validations:
+      required: true
+  - type: input
+    id: context
+    attributes:
+      label: Additional context
+      description: List some other projects where this enhancement exists.
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/petermsouzajr/cy-shadow-report/blob/main/CONTRIBUTING.md#code-of-conduct)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
