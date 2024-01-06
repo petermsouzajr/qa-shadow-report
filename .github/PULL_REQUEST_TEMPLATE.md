@@ -1,8 +1,8 @@
-# Pull Request
 
 ## Description
-
+<!--
 Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context.
+-->
 
 ## Type of change
 
@@ -10,10 +10,18 @@ Please include a summary of the change and which issue is fixed. Please also inc
 - [ ] Bug fix
 - [ ] Documentation update
 - [ ] Code Refactor
+  
+## Related Tickets & Documents
+
+<!--
+Please use this format link issue numbers: Fixes/Relates to #123
+https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword
+-->
 
 ## How Has This Been Tested?
-
+<!--
 Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration.
+-->
 
 - Test A
 - Test B
