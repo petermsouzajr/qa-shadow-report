@@ -14,28 +14,6 @@ If your question or issue is not addressed yet, feel free to open a new issue.
 
 ## How Can I Contribute?
 
-### Reporting Bugs
-
-This section guides you through submitting a bug report for cy-shadow-report. Following these guidelines helps maintainers and the community understand your report, reproduce the behavior, and find related reports.
-
-- **Use a clear and descriptive title** for the issue to identify the problem.
-- **Provide a step-by-step description of the bug** in as much detail as possible.
-- **Provide specific examples to demonstrate the steps**. Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples.
-- **Describe the behavior you observed after following the steps** and point out what exactly is the problem with that behavior.
-- **Explain which behavior you expected to see instead and why.**
-- **Include screenshots and animated GIFs** which show you following the described steps and clearly demonstrate the problem.
-
-### Suggesting Enhancements
-
-This section guides you through submitting an enhancement suggestion for cy-shadow-report, including completely new features and minor improvements to existing functionality.
-
-- **Use a clear and descriptive title** for the issue to identify the suggestion.
-- **Provide a step-by-step description of the suggested enhancement** in as much detail as possible.
-- **Provide specific examples to demonstrate the steps**. Include copy/pasteable snippets which you use in those examples.
-- **Describe the current behavior and how your feature would change/improve it.**
-- **Explain why this enhancement would be useful** to most cy-shadow-report users.
-- **List some other projects where this enhancement exists.**
-
 ### Your First Code Contribution
 
 Unsure where to begin contributing to cy-shadow-report? You can start by looking through `beginner` and `help-wanted` issues:
