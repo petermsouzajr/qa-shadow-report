@@ -72,7 +72,7 @@ While the prerequisites above must be satisfied prior to having your pull reques
   - Prepend commit title with one of the Work Type indicators (`feat`, `fix`, `chore`, `docs`)
   - Example: `git commit -m "Feat: Title of the commit" -m "Description or second line of the commit message. This line is optional with the intention of adding more detail and context to the change."`
 
-- Keep in mind, your logs and commit messages will live on, happy coding!
+- Keep in mind, your logs and commit messages will live on. If you need more tips on writing commit messages, check out the freeCodeCamp article, ["How to Write Commit Messages that Project Maintainers Will Appreciate"](https://www.freecodecamp.org/news/how-to-write-commit-messages-maintainers-will-like/) happy coding!
 
 
 ### JavaScript Styleguide
