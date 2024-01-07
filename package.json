@@ -7,7 +7,9 @@
   "description": "npm package that prints formatted cypress reports into a google sheet",
   "main": "src/index.js",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "lint": "eslint . --report-unused-disable-directives",
+    "lint:fix": "npm run lint -- --fix"
   },
   "repository": "git+ssh://git@github.com/petermsouzajr/cy-shadow-report.git",
   "keywords": [

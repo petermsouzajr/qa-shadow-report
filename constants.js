@@ -78,10 +78,10 @@ export const TEST_DATA = () => {
 
 // Define the formula template for daily report header metrics.
 export const FORMULA_TEMPLATES = [
-  `=COUNTIFS({subjectColumn}{headerRowIndex}:{subjectColumn}{totalNumberOfRows}, "*{type}*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "passed")&" of "&COUNTIFS({subjectColumn}{headerRowIndex}:{subjectColumn}{totalNumberOfRows}, "*{type}*")&"  -  "&"("&ROUND(COUNTIFS({subjectColumn}{headerRowIndex}:{subjectColumn}{totalNumberOfRows}, "*{type}*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "passed")/(COUNTIFS({subjectColumn}{headerRowIndex}:{subjectColumn}{totalNumberOfRows}, "*{type}*")) * 100)&"%)"`,
-  `=COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "*{type}*")&" ("&ROUND(COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "*{type}*")/{bodyRowCount} * 100)&"%)"`,
-  `=COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*passed*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*failed*")&" ("&ROUND(COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*passed*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*failed*")/{bodyRowCount} * 100)&"%)"`,
-  `=ROWS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows})`,
+  '=COUNTIFS({subjectColumn}{headerRowIndex}:{subjectColumn}{totalNumberOfRows}, "*{type}*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "passed")&" of "&COUNTIFS({subjectColumn}{headerRowIndex}:{subjectColumn}{totalNumberOfRows}, "*{type}*")&"  -  "&"("&ROUND(COUNTIFS({subjectColumn}{headerRowIndex}:{subjectColumn}{totalNumberOfRows}, "*{type}*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "passed")/(COUNTIFS({subjectColumn}{headerRowIndex}:{subjectColumn}{totalNumberOfRows}, "*{type}*")) * 100)&"%)"',
+  '=COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "*{type}*")&" ("&ROUND(COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "*{type}*")/{bodyRowCount} * 100)&"%)"',
+  '=COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*passed*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*failed*")&" ("&ROUND(COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*passed*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*failed*")/{bodyRowCount} * 100)&"%)"',
+  '=ROWS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows})',
 ];
 
 export const COLUMNS_AVAILABLE = () => {
@@ -89,19 +89,19 @@ export const COLUMNS_AVAILABLE = () => {
     shadowConfigDetails && shadowConfigDetails.columns
       ? shadowConfigDetails.columns
       : [
-          'area',
-          'spec',
-          'test name',
-          'type',
-          'category',
-          'team',
-          'priority',
-          'status',
-          'state',
-          'testrail id',
-          'error',
-          'speed',
-        ];
+        'area',
+        'spec',
+        'test name',
+        'type',
+        'category',
+        'team',
+        'priority',
+        'status',
+        'state',
+        'testrail id',
+        'error',
+        'speed',
+      ];
   return columns;
 };
 
@@ -110,17 +110,17 @@ export const TEST_TARGETS_AVAILABLE = () => {
     shadowConfigDetails && shadowConfigDetails.testTargets
       ? shadowConfigDetails.testTargets
       : [
-          'api',
-          'ui',
-          'unit',
-          'integration',
-          'endToEnd',
-          'performance',
-          'security',
-          'database',
-          'accessibility',
-          'mobile',
-        ];
+        'api',
+        'ui',
+        'unit',
+        'integration',
+        'endToEnd',
+        'performance',
+        'security',
+        'database',
+        'accessibility',
+        'mobile',
+      ];
   return targets;
 };
 
@@ -129,18 +129,18 @@ export const TEST_PURPOSES_AVAILABLE = () => {
     shadowConfigDetails && shadowConfigDetails.testPurposes
       ? shadowConfigDetails.testPurposes
       : [
-          'smoke',
-          'regression',
-          'sanity',
-          'exploratory',
-          'functional',
-          'load',
-          'stress',
-          'usability',
-          'compatibility',
-          'alpha',
-          'beta',
-        ];
+        'smoke',
+        'regression',
+        'sanity',
+        'exploratory',
+        'functional',
+        'load',
+        'stress',
+        'usability',
+        'compatibility',
+        'alpha',
+        'beta',
+      ];
   return purposes;
 };
 
