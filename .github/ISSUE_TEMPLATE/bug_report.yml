@@ -23,7 +23,7 @@ body:
     attributes:
       label: Steps to reproduce
       description: Provide a step-by-step instructions to reproduce the bug. Include links to files, code snippets or preconditions.
-      placeholder: |
+      value: |
         Precondition:
         1. Go to '...'
         2. Click on '...'
