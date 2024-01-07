@@ -1,5 +1,16 @@
 # Contributing to cy-shadow-report
 
+- [Code of Conduct](#code-of-conduct)
+- [I Have a Question](#i-have-a-question)
+- [How Can I Contribute?](#how-can-i-contribute)
+  - [Your First Code Contribution](#your-first-code-contribution)
+  - [Local Development](#local-development)
+  - [Pull Requests](#pull-requests)
+- [Styleguides](#styleguides)
+  - [Git Commit Messages](#git-commit-messages)
+  - [JavaScript Styleguide](#javascript-styleguide)
+  - [Testing Styleguide](#testing-styleguide)
+
 First off, thank you for considering contributing to cy-shadow-report. It's people like you that make cy-shadow-report such a great tool.
 
 ## Code of Conduct
@@ -21,6 +32,17 @@ Unsure where to begin contributing to cy-shadow-report? You can start by looking
 - [Beginner issues](https://github.com/petermsouzajr/cy-shadow-report/issues?q=label%3Abeginner) - issues which should only require a few lines of code, and a test or two.
 - [Help wanted issues](https://github.com/petermsouzajr/cy-shadow-report/issues?q=label%3A%22help+wanted%22) - issues which should be a bit more involved than `beginner` issues.
 
+### Local Development
+
+To run module tests locally, follow these steps:
+
+1. Ensure you have Node.js and npm installed.
+2. Clone the repository and navigate to the project directory.
+3. Install dependencies by running `npm install`.
+4. Run the module tests using `npm test`.
+
+These steps will help you set up the project environment and ensure that your contributions do not break existing functionalities.
+
 ### Pull Requests
 
 The process described here has several goals:
@@ -30,13 +52,23 @@ The process described here has several goals:
 - Engage the community in working toward the best possible cy-shadow-report.
 - Enable a sustainable system for cy-shadow-report's maintainers to review contributions.
 
+Here's how to get started:
+
+- **Working with Branches:** Please note that `Main` and `Demo` are protected branches. You can either:
+  - **Fork the Project:** Fork the repository, create a new branch in your fork, and then push your branch to our repository.
+  - **Clone the Project:** Alternatively, clone the repository directly, create a new branch, and push your branch to our repository.
+- **Target Production Branch:** Once your branch changes are approved, they will be integrated into the appropriate target production branch, either `Main` or `Demo`.
+
 Please follow these steps to have your contribution considered by the maintainers:
 
-1. Follow all instructions in [the template](.github/PULL_REQUEST_TEMPLATE.md).
-2. Follow the [styleguides](#styleguides).
-3. After you submit your pull request, verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing.
+1. Create a new branch for your changes.
+2. Follow the established styles in the project or refer to [styleguide](#styleguides) for styling clarification.
+3. Fill in the necessary details indicated by the [pull request template](.github/PULL_REQUEST_TEMPLATE.md) when you submit your pull request.
+4. Verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing after submitting your pull request.
 
 While the prerequisites above must be satisfied prior to having your pull request reviewed, the reviewer(s) may ask you to complete additional design work, tests, or other changes before your pull request can be ultimately accepted.
+
+
 
 ## Styleguides
 
@@ -66,14 +98,3 @@ While the prerequisites above must be satisfied prior to having your pull reques
 - Write tests that cover core functionalities and edge cases.
 - Ensure tests are reproducible and run consistently.
 - Follow test-driven development (TDD) practices when applicable.
-
-## Local Development
-
-To run module tests locally, follow these steps:
-
-1. Ensure you have Node.js and npm installed.
-2. Clone the repository and navigate to the project directory.
-3. Install dependencies by running `npm install`.
-4. Run the module tests using `npm test`.
-
-These steps will help you set up the project environment and ensure that your contributions do not break existing functionalities.
