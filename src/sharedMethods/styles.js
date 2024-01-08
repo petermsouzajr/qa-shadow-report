@@ -94,8 +94,8 @@ export const createConditionalFormattingPayload = (
   const targetIndex = headerRow.indexOf('state');
   const endRow =
     fullDailyPayload.bodyPayload.length + fullDailyPayload.headerPayload.length;
-  const failedFormula = `=IF(I6:I107="failed",true)`;
-  const passedFormula = `=IF(I6:I107="passed",true)`;
+  const failedFormula = '=IF(I6:I107="failed",true)';
+  const passedFormula = '=IF(I6:I107="passed",true)';
   const failedColor = { red: 1, green: 0.49803922, blue: 0.49803922 };
   const passedColor = { red: 0.49803922, green: 1, blue: 0.49803922 };
   let formula = passedFormula;
