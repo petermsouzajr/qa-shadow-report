@@ -27,7 +27,6 @@ The process described here has several goals:
 
 - Maintain cy-shadow-report's quality.
 - Fix problems that are important to users.
-- Check and fix Lint issues to make sure the changes do not create additional issues.
 - Engage the community in working toward the best possible cy-shadow-report.
 - Enable a sustainable system for cy-shadow-report's maintainers to review contributions.
 
