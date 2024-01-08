@@ -23,7 +23,7 @@ export const dataObjects = {
  */
 const lastMonth = getFormattedMonth('lastMonth');
 const noSummaryMessage = `No ${lastMonth} summary required`;
-const noReportMessage = `Today's report already exists`;
+const noReportMessage = 'Today\'s report already exists';
 /**
  * Handles report and summary tasks based on pre-existing conditions.
  *

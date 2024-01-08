@@ -58,14 +58,14 @@ export const generateStateReports = (defaultHeaderMetrics, index) => {
     let formula;
 
     switch (type) {
-      case 'skipped/pending':
-        formula = `${adjustedMetric} formula skipped/pending`;
-        break;
-      case 'total':
-        formula = `${adjustedMetric} formula total`;
-        break;
-      default:
-        formula = `${type} formula base`;
+    case 'skipped/pending':
+      formula = `${adjustedMetric} formula skipped/pending`;
+      break;
+    case 'total':
+      formula = `${adjustedMetric} formula total`;
+      break;
+    default:
+      formula = `${type} formula base`;
     }
 
     return [`# ${adjustedMetric}`, formula];

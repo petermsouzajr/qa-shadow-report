@@ -7,16 +7,16 @@ import { handleSummary } from './src/sharedMethods/summaryHandler.js';
 const command = process.argv[2];
 
 switch (command) {
-  case 'todays-report':
-    // Execute another function
-    await handleDailyReport();
-    break;
-  case 'monthly-summary':
-    // Execute another function
-    await handleSummary();
-    break;
-  default:
-    // Execute the main function of your package
-    await main();
-    break;
+case 'todays-report':
+  // Execute another function
+  await handleDailyReport();
+  break;
+case 'monthly-summary':
+  // Execute another function
+  await handleSummary();
+  break;
+default:
+  // Execute the main function of your package
+  await main();
+  break;
 }
