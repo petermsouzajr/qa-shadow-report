@@ -16,7 +16,7 @@ jobs:
       - name: Check for 'needs triage' label
         id: check-label
         run: |
-          LABELS=$(gh issue view ${{ github.event.issue.number }} --json labels --jq '.labels.*.name')
+          LABELS=$(gh issue view ${{ github.event.issue.number }} --json labels --jq '.labels[].name')
           if [[ $LABELS == *"needs triage"* ]]; then
             echo "Issue has 'needs triage' label, not assigning."
             echo "::set-output name=should_assign::false"
