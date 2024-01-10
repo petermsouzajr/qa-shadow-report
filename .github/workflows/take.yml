@@ -1,0 +1,36 @@
+name: Assign issue to contributor
+on:
+  issue_comment:
+
+jobs:
+  assign:
+    name: Take an issue
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for 'needs triage' label
+        id: check-label
+        run: |
+          LABELS=$(gh issue view ${{ github.event.issue.number }} --json labels --jq '.labels.*.name')
+          if [[ $LABELS == *"needs triage"* ]]; then
+            echo "Issue has 'needs triage' label, not assigning."
+            echo "::set-output name=should_assign::false"
+          else
+            echo "Issue does not have 'needs triage' label."
+            echo "::set-output name=should_assign::true"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Take the issue
+        if: steps.check-label.outputs.should_assign == 'true'
+        uses: bdougie/take-action@main
+        with:
+          message: Thanks for taking this issue! Let us know if you have any questions!
+          trigger: .take
+          token: ${{ secrets.GITHUB_TOKEN }}
