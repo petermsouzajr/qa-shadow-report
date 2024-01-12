@@ -10,7 +10,7 @@ const __dirname = dirname(__filename);
 const parentDir = dirname(dirname(__dirname));
 
 // Function to find the config file
-function findConfigFile(startPath, baseFileName) {
+const findConfigFile = (startPath, baseFileName) => {
   const extensions = ['.js', '.ts']; // Array of possible extensions
   let currentDir = startPath;
   while (currentDir !== path.parse(currentDir).root) {
@@ -28,7 +28,7 @@ function findConfigFile(startPath, baseFileName) {
 }
 
 // Function to get config path from arguments
-function getConfigPathFromArgs() {
+const getConfigPathFromArgs = () => {
   const args = process.argv;
   const configIndex = args.findIndex((arg) => arg === '--config') + 1;
   return configIndex > 0 ? args[configIndex] : null;
