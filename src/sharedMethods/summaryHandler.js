@@ -29,7 +29,7 @@ import { HEADER_INDICATORS } from '../../constants.js';
  *   completed sending the data to the Google Sheets API.
  * @throws Will log an error to the console if there is an issue writing to the sheet.
  */
-async function sendSummaryBody(payload) {
+const sendSummaryBody = async (payload) => {
   try {
     await sheets.spreadsheets.batchUpdate({
       auth,
@@ -58,12 +58,12 @@ async function sendSummaryBody(payload) {
  * @example
  * await addColumnsAndRows();
  */
-async function addColumnsAndRows(
+const addColumnsAndRows = async (
   lastMonthSheetTitles,
   headerIndicators,
   payload,
   destinationTabTitle
-) {
+) => {
   try {
     const numberOfColumnsNeeded =
       lastMonthSheetTitles.length * headerIndicators.length;
@@ -109,7 +109,7 @@ async function addColumnsAndRows(
  * }];
  * await sendSummaryHeaders(data);
  */
-async function sendSummaryHeaders(payload) {
+const sendSummaryHeaders = async (payload) => {
   try {
     await sheets.spreadsheets.values.batchUpdate({
       auth: auth,
@@ -151,7 +151,7 @@ async function sendSummaryHeaders(payload) {
  * };
  * await summaryHeaderStyling(payload);
  */
-async function summaryHeaderStyling(payload) {
+const summaryHeaderStyling = async (payload) => {
   try {
     await sheets.spreadsheets.batchUpdate({
       auth,
@@ -165,7 +165,7 @@ async function summaryHeaderStyling(payload) {
   }
 }
 
-export async function handleSummary() {
+export const handleSummary = async () => {
   const existingSheetTitles = await getExistingTabTitlesInRange();
 
   const lastMonthSheetTitles = await getLastMonthTabTitles(existingSheetTitles);
