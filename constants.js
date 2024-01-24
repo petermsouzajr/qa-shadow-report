@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 
 // Since __dirname is not available in ES modules, we need to derive it
 const __filename = fileURLToPath(import.meta.url);
@@ -35,12 +35,13 @@ const getConfigPathFromArgs = () => {
 }
 
 const defaultConfigPath = path.join(__dirname, 'shadowReportConfig.js');
+const absoluteDefaultConfigPath = pathToFileURL(defaultConfigPath).href;
 
 // Main logic to determine config path
 const configPath =
   getConfigPathFromArgs() ||
   findConfigFile(parentDir, 'shadowReportConfig') ||
-  defaultConfigPath;
+  absoluteDefaultConfigPath;
 
 if (!configPath) {
   console.error(
