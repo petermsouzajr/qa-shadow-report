@@ -57,10 +57,12 @@ These steps will help you set up the project environment and ensure that your co
 
 To locally test and trigger the main functionality of this project, follow the steps outlined below.
 
-### Prerequisites
+#### Prerequisites
 
 - Follow the setup guide to get Google Credentials. See [README](https://github.com/petermsouzajr/cy-shadow-report/blob/main/README.md#prerequisites).
 - You may also need a test data file. This is the Cypress test results file compiled during Cypress runs. To create this test data file, you may need to switch to the `demo` branch and install dependencies. Then, run the Cypress tests and allow the run to finish so a compiled file can be created. After the run is complete, the file containing necessary test data can be found in `cypress-example/cypress/results/output.json`.
+
+#### Steps
 
 1. From the root of the repository, run `node cli.js`. This script is the entry point for the application's main functionality.
 2. Observe the spreadsheet for report results.
