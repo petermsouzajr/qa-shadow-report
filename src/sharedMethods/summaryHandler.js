@@ -23,8 +23,6 @@ import { HEADER_INDICATORS } from '../../constants.js';
  * @param {Object} payload - The data to be written to the destination sheet.
  *   The object must include specifications for the copy-paste operation,
  *   including the start and end indices for the rows to copy.
- * @param {string} destinationTabTitle - The name/title of the sheet tab where the
- *   summary data will be written.
  * @returns {Promise<void>} - A promise that resolves when the function has
  *   completed sending the data to the Google Sheets API.
  * @throws Will log an error to the console if there is an issue writing to the sheet.
@@ -41,7 +39,7 @@ const sendSummaryBody = async (payload) => {
   } catch (error) {
     console.error(`Error writing to project: ${spreadsheetId}`, error);
   }
-}
+};
 
 /**
  * Add required number of columns and rows to the specified sheet tab.
@@ -52,11 +50,14 @@ const sendSummaryBody = async (payload) => {
  * the Google Sheets API to modify the sheet dimensions.
  *
  * @async
- * @function
+ * @param {string[]} lastMonthSheetTitles - Titles from last month's sheet to calculate the number of columns.
+ * @param {string[]} headerIndicators - Headers to calculate the number of columns.
+ * @param {Object[]} payload - Data objects containing information about where data should be pasted in the sheet.
+ * @param {string} destinationTabTitle - The title of the destination tab in the sheet.
+ * @returns {Promise<void>} A promise that resolves when the sheet dimensions have been updated.
  * @throws {Error} Throws an error if unable to calculate dimensions or update the sheet.
- *
  * @example
- * await addColumnsAndRows();
+ * await addColumnsAndRows(['Title1', 'Title2'], ['Header1', 'Header2'], dataPayload, 'Sheet1');
  */
 const addColumnsAndRows = async (
   lastMonthSheetTitles,
@@ -82,7 +83,7 @@ const addColumnsAndRows = async (
     console.error('Error in adding columns and rows:', error);
     throw new Error('Unable to add columns and rows to the sheet.');
   }
-}
+};
 
 /**
  * Send headers to a Google Sheets spreadsheet using Google Sheets API.
@@ -122,7 +123,7 @@ const sendSummaryHeaders = async (payload) => {
   } catch (error) {
     console.error('An error occurred:', error);
   }
-}
+};
 
 /**
  * Apply styling to the header of a Google Sheets spreadsheet using a batch update request.
@@ -163,7 +164,7 @@ const summaryHeaderStyling = async (payload) => {
   } catch (error) {
     console.error('An error occurred:', error);
   }
-}
+};
 
 export const handleSummary = async () => {
   const existingSheetTitles = await getExistingTabTitlesInRange();
@@ -184,6 +185,6 @@ export const handleSummary = async () => {
     summaryPageTitle
   );
   await sendSummaryHeaders(fullSummaryPayload.headerPayload);
-  await sendSummaryBody(fullSummaryPayload.bodyPayload, summaryPageTitle);
+  await sendSummaryBody(fullSummaryPayload.bodyPayload);
   await summaryHeaderStyling(fullSummaryPayload.summaryHeaderStylePayload);
-}
+};

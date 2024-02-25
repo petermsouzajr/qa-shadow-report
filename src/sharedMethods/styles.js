@@ -7,11 +7,14 @@ import {
 
 /**
  * Creates a grid style for a specific tab with defined borders.
+ * This function generates an object that defines border styles for a grid in a Google Sheet.
+ * It uses the payload from daily data and headers to determine the range and apply appropriate borders.
  *
- * @param {number} tabId - The ID of the target tab.
- * @param {number} startColumn - The starting column index.
- * @param {number} endColumn - The ending column index.
- * @returns {Object} - An object containing the border styles and range to apply them.
+ * @async
+ * @param {number} destinationTabId - The ID of the target tab where the grid will be styled.
+ * @param {Object} fullDailyPayload - An object containing daily payload data with body and header information.
+ * @returns {Promise<Object>} - A promise that resolves to an object containing the border styles and the range to apply them.
+ * @throws {Error} - Throws an error if the operation fails.
  */
 const createGridStyle = async (destinationTabId, fullDailyPayload) => {
   const summaryHeaderRowStart = 0;
@@ -48,14 +51,16 @@ const createGridStyle = async (destinationTabId, fullDailyPayload) => {
 };
 
 /**
- * Adds the created grid style payload to the summary payload.
+ * Adds the created grid style payload to the summary payload and sends the request to update the sheet.
+ * The function first generates the grid style using `createGridStyle`, then it adds this style to the
+ * summary payload's grid styles array. Finally, it sends a batch update request to the Google Sheets API
+ * to apply the grid style to the specified sheet/tab.
  *
- * The grid style is used to apply visual styling to the data grid for clarity
- * and aesthetics. This can include border styles, colors, and other formatting.
- *
- * @param {number} tabId - The unique ID of the sheet/tab.
- * @param {number} startColumn - The starting column index for the style.
- * @param {number} endColumn - The ending column index for the style.
+ * @async
+ * @param {number} destinationTabId - The ID of the target tab where the grid will be styled.
+ * @param {Object} fullDailyPayload - An object containing daily payload data including the summary grid styles.
+ * @returns {Promise<void>} - A promise that resolves when the grid style has been successfully sent to the sheet.
+ * @throws {Error} - Throws an error if there is an issue with applying the grid style to the sheet.
  */
 export const sendGridStyle = async (destinationTabId, fullDailyPayload) => {
   const gridStyle = await createGridStyle(destinationTabId, fullDailyPayload);
@@ -73,16 +78,16 @@ export const sendGridStyle = async (destinationTabId, fullDailyPayload) => {
 };
 
 /**
- * Creates a payload for a batch update to apply conditional formatting.
+ * Creates a payload for a batch update to apply conditional formatting based on the state.
+ * The function defines conditional formatting rules for the 'state' column in a sheet.
+ * It uses a custom formula to apply a background color to cells matching a specific state.
  *
  * @param {number} sheetId - The ID of the sheet to apply formatting to.
- * @param {number} startRow - The starting row index for the formatting range.
- * @param {number} endRow - The ending row index for the formatting range.
- * @param {number} startColumn - The starting column index for the formatting range.
- * @param {number} endColumn - The ending column index for the formatting range.
- * @param {string} formula - The custom formula to evaluate for formatting.
- * @param {Object} color - The background color to apply if the condition is true.
- * @returns {Object} The request payload for the batch update.
+ * @param {Object} fullDailyPayload - An object containing the daily payload data with body and header information.
+ * @param {string} state - The state to check in the conditional formatting ('failed' or 'passed').
+ * @returns {Object} - The request payload for the batch update containing conditional format rules.
+ * @example
+ * const formattingPayload = createConditionalFormattingPayload(sheetId, fullDailyPayload, 'failed');
  */
 export const createConditionalFormattingPayload = (
   sheetId,
@@ -134,11 +139,15 @@ export const createConditionalFormattingPayload = (
 };
 
 /**
- * Freezes rows in a Google Sheet up to a specified row index.
- * @param {number} sheetId - The ID of the sheet to update.
- * @param {number} freezeTillRow - The number of rows to freeze.
- * @param {string} spreadsheetId - The ID of the spreadsheet.
- * @param {Object} auth - The authentication object for the Google Sheets API.
+ * Constructs a request payload for freezing rows in a Google Sheet up to a specified row index.
+ * This payload can then be used with the Google Sheets API to update the sheet properties.
+ *
+ * @param {number} sheetId - The ID of the individual sheet within the spreadsheet where rows are to be frozen.
+ * @param {number} freezeTillRow - The number of top rows to freeze. Rows above this index will be frozen.
+ * @returns {Promise<Object>} A batch update request payload containing the sheet properties update for freezing rows.
+ * @example
+ * const freezeRowsPayload = freezeRowsInSheet(12345, 2);
+ * // The above call creates a payload to freeze the first two rows of the sheet with ID 12345.
  */
 export const freezeRowsInSheet = async (sheetId, freezeTillRow) => {
   const requests = [
@@ -159,10 +168,61 @@ export const freezeRowsInSheet = async (sheetId, freezeTillRow) => {
 };
 
 /**
- * Builds a payload for applying background colors to the first few rows of a Google Sheet.
- * @param {number} sheetId - The ID of the sheet to update.
- * @param {number} headerRowIndex - The index of the header row, to apply the dark grey color.
- * @returns {Object} The payload for the batch update.
+ * Creates a request object for the Google Sheets API to repeat a cell's formatting
+ * across a specified range. This function is typically used for applying a uniform
+ * background color to a range of cells within a sheet.
+ *
+ * @param {number} sheetId - The ID of the sheet where the cells will be formatted.
+ * @param {number} startRowIndex - The index of the first row of the range to format.
+ * @param {number} endRowIndex - The index of the row after the last row of the range to format.
+ * @param {number} columnLength - The number of columns to format, starting from the first column.
+ * @param {Object} backgroundColor - An object representing the color to set as the cell background.
+ * @returns {Object} A request object ready to be used in a batchUpdate to apply the formatting.
+ *
+ * @example
+ * // Define a light grey color
+ * const lightGrey = { red: 0.9, green: 0.9, blue: 0.9 };
+ *
+ * // Create a repeatCell request for rows 1 to 3 inclusive, assuming the sheet has 5 columns
+ * const repeatCellRequest = createRepeatCellRequest(sheetId, 0, 3, 5, lightGrey);
+ *
+ * // The returned request can be included in the requests array for batchUpdate
+ */
+const createRepeatCellRequest = (
+  sheetId,
+  startRowIndex,
+  endRowIndex,
+  columnLength,
+  backgroundColor
+) => ({
+  repeatCell: {
+    range: {
+      sheetId,
+      startRowIndex,
+      endRowIndex,
+      startColumnIndex: 0,
+      endColumnIndex: columnLength,
+    },
+    cell: {
+      userEnteredFormat: { backgroundColor },
+    },
+    fields: 'userEnteredFormat.backgroundColor',
+  },
+});
+
+/**
+ * Constructs a payload to apply background colors to the header and footer rows
+ * and all rows above the header of a Google Sheet. It assumes a specific number of columns
+ * based on the header row length.
+ *
+ * @param {number} sheetId - The ID of the sheet to be updated.
+ * @param {Object} fullDailyPayload - The data object containing the header and body payload,
+ *                                    used to determine row indices and column lengths.
+ * @returns {Object} A payload object for the batch update request to format the sheet cells.
+ * @example
+ * const colorStylesPayload = buildColorStylesPayload(12345, fullDailyPayload);
+ * // This call creates a payload to apply background colors to the header and
+ * // all preceding rows in the sheet with ID 12345.
  */
 export const buildColorStylesPayload = (sheetId, fullDailyPayload) => {
   // Define colors
@@ -174,95 +234,72 @@ export const buildColorStylesPayload = (sheetId, fullDailyPayload) => {
   const footerRowIndex =
     fullDailyPayload.bodyPayload.length + fullDailyPayload.headerPayload.length;
   const requests = [
-    {
-      // Apply light grey color to all cells above the header row
-      repeatCell: {
-        range: {
-          sheetId: sheetId,
-          endRowIndex: headerRowIndex, // Apply to all rows up to the header row
-          endColumnIndex: headerRow.length, // Assuming there are 12 columns as per your image
-        },
-        cell: {
-          userEnteredFormat: {
-            backgroundColor: lightGrey,
-          },
-        },
-        fields: 'userEnteredFormat.backgroundColor',
-      },
-    },
-    {
-      // Apply dark grey color to the header row
-      repeatCell: {
-        range: {
-          sheetId: sheetId,
-          startRowIndex: headerRowIndex - 1,
-          endRowIndex: headerRowIndex, // Apply only to the header row
-          startColumnIndex: 0,
-          endColumnIndex: headerRow.length, // Assuming there are 12 columns as per your image
-        },
-        cell: {
-          userEnteredFormat: {
-            backgroundColor: darkGrey,
-          },
-        },
-        fields: 'userEnteredFormat.backgroundColor',
-      },
-    },
-    {
-      // Apply dark grey color to the header row
-      repeatCell: {
-        range: {
-          sheetId: sheetId,
-          startRowIndex: footerRowIndex,
-          endRowIndex: footerRowIndex + 1, // Apply only to the header row
-          startColumnIndex: 0,
-          endColumnIndex: headerRow.length, // Assuming there are 12 columns as per your image
-        },
-        cell: {
-          userEnteredFormat: {
-            backgroundColor: darkGrey,
-          },
-        },
-        fields: 'userEnteredFormat.backgroundColor',
-      },
-    },
+    // Apply light grey color to all cells above the header row
+    createRepeatCellRequest(
+      sheetId,
+      0,
+      headerRowIndex,
+      headerRow.length,
+      lightGrey
+    ),
+    // Apply dark grey color to the header row
+    createRepeatCellRequest(
+      sheetId,
+      headerRowIndex - 1,
+      headerRowIndex,
+      headerRow.length,
+      darkGrey
+    ),
+    // Apply dark grey color to the header row
+    createRepeatCellRequest(
+      sheetId,
+      footerRowIndex,
+      footerRowIndex + 1,
+      headerRow.length,
+      darkGrey
+    ),
   ];
 
   return { requests };
 };
 
 /**
- * Builds a payload for setting the row heights in a Google Sheet.
- * @param {number} sheetId - The ID of the sheet to update.
- * @param {number} startRowIndex - The starting index of the rows to adjust.
- * @param {number} endRowIndex - The ending index of the rows to adjust (exclusive).
- * @param {number} pixelSize - The height of the rows in pixels.
- * @returns {Object} The payload for the batch update.
+ * Builds a payload for a batch update to set the row heights for a specified range in a Google Sheet.
+ * The function determines the range based on the provided data structure.
+ *
+ * @param {number} sheetId - The ID of the Google Sheet to update.
+ * @param {Object} fullDailyPayload - An object containing the daily payload data which includes
+ *                                    header and body information to calculate row indices.
+ * @returns {Object} A payload object structured for the Google Sheets API batchUpdate method,
+ *                   which includes the request for updating row heights.
  */
 export const buildRowHeightPayload = (sheetId, fullDailyPayload) => {
-  const pixelSize = 27;
+  const pixelSize = 27; // The desired height in pixels for the rows.
+  // Calculate the starting and ending indices for the rows to adjust.
   const headerRowIndex = findHeaderRowIndex(fullDailyPayload.headerPayload);
+  const totalRows =
+    fullDailyPayload.bodyPayload.length + fullDailyPayload.headerPayload.length;
 
+  // Create a request to update the row heights starting from the row after the header and
+  // including all the body rows.
   const requests = [
     {
       updateDimensionProperties: {
         range: {
           sheetId: sheetId,
           dimension: 'ROWS',
-          startIndex: headerRowIndex - 1,
-          endIndex:
-            fullDailyPayload.bodyPayload.length +
-            fullDailyPayload.headerPayload.length,
+          startIndex: headerRowIndex,
+          endIndex: headerRowIndex + totalRows,
         },
         properties: {
-          pixelSize: pixelSize,
+          pixelSize: pixelSize, // Set each row to the specified height.
         },
-        fields: 'pixelSize',
+        fields: 'pixelSize', // Specify that only the pixelSize property should be updated.
       },
     },
   ];
 
-  return { requests };
+  return { requests }; // Return the constructed payload.
 };
 
 export const BuildTextStyles = async (sheetId, fullDailyPayload) => {

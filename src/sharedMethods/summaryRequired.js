@@ -40,7 +40,7 @@ const isSummaryNeeded = (tabTitles) => {
  * Determines whether a summary is required based on the current day and
  * whether a new collection is needed.
  *
- * @returns {boolean} - True if a summary is required, false otherwise.
+ * @returns {Promise<boolean>} True if a summary is required, false otherwise.
  */
 export const isSummaryRequired = async () => {
   const existingTabTitles = await getExistingTabTitlesInRange();

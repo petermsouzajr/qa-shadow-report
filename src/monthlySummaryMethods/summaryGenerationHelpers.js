@@ -18,8 +18,16 @@ import { DEFAULT_HEADER_METRICS, HEADER_INDICATORS } from '../../constants.js';
  * @returns {Promise<object[]>} - A promise that resolves to an array of tab values corresponding to the provided titles.
  */
 export const fetchLastMonthTabValues = async (titles) => {
-  ///lat month tab vvalues stores all the lastmonth calaues
-  const data = await Promise.all(titles.map(getTabValuesByTitle));
+  // Define the additional arguments that getTabValuesByTitle expects
+  const sheetsInstance = '';
+  const authParam = '';
+  const spreadsheetIdParam = '';
+
+  const data = await Promise.all(
+    titles.map((title) =>
+      getTabValuesByTitle(title, sheetsInstance, authParam, spreadsheetIdParam)
+    )
+  );
   dataObjects.lastMonthSheetValues.push(data);
   return data;
 };
@@ -441,9 +449,6 @@ const processSourceColumns = async (
   /**
    * Creates a grid style for a specific tab with defined borders.
    *
-   * @param {number} tabId - The ID of the target tab.
-   * @param {number} startColumn - The starting column index.
-   * @param {number} endColumn - The ending column index.
    * @returns {Object} - An object containing the border styles and range to apply them.
    */
   const createGridStyle = () => ({
