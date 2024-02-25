@@ -50,7 +50,9 @@ export const getCurrentTime = () => {
  */
 export const getPreviousMonthsYear = (currentMonth) => {
   const isJanuary = currentMonth === 'Jan';
-  return isJanuary ? getFormattedYear('lastYear') : getFormattedYear();
+  return isJanuary
+    ? getFormattedYear('lastYear').toString()
+    : getFormattedYear().toString();
 };
 
 /**

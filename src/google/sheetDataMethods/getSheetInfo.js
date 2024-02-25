@@ -41,11 +41,11 @@ export const getExistingTabTitlesInRange = async (when = '') => {
     return when !== 'lastMonth'
       ? titles
       : titles.filter(
-        (title) =>
-          title.toLowerCase().includes(lastMonth) &&
+          (title) =>
+            title.toLowerCase().includes(lastMonth) &&
             title.includes(previousMonthYear) &&
             /^([A-Z][a-z]{2} \d{1,2}, \d{4})$/.test(title)
-      );
+        );
   } catch (error) {
     console.error('Error fetching sheet titles in range:', error);
     throw new Error('Unable to fetch sheet titles in range.');
