@@ -39,8 +39,8 @@ export const generateReportEntry = (title, formula) => {
  * Iterates through metrics headers and generates a report entry for each.
  * Adjustments might be required for compatibility with Excel/Google Sheets formulas.
  *
- * @param {Array<string>} headerMetrics - The array of header metric strings.
- * @param {string} type - The type of test or team name.
+ * @param {Array<string>} defaultHeaderMetrics - The array of header metric strings.
+ * @param {number} index - The index of the type within the defaultHeaderMetrics array.
  * @returns {Array<Array<string>>} - An array of report entry arrays.
  * @throws {TypeError} If headerMetrics is not an array or type is not a string.
  * @throws {RangeError} If the type is not found within headerMetrics.
@@ -58,14 +58,14 @@ export const generateStateReports = (defaultHeaderMetrics, index) => {
     let formula;
 
     switch (type) {
-    case 'skipped/pending':
-      formula = `${adjustedMetric} formula skipped/pending`;
-      break;
-    case 'total':
-      formula = `${adjustedMetric} formula total`;
-      break;
-    default:
-      formula = `${type} formula base`;
+      case 'skipped/pending':
+        formula = `${adjustedMetric} formula skipped/pending`;
+        break;
+      case 'total':
+        formula = `${adjustedMetric} formula total`;
+        break;
+      default:
+        formula = `${type} formula base`;
     }
 
     return [`# ${adjustedMetric}`, formula];
@@ -156,7 +156,7 @@ export const generateReport = (types, payload, searchIndex, isTeam = false) => {
     }
   }
 
-  return report;
+  return Promise.resolve(report);
 };
 
 /**
@@ -263,10 +263,12 @@ export const getKeysPattern = () => {
 };
 
 /**
- * Creates a list of merge queries for the first two columns of each row in the 2D array.
+ * Creates a payload for batch updating merges in Google Sheets.
  * Assumes that the array is the data of a Google Sheet starting from the first row and first column.
  * @param {Array<Array<string>>} data - The 2D array representing the sheet data.
- * @returns {Array<Object>} An array of objects representing the merge queries for Google Sheets API.
+ * @param {number} headerRowIndex - The index of the header row in the sheet.
+ * @param {number} sheetId - The ID of the sheet where merges are to be applied.
+ * @returns {Object} An object representing the payload for a batch update request to the Google Sheets API.
  */
 export const createMergeQueries = (data, headerRowIndex, sheetId) => {
   // Helper function to create a single merge query object
