@@ -34,7 +34,7 @@ export const constructPayloadForCopyPaste = async (
     // Retrieve titles and values of tabs from the last month.
     const lastMonthTabTitles = await getLastMonthTabTitles(existingTabTitles);
     const lastMonthTabValues =
-      await fetchLastMonthTabValues(lastMonthTabTitles); /////another values ares to look at
+      await fetchLastMonthTabValues(lastMonthTabTitles);
 
     // Initialize the payload and column metrics for processing.
     const summaryPayload = initializeReportPayload();

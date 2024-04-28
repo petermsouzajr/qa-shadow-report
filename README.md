@@ -4,15 +4,16 @@ Our package bridges Cypress test runs with Google Sheets or Microsoft Excel, str
 
 ## Table of Contents
 
-1. [Daily Report Sample](#daily-report-sample)
-2. [Monthly Summary Sample](#monthly-summary-sample)
-3. [Setup Guide](#setup-guide)
+1. [Sheets Daily Report Sample](#daily-report-sample)
+2. [Sheets Monthly Summary Sample](#monthly-summary-sample)
+3. [CSV Monthly Summary Sample](#csv-monthly-summary-sample)
+4. [Setup Guide](#setup-guide)
 
    - [Prerequisites](#prerequisites)
 
-4. [Generating a Report](#generating-a-report)
-5. [Minimum Configuration](#minimum-configuration)
-6. [Enhanced Configuration](#enhanced-configuration)
+5. [Generating a Report](#generating-a-report)
+6. [Minimum Configuration](#minimum-configuration)
+7. [Enhanced Configuration](#enhanced-configuration)
 
    - [Column: Team Name](#column-team-name)
    - [Column: Test Target](#column-test-target)
@@ -20,16 +21,20 @@ Our package bridges Cypress test runs with Google Sheets or Microsoft Excel, str
    - [Column: Testrail Id](#column-testrail-id)
    - ['The Works'](#the-works)
 
-7. [Github CI/CD](#github-cicd)
-8. [Demo Branch](#demo-branch)
+8. [Github CI/CD](#github-cicd)
+9. [Demo Branch](#demo-branch)
 
-### Daily Report Sample
+### Sheets Daily Report Sample
 
 ![Screenshot of Feature](images/dailyReport.png)
 
-### Monthly Summary Sample
+### Sheets Monthly Summary Sample
 
 ![Screenshot of Feature](images/monthlySummary.png)
+
+### CSV Daily Report Sample
+
+![Screenshot of Feature](images/csvDailyReport.png)
 
 ## Setup Guide
 
@@ -53,24 +58,41 @@ module.exports = {
 
 ## Generating a Report
 
-#### To generate a report using `cy-shadow-report`:
+### To Generate Reports In Sheets:
+
+- **To run the standard global functionality:**
+
+  - Run the command `npx cy-shadow-report`.
+  - This command processes the test data and created a detailed report.
+  - A new sheet Tab will be creted with the current days title, to which this detailed report will be written.
+  - If tabs exist on the Sheet for the previous months days, this command will gather the previous months data and generate a monthly summary for the previous month
+  - The report will fail if JSON test data is not present.
+  - No tab should be named with the current date title.
 
 - **To run the daily report only:**
 
+  - Run `npx cy-shadow-report todays-report`.
   - Ensure JSON data is present from Cypress test output.
   - No tab should be named with the current date title.
-  - Run `npx cy-shadow-report todays-report`.
+  - This command will bypass the task of generating a monthly summary
 
 - **To run the monthly summary report only:**
 
-  - Ensure daily reports from the previous month are present.
-  - No tab should be named with the last month's summary title.
   - Run `npx cy-shadow-report monthly-summary`.
+  - Ensure daily reports from the previous month are present, otherwise no summary will be generated.
+  - No tab should be named with the last month's summary title.
+  - This command will bypass the task of generating a daily report
 
-- **To run the standard global functionality:**
-  - Run the command `npx cy-shadow-report`.
-  - This command processes the test data and presents a detailed report.
-  - The report will fail if JSON test data is not present.
+### To Generate Reports In CSV format only:
+
+- **To run the daily report:**
+
+  - Use the optional flag `--csv`:
+  - `npx cy-shadow-report --csv`
+  - `npx cy-shadow-report todays-report --csv`
+  - Ensure JSON data is present from Cypress test output.
+  - A detaiiled summary will be doanliaded into the Cypress Downloads folder `cypress/downloads`
+  - Monthly summary is not currently supported
 
 #### Recommended `package.json` Scripts
 

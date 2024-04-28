@@ -166,25 +166,41 @@ const summaryHeaderStyling = async (payload) => {
   }
 };
 
-export const handleSummary = async () => {
-  const existingSheetTitles = await getExistingTabTitlesInRange();
+/**
+ * Handles the creation and population of a monthly summary report.
+ * This function coordinates several asynchronous operations to build and populate a summary report based on data from the previous month.
+ * It creates a new tab for the summary, constructs the report payload from last month's tab titles,
+ * and writes the header and body to the newly created sheet. The format of the output (e.g., CSV or standard visual format)
+ * can be specified via the 'format' parameter.
+ *
+ * @async
+ * @function handleDailyReport
+ * @param {string|undefined} format - Specifies the output format ('csv' for CSV format; undefined for standard format).
+ */
+export const handleSummary = async (format) => {
+  if (format === 'csv') {
+    console.warn('CSV format is not supported for summary reports');
+  } else {
+    const existingSheetTitles = await getExistingTabTitlesInRange();
 
-  const lastMonthSheetTitles = await getLastMonthTabTitles(existingSheetTitles);
+    const lastMonthSheetTitles =
+      await getLastMonthTabTitles(existingSheetTitles);
 
-  const summaryPageTitle = createSummaryTitle();
-  await createNewTab(summaryPageTitle);
-  const fullSummaryPayload = await constructPayloadForCopyPaste(
-    lastMonthSheetTitles,
-    summaryPageTitle
-  );
+    const summaryPageTitle = createSummaryTitle();
+    await createNewTab(summaryPageTitle);
+    const fullSummaryPayload = await constructPayloadForCopyPaste(
+      lastMonthSheetTitles,
+      summaryPageTitle
+    );
 
-  await addColumnsAndRows(
-    lastMonthSheetTitles,
-    HEADER_INDICATORS,
-    fullSummaryPayload.bodyPayload,
-    summaryPageTitle
-  );
-  await sendSummaryHeaders(fullSummaryPayload.headerPayload);
-  await sendSummaryBody(fullSummaryPayload.bodyPayload);
-  await summaryHeaderStyling(fullSummaryPayload.summaryHeaderStylePayload);
+    await addColumnsAndRows(
+      lastMonthSheetTitles,
+      HEADER_INDICATORS,
+      fullSummaryPayload.bodyPayload,
+      summaryPageTitle
+    );
+    await sendSummaryHeaders(fullSummaryPayload.headerPayload);
+    await sendSummaryBody(fullSummaryPayload.bodyPayload);
+    await summaryHeaderStyling(fullSummaryPayload.summaryHeaderStylePayload);
+  }
 };

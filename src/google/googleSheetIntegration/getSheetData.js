@@ -45,9 +45,8 @@ export const getTabValuesByTitle = async (
         ? sheetsInstance
         : sheets;
 
-    const authToUse = Array.isArray(authParam) ? auth : authParam;
+    const authToUse = typeof authParam === 'string' ? auth : authParam;
     const spreadsheetIdToUse = spreadsheetIdParam || spreadsheetId;
-
     const data = await sheetsAPI.spreadsheets.values.get({
       auth: authToUse,
       spreadsheetId: spreadsheetIdToUse,
