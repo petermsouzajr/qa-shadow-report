@@ -67,36 +67,36 @@ module.exports = {
 - **To run the standard global functionality:**
 
   - Run the command `npx cy-shadow-report`.
-  - This command processes the test data and created a detailed report.
-  - A new sheet Tab will be creted with the current days title, to which this detailed report will be written.
-  - If tabs exist on the Sheet for the previous months days, this command will gather the previous months data and generate a monthly summary for the previous month
-  - The report will fail if JSON test data is not present.
+  - This command processes the data from the test results and create a detailed report.
+  - A new sheet Tab will be creted with the current days title e.g `Mar 24, 2024`, to which this detailed report will be written.
+  - If tabs exist on the Sheet for the previous month e.g. current month is April and Sheet Tabs exist for `Mar 24, 2024`, `Mar 25, 2024`, then a monthly summary will be generated with that previous months data `Summary Mar 2024`.
+  - The report will fail if JSON test result data is not present.
   - No tab should be named with the current date title.
 
 - **To run the daily report only:**
 
   - Run `npx cy-shadow-report todays-report`.
-  - Ensure JSON data is present from Cypress test output.
+  - Ensure JSON data is present from Cypress test results output.
   - No tab should be named with the current date title.
-  - This command will bypass the task of generating a monthly summary
+  - This command will bypass the task of generating a monthly summary.
 
 - **To run the monthly summary report only:**
 
   - Run `npx cy-shadow-report monthly-summary`.
   - Ensure daily reports from the previous month are present, otherwise no summary will be generated.
   - No tab should be named with the last month's summary title.
-  - This command will bypass the task of generating a daily report
+  - This command will bypass the task of generating a daily report.
 
 ### To Generate Reports In CSV format only:
 
 - **To run the daily report:**
 
-  - Use the optional flag `--csv`:
-  - `npx cy-shadow-report --csv`
-  - `npx cy-shadow-report todays-report --csv`
-  - Ensure JSON data is present from Cypress test output.
-  - A detaiiled summary will be doanliaded into the Cypress Downloads folder `cypress/downloads`
-  - Monthly summary is not currently supported
+  - Use the base commands with the optional flag `--csv`
+    - `npx cy-shadow-report --csv`
+    - `npx cy-shadow-report todays-report --csv`
+  - Ensure JSON data is present from Cypress test results output.
+  - A detailed summary will be downloaded into the Cypress Downloads folder `cypress/downloads`
+  - A monthly summary in CSV format is not currently supported.
 
 #### Recommended `package.json` Scripts
 
