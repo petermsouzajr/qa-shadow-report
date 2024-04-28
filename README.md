@@ -105,11 +105,11 @@ To ensure tests and reports are processed correctly, configure your `package.jso
     "postcypress:run": "npm run report:merge",
     "report:merge": "mochawesome-merge cypress/results/*.json > cypress/results/output.json && npm run report:generate",
     "report:generate": "cy-shadow-report",
-    "test": "npm run cypress:run"
+    "cypress-test": "npm run cypress:run"
   },
 ```
 
-In this example, running `npm test` will:
+In this example, running `npm cypress-test` will:
 
 - `cypress:prerun` delete all previous test run data.
 - `cypress:run` run all Cypress tests and add each test result to a `results` folder, in JSON format.
