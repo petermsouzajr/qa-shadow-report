@@ -15,6 +15,30 @@ const isSummaryTabExists = (tabTitles) => {
 };
 
 /**
+ * Checks if there are any sheet tabs from the previous month.
+ *
+ * @param {string[]} tabTitles - Array of existing tab titles.
+ * @returns {boolean} - True if there are tabs from the previous month, false otherwise.
+ */
+const hasSheetsFromLastMonth = (tabTitles) => {
+  const currentMonth = getFormattedMonth();
+  const lastMonth = getFormattedMonth('lastMonth');
+  const currentYear = getFormattedYear();
+  const lastYear = getFormattedYear('lastYear');
+  let yearToCheck = currentYear;
+  // If it's January, check for last year's summary.
+  if (currentMonth === 'Jan') {
+    yearToCheck = lastYear;
+  }
+  const monthYearPattern = new RegExp(
+    `${lastMonth}\\s*(\\d*,)?\\s*${yearToCheck}`,
+    'i'
+  );
+
+  return tabTitles.some((title) => monthYearPattern.test(title));
+};
+
+/**
  * Checks if a new collection is needed based on the current and last month,
  * and based on the current and last year, considering January as a special case.
  *
@@ -22,18 +46,8 @@ const isSummaryTabExists = (tabTitles) => {
  * @returns {boolean} - True if a new collection is needed, false otherwise.
  */
 const isSummaryNeeded = (tabTitles) => {
-  const currentYear = getFormattedYear();
-  const lastYear = getFormattedYear('lastYear');
-  const currentMonth = getFormattedMonth();
-  let yearToCheck = currentYear;
-
-  // If it's January, check for last year's summary.
-  if (currentMonth === 'Jan') {
-    yearToCheck = lastYear;
-  }
-
   // Check for the absence of a summary sheet for the last month.
-  return !isSummaryTabExists(tabTitles);
+  return hasSheetsFromLastMonth(tabTitles) && !isSummaryTabExists(tabTitles);
 };
 
 /**

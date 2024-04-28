@@ -23,7 +23,7 @@ export const dataObjects = {
  */
 const lastMonth = getFormattedMonth('lastMonth');
 const noSummaryMessage = `No ${lastMonth} summary required`;
-const noReportMessage = 'Today\'s report already exists';
+const noReportMessage = "Today's report already exists";
 /**
  * Handles report and summary tasks based on pre-existing conditions.
  *
@@ -33,19 +33,24 @@ const noReportMessage = 'Today\'s report already exists';
  *
  * @async
  * @function
+ * @param {string|undefined} format - Specifies the output format ('csv' for CSV format; undefined for standard format).
  */
-export const main = async () => {
+export const main = async (format) => {
   try {
-    if (await isSummaryRequired()) {
-      await handleSummary();
+    if (format === 'csv') {
+      handleDailyReport(format);
     } else {
-      console.info(noSummaryMessage);
-    }
+      if (await isSummaryRequired()) {
+        await handleSummary(format);
+      } else {
+        console.info(noSummaryMessage);
+      }
 
-    if (await doesTodaysReportExist()) {
-      console.info(noReportMessage);
-    } else {
-      await handleDailyReport();
+      if (await doesTodaysReportExist()) {
+        console.info(noReportMessage);
+      } else {
+        await handleDailyReport(format);
+      }
     }
   } catch (error) {
     console.error(
