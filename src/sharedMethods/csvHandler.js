@@ -34,12 +34,3 @@ export const saveCSV = (my2DArray) => {
   fs.writeFileSync(filePath, csvData, 'utf8');
   console.log(`CSV file has been saved successfully to ${filePath}`);
 };
-
-// // Example usage
-// const my2DArray = [
-//     ['Header1', 'Header2', 'Header3'],
-//     ['Row1 Col1', 'Row1 Col2', 'Row1 Col3'],
-//     ['Row2 Col1', 'Row2 Col2', 'Row2 Col3']
-// ];
-// const csvData = arrayToCSV(my2DArray);
-// saveCSV(csvData);
