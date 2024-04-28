@@ -12,6 +12,10 @@ Our package bridges Cypress test runs with Google Sheets or Microsoft Excel, str
    - [Prerequisites](#prerequisites)
 
 5. [Generating a Report](#generating-a-report)
+
+   - [In Sheets](#to-generate-reports-in-sheets)
+   - [In CSV](#to-generate-reports-in-csv-format-only)
+
 6. [Minimum Configuration](#minimum-configuration)
 7. [Enhanced Configuration](#enhanced-configuration)
 
