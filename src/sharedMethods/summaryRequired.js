@@ -54,9 +54,14 @@ const isSummaryNeeded = (tabTitles) => {
  * Determines whether a summary is required based on the current day and
  * whether a new collection is needed.
  *
+ * @param {Object} options - Configuration options for generating reports.
+ * @param {boolean} options.csv - If true, outputs in CSV format.
  * @returns {Promise<boolean>} True if a summary is required, false otherwise.
  */
-export const isSummaryRequired = async () => {
+export const isSummaryRequired = async ({ csv }) => {
+  if (csv) {
+    return false;
+  }
   const existingTabTitles = await getExistingTabTitlesInRange();
 
   return await isSummaryNeeded(existingTabTitles);
