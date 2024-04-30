@@ -59,7 +59,7 @@ export const extractCategoryFromTest = (test, testPurposesAvailable) => {
 
   if (categoryMatches) {
     for (let match of categoryMatches) {
-      const extractedCategory = match.replace(/[\[\]]/g, '');
+      const extractedCategory = match.replace(/[[\]]/g, '');
       if (testPurposesAvailable.includes(extractedCategory)) {
         category = extractedCategory;
         break; // Stop at the first matching category
@@ -157,9 +157,9 @@ export const extracttestrailIdFromTest = (test) => {
   // Check if the testRailIdMatch is not included in testPurposesTypes
   if (
     testRailIdMatch &&
-    !testPurposesTypes.includes(testRailIdMatch[0].replace(/[\[\]]/g, ''))
+    !testPurposesTypes.includes(testRailIdMatch[0].replace(/[[\]]/g, ''))
   ) {
-    const testRailId = testRailIdMatch[0].replace(/[\[\]]/g, '');
+    const testRailId = testRailIdMatch[0].replace(/[[\]]/g, '');
     return testRailId;
   }
 

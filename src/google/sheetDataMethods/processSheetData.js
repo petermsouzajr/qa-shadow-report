@@ -16,29 +16,29 @@ export const addColumnsAndRowsToTabId = async (
     requests: [
       columnQuantity > 0
         ? {
-            insertDimension: {
-              range: {
-                sheetId: tabId,
-                dimension: 'COLUMNS',
-                startIndex: 0,
-                endIndex: columnQuantity,
-              },
-              inheritFromBefore: false,
+          insertDimension: {
+            range: {
+              sheetId: tabId,
+              dimension: 'COLUMNS',
+              startIndex: 0,
+              endIndex: columnQuantity,
             },
-          }
+            inheritFromBefore: false,
+          },
+        }
         : null,
       rowQuantity > 0
         ? {
-            insertDimension: {
-              range: {
-                sheetId: tabId,
-                dimension: 'ROWS',
-                startIndex: 0,
-                endIndex: rowQuantity,
-              },
-              inheritFromBefore: false,
+          insertDimension: {
+            range: {
+              sheetId: tabId,
+              dimension: 'ROWS',
+              startIndex: 0,
+              endIndex: rowQuantity,
             },
-          }
+            inheritFromBefore: false,
+          },
+        }
         : null,
     ].filter((request) => request !== null), // Filter out any null if no columns/rows need to be added
   };
@@ -46,7 +46,6 @@ export const addColumnsAndRowsToTabId = async (
   try {
     if (payload.requests.length > 0) {
       await batchUpdateMasterSheet(payload);
-    } else {
     }
   } catch (error) {
     console.error('Error adding columns and rows to tab ID:', error);

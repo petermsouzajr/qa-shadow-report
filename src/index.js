@@ -18,39 +18,51 @@ export const dataObjects = {
 
 /**
  * @constant {string} lastMonth - Formatted string representing the current month.
+ * @constant {string} duplicateInstruction - Formatted string informing the usage of the 'duplicate' flag.
  * @constant {string} noSummaryMessage - Message indicating no summary is required.
  * @constant {string} noReportMessage - Message indicating today's report already exists.
  */
 const lastMonth = getFormattedMonth('lastMonth');
-const noSummaryMessage = `No ${lastMonth} summary required`;
-const noReportMessage = "Today's report already exists";
+const dailyduplicateInstruction = ' e.g. "cy-shadow-report --duplicate"';
+const summaryDuplicateInstruction =
+  ' "cy-shadow-report monthly-summary --duplicate"';
+const duplicateInstruction =
+  ' If you would like to create a duplicate, use the optional flag "--duplicate" in your reporting command,';
+const noSummaryMessage = `No ${lastMonth} summary required${duplicateInstruction}${summaryDuplicateInstruction}.`;
+const noReportMessage = `Today\`s report already exists${duplicateInstruction}${dailyduplicateInstruction}.`;
 /**
  * Handles report and summary tasks based on pre-existing conditions.
- *
- * Procedure:
- * 1. Verify if a summary is required, and handle accordingly, logging info if not.
- * 2. Verify if today's report is required, and handle accordingly, logging info if it exists.
+ * - If the CSV option is selected, handles daily report creation immediately.
+ * - Otherwise, checks if a summary or today's report is needed and processes accordingly.
+ * - Logs informational messages if conditions for creating summaries or reports are not met.
  *
  * @async
- * @function
- * @param {string|undefined} format - Specifies the output format ('csv' for CSV format; undefined for standard format).
+ * @function main
+ * @param {Object} options - Configuration options for generating reports.
+ * @param {boolean} options.csv - If true, outputs in CSV format.
+ * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day.
+ * @returns {Promise<void>} A promise that resolves when the operation completes.
  */
-export const main = async (format) => {
+export const main = async ({ csv, duplicate }) => {
   try {
-    if (format === 'csv') {
-      handleDailyReport(format);
-    } else {
-      if (await isSummaryRequired()) {
-        await handleSummary(format);
-      } else {
-        console.info(noSummaryMessage);
-      }
+    if (csv) {
+      handleDailyReport({ csv, duplicate });
+      return;
+    }
 
-      if (await doesTodaysReportExist()) {
-        console.info(noReportMessage);
-      } else {
-        await handleDailyReport(format);
-      }
+    const summaryRequired = await isSummaryRequired({ csv });
+
+    if (summaryRequired) {
+      await handleSummary({ csv, duplicate });
+    } else {
+      console.info(noSummaryMessage);
+    }
+
+    const todaysReportExists = await doesTodaysReportExist();
+    if (todaysReportExists && !duplicate) {
+      console.info(noReportMessage);
+    } else {
+      await handleDailyReport({ csv, duplicate });
     }
   } catch (error) {
     console.error(

@@ -9,6 +9,7 @@ import { constructPayloadForCopyPaste } from '../monthlySummaryMethods/buildSumm
 import { getLastMonthTabTitles } from '../google/sheetDataMethods/getLastMonthTabTitles.js';
 import { createNewTab } from '../google/googleSheetIntegration/createNewTab.js';
 import { HEADER_INDICATORS } from '../../constants.js';
+import { getCurrentTime } from './dateFormatting.js';
 
 /**
  * Send the summary data (payload) to a specified destination sheet tab.
@@ -175,32 +176,36 @@ const summaryHeaderStyling = async (payload) => {
  *
  * @async
  * @function handleDailyReport
- * @param {string|undefined} format - Specifies the output format ('csv' for CSV format; undefined for standard format).
- */
-export const handleSummary = async (format) => {
-  if (format === 'csv') {
+ * @param {Object} options - Configuration options for generating reports.
+ * @param {boolean} options.csv - If true, outputs in CSV format.
+ * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day. */
+export const handleSummary = async ({ csv, duplicate }) => {
+  if (csv) {
     console.warn('CSV format is not supported for summary reports');
-  } else {
-    const existingSheetTitles = await getExistingTabTitlesInRange();
-
-    const lastMonthSheetTitles =
-      await getLastMonthTabTitles(existingSheetTitles);
-
-    const summaryPageTitle = createSummaryTitle();
-    await createNewTab(summaryPageTitle);
-    const fullSummaryPayload = await constructPayloadForCopyPaste(
-      lastMonthSheetTitles,
-      summaryPageTitle
-    );
-
-    await addColumnsAndRows(
-      lastMonthSheetTitles,
-      HEADER_INDICATORS,
-      fullSummaryPayload.bodyPayload,
-      summaryPageTitle
-    );
-    await sendSummaryHeaders(fullSummaryPayload.headerPayload);
-    await sendSummaryBody(fullSummaryPayload.bodyPayload);
-    await summaryHeaderStyling(fullSummaryPayload.summaryHeaderStylePayload);
+    return;
   }
+  const existingSheetTitles = await getExistingTabTitlesInRange();
+  const lastMonthSheetTitles = await getLastMonthTabTitles(existingSheetTitles);
+  const summaryTitle = createSummaryTitle();
+  const currentTime = getCurrentTime();
+
+  const summaryPageTitle = duplicate
+    ? `${summaryTitle}_${currentTime}`
+    : summaryTitle;
+
+  await createNewTab(summaryPageTitle);
+  const fullSummaryPayload = await constructPayloadForCopyPaste(
+    lastMonthSheetTitles,
+    summaryPageTitle
+  );
+
+  await addColumnsAndRows(
+    lastMonthSheetTitles,
+    HEADER_INDICATORS,
+    fullSummaryPayload.bodyPayload,
+    summaryPageTitle
+  );
+  await sendSummaryHeaders(fullSummaryPayload.headerPayload);
+  await sendSummaryBody(fullSummaryPayload.bodyPayload);
+  await summaryHeaderStyling(fullSummaryPayload.summaryHeaderStylePayload);
 };
