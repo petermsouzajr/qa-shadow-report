@@ -49,14 +49,14 @@ export const handleDailyReport = async ({ csv, duplicate }) => {
 
     const fullDailyPayload = await buildDailyPayload(dataSet);
     if (csv) {
-      const fullCSVPayload = [
+      const reportPayload = [
         // Gets the last element of the headerPayload array, which is the column titles
         fullDailyPayload.headerPayload[
           fullDailyPayload.headerPayload.length - 1
         ],
         ...fullDailyPayload.bodyPayload,
       ];
-      saveCSV(fullCSVPayload, duplicate);
+      saveCSV(reportPayload, duplicate);
     } else {
       await createNewTab(todaysTitle);
       const destinationTabId = await getTabIdFromTitle(todaysTitle);
