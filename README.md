@@ -139,8 +139,8 @@ Adjust these scripts as needed for your project's requirements.
 - `cy-shadow-report todays-report` - Generates todays reportin sheets, if none exist.
 - `cy-shadow-report monthly-summary` - Generates a monthly summary in sheets, if none exist.
 - `--csv` - Outputs the test results in cypress/downloads folder in csv format, if none exist.
-- `--duplicate` - Allows duplicate reports to be created.
-- `--help` - outputs a summary of available commands and their usage.
+- `--duplicate` - Allows duplicate daily reports to be created.
+- `--help` - Outputs a summary of available commands and their usage.
 
 ### Minimum Configuration
 
