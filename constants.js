@@ -25,14 +25,14 @@ const findConfigFile = (startPath, baseFileName) => {
     currentDir = path.dirname(currentDir);
   }
   return null;
-}
+};
 
 // Function to get config path from arguments
 const getConfigPathFromArgs = () => {
   const args = process.argv;
   const configIndex = args.findIndex((arg) => arg === '--config') + 1;
   return configIndex > 0 ? args[configIndex] : null;
-}
+};
 
 const defaultConfigPath = path.join(__dirname, 'shadowReportConfig.js');
 const absoluteDefaultConfigPath = pathToFileURL(defaultConfigPath).href;

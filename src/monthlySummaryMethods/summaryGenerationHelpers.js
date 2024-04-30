@@ -225,13 +225,6 @@ const processSourceColumns = async (
   );
   const headerRowIndex = getAdjustedHeaderRowIndex(headerFooterData);
   /**
-   * Calculates the starting row index for destination based on column metrics.
-   *
-   * @param {Object} columnMetrics - Metrics containing details about columns.
-   * @returns {number} - Starting row index for destination.
-   */
-  const destinationStartRowIndex = columnMetrics.longestHeaderEnd - 1;
-  /**
    * Calculates the ending row index for destination.
    *
    * @param {Object} columnMetrics - Metrics containing details about columns.
@@ -240,20 +233,6 @@ const processSourceColumns = async (
    */
   const destinationEndRowIndex =
     headerFooterData.footerRow - (headerRowIndex - 4);
-
-  /**
-   * Retrieves the starting row index for the destination title.
-   *
-   * @returns {number} - Starting row index for destination title.
-   */
-  const destinationTitleRowStart = 0;
-
-  /**
-   * Retrieves the ending row index for the destination title.
-   *
-   * @returns {number} - Ending row index for destination title.
-   */
-  const destinationTitleRowEnd = 1;
 
   /**
    * Calculates the ending column for a given source column.
@@ -352,7 +331,6 @@ const processSourceColumns = async (
   const buildHeaderMetricSourceParams = ({
     sourcePageId,
     startRow = 0,
-    headerRowIndex,
     startColumn,
     endColumn,
   }) => ({
@@ -440,34 +418,6 @@ const processSourceColumns = async (
    */
   const summaryHeaderRowStart = 0;
   const summaryHeaderRowEnd = 1;
-
-  /**
-   * Fetch the header and footer data for the given tab title.
-   */
-  const sourceHeaderAndFooter = await getHeaderAndFooterDataByTabTitle(title);
-
-  /**
-   * Creates a grid style for a specific tab with defined borders.
-   *
-   * @returns {Object} - An object containing the border styles and range to apply them.
-   */
-  const createGridStyle = () => ({
-    updateBorders: {
-      range: {
-        sheetId: destinationTabId,
-        startRowIndex: summaryHeaderRowStart,
-        endRowIndex: sourceHeaderAndFooter.footerRow,
-        startColumnIndex: columnMetrics.defaultHeaderMetricsDestinationColumn,
-        endColumnIndex: columnMetrics.defaultHeaderMetricsDestinationColumnEnd,
-      },
-      top: solidBlackWidthTwo,
-      bottom: solidBlackWidthTwo,
-      left: solidBlackWidthOne,
-      right: solidBlackWidthOne,
-      innerHorizontal: solidBlackWidthTwo,
-      innerVertical: solidBlackWidthOne,
-    },
-  });
 
   /**
    * Adds a 'merge cells' style action to the summary payload.
@@ -590,31 +540,6 @@ const processSourceColumns = async (
       },
     }
   );
-
-  /**
-   * Generates a 'merge cells' style payload for headers in a specified range.
-   *
-   * The purpose of this function is to merge header cells within a given range
-   * for visual emphasis and clarity. This is often done to denote that several columns
-   * underneath the merged cell are related under the same overarching header.
-   *
-   * @param {number} tabId - The unique ID of the sheet/tab.
-   * @param {number} startColumn - The starting column index for the merge range.
-   * @param {number} endColumn - The ending column index for the merge range.
-   * @returns {object} A merge cell style payload.
-   */
-  const createHeaderStylePayload = (tabId, startColumn, endColumn) => ({
-    mergeCells: {
-      range: {
-        sheetId: tabId,
-        startRowIndex: destinationTitleRowStart,
-        endRowIndex: destinationTitleRowEnd,
-        startColumnIndex: startColumn,
-        endColumnIndex: endColumn,
-      },
-      mergeType: 'MERGE_ALL',
-    },
-  });
 
   /**
    * Adjusts the starting column index for the default header metrics destination.

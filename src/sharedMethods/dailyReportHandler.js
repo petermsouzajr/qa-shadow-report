@@ -8,7 +8,7 @@ import {
   processHeaderWithFormulas,
 } from '../dailyReportMethods/buildReport.js';
 import { loadJSON } from '../sharedMethods/dataHandler.js';
-import { getTodaysFormattedDate } from './dateFormatting.js';
+import { getCurrentTime, getTodaysFormattedDate } from './dateFormatting.js';
 import { createMergeQueries } from '../dailyReportMethods/reportGenerationHelpers.js';
 import { getTabIdFromTitle } from '../google/sheetDataMethods/getSheetInfo.js';
 import {
@@ -33,11 +33,14 @@ import { saveCSV } from './csvHandler.js';
  *
  * @async
  * @function handleDailyReport
- * @param {string|undefined} format - Specifies the output format ('csv' for CSV format; undefined for standard format).
- */
-export const handleDailyReport = async (format) => {
+ * @param {Object} options - Configuration options for generating reports.
+ * @param {boolean} options.csv - If true, outputs in CSV format.
+ * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day. */
+export const handleDailyReport = async ({ csv, duplicate }) => {
   try {
-    const todaysTitle = getTodaysFormattedDate();
+    const todaysDate = getTodaysFormattedDate();
+    const currentTime = getCurrentTime();
+    const todaysTitle = duplicate ? `${todaysDate}_${currentTime}` : todaysDate;
     // Use path.join to create a relative path to the JSON file
 
     const jsonFilePath = TEST_DATA();
@@ -45,15 +48,15 @@ export const handleDailyReport = async (format) => {
     const dataSet = await loadJSON(jsonFilePath);
 
     const fullDailyPayload = await buildDailyPayload(dataSet);
-    if (format === 'csv') {
+    if (csv) {
       const fullCSVPayload = [
-        // Gets the last element of the headerPayload array, which is the oclumn titles
+        // Gets the last element of the headerPayload array, which is the column titles
         fullDailyPayload.headerPayload[
           fullDailyPayload.headerPayload.length - 1
         ],
         ...fullDailyPayload.bodyPayload,
       ];
-      saveCSV(fullCSVPayload);
+      saveCSV(fullCSVPayload, duplicate);
     } else {
       await createNewTab(todaysTitle);
       const destinationTabId = await getTabIdFromTitle(todaysTitle);
@@ -102,7 +105,7 @@ export const handleDailyReport = async (format) => {
       const rowHeightPayload = await buildRowHeightPayload(
         destinationTabId,
         fullDailyPayload
-      ); // For example, to set the height of the first 100 rows to 21 pixels
+      );
 
       const textStyle = await BuildTextStyles(
         destinationTabId,
