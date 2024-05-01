@@ -24,30 +24,40 @@ import {
 } from './styles.js';
 import { TEST_DATA } from '../../constants.js';
 import { saveCSV } from './csvHandler.js';
+import { doesTodaysReportExist } from './dailyReportRequired.js';
 
 /**
- * Handles the creation and population of a daily report.
- * Depending on the specified format, it may generate a standard report or a CSV formatted report.
- * The function builds the payload, creates a new tab for the report, processes the header with formulas,
- * and writes the header and body to the sheet. The output format is determined by the 'format' parameter.
+ * Handles the creation and population of a daily report. This function is responsible for
+ * generating either a standard or a CSV formatted report based on the provided options.
+ * It involves building the payload, possibly creating a new tab, and writing the header and body
+ * to the sheet. The function also handles duplicate reports if requested.
  *
  * @async
  * @function handleDailyReport
  * @param {Object} options - Configuration options for generating reports.
- * @param {boolean} options.csv - If true, outputs in CSV format.
- * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day. */
+ * @param {boolean} options.csv - Specifies if the output should be in CSV format. When true, outputs a CSV file.
+ * @param {boolean} options.duplicate - Allows the creation of a duplicate report for the current day if true.
+ *                                      When false, it checks if today's report already exists and skips creation.
+ * @returns {Promise<void>} A promise that resolves when the report generation process completes or an error occurs.
+ */
 export const handleDailyReport = async ({ csv, duplicate }) => {
   try {
     const todaysDate = getTodaysFormattedDate();
     const currentTime = getCurrentTime();
     const todaysTitle = duplicate ? `${todaysDate}_${currentTime}` : todaysDate;
-    // Use path.join to create a relative path to the JSON file
-
+    const noReportMessage = `Today\`s report already exists If you would like to create a duplicate, 
+    use the optional flag "--duplicate" in your reporting command, e.g. "cy-shadow-report --duplicate".`;
     const jsonFilePath = TEST_DATA();
 
     const dataSet = await loadJSON(jsonFilePath);
-
     const fullDailyPayload = await buildDailyPayload(dataSet);
+    const todaysReportExists = await doesTodaysReportExist();
+
+    if (todaysReportExists && !duplicate) {
+      console.info(noReportMessage);
+      return;
+    }
+
     if (csv) {
       const reportPayload = [
         // Gets the last element of the headerPayload array, which is the column titles

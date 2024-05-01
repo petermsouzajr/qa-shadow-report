@@ -13,7 +13,6 @@ async function run() {
   const command = args[0]; // The command to execute
   const isCSV = args.includes('--csv'); // Checks if the CSV output is requested
   const allowDuplicate = args.includes('--duplicate'); // Checks if duplication is permitted
-
   if (args.includes('--help')) {
     console.log(`
       Usage:
