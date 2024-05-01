@@ -32,7 +32,7 @@ export const saveCSV = (reportPayload, duplicate) => {
   let filePath = path.join(downloadsPath, `${todaysTitle}.csv`);
 
   if (!fs.existsSync(downloadsPath)) {
-    fs.mkdirSync(downloadsPath);
+    fs.mkdirSync(downloadsPath, { recursive: true });
   }
 
   if (fs.existsSync(filePath) && !duplicate) {

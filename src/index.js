@@ -45,7 +45,6 @@ export const main = async ({ csv, duplicate }) => {
     } else {
       console.info(noSummaryMessage);
     }
-    await handleSummary({ csv, duplicate });
     await handleDailyReport({ csv, duplicate });
   } catch (error) {
     console.error(
