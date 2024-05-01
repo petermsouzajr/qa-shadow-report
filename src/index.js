@@ -1,8 +1,7 @@
-import { getFormattedMonth } from './sharedMethods/dateFormatting.js';
 import { handleSummary } from './sharedMethods/summaryHandler.js';
 import { handleDailyReport } from './sharedMethods/dailyReportHandler.js';
-import { doesTodaysReportExist } from './sharedMethods/dailyReportRequired.js';
 import { isSummaryRequired } from './sharedMethods/summaryRequired.js';
+import { getFormattedMonth } from './sharedMethods/dateFormatting.js';
 
 let topLevelSpreadsheetData = {};
 let summaryTabData = {};
@@ -17,31 +16,18 @@ export const dataObjects = {
 };
 
 /**
- * @constant {string} lastMonth - Formatted string representing the current month.
- * @constant {string} duplicateInstruction - Formatted string informing the usage of the 'duplicate' flag.
- * @constant {string} noSummaryMessage - Message indicating no summary is required.
- * @constant {string} noReportMessage - Message indicating today's report already exists.
- */
-const lastMonth = getFormattedMonth('lastMonth');
-const dailyduplicateInstruction = ' e.g. "cy-shadow-report --duplicate"';
-const summaryDuplicateInstruction =
-  ' "cy-shadow-report monthly-summary --duplicate"';
-const duplicateInstruction =
-  ' If you would like to create a duplicate, use the optional flag "--duplicate" in your reporting command,';
-const noSummaryMessage = `No ${lastMonth} summary required${duplicateInstruction}${summaryDuplicateInstruction}.`;
-const noReportMessage = `Today\`s report already exists${duplicateInstruction}${dailyduplicateInstruction}.`;
-/**
- * Handles report and summary tasks based on pre-existing conditions.
- * - If the CSV option is selected, handles daily report creation immediately.
- * - Otherwise, checks if a summary or today's report is needed and processes accordingly.
- * - Logs informational messages if conditions for creating summaries or reports are not met.
+ * Manages the generation of reports based on specified options.
+ * - Directly generates a daily report in CSV format if the `csv` option is true.
+ * - If the `csv` option is false, it proceeds to check for the need to generate daily or summary reports based on additional conditions.
+ * - Utilizes the `duplicate` option to determine whether to allow the creation of duplicate reports.
+ * - Provides logging for informational messages when conditions prevent the creation of summaries or reports.
  *
  * @async
  * @function main
  * @param {Object} options - Configuration options for generating reports.
- * @param {boolean} options.csv - If true, outputs in CSV format.
- * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day.
- * @returns {Promise<void>} A promise that resolves when the operation completes.
+ * @param {boolean} options.csv - Determines if the output should be in CSV format.
+ * @param {boolean} options.duplicate - Allows the creation of duplicate reports if true.
+ * @returns {Promise<void>} A promise that resolves when the report generation process completes or throws an error if it fails.
  */
 export const main = async ({ csv, duplicate }) => {
   try {
@@ -49,21 +35,18 @@ export const main = async ({ csv, duplicate }) => {
       handleDailyReport({ csv, duplicate });
       return;
     }
-
     const summaryRequired = await isSummaryRequired({ csv });
+    const lastMonth = getFormattedMonth('lastMonth');
+    const noSummaryMessage = `No ${lastMonth} summary required If you would like to create a duplicate,
+    use the Monthly Summary command directly, with the optional flag "--duplicate", e.g. "cy-shadow-report monthly-summary --duplicate".`;
 
     if (summaryRequired) {
       await handleSummary({ csv, duplicate });
     } else {
       console.info(noSummaryMessage);
     }
-
-    const todaysReportExists = await doesTodaysReportExist();
-    if (todaysReportExists && !duplicate) {
-      console.info(noReportMessage);
-    } else {
-      await handleDailyReport({ csv, duplicate });
-    }
+    await handleSummary({ csv, duplicate });
+    await handleDailyReport({ csv, duplicate });
   } catch (error) {
     console.error(
       'An error occurred during the report and summary handling: ',
