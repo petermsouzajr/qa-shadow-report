@@ -22,9 +22,17 @@ jobs:
         run: |
           git checkout origin/main -- . ':!/.github' ':!/cypress-example' ':!/playwright-example'
 
+      - name: Find last merged branch
+        id: last-merged-branch
+        run: |
+          git fetch --all
+          last_branch=$(git log -1 --pretty=format:"%s" | grep -oP '(?<=from ).*')
+          echo "::set-output name=branch::$last_branch"
+
       - name: Commit and push changes to demo branch
         run: |
           git config --global user.email "peter@petermsouzajr.com"
           git config --global user.name "Peter Souza"
-          git commit -am "Sync changes from main branch to demo" || echo "No changes to commit"
-          git push https://${{ secrets.DEMO_UPDATE_PAT }}@github.com/petermsouzajr/cy-shadow-report.git demo
+          branch_name=${{ steps.last-merged-branch.outputs.branch }}
+          git commit -am "Sync changes from main branch to demo (merged from $branch_name)" " || echo "No changes to commit"
+          git push https://${{ secrets.DEMO_UPDATE_PAT }}@github.com/petermsouzajr/qa-shadow-report.git demo
