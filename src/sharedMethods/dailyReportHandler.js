@@ -24,6 +24,8 @@ import {
 } from './styles.js';
 import { TEST_DATA } from '../../constants.js';
 import { saveCSV } from './csvHandler.js';
+import { doesTodaysReportExist } from './dailyReportRequired.js';
+import { transformPlaywrightToFriendlyFormat } from './convertPayloads.js';
 
 /**
  * Handles the creation and population of a daily report.
@@ -35,19 +37,28 @@ import { saveCSV } from './csvHandler.js';
  * @function handleDailyReport
  * @param {Object} options - Configuration options for generating reports.
  * @param {boolean} options.csv - If true, outputs in CSV format.
- * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day. */
-export const handleDailyReport = async ({ csv, duplicate }) => {
+ * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day.
+ * @param {boolean} options.cypress - If true, parses test result JSON in cypress format.
+ * @param {boolean} options.playwright - If true, parses test result JSON in playwright format.
+ * */
+export const handleDailyReport = async ({
+  csv,
+  duplicate,
+  cypress,
+  playwright,
+}) => {
   try {
     const todaysDate = getTodaysFormattedDate();
     const currentTime = getCurrentTime();
     const todaysTitle = duplicate ? `${todaysDate}_${currentTime}` : todaysDate;
-    // Use path.join to create a relative path to the JSON file
-
-    const jsonFilePath = TEST_DATA();
-
+    const jsonFilePath = TEST_DATA(cypress);
     const dataSet = await loadJSON(jsonFilePath);
+    let testPayload = cypress ? dataSet.results : dataSet.suites;
 
-    const fullDailyPayload = await buildDailyPayload(dataSet);
+    if (playwright) {
+      testPayload = transformPlaywrightToFriendlyFormat(testPayload);
+    }
+    const fullDailyPayload = await buildDailyPayload(testPayload, playwright);
     if (csv) {
       const reportPayload = [
         // Gets the last element of the headerPayload array, which is the column titles
@@ -56,8 +67,15 @@ export const handleDailyReport = async ({ csv, duplicate }) => {
         ],
         ...fullDailyPayload.bodyPayload,
       ];
-      saveCSV(reportPayload, duplicate);
+      saveCSV(reportPayload, duplicate, cypress);
     } else {
+      const todaysReportExists = await doesTodaysReportExist();
+      const noReportMessage = `Today\`s report already exists.
+      If you would like to create a duplicate, use the optional flag "--duplicate" in your reporting command,e.g. "qa-shadow-report --duplicate".`;
+      if (todaysReportExists && !duplicate) {
+        console.info(noReportMessage);
+        return;
+      }
       await createNewTab(todaysTitle);
       const destinationTabId = await getTabIdFromTitle(todaysTitle);
       const headerRowIndex = fullDailyPayload.headerPayload.length + 1;
@@ -68,7 +86,8 @@ export const handleDailyReport = async ({ csv, duplicate }) => {
         fullDailyPayload.headerPayload,
         headerRowIndex,
         totalNumberOfRows,
-        bodyRowCount
+        bodyRowCount,
+        playwright
       );
 
       const rowMergePayload = createMergeQueries(

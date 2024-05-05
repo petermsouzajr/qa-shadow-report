@@ -9,7 +9,8 @@ import { constructPayloadForCopyPaste } from '../monthlySummaryMethods/buildSumm
 import { getLastMonthTabTitles } from '../google/sheetDataMethods/getLastMonthTabTitles.js';
 import { createNewTab } from '../google/googleSheetIntegration/createNewTab.js';
 import { HEADER_INDICATORS } from '../../constants.js';
-import { getCurrentTime } from './dateFormatting.js';
+import { getCurrentTime, getFormattedMonth } from './dateFormatting.js';
+import { isSummaryRequired } from './summaryRequired.js';
 
 /**
  * Send the summary data (payload) to a specified destination sheet tab.
@@ -178,12 +179,32 @@ const summaryHeaderStyling = async (payload) => {
  * @function handleDailyReport
  * @param {Object} options - Configuration options for generating reports.
  * @param {boolean} options.csv - If true, outputs in CSV format.
- * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day. */
-export const handleSummary = async ({ csv, duplicate }) => {
+ * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day.
+ * @param {boolean} options.cypress - If true, parses test result JSON in cypress format.
+ * @param {boolean} options.playwright - If true, parses test result JSON in playwright format.
+ * */
+export const handleSummary = async ({
+  csv,
+  duplicate,
+  cypress,
+  playwright,
+}) => {
+  const summaryRequired = await isSummaryRequired({ csv });
+
+  const lastMonth = getFormattedMonth('lastMonth');
+  const noSummaryMessage = `No ${lastMonth} summary required If you would like to create a duplicate,
+  use the Monthly Summary command directly, with the optional flag "--duplicate", e.g. "cy-shadow-report monthly-summary --duplicate".`;
+
   if (csv) {
     console.warn('CSV format is not supported for summary reports');
     return;
   }
+
+  if (!summaryRequired && !duplicate) {
+    console.info(noSummaryMessage);
+    return;
+  }
+
   const existingSheetTitles = await getExistingTabTitlesInRange();
   const lastMonthSheetTitles = await getLastMonthTabTitles(existingSheetTitles);
   const summaryTitle = createSummaryTitle();

@@ -27,7 +27,7 @@ const dailyduplicateInstruction = ' e.g. "cy-shadow-report --duplicate"';
 const summaryDuplicateInstruction =
   ' "cy-shadow-report monthly-summary --duplicate"';
 const duplicateInstruction =
-  ' If you would like to create a duplicate, use the optional flag "--duplicate" in your reporting command,';
+  ' If you would like to create a duplicate monthly summary, use the optional flag "--duplicate" in your reporting command,';
 const noSummaryMessage = `No ${lastMonth} summary required${duplicateInstruction}${summaryDuplicateInstruction}.`;
 const noReportMessage = `Today\`s report already exists${duplicateInstruction}${dailyduplicateInstruction}.`;
 /**
@@ -41,19 +41,21 @@ const noReportMessage = `Today\`s report already exists${duplicateInstruction}${
  * @param {Object} options - Configuration options for generating reports.
  * @param {boolean} options.csv - If true, outputs in CSV format.
  * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day.
+ * @param {boolean} options.cypress - If true, parses test result JSON in cypress format.
+ * @param {boolean} options.playwright - If true, parses test result JSON in playwright format.
  * @returns {Promise<void>} A promise that resolves when the operation completes.
  */
-export const main = async ({ csv, duplicate }) => {
+export const main = async ({ csv, duplicate, cypress, playwright }) => {
   try {
     if (csv) {
-      handleDailyReport({ csv, duplicate });
+      handleDailyReport({ csv, duplicate, cypress, playwright });
       return;
     }
 
     const summaryRequired = await isSummaryRequired({ csv });
 
     if (summaryRequired) {
-      await handleSummary({ csv, duplicate });
+      await handleSummary({ csv, duplicate, cypress, playwright });
     } else {
       console.info(noSummaryMessage);
     }
@@ -62,7 +64,7 @@ export const main = async ({ csv, duplicate }) => {
     if (todaysReportExists && !duplicate) {
       console.info(noReportMessage);
     } else {
-      await handleDailyReport({ csv, duplicate });
+      await handleDailyReport({ csv, duplicate, cypress, playwright });
     }
   } catch (error) {
     console.error(
