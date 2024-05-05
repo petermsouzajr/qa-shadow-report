@@ -14,7 +14,6 @@ import { findHeaderRowIndex } from '../monthlySummaryMethods/summaryGenerationHe
 // Configuration and constants imports
 import * as constants from '../../constants.js';
 
-const columnsAvailable = constants.COLUMNS_AVAILABLE();
 const targetsAvailable = constants.TEST_TARGETS_AVAILABLE();
 const purposesAvailable = constants.TEST_PURPOSES_AVAILABLE();
 /**
@@ -33,14 +32,18 @@ export const initializeDailyPayload = () => ({
  * Constructs a single report payload entry based on the test result and details.
  * @param {Object} result - The test result data.
  * @param {Object} test - The detailed test information.
+ * @param {Boolean} playwright - A boolean indicating if the test is in playwright format.
  * @returns {Promise<Object>} A promise that resolves to the constructed payload entry.
  */
-export const constructReportPayloadEntry = async (result, test) => {
+export const constructReportPayloadEntry = async (result, test, playwright) => {
   try {
-    const area = await dataExtraction.extractAreaFromFullFile(
-      result.fullFile,
-      targetsAvailable
-    );
+    const area = playwright
+      ? test.projectName
+      : await dataExtraction.extractAreaFromFullFile(
+          result.fullFile,
+          targetsAvailable
+        );
+
     const spec = await dataExtraction.extractSpecFromFullFile(result.fullFile);
     const type = await dataExtraction.extractTypeFromFullFile(
       result.fullFile,
@@ -57,7 +60,7 @@ export const constructReportPayloadEntry = async (result, test) => {
       test.fullTitle
     );
 
-    const payloadEntry = {
+    let payloadEntry = {
       area,
       spec,
       testName,
@@ -86,16 +89,17 @@ export const constructReportPayloadEntry = async (result, test) => {
 /**
  * Asynchronously processes test suites to extract payload entries.
  * @param {Array} results - The array of result objects containing test suites.
+ * @param {Boolean} playwright - A boolean indicating if the test is in playwright format.
  * @returns {Promise<Array>} - A promise that resolves to an array of constructed payload entries.
  */
-export const processTestSuites = async (results) => {
+export const processTestSuites = async (results, playwright) => {
   const processSuite = async (suites, resultData) => {
     let payloads = [];
     for (const suite of suites) {
       if (suite.tests && suite.tests.length > 0) {
         const suitePayloads = await Promise.all(
           suite.tests.map((test) =>
-            constructReportPayloadEntry(resultData, test)
+            constructReportPayloadEntry(resultData, test, playwright)
           )
         );
         payloads.push(...suitePayloads);
@@ -113,7 +117,9 @@ export const processTestSuites = async (results) => {
       // If there are tests at the result level, process them
       if (result.tests && result.tests.length > 0) {
         return Promise.all(
-          result.tests.map((test) => constructReportPayloadEntry(result, test))
+          result.tests.map((test) =>
+            constructReportPayloadEntry(result, test, playwright)
+          )
         );
       }
       // Otherwise, process the suites
@@ -132,12 +138,16 @@ export const processTestSuites = async (results) => {
  * Asynchronously appends state reports to the header payload based on metrics.
  * @param {Array<Array<string>>} headerPayload - The header payload to which the state reports are appended.
  * @param {Array<string>} defaultHeaderMetrics - An array of metric names to generate reports for.
+ * @param {Boolean} playwright - A boolean indicating if the test is in playwright format.
  * @throws {Error} Throws error if report generation fails.
  */
 export const appendStateReportsToHeader = (
   headerPayload,
-  defaultHeaderMetrics
+  defaultHeaderMetrics,
+  playwright
 ) => {
+  const columnsAvailable = constants.COLUMNS_AVAILABLE(playwright);
+
   try {
     // If headerPayload is empty, initialize it with defaultHeaderMetrics structure
     if (headerPayload.length === 0 && defaultHeaderMetrics.length > 0) {
@@ -186,15 +196,18 @@ export const appendStateReportsToHeader = (
 /**
  * Asynchronously extracts, arranges, and manipulates data set into structured format.
  * @param {Object} dataSet The raw data set to manipulate.
+ * @param {Boolean} playwright - A boolean indicating if the test is in playwright format.
  * @returns {Promise<Object>} A promise resolving with structured data object.
  */
-export const buildDailyPayload = async (dataSet) => {
+export const buildDailyPayload = async (dataSet, playwright) => {
   try {
+    const columnsAvailable = constants.COLUMNS_AVAILABLE(playwright);
+
     // Initialize the structure for daily payload
     let fullDailyPayload = initializeDailyPayload();
 
     // Process test suites to construct payload entries
-    const payloadEntries = await processTestSuites(dataSet.results);
+    const payloadEntries = await processTestSuites(dataSet, playwright);
     fullDailyPayload.bodyPayload = payloadEntries;
 
     // Sort the structured data
@@ -213,7 +226,8 @@ export const buildDailyPayload = async (dataSet) => {
     // Append state reports to the header payload
     appendStateReportsToHeader(
       fullDailyPayload.headerPayload,
-      constants.DEFAULT_HEADER_METRICS
+      constants.DEFAULT_HEADER_METRICS,
+      playwright
     );
 
     // Append available columns and save to configuration
@@ -326,14 +340,18 @@ export const combineReports = (allReportEntries, placeholders) => {
  * @param {number} headerRowIndex - The index of the header row.
  * @param {number} totalNumberOfRows - The total number of rows including headers and body.
  * @param {number} bodyRowCount - The count of body rows.
+ * @param {Boolean} playwright - A boolean indicating if the test is in playwright format.
  */
 export const processHeaderWithFormulas = (
   headerPayload,
   headerRowIndex,
   totalNumberOfRows,
-  bodyRowCount
+  bodyRowCount,
+  playwright
 ) => {
   try {
+    const columnsAvailable = constants.COLUMNS_AVAILABLE(playwright);
+
     const stateColumn = numberToLetter(columnsAvailable.indexOf('state'));
     const regexPattern = reportGeneration.constructHeaderRegex();
     headerPayload.forEach((subArray, rowIndex) => {

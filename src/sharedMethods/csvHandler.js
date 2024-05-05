@@ -12,7 +12,7 @@ const arrayToCSV = (data) => {
     .map((row) =>
       row
         .map(String)
-        .map((v) => v.replace(/"/g, '""')) // Using replace with a global regex
+        .map((v) => v.replace(/"/g, '""'))
         .map((v) => `"${v}"`)
         .join(',')
     )
@@ -23,21 +23,23 @@ const arrayToCSV = (data) => {
  * Saves CSV data to a file in the Cypress downloads directory.
  * @param {Array<Array<string>>} reportPayload - The 2D array to convert to CSV and save.
  * @param {boolean} duplicate - If true, allows creating a duplicate report for the day.
+ * @param {boolean} cypress - If true, parses test result JSON in cypress format CSV.
  */
-export const saveCSV = (reportPayload, duplicate) => {
+export const saveCSV = (reportPayload, duplicate, cypress) => {
   const csvData = arrayToCSV(reportPayload);
-  const downloadsPath = path.join('cypress', 'downloads');
+  const folder = cypress ? 'cypress' : 'playwright';
+  const downloadsPath = path.join(folder, 'downloads');
   const todaysTitle = getTodaysFormattedDate();
   const time = getCurrentTime();
   let filePath = path.join(downloadsPath, `${todaysTitle}.csv`);
 
   if (!fs.existsSync(downloadsPath)) {
-    fs.mkdirSync(downloadsPath, { recursive: true });
+    fs.mkdirSync(downloadsPath);
   }
 
   if (fs.existsSync(filePath) && !duplicate) {
     console.error(
-      'CSV file already exists. Use --duplicate flag to allow creating a duplicate file "cy-shadow-report --csv --duplicate".'
+      'CSV file already exists. Use --duplicate flag to allow creating a duplicate file "qa-shadow-report --csv --duplicate".'
     );
     return;
   } else if (fs.existsSync(filePath) && duplicate) {

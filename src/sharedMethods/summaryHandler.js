@@ -169,19 +169,26 @@ const summaryHeaderStyling = async (payload) => {
 };
 
 /**
- * Handles the creation and population of a monthly summary report. This function orchestrates several asynchronous operations
- * to build and populate a summary report based on data from the previous month. It conditionally creates a new tab for the summary
- * and constructs the report payload from last month's data, writing the structured data to the newly created sheet.
- * The function can handle requests to duplicate existing summaries and is configured to prevent creation in CSV format.
+ * Handles the creation and population of a monthly summary report.
+ * This function coordinates several asynchronous operations to build and populate a summary report based on data from the previous month.
+ * It creates a new tab for the summary, constructs the report payload from last month's tab titles,
+ * and writes the header and body to the newly created sheet. The format of the output (e.g., CSV or standard visual format)
+ * can be specified via the 'format' parameter.
  *
  * @async
- * @function handleSummary
+ * @function handleDailyReport
  * @param {Object} options - Configuration options for generating reports.
- * @param {boolean} options.csv - If true, indicates a request for output in CSV format, which is not supported for summaries.
- * @param {boolean} options.duplicate - If true, allows creating a duplicate summary for the month.
- * @returns {Promise<void>} A promise that resolves when the operation completes, or logs appropriate messages if conditions are not met.
- */
-export const handleSummary = async ({ csv, duplicate }) => {
+ * @param {boolean} options.csv - If true, outputs in CSV format.
+ * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day.
+ * @param {boolean} options.cypress - If true, parses test result JSON in cypress format.
+ * @param {boolean} options.playwright - If true, parses test result JSON in playwright format.
+ * */
+export const handleSummary = async ({
+  csv,
+  duplicate,
+  cypress,
+  playwright,
+}) => {
   const summaryRequired = await isSummaryRequired({ csv });
 
   const lastMonth = getFormattedMonth('lastMonth');
