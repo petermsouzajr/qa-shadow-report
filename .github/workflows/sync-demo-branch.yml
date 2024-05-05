@@ -1,0 +1,30 @@
+name: Sync Demo Branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-demo-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout demo branch
+        uses: actions/checkout@v2
+        with:
+          ref: 'demo'
+          token: ${{ secrets.DEMO_UPDATE_PAT }} # Use the PAT for checkout
+
+      - name: Fetch changes from main branch
+        run: git fetch origin main
+
+      - name: Checkout main branch files excluding .github, cypress-example, and playwright-example
+        run: |
+          git checkout origin/main -- . ':!/.github' ':!/cypress-example' ':!/playwright-example'
+
+      - name: Commit and push changes to demo branch
+        run: |
+          git config --global user.email "peter@petermsouzajr.com"
+          git config --global user.name "Peter Souza"
+          git commit -am "Sync changes from main branch to demo" || echo "No changes to commit"
+          git push https://${{ secrets.DEMO_UPDATE_PAT }}@github.com/petermsouzajr/cy-shadow-report.git demo

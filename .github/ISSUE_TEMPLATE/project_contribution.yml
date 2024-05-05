@@ -1,0 +1,65 @@
+name: 🚀 Project Contribution
+description: Suggest a contribution or idea for this project
+title: 'Contribution: '
+labels: [contribution]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this project contribution form!
+  - type: textarea
+    attributes:
+      label: Describe the contribution
+      description: Provide a clear description of your contribution idea, including details and examples.
+      value: |
+        Tasks:
+        [ ] Task one description...
+        [ ] Task two description...
+        [ ] Add more tasks as needed...
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      multiple: false
+      label: Type of contribution
+      description: Select the type of contribution you are proposing.
+      options:
+        - '✨ Feature'
+        - '🐞 Fix'
+        - '📝 Documentation'
+        - '💻 Refactor'
+        - '🏗️ Infrastructure'
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Current behavior (if applicable)
+      description: Describe the current behavior and how your contribution would change/improve it.
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Suggested solution and implementation (if applicable)
+      description: Explain your solution and why this contribution would be beneficial.
+      value: |
+        Solutions:
+        [ ] Solution one description...
+        [ ] Solution two description...
+        [ ] Add more solutions as needed...
+    validations:
+      required: false
+  - type: input
+    id: context
+    attributes:
+      label: Additional context
+      description: Provide any additional context or references to similar features in other projects.
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/petermsouzajr/cy-shadow-report/blob/main/CODE_OF_CONDUCT.md).
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
