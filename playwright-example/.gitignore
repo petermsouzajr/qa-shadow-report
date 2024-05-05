@@ -1,9 +1,0 @@
-playwright/results/
-playwright/screenshots/
-node_modules/
-googleCredentials.json
-shadowReportConfig.js
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
