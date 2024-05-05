@@ -26,7 +26,7 @@ jobs:
         id: last-merged-branch
         run: |
           git fetch --all
-          last_branch=$(git log -1 --pretty=format:"%s" | grep -oP '(?<=from ).*')
+          last_branch=$(git log -1 --pretty=format:"%s" | awk -F 'from ' '{print $2}')
           echo "::set-output name=branch::$last_branch"
 
       - name: Commit and push changes to demo branch
