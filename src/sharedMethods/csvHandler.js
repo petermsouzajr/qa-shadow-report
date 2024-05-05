@@ -39,7 +39,7 @@ export const saveCSV = (reportPayload, duplicate, cypress) => {
 
   if (fs.existsSync(filePath) && !duplicate) {
     console.error(
-      'CSV file already exists. Use --duplicate flag to allow creating a duplicate file "cy-shadow-report --csv --duplicate".'
+      'CSV file already exists. Use --duplicate flag to allow creating a duplicate file "qa-shadow-report --csv --duplicate".'
     );
     return;
   } else if (fs.existsSync(filePath) && duplicate) {

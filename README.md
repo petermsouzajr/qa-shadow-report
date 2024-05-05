@@ -33,8 +33,8 @@ Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, 
 ### Generate Reports In CSV format
 
 - Use the base commands with the optional flag `--csv` to run a daily report.
-  - `npx cy-shadow-report --csv`
-  - `npx cy-shadow-report todays-report --csv`
+  - `npx qa-shadow-report --csv`
+  - `npx qa-shadow-report todays-report --csv`
 - Ensure JSON data is present from [framework] test results output, check the [Prerequisites](#prerequisites) section to see a [framework] configuration.
 - A detailed summary will be downloaded into the Cypress Downloads folder `cypress/downloads`
 - Monthly summary reports are not currently supported in CSV format.
@@ -169,15 +169,15 @@ In this example, running npm run playwright-test will:
 ### To Generate Duplicates
 
 - Use the base commands with the optional flag `--duplicate`
-  - `npx cy-shadow-report --duplicate`
-  - `npx cy-shadow-report todays-report --duplicate`
+  - `npx qa-shadow-report --duplicate`
+  - `npx qa-shadow-report todays-report --duplicate`
   - Monthly summary dupliactes must be created directly, using the command `qa-shadow-report monthly-summary`.
 
 ### Quick Command Reference
 
-- `cy-shadow-report` or `qasr` - Generates a monthly and daily report in sheets, if none exist.
-- `cy-shadow-report todays-report` - Generates todays report in sheets, if none exist.
-- `cy-shadow-report monthly-summary` - Generates a monthly summary in sheets, if none exist.
+- `qa-shadow-report` or `qasr` - Generates a monthly and daily report in sheets, if none exist.
+- `qa-shadow-report todays-report` - Generates todays report in sheets, if none exist.
+- `qa-shadow-report monthly-summary` - Generates a monthly summary in sheets, if none exist.
 - `--csv` - Outputs the test results in cypress/downloads folder in csv format, if none exist.
 - `--duplicate` - Allows duplicate daily reports to be created.
 - `--help` - Outputs a summary of available commands and their usage.
