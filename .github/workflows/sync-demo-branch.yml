@@ -33,6 +33,6 @@ jobs:
         run: |
           git config --global user.email "peter@petermsouzajr.com"
           git config --global user.name "Peter Souza"
-          branch_name=${{ steps.last-merged-branch.outputs.branch }}
+          branch_name="${{ steps.last-merged-branch.outputs.branch }}"
           git commit -am "Sync changes from main branch to demo (merged from $branch_name)" || echo "No changes to commit"
           git push https://${{ secrets.DEMO_UPDATE_PAT }}@github.com/petermsouzajr/qa-shadow-report.git demo
