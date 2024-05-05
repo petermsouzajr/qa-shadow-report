@@ -18,9 +18,9 @@ jobs:
       - name: Fetch changes from main branch
         run: git fetch origin main
 
-      - name: Checkout main branch files excluding .github and cypress-example
+      - name: Checkout main branch files excluding .github, cypress-example, and playwright-example
         run: |
-          git checkout origin/main -- . ':!/.github' ':!/cypress-example'
+          git checkout origin/main -- . ':!/.github' ':!/cypress-example' ':!/playwright-example'
 
       - name: Commit and push changes to demo branch
         run: |

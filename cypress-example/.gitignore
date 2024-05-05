@@ -1,5 +1,0 @@
-cypress/results/
-cypress/screenshots/
-node_modules/
-googleCredentials.json
-shadowReportConfig.js

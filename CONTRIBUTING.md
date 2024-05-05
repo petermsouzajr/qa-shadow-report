@@ -1,4 +1,4 @@
-# Contributing to cy-shadow-report
+# Contributing to qa-shadow-report
 
 - [Code of Conduct](#code-of-conduct)
 - [I Have a Question](#i-dont-want-to-read-this-whole-thing-i-just-have-a-question)
@@ -11,15 +11,15 @@
   - [JavaScript Styleguide](#javascript-styleguide)
   - [Testing Styleguide](#testing-styleguide)
 
-First off, thank you for considering contributing to cy-shadow-report. It's people like you that make cy-shadow-report such a great tool.
+First off, thank you for considering contributing to qa-shadow-report. It's people like you that make qa-shadow-report such a great tool.
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by the cy-shadow-report Code of Conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to cy-shadow-report@petermsouzajr.com.
+This project and everyone participating in it is governed by the qa-shadow-report Code of Conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to qa-shadow-report@petermsouzajr.com.
 
 ## I don't want to read this whole thing I just have a question!!!
 
-cy-shadow-report is actively developed and we are here to help! If you have a question or are unsure if the issue you're experiencing is a bug, please search our [GitHub issues](https://github.com/petermsouzajr/cy-shadow-report/issues) and [StackOverflow](https://stackoverflow.com/questions/tagged/[cy-shadow-report]) to see if it has already been reported or answered.
+qa-shadow-report is actively developed and we are here to help! If you have a question or are unsure if the issue you're experiencing is a bug, please search our [GitHub issues](https://github.com/petermsouzajr/qa-shadow-report/issues) and [StackOverflow](https://stackoverflow.com/questions/tagged/[qa-shadow-report]) to see if it has already been reported or answered.
 
 If your question or issue is not addressed yet, feel free to open a new issue.
 
@@ -27,16 +27,16 @@ If your question or issue is not addressed yet, feel free to open a new issue.
 
 ### Your First Code Contribution
 
-Unsure where to begin contributing to cy-shadow-report? Here are a few ways you can get started:
+Unsure where to begin contributing to qa-shadow-report? Here are a few ways you can get started:
 
 1. #### Look Through Existing Issues:
 
-   - [Beginner issues](https://github.com/petermsouzajr/cy-shadow-report/issues?q=label%3Abeginner) - issues which should only require a few lines of code, and a test or two.
-   - [Help wanted issues](https://github.com/petermsouzajr/cy-shadow-report/issues?q=label%3A%22help+wanted%22) - issues which should be a bit more involved than `beginner` issues.
+   - [Beginner issues](https://github.com/petermsouzajr/qa-shadow-report/issues?q=label%3Abeginner) - issues which should only require a few lines of code, and a test or two.
+   - [Help wanted issues](https://github.com/petermsouzajr/qa-shadow-report/issues?q=label%3A%22help+wanted%22) - issues which should be a bit more involved than `beginner` issues.
 
 2. #### Create a New Issue:
 
-   - Feel free to [create an issue](https://github.com/petermsouzajr/cy-shadow-report/issues) if you identify a problem or an enhancement that isn't already reported. Newly created issues will automatically receive a `needs triage` label.
+   - Feel free to [create an issue](https://github.com/petermsouzajr/qa-shadow-report/issues) if you identify a problem or an enhancement that isn't already reported. Newly created issues will automatically receive a `needs triage` label.
 
 3. #### Claiming an Issue:
    - Issues with the `needs triage` label are not ready to be claimed. They require further refinement by project maintainers.
@@ -59,7 +59,7 @@ To locally test and trigger the main functionality of this project, follow the s
 
 #### Prerequisites
 
-- Follow the setup guide to get Google Credentials. See [README](https://github.com/petermsouzajr/cy-shadow-report/blob/main/README.md#prerequisites).
+- Follow the setup guide to get Google Credentials. See [README](https://github.com/petermsouzajr/qa-shadow-report/blob/main/README.md#prerequisites).
 - You may also need a test data file. This is the Cypress test results file compiled during Cypress runs. To create this test data file, you may need to switch to the `demo` branch and install dependencies. Then, run the Cypress tests and allow the run to finish so a compiled file can be created. After the run is complete, the file containing necessary test data can be found in `cypress-example/cypress/results/output.json`.
 
 #### Steps
@@ -73,10 +73,10 @@ This should give you the same result as if the package was installed or run from
 
 The process described here has several goals:
 
-- Maintain cy-shadow-report's quality.
+- Maintain qa-shadow-report's quality.
 - Fix problems that are important to users.
-- Engage the community in working toward the best possible cy-shadow-report.
-- Enable a sustainable system for cy-shadow-report's maintainers to review contributions.
+- Engage the community in working toward the best possible qa-shadow-report.
+- Enable a sustainable system for qa-shadow-report's maintainers to review contributions.
 
 Here's how to get started:
 
