@@ -69,11 +69,13 @@ export const GOOGLE_SHEET_ID = () => {
   return sheetId;
 };
 
-export const TEST_DATA = () => {
+export const TEST_DATA = (cypress) => {
   const testData =
     shadowConfigDetails && shadowConfigDetails.testData
       ? shadowConfigDetails.testData
-      : 'output2.json';
+      : cypress
+      ? 'output2.json'
+      : 'output3.json';
   return testData;
 };
 
@@ -85,25 +87,32 @@ export const FORMULA_TEMPLATES = [
   '=ROWS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows})',
 ];
 
-export const COLUMNS_AVAILABLE = () => {
-  const columns =
-    shadowConfigDetails && shadowConfigDetails.columns
-      ? shadowConfigDetails.columns
-      : [
-        'area',
-        'spec',
-        'test name',
-        'type',
-        'category',
-        'team',
-        'priority',
-        'status',
-        'state',
-        'testrail id',
-        'error',
-        'speed',
-      ];
-  return columns;
+export const COLUMNS_AVAILABLE = (playwright) => {
+  let baseColumns = [
+    'area',
+    'spec',
+    'test name',
+    'type',
+    'category',
+    'team',
+    'priority',
+    'status',
+    'state',
+    'testrail id',
+    'error',
+    'speed',
+  ];
+
+  // Prepend 'browser' if playwright is true
+  if (playwright) {
+    baseColumns.shift();
+    baseColumns = ['browser', ...baseColumns];
+  }
+
+  // Override with shadowConfigDetails columns if they are available
+  return shadowConfigDetails && shadowConfigDetails.columns
+    ? shadowConfigDetails.columns
+    : baseColumns;
 };
 
 export const TEST_TARGETS_AVAILABLE = () => {
@@ -111,17 +120,18 @@ export const TEST_TARGETS_AVAILABLE = () => {
     shadowConfigDetails && shadowConfigDetails.testTargets
       ? shadowConfigDetails.testTargets
       : [
-        'api',
-        'ui',
-        'unit',
-        'integration',
-        'endToEnd',
-        'performance',
-        'security',
-        'database',
-        'accessibility',
-        'mobile',
-      ];
+          'api',
+          'ui',
+          'unit',
+          'integration',
+          'endToEnd',
+          'performance',
+          'security',
+          'database',
+          'accessibility',
+          'web',
+          'mobile',
+        ];
   return targets;
 };
 
@@ -130,18 +140,18 @@ export const TEST_PURPOSES_AVAILABLE = () => {
     shadowConfigDetails && shadowConfigDetails.testPurposes
       ? shadowConfigDetails.testPurposes
       : [
-        'smoke',
-        'regression',
-        'sanity',
-        'exploratory',
-        'functional',
-        'load',
-        'stress',
-        'usability',
-        'compatibility',
-        'alpha',
-        'beta',
-      ];
+          'smoke',
+          'regression',
+          'sanity',
+          'exploratory',
+          'functional',
+          'load',
+          'stress',
+          'usability',
+          'compatibility',
+          'alpha',
+          'beta',
+        ];
   return purposes;
 };
 
@@ -160,6 +170,19 @@ export const ALL_TEAM_NAMES = () => {
   const teams =
     shadowConfigDetails && shadowConfigDetails.teamNames
       ? shadowConfigDetails.teamNames
-      : ['oregano', 'spoofer', 'juniper', 'occaecati', 'wilkins', 'canonicus'];
+      : [
+          'raptors',
+          'kimchi',
+          'protus',
+          'danza',
+          'sloth',
+          'winter',
+          'oregano',
+          'spoofer',
+          'juniper',
+          'occaecati',
+          'wilkins',
+          'canonicus',
+        ];
   return teams;
 };

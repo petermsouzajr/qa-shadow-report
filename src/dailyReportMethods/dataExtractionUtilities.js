@@ -187,7 +187,7 @@ export const extractTypeFromFullFile = (fullFile, testTargetsAvailable) => {
 
   const type =
     testTargetsAvailable.find((targetType) =>
-      fullFile.includes(`/${targetType}/`)
+      fullFile.includes(`${targetType}/`)
     ) || '';
 
   return type;

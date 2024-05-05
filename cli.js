@@ -10,62 +10,90 @@ import { handleSummary } from './src/sharedMethods/summaryHandler.js';
  */
 async function run() {
   const args = process.argv.slice(2);
-  const command = args[0]; // The command to execute
+  const commands = args.filter((arg) =>
+    ['todays-report', 'monthly-summary'].includes(arg)
+  );
+  const command = commands[0] || ''; // Select the first command if multiple, though typically there should only be one
   const isCSV = args.includes('--csv'); // Checks if the CSV output is requested
-  const allowDuplicate = args.includes('--duplicate'); // Checks if duplication is permitted
+  const isDuplicate = args.includes('--duplicate'); // Checks if duplication is requested
+  const frameworkArg = args.find((arg) =>
+    ['cypress', 'playwright', 'cy', 'pw'].includes(arg)
+  );
+  const framework = frameworkArg || ''; // Ensure the framework is correctly specified
+  const isCypress = framework === 'cypress' || framework === 'cy';
+  const isPlaywright = framework === 'playwright' || framework === 'pw';
+  const unsupportedCsvForMonthly = isCSV && command.includes('monthly-summary');
+  const unsupportedDuplicateCsvForMonthly =
+    isCSV && isDuplicate && command.includes('monthly-summary');
+  const optionsPayload = {
+    csv: isCSV,
+    duplicate: isDuplicate,
+    cypress: isCypress,
+    playwright: isPlaywright,
+  };
+
   if (args.includes('--help')) {
     console.log(`
-      Usage:
-        cy-shadow-report [command] [options]
-        cy-shadow-report     Generate the daily report or monthly summary.
+    Usage:
+      qa-shadow-report <framework> [command] [options]
 
-      Commands:
-        todays-report        Generate today's report.
-        monthly-summary      Generate a summary for the current month.
-  
-      Options:
-        --csv                Output the report in CSV format.
-        --duplicate          Allow duplicate reports to be created.
-  
-      For more details, visit the documentation link: https://github.com/petermsouzajr/cy-shadow-report
+    Mandatory:
+      <framework>     Specify the testing framework: cypress, playwright.
+
+    Commands (Optional):
+      todays-report               Only generate today's report.
+      monthly-summary             Only generate previous months summary.
+
+    Options (Optional):
+      --csv                       Output the report in CSV format.
+      --duplicate                 Create a duplicate report.
+
+    Examples:
+      Generate today's report for Playwright in CSV format:
+        qa-shadow-report playwright todays-report --csv
+
+      Generate a daily report and monthly summary when necessary, in google sheets, for cypress:
+        qa-shadow-report cypress
+
+    Shortcuts:
+      qasr cy                    Equivalent to qa-shadow-report cypress
+      qasr pw                    Equivalent to qa-shadow-report playwright
+
+    For more details, visit our documentation: https://github.com/petermsouzajr/qa-shadow-report
+
     `);
     process.exit(0);
+  }
+
+  if (!framework) {
+    console.error(
+      'Error: Please specify a framework: "cypress" or "playwright".'
+    );
+    process.exit(1);
+  }
+
+  if (unsupportedCsvForMonthly || unsupportedDuplicateCsvForMonthly) {
+    console.error(
+      'Error: CSV output for "monthly-summary" with or without duplication is not supported.'
+    );
+    process.exit(1);
   }
 
   try {
     switch (command) {
       case 'todays-report':
-        /**
-         * Handles the generation of the daily report.
-         * @param {Object} options - Contains options specifying output format and duplication permission.
-         * @property {boolean} options.csv - If true, outputs in CSV format.
-         * @property {boolean} options.duplicate - If true, allows creating a duplicate report for the day.
-         */
-        await handleDailyReport({ csv: isCSV, duplicate: allowDuplicate });
+        await handleDailyReport({ ...optionsPayload });
         break;
       case 'monthly-summary':
-        /**
-         * Handles the generation of the monthly summary.
-         * @param {Object} options - Contains options specifying output format and duplication permission.
-         * @property {boolean} options.csv - If true, outputs in CSV format.
-         * @property {boolean} options.duplicate - If true, allows creating a duplicate summary for the month.
-         */
-        await handleSummary({ csv: isCSV, duplicate: allowDuplicate });
+        await handleSummary({ ...optionsPayload });
         break;
       default:
-        /**
-         * Handles the of default command.
-         * @param {Object} options - Contains options specifying output format and duplication permission.
-         * @property {boolean} options.csv - If true, outputs in CSV format.
-         * @property {boolean} options.duplicate - If true, allows creating a duplicate summary for the month.
-         */
-        await main({ csv: isCSV, duplicate: allowDuplicate });
+        await main({ ...optionsPayload });
         break;
     }
   } catch (error) {
-    // Logs any errors that occur during the execution of the commands
     console.error('Error executing command:', error);
   }
 }
 
-run(); // Initiates the command processing
+run();
