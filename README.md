@@ -1,4 +1,4 @@
-# Cypress + Sheets = Enhanced Reporting and Organization
+# Cypress & Playwright Reporting: Seamless Integration with Google Sheets and CSV
 
 Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, streamlining test result integration and boosting team collaboration. It not only provides immediate insights into automation project health but also leads a paradigm shift in organizational methods, promoting clearer coordination and efficiency. Note: Cypress is a registered trademark of Cypress.io, Playwright is a registered trademark of Microsoft Corporation, and Google Sheets is a registered trademark of Google Inc. This application is not officially endorsed or certified by Playwright, Microsoft Corporation, Google Inc., or Cypress.io.
 
