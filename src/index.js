@@ -23,9 +23,9 @@ export const dataObjects = {
  * @constant {string} noReportMessage - Message indicating today's report already exists.
  */
 const lastMonth = getFormattedMonth('lastMonth');
-const dailyduplicateInstruction = ' e.g. "cy-shadow-report --duplicate"';
+const dailyduplicateInstruction = ' e.g. "qa-shadow-report --duplicate"';
 const summaryDuplicateInstruction =
-  ' "cy-shadow-report monthly-summary --duplicate"';
+  ' "qa-shadow-report monthly-summary --duplicate"';
 const duplicateInstruction =
   ' If you would like to create a duplicate monthly summary, use the optional flag "--duplicate" in your reporting command,';
 const noSummaryMessage = `No ${lastMonth} summary required${duplicateInstruction}${summaryDuplicateInstruction}.`;
