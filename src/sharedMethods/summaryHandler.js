@@ -193,7 +193,7 @@ export const handleSummary = async ({
 
   const lastMonth = getFormattedMonth('lastMonth');
   const noSummaryMessage = `No ${lastMonth} summary required If you would like to create a duplicate,
-  use the Monthly Summary command directly, with the optional flag "--duplicate", e.g. "cy-shadow-report monthly-summary --duplicate".`;
+  use the Monthly Summary command directly, with the optional flag "--duplicate", e.g. "qa-shadow-report monthly-summary --duplicate".`;
 
   if (csv) {
     console.warn('CSV format is not supported for summary reports');
