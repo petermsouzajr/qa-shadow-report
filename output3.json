@@ -1,0 +1,3022 @@
+{
+  "config": {
+    "configFile": "/Users/petermsouzajr./Desktop/cy-shadow-report/playwright-example/playwright.config.ts",
+    "rootDir": "/Users/petermsouzajr./Desktop/cy-shadow-report/playwright-example/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "test-results/output.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 15000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/petermsouzajr./Desktop/cy-shadow-report/playwright-example/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/petermsouzajr./Desktop/cy-shadow-report/playwright-example/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/petermsouzajr./Desktop/cy-shadow-report/playwright-example/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/Users/petermsouzajr./Desktop/cy-shadow-report/playwright-example/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/petermsouzajr./Desktop/cy-shadow-report/playwright-example/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/Users/petermsouzajr./Desktop/cy-shadow-report/playwright-example/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "version": "1.43.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "example.spec.ts",
+      "file": "example.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "has title",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 1135,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2024-05-05T18:59:55.006Z",
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a30a6eba6312f6b87ea5-b06063a3e613764d08f8",
+          "file": "example.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "get started link",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "status": "passed",
+                  "duration": 1386,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2024-05-05T18:59:55.005Z",
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a30a6eba6312f6b87ea5-274e97907a6e3638a22f",
+          "file": "example.spec.ts",
+          "line": 10,
+          "column": 5
+        },
+        {
+          "title": "has title",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "status": "failed",
+                  "duration": 3,
+                  "error": {
+                    "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-2Kay2y -juggler-pipe -silent\n<launched> pid=82706\n[pid=82706][err] Couldn't load XPCOM.\n[pid=82706] <process did exit: exitCode=255, signal=null>\n[pid=82706] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-2Kay2y -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82706\u001b[22m\n\u001b[2m  - [pid=82706][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82706] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82706] starting temporary directories cleanup\u001b[22m\n",
+                    "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-2Kay2y -juggler-pipe -silent\n<launched> pid=82706\n[pid=82706][err] Couldn't load XPCOM.\n[pid=82706] <process did exit: exitCode=255, signal=null>\n[pid=82706] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-2Kay2y -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82706\u001b[22m\n\u001b[2m  - [pid=82706][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82706] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82706] starting temporary directories cleanup\u001b[22m\n"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-2Kay2y -juggler-pipe -silent\n<launched> pid=82706\n[pid=82706][err] Couldn't load XPCOM.\n[pid=82706] <process did exit: exitCode=255, signal=null>\n[pid=82706] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-2Kay2y -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82706\u001b[22m\n\u001b[2m  - [pid=82706][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82706] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82706] starting temporary directories cleanup\u001b[22m\n"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2024-05-05T18:59:59.876Z",
+                  "attachments": []
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "a30a6eba6312f6b87ea5-f53a5ad453cd33dc57d5",
+          "file": "example.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "get started link",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "status": "failed",
+                  "duration": 3,
+                  "error": {
+                    "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-zIwaMQ -juggler-pipe -silent\n<launched> pid=82708\n[pid=82708][err] Couldn't load XPCOM.\n[pid=82708] <process did exit: exitCode=255, signal=null>\n[pid=82708] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-zIwaMQ -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82708\u001b[22m\n\u001b[2m  - [pid=82708][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82708] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82708] starting temporary directories cleanup\u001b[22m\n",
+                    "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-zIwaMQ -juggler-pipe -silent\n<launched> pid=82708\n[pid=82708][err] Couldn't load XPCOM.\n[pid=82708] <process did exit: exitCode=255, signal=null>\n[pid=82708] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-zIwaMQ -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82708\u001b[22m\n\u001b[2m  - [pid=82708][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82708] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82708] starting temporary directories cleanup\u001b[22m\n"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-zIwaMQ -juggler-pipe -silent\n<launched> pid=82708\n[pid=82708][err] Couldn't load XPCOM.\n[pid=82708] <process did exit: exitCode=255, signal=null>\n[pid=82708] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-zIwaMQ -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82708\u001b[22m\n\u001b[2m  - [pid=82708][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82708] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82708] starting temporary directories cleanup\u001b[22m\n"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2024-05-05T18:59:59.989Z",
+                  "attachments": []
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "a30a6eba6312f6b87ea5-bfe080d6fe34297f494c",
+          "file": "example.spec.ts",
+          "line": 10,
+          "column": 5
+        },
+        {
+          "title": "has title",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 31,
+                  "status": "passed",
+                  "duration": 907,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2024-05-05T19:00:02.109Z",
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a30a6eba6312f6b87ea5-4a26ebd06a6b810edcc2",
+          "file": "example.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "get started link",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [
+                {
+                  "workerIndex": 32,
+                  "status": "passed",
+                  "duration": 1000,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2024-05-05T19:00:02.251Z",
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a30a6eba6312f6b87ea5-1eb159041d56409ed83c",
+          "file": "example.spec.ts",
+          "line": 10,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "mobile/demo-todo-app1.spec.ts",
+      "file": "mobile/demo-todo-app1.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "[danza] Counter",
+          "file": "mobile/demo-todo-app1.spec.ts",
+          "line": 13,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display the current number of todo items [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 1407,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:55.018Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-fbe8a80af0269509f21f",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 14,
+              "column": 7
+            },
+            {
+              "title": "should display the current number of todo items [smoke]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-vS7083 -juggler-pipe -silent\n<launched> pid=82710\n[pid=82710][err] Couldn't load XPCOM.\n[pid=82710] <process did exit: exitCode=255, signal=null>\n[pid=82710] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-vS7083 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82710\u001b[22m\n\u001b[2m  - [pid=82710][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82710] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82710] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-vS7083 -juggler-pipe -silent\n<launched> pid=82710\n[pid=82710][err] Couldn't load XPCOM.\n[pid=82710] <process did exit: exitCode=255, signal=null>\n[pid=82710] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-vS7083 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82710\u001b[22m\n\u001b[2m  - [pid=82710][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82710] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82710] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-vS7083 -juggler-pipe -silent\n<launched> pid=82710\n[pid=82710][err] Couldn't load XPCOM.\n[pid=82710] <process did exit: exitCode=255, signal=null>\n[pid=82710] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-vS7083 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82710\u001b[22m\n\u001b[2m  - [pid=82710][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82710] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82710] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:00.040Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-bed8d8d5cc5dfb1ce7c4",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 14,
+              "column": 7
+            },
+            {
+              "title": "should display the current number of todo items [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 33,
+                      "status": "passed",
+                      "duration": 814,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:02.469Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-e1e7f570256dd2d67e66",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 14,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "[kimchi] Clear completed button",
+          "file": "mobile/demo-todo-app1.spec.ts",
+          "line": 34,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display the correct text",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 1257,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:55.013Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-6364adc6e0af6c30f994",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 39,
+              "column": 7
+            },
+            {
+              "title": "should remove completed items when clicked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 470,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:56.703Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-16e69937592e69276bc8",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 44,
+              "column": 7
+            },
+            {
+              "title": "should be hidden when there are no items that are completed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 480,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:56.822Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-93f93b3bb8dfe2679234",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 52,
+              "column": 7
+            },
+            {
+              "title": "should display the correct text",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-6J4Kdy -juggler-pipe -silent\n<launched> pid=82712\n[pid=82712][err] Couldn't load XPCOM.\n[pid=82712] <process did exit: exitCode=255, signal=null>\n[pid=82712] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-6J4Kdy -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82712\u001b[22m\n\u001b[2m  - [pid=82712][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82712] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82712] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-6J4Kdy -juggler-pipe -silent\n<launched> pid=82712\n[pid=82712][err] Couldn't load XPCOM.\n[pid=82712] <process did exit: exitCode=255, signal=null>\n[pid=82712] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-6J4Kdy -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82712\u001b[22m\n\u001b[2m  - [pid=82712][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82712] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82712] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-6J4Kdy -juggler-pipe -silent\n<launched> pid=82712\n[pid=82712][err] Couldn't load XPCOM.\n[pid=82712] <process did exit: exitCode=255, signal=null>\n[pid=82712] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-6J4Kdy -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82712\u001b[22m\n\u001b[2m  - [pid=82712][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82712] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82712] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:00.077Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-84eff1458a9e7f1dd8d3",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 39,
+              "column": 7
+            },
+            {
+              "title": "should remove completed items when clicked",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "status": "failed",
+                      "duration": 4,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tsIXuD -juggler-pipe -silent\n<launched> pid=82714\n[pid=82714][err] Couldn't load XPCOM.\n[pid=82714] <process did exit: exitCode=255, signal=null>\n[pid=82714] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tsIXuD -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82714\u001b[22m\n\u001b[2m  - [pid=82714][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82714] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82714] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tsIXuD -juggler-pipe -silent\n<launched> pid=82714\n[pid=82714][err] Couldn't load XPCOM.\n[pid=82714] <process did exit: exitCode=255, signal=null>\n[pid=82714] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tsIXuD -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82714\u001b[22m\n\u001b[2m  - [pid=82714][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82714] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82714] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tsIXuD -juggler-pipe -silent\n<launched> pid=82714\n[pid=82714][err] Couldn't load XPCOM.\n[pid=82714] <process did exit: exitCode=255, signal=null>\n[pid=82714] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tsIXuD -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82714\u001b[22m\n\u001b[2m  - [pid=82714][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82714] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82714] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:00.207Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-857fbde44d90e323df0e",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 44,
+              "column": 7
+            },
+            {
+              "title": "should be hidden when there are no items that are completed",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-DF5VsI -juggler-pipe -silent\n<launched> pid=82716\n[pid=82716][err] Couldn't load XPCOM.\n[pid=82716] <process did exit: exitCode=255, signal=null>\n[pid=82716] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-DF5VsI -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82716\u001b[22m\n\u001b[2m  - [pid=82716][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82716] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82716] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-DF5VsI -juggler-pipe -silent\n<launched> pid=82716\n[pid=82716][err] Couldn't load XPCOM.\n[pid=82716] <process did exit: exitCode=255, signal=null>\n[pid=82716] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-DF5VsI -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82716\u001b[22m\n\u001b[2m  - [pid=82716][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82716] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82716] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-DF5VsI -juggler-pipe -silent\n<launched> pid=82716\n[pid=82716][err] Couldn't load XPCOM.\n[pid=82716] <process did exit: exitCode=255, signal=null>\n[pid=82716] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-DF5VsI -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82716\u001b[22m\n\u001b[2m  - [pid=82716][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82716] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82716] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:00.331Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-09121c5aadccac441d91",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 52,
+              "column": 7
+            },
+            {
+              "title": "should display the correct text",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 34,
+                      "status": "passed",
+                      "duration": 851,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:02.608Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-4a91979839664a0ffeaa",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 39,
+              "column": 7
+            },
+            {
+              "title": "should remove completed items when clicked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 31,
+                      "status": "passed",
+                      "duration": 662,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:03.222Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-e79eae715bf5d1166464",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 44,
+              "column": 7
+            },
+            {
+              "title": "should be hidden when there are no items that are completed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 32,
+                      "status": "passed",
+                      "duration": 647,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:03.402Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-78d4c5430cdd5382fc9e",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 52,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "[kimchi] Persistence",
+          "file": "mobile/demo-todo-app1.spec.ts",
+          "line": 59,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should persist its data [sanity]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 711,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:56.960Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-5f19411204d71571e626",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "should persist its data [sanity]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tkZjvZ -juggler-pipe -silent\n<launched> pid=82718\n[pid=82718][err] Couldn't load XPCOM.\n[pid=82718] <process did exit: exitCode=255, signal=null>\n[pid=82718] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tkZjvZ -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82718\u001b[22m\n\u001b[2m  - [pid=82718][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82718] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82718] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tkZjvZ -juggler-pipe -silent\n<launched> pid=82718\n[pid=82718][err] Couldn't load XPCOM.\n[pid=82718] <process did exit: exitCode=255, signal=null>\n[pid=82718] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tkZjvZ -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82718\u001b[22m\n\u001b[2m  - [pid=82718][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82718] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82718] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tkZjvZ -juggler-pipe -silent\n<launched> pid=82718\n[pid=82718][err] Couldn't load XPCOM.\n[pid=82718] <process did exit: exitCode=255, signal=null>\n[pid=82718] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tkZjvZ -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82718\u001b[22m\n\u001b[2m  - [pid=82718][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82718] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82718] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:00.377Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-24049d1b05f2c940787a",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 60,
+              "column": 7
+            },
+            {
+              "title": "should persist its data [sanity]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 33,
+                      "status": "passed",
+                      "duration": 735,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:03.533Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-fa074882707d9998b551",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 60,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "[raptors] Routing",
+          "file": "mobile/demo-todo-app1.spec.ts",
+          "line": 87,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should allow me to display active items [C4535343], [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 470,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:56.967Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-544e5a0fcac654d339a2",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 96,
+              "column": 7
+            },
+            {
+              "title": "should respect the back button [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 558,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Showing all items",
+                          "duration": 51
+                        },
+                        {
+                          "title": "Showing active items",
+                          "duration": 29
+                        },
+                        {
+                          "title": "Showing completed items",
+                          "duration": 33
+                        }
+                      ],
+                      "startTime": "2024-05-05T18:59:57.178Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-3e787990341e11518365",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 106,
+              "column": 7
+            },
+            {
+              "title": "should allow me to display completed items [exploratory]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 480,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:57.306Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-0b98b0585bd53cbf3cc6",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 132,
+              "column": 7
+            },
+            {
+              "title": "should allow me to display all items [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 543,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:57.442Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-3e10b3c9ec35f160c06e",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 139,
+              "column": 7
+            },
+            {
+              "title": "should highlight the currently applied filter",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 410,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:57.674Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-268655c54cda831d1419",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 148,
+              "column": 7
+            },
+            {
+              "title": "should allow me to display active items [C4535343], [smoke]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-Oo4Yaf -juggler-pipe -silent\n<launched> pid=82719\n[pid=82719][err] Couldn't load XPCOM.\n[pid=82719] <process did exit: exitCode=255, signal=null>\n[pid=82719] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-Oo4Yaf -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82719\u001b[22m\n\u001b[2m  - [pid=82719][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82719] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82719] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-Oo4Yaf -juggler-pipe -silent\n<launched> pid=82719\n[pid=82719][err] Couldn't load XPCOM.\n[pid=82719] <process did exit: exitCode=255, signal=null>\n[pid=82719] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-Oo4Yaf -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82719\u001b[22m\n\u001b[2m  - [pid=82719][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82719] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82719] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-Oo4Yaf -juggler-pipe -silent\n<launched> pid=82719\n[pid=82719][err] Couldn't load XPCOM.\n[pid=82719] <process did exit: exitCode=255, signal=null>\n[pid=82719] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-Oo4Yaf -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82719\u001b[22m\n\u001b[2m  - [pid=82719][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82719] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82719] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:00.401Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-2ec4bf9383a1051d91d2",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 96,
+              "column": 7
+            },
+            {
+              "title": "should respect the back button [smoke]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "status": "failed",
+                      "duration": 4,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-CcxQPA -juggler-pipe -silent\n<launched> pid=82722\n[pid=82722][err] Couldn't load XPCOM.\n[pid=82722] <process did exit: exitCode=255, signal=null>\n[pid=82722] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-CcxQPA -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82722\u001b[22m\n\u001b[2m  - [pid=82722][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82722] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82722] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-CcxQPA -juggler-pipe -silent\n<launched> pid=82722\n[pid=82722][err] Couldn't load XPCOM.\n[pid=82722] <process did exit: exitCode=255, signal=null>\n[pid=82722] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-CcxQPA -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82722\u001b[22m\n\u001b[2m  - [pid=82722][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82722] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82722] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-CcxQPA -juggler-pipe -silent\n<launched> pid=82722\n[pid=82722][err] Couldn't load XPCOM.\n[pid=82722] <process did exit: exitCode=255, signal=null>\n[pid=82722] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-CcxQPA -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82722\u001b[22m\n\u001b[2m  - [pid=82722][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82722] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82722] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:00.530Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-45f38aa7db37c421e48a",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 106,
+              "column": 7
+            },
+            {
+              "title": "should allow me to display completed items [exploratory]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-db59OX -juggler-pipe -silent\n<launched> pid=82725\n[pid=82725][err] Couldn't load XPCOM.\n[pid=82725] <process did exit: exitCode=255, signal=null>\n[pid=82725] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-db59OX -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82725\u001b[22m\n\u001b[2m  - [pid=82725][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82725] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82725] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-db59OX -juggler-pipe -silent\n<launched> pid=82725\n[pid=82725][err] Couldn't load XPCOM.\n[pid=82725] <process did exit: exitCode=255, signal=null>\n[pid=82725] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-db59OX -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82725\u001b[22m\n\u001b[2m  - [pid=82725][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82725] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82725] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-db59OX -juggler-pipe -silent\n<launched> pid=82725\n[pid=82725][err] Couldn't load XPCOM.\n[pid=82725] <process did exit: exitCode=255, signal=null>\n[pid=82725] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-db59OX -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82725\u001b[22m\n\u001b[2m  - [pid=82725][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82725] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82725] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:00.649Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-616f6e49f50075fc2b26",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 132,
+              "column": 7
+            },
+            {
+              "title": "should allow me to display all items [smoke]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 14,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-GuO3cH -juggler-pipe -silent\n<launched> pid=82727\n[pid=82727][err] Couldn't load XPCOM.\n[pid=82727] <process did exit: exitCode=255, signal=null>\n[pid=82727] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-GuO3cH -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82727\u001b[22m\n\u001b[2m  - [pid=82727][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82727] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82727] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-GuO3cH -juggler-pipe -silent\n<launched> pid=82727\n[pid=82727][err] Couldn't load XPCOM.\n[pid=82727] <process did exit: exitCode=255, signal=null>\n[pid=82727] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-GuO3cH -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82727\u001b[22m\n\u001b[2m  - [pid=82727][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82727] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82727] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-GuO3cH -juggler-pipe -silent\n<launched> pid=82727\n[pid=82727][err] Couldn't load XPCOM.\n[pid=82727] <process did exit: exitCode=255, signal=null>\n[pid=82727] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-GuO3cH -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82727\u001b[22m\n\u001b[2m  - [pid=82727][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82727] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82727] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:00.701Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-9efdce1d6f3ba4bf628c",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 139,
+              "column": 7
+            },
+            {
+              "title": "should highlight the currently applied filter",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 15,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-9h0SIL -juggler-pipe -silent\n<launched> pid=82728\n[pid=82728][err] Couldn't load XPCOM.\n[pid=82728] <process did exit: exitCode=255, signal=null>\n[pid=82728] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-9h0SIL -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82728\u001b[22m\n\u001b[2m  - [pid=82728][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82728] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82728] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-9h0SIL -juggler-pipe -silent\n<launched> pid=82728\n[pid=82728][err] Couldn't load XPCOM.\n[pid=82728] <process did exit: exitCode=255, signal=null>\n[pid=82728] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-9h0SIL -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82728\u001b[22m\n\u001b[2m  - [pid=82728][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82728] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82728] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-9h0SIL -juggler-pipe -silent\n<launched> pid=82728\n[pid=82728][err] Couldn't load XPCOM.\n[pid=82728] <process did exit: exitCode=255, signal=null>\n[pid=82728] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-9h0SIL -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82728\u001b[22m\n\u001b[2m  - [pid=82728][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82728] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82728] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:00.706Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-a3f8eb564bdd1f80b851",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 148,
+              "column": 7
+            },
+            {
+              "title": "should allow me to display active items [C4535343], [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 34,
+                      "status": "passed",
+                      "duration": 711,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:03.602Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-398806b37e6bdd3f9bae",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 96,
+              "column": 7
+            },
+            {
+              "title": "should respect the back button [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 31,
+                      "status": "passed",
+                      "duration": 678,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Showing all items",
+                          "duration": 33
+                        },
+                        {
+                          "title": "Showing active items",
+                          "duration": 30
+                        },
+                        {
+                          "title": "Showing completed items",
+                          "duration": 35
+                        }
+                      ],
+                      "startTime": "2024-05-05T19:00:03.890Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-35d73c8072933a3780c1",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 106,
+              "column": 7
+            },
+            {
+              "title": "should allow me to display completed items [exploratory]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 32,
+                      "status": "passed",
+                      "duration": 581,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:04.056Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-5876388adf1d0dde9081",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 132,
+              "column": 7
+            },
+            {
+              "title": "should allow me to display all items [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 33,
+                      "status": "passed",
+                      "duration": 664,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:04.272Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-9aa4433e6ea75c954dd3",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 139,
+              "column": 7
+            },
+            {
+              "title": "should highlight the currently applied filter",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 34,
+                      "status": "passed",
+                      "duration": 548,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:04.319Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4fdba9fbef1b659f7db-a8a959c8fd135a1d5297",
+              "file": "mobile/demo-todo-app1.spec.ts",
+              "line": 148,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "web/demo-todo-app.spec.ts",
+      "file": "web/demo-todo-app.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "[protus] New Todo",
+          "file": "web/demo-todo-app.spec.ts",
+          "line": 13,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should allow me to add todo items [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 458,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:57.749Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-67d08e7d9fed7df3bdd8",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 14,
+              "column": 7
+            },
+            {
+              "title": "should clear text input field when an item is added [sanity]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 447,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:57.794Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-1435add0a7480105b27d",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 40,
+              "column": 7
+            },
+            {
+              "title": "should append new items to the bottom of the list",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 427,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:57.993Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-e6d096d5348b165e4e92",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 53,
+              "column": 7
+            },
+            {
+              "title": "should allow me to add todo items [smoke]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 16,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-MzkqMC -juggler-pipe -silent\n<launched> pid=82731\n[pid=82731][err] Couldn't load XPCOM.\n[pid=82731] <process did exit: exitCode=255, signal=null>\n[pid=82731] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-MzkqMC -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82731\u001b[22m\n\u001b[2m  - [pid=82731][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82731] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82731] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-MzkqMC -juggler-pipe -silent\n<launched> pid=82731\n[pid=82731][err] Couldn't load XPCOM.\n[pid=82731] <process did exit: exitCode=255, signal=null>\n[pid=82731] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-MzkqMC -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82731\u001b[22m\n\u001b[2m  - [pid=82731][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82731] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82731] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-MzkqMC -juggler-pipe -silent\n<launched> pid=82731\n[pid=82731][err] Couldn't load XPCOM.\n[pid=82731] <process did exit: exitCode=255, signal=null>\n[pid=82731] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-MzkqMC -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82731\u001b[22m\n\u001b[2m  - [pid=82731][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82731] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82731] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:00.849Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-4c2b7798db513bd1e382",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 14,
+              "column": 7
+            },
+            {
+              "title": "should clear text input field when an item is added [sanity]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 17,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-R8JV0F -juggler-pipe -silent\n<launched> pid=82733\n[pid=82733][err] Couldn't load XPCOM.\n[pid=82733] <process did exit: exitCode=255, signal=null>\n[pid=82733] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-R8JV0F -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82733\u001b[22m\n\u001b[2m  - [pid=82733][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82733] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82733] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-R8JV0F -juggler-pipe -silent\n<launched> pid=82733\n[pid=82733][err] Couldn't load XPCOM.\n[pid=82733] <process did exit: exitCode=255, signal=null>\n[pid=82733] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-R8JV0F -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82733\u001b[22m\n\u001b[2m  - [pid=82733][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82733] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82733] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-R8JV0F -juggler-pipe -silent\n<launched> pid=82733\n[pid=82733][err] Couldn't load XPCOM.\n[pid=82733] <process did exit: exitCode=255, signal=null>\n[pid=82733] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-R8JV0F -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82733\u001b[22m\n\u001b[2m  - [pid=82733][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82733] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82733] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:00.968Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-078e4f075b0445b25192",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 40,
+              "column": 7
+            },
+            {
+              "title": "should append new items to the bottom of the list",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 19,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-jMXyta -juggler-pipe -silent\n<launched> pid=82735\n[pid=82735][err] Couldn't load XPCOM.\n[pid=82735] <process did exit: exitCode=255, signal=null>\n[pid=82735] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-jMXyta -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82735\u001b[22m\n\u001b[2m  - [pid=82735][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82735] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82735] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-jMXyta -juggler-pipe -silent\n<launched> pid=82735\n[pid=82735][err] Couldn't load XPCOM.\n[pid=82735] <process did exit: exitCode=255, signal=null>\n[pid=82735] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-jMXyta -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82735\u001b[22m\n\u001b[2m  - [pid=82735][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82735] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82735] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-jMXyta -juggler-pipe -silent\n<launched> pid=82735\n[pid=82735][err] Couldn't load XPCOM.\n[pid=82735] <process did exit: exitCode=255, signal=null>\n[pid=82735] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-jMXyta -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82735\u001b[22m\n\u001b[2m  - [pid=82735][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82735] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82735] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:01.016Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-5ee10ec87fca4b7d2a8e",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 53,
+              "column": 7
+            },
+            {
+              "title": "should allow me to add todo items [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 31,
+                      "status": "passed",
+                      "duration": 459,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:04.578Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-7d1bece500d3069a059d",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 14,
+              "column": 7
+            },
+            {
+              "title": "should clear text input field when an item is added [sanity]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 32,
+                      "status": "passed",
+                      "duration": 420,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:04.647Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-3c069ffc9396097a8fe0",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 40,
+              "column": 7
+            },
+            {
+              "title": "should append new items to the bottom of the list",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 34,
+                      "status": "passed",
+                      "duration": 461,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:04.875Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-8a9c88fd2b7902c62dac",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 53,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "[danza] Mark all as completed",
+          "file": "web/demo-todo-app.spec.ts",
+          "line": 72,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should allow me to mark all items as completed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 484,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:58.091Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-e4ee705c222ef6892d08",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 82,
+              "column": 7
+            },
+            {
+              "title": "should allow me to clear the complete state of all items [C34534]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 503,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:58.212Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-ed22904c898f408728a7",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 91,
+              "column": 7
+            },
+            {
+              "title": "complete all checkbox should update state when items are completed / cleared [C24525]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 581,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:58.244Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-90abab6c88d10cbe172e",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 101,
+              "column": 7
+            },
+            {
+              "title": "should allow me to mark all items as completed",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 18,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-WvAcS3 -juggler-pipe -silent\n<launched> pid=82736\n[pid=82736][err] Couldn't load XPCOM.\n[pid=82736] <process did exit: exitCode=255, signal=null>\n[pid=82736] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-WvAcS3 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82736\u001b[22m\n\u001b[2m  - [pid=82736][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82736] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82736] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-WvAcS3 -juggler-pipe -silent\n<launched> pid=82736\n[pid=82736][err] Couldn't load XPCOM.\n[pid=82736] <process did exit: exitCode=255, signal=null>\n[pid=82736] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-WvAcS3 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82736\u001b[22m\n\u001b[2m  - [pid=82736][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82736] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82736] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-WvAcS3 -juggler-pipe -silent\n<launched> pid=82736\n[pid=82736][err] Couldn't load XPCOM.\n[pid=82736] <process did exit: exitCode=255, signal=null>\n[pid=82736] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-WvAcS3 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82736\u001b[22m\n\u001b[2m  - [pid=82736][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82736] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82736] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:01.019Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-cd13875d4b6542447f70",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 82,
+              "column": 7
+            },
+            {
+              "title": "should allow me to clear the complete state of all items [C34534]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 20,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-1V4mn3 -juggler-pipe -silent\n<launched> pid=82739\n[pid=82739][err] Couldn't load XPCOM.\n[pid=82739] <process did exit: exitCode=255, signal=null>\n[pid=82739] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-1V4mn3 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82739\u001b[22m\n\u001b[2m  - [pid=82739][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82739] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82739] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-1V4mn3 -juggler-pipe -silent\n<launched> pid=82739\n[pid=82739][err] Couldn't load XPCOM.\n[pid=82739] <process did exit: exitCode=255, signal=null>\n[pid=82739] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-1V4mn3 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82739\u001b[22m\n\u001b[2m  - [pid=82739][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82739] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82739] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-1V4mn3 -juggler-pipe -silent\n<launched> pid=82739\n[pid=82739][err] Couldn't load XPCOM.\n[pid=82739] <process did exit: exitCode=255, signal=null>\n[pid=82739] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-1V4mn3 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82739\u001b[22m\n\u001b[2m  - [pid=82739][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82739] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82739] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:01.218Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-506917cc61679d5c8fef",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 91,
+              "column": 7
+            },
+            {
+              "title": "complete all checkbox should update state when items are completed / cleared [C24525]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 21,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-oMpAWw -juggler-pipe -silent\n<launched> pid=82742\n[pid=82742][err] Couldn't load XPCOM.\n[pid=82742] <process did exit: exitCode=255, signal=null>\n[pid=82742] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-oMpAWw -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82742\u001b[22m\n\u001b[2m  - [pid=82742][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82742] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82742] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-oMpAWw -juggler-pipe -silent\n<launched> pid=82742\n[pid=82742][err] Couldn't load XPCOM.\n[pid=82742] <process did exit: exitCode=255, signal=null>\n[pid=82742] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-oMpAWw -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82742\u001b[22m\n\u001b[2m  - [pid=82742][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82742] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82742] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-oMpAWw -juggler-pipe -silent\n<launched> pid=82742\n[pid=82742][err] Couldn't load XPCOM.\n[pid=82742] <process did exit: exitCode=255, signal=null>\n[pid=82742] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-oMpAWw -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82742\u001b[22m\n\u001b[2m  - [pid=82742][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82742] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82742] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:01.344Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-abac1e4a7561f035a85a",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 101,
+              "column": 7
+            },
+            {
+              "title": "should allow me to mark all items as completed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 33,
+                      "status": "passed",
+                      "duration": 520,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:04.950Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-70dbccee8ce26bc3d01c",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 82,
+              "column": 7
+            },
+            {
+              "title": "should allow me to clear the complete state of all items [C34534]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 31,
+                      "status": "passed",
+                      "duration": 568,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:05.040Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-e7043bd2ce2d48ed0ca5",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 91,
+              "column": 7
+            },
+            {
+              "title": "complete all checkbox should update state when items are completed / cleared [C24525]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 32,
+                      "status": "passed",
+                      "duration": 602,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:05.072Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-e95c7d14a733e89428c6",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 101,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "[sloth] Item",
+          "file": "web/demo-todo-app.spec.ts",
+          "line": 122,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should allow me to mark items as complete",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 496,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:58.425Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-706fc110daef78d5caae",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 124,
+              "column": 7
+            },
+            {
+              "title": "should allow me to un-mark items as complete",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 465,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:58.580Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-5123ef8881de57093a53",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 149,
+              "column": 7
+            },
+            {
+              "title": "should allow me to edit an item",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 493,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:58.719Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-a18fc8781b8bf733accc",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 174,
+              "column": 7
+            },
+            {
+              "title": "should allow me to mark items as complete",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 22,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-1L8Rpk -juggler-pipe -silent\n<launched> pid=82744\n[pid=82744][err] Couldn't load XPCOM.\n[pid=82744] <process did exit: exitCode=255, signal=null>\n[pid=82744] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-1L8Rpk -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82744\u001b[22m\n\u001b[2m  - [pid=82744][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82744] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82744] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-1L8Rpk -juggler-pipe -silent\n<launched> pid=82744\n[pid=82744][err] Couldn't load XPCOM.\n[pid=82744] <process did exit: exitCode=255, signal=null>\n[pid=82744] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-1L8Rpk -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82744\u001b[22m\n\u001b[2m  - [pid=82744][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82744] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82744] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-1L8Rpk -juggler-pipe -silent\n<launched> pid=82744\n[pid=82744][err] Couldn't load XPCOM.\n[pid=82744] <process did exit: exitCode=255, signal=null>\n[pid=82744] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-1L8Rpk -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82744\u001b[22m\n\u001b[2m  - [pid=82744][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82744] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82744] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:01.391Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-1b210b8da3abb5e9d6a0",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 124,
+              "column": 7
+            },
+            {
+              "title": "should allow me to un-mark items as complete",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 23,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-bFNtxs -juggler-pipe -silent\n<launched> pid=82745\n[pid=82745][err] Couldn't load XPCOM.\n[pid=82745] <process did exit: exitCode=255, signal=null>\n[pid=82745] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-bFNtxs -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82745\u001b[22m\n\u001b[2m  - [pid=82745][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82745] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82745] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-bFNtxs -juggler-pipe -silent\n<launched> pid=82745\n[pid=82745][err] Couldn't load XPCOM.\n[pid=82745] <process did exit: exitCode=255, signal=null>\n[pid=82745] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-bFNtxs -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82745\u001b[22m\n\u001b[2m  - [pid=82745][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82745] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82745] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-bFNtxs -juggler-pipe -silent\n<launched> pid=82745\n[pid=82745][err] Couldn't load XPCOM.\n[pid=82745] <process did exit: exitCode=255, signal=null>\n[pid=82745] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-bFNtxs -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82745\u001b[22m\n\u001b[2m  - [pid=82745][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82745] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82745] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:01.398Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-25756fbdd694d10502cd",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 149,
+              "column": 7
+            },
+            {
+              "title": "should allow me to edit an item",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 24,
+                      "status": "failed",
+                      "duration": 2,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-x4z0Ht -juggler-pipe -silent\n<launched> pid=82750\n[pid=82750][err] Couldn't load XPCOM.\n[pid=82750] <process did exit: exitCode=255, signal=null>\n[pid=82750] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-x4z0Ht -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82750\u001b[22m\n\u001b[2m  - [pid=82750][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82750] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82750] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-x4z0Ht -juggler-pipe -silent\n<launched> pid=82750\n[pid=82750][err] Couldn't load XPCOM.\n[pid=82750] <process did exit: exitCode=255, signal=null>\n[pid=82750] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-x4z0Ht -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82750\u001b[22m\n\u001b[2m  - [pid=82750][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82750] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82750] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-x4z0Ht -juggler-pipe -silent\n<launched> pid=82750\n[pid=82750][err] Couldn't load XPCOM.\n[pid=82750] <process did exit: exitCode=255, signal=null>\n[pid=82750] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-x4z0Ht -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82750\u001b[22m\n\u001b[2m  - [pid=82750][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82750] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82750] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:01.557Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-b369468a6a9cf3e63490",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 174,
+              "column": 7
+            },
+            {
+              "title": "should allow me to mark items as complete",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 34,
+                      "status": "passed",
+                      "duration": 516,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:05.338Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-e6b484e005f4dab2226e",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 124,
+              "column": 7
+            },
+            {
+              "title": "should allow me to un-mark items as complete",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 33,
+                      "status": "passed",
+                      "duration": 515,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:05.475Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-f013a582349411dda6e4",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 149,
+              "column": 7
+            },
+            {
+              "title": "should allow me to edit an item",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 31,
+                      "status": "passed",
+                      "duration": 541,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:05.612Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-08d06c8ca0e6900f7df1",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 174,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "[winter] Editing",
+          "file": "web/demo-todo-app.spec.ts",
+          "line": 194,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should hide other controls when editing [C63654]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 466,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:58.829Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-34bb64b05f1c3ef70263",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 200,
+              "column": 7
+            },
+            {
+              "title": "should save edits on blur [C837456]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 434,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:58.926Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-7cd7463de487c515b564",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 210,
+              "column": 7
+            },
+            {
+              "title": "should trim entered text [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "status": "passed",
+                      "duration": 459,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:59.051Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-206b67db6e80358f5efb",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 224,
+              "column": 7
+            },
+            {
+              "title": "should remove the item if an empty text string was entered",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 451,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:59.216Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-14d958350711ae7e11ba",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 238,
+              "column": 7
+            },
+            {
+              "title": "should cancel edits on escape",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "status": "passed",
+                      "duration": 434,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:59.299Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-c2c2ca368c15ce14f68e",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 250,
+              "column": 7
+            },
+            {
+              "title": "should hide other controls when editing [C63654]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 25,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-Nif12R -juggler-pipe -silent\n<launched> pid=82752\n[pid=82752][err] Couldn't load XPCOM.\n[pid=82752] <process did exit: exitCode=255, signal=null>\n[pid=82752] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-Nif12R -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82752\u001b[22m\n\u001b[2m  - [pid=82752][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82752] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82752] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-Nif12R -juggler-pipe -silent\n<launched> pid=82752\n[pid=82752][err] Couldn't load XPCOM.\n[pid=82752] <process did exit: exitCode=255, signal=null>\n[pid=82752] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-Nif12R -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82752\u001b[22m\n\u001b[2m  - [pid=82752][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82752] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82752] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-Nif12R -juggler-pipe -silent\n<launched> pid=82752\n[pid=82752][err] Couldn't load XPCOM.\n[pid=82752] <process did exit: exitCode=255, signal=null>\n[pid=82752] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-Nif12R -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82752\u001b[22m\n\u001b[2m  - [pid=82752][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82752] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82752] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:01.676Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-c81c8bf1b9a4c2ec071a",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 200,
+              "column": 7
+            },
+            {
+              "title": "should save edits on blur [C837456]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 26,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-ytIiMx -juggler-pipe -silent\n<launched> pid=82755\n[pid=82755][err] Couldn't load XPCOM.\n[pid=82755] <process did exit: exitCode=255, signal=null>\n[pid=82755] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-ytIiMx -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82755\u001b[22m\n\u001b[2m  - [pid=82755][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82755] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82755] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-ytIiMx -juggler-pipe -silent\n<launched> pid=82755\n[pid=82755][err] Couldn't load XPCOM.\n[pid=82755] <process did exit: exitCode=255, signal=null>\n[pid=82755] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-ytIiMx -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82755\u001b[22m\n\u001b[2m  - [pid=82755][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82755] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82755] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-ytIiMx -juggler-pipe -silent\n<launched> pid=82755\n[pid=82755][err] Couldn't load XPCOM.\n[pid=82755] <process did exit: exitCode=255, signal=null>\n[pid=82755] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-ytIiMx -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82755\u001b[22m\n\u001b[2m  - [pid=82755][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82755] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82755] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:01.729Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-251de7957ecdb259c8cc",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 210,
+              "column": 7
+            },
+            {
+              "title": "should trim entered text [smoke]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 27,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-3MAIGz -juggler-pipe -silent\n<launched> pid=82754\n[pid=82754][err] Couldn't load XPCOM.\n[pid=82754] <process did exit: exitCode=255, signal=null>\n[pid=82754] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-3MAIGz -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82754\u001b[22m\n\u001b[2m  - [pid=82754][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82754] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82754] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-3MAIGz -juggler-pipe -silent\n<launched> pid=82754\n[pid=82754][err] Couldn't load XPCOM.\n[pid=82754] <process did exit: exitCode=255, signal=null>\n[pid=82754] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-3MAIGz -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82754\u001b[22m\n\u001b[2m  - [pid=82754][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82754] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82754] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-3MAIGz -juggler-pipe -silent\n<launched> pid=82754\n[pid=82754][err] Couldn't load XPCOM.\n[pid=82754] <process did exit: exitCode=255, signal=null>\n[pid=82754] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-3MAIGz -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82754\u001b[22m\n\u001b[2m  - [pid=82754][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82754] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82754] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:01.727Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-827030463cd7605f5667",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 224,
+              "column": 7
+            },
+            {
+              "title": "should remove the item if an empty text string was entered",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 28,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-ZECDE5 -juggler-pipe -silent\n<launched> pid=82759\n[pid=82759][err] Couldn't load XPCOM.\n[pid=82759] <process did exit: exitCode=255, signal=null>\n[pid=82759] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-ZECDE5 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82759\u001b[22m\n\u001b[2m  - [pid=82759][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82759] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82759] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-ZECDE5 -juggler-pipe -silent\n<launched> pid=82759\n[pid=82759][err] Couldn't load XPCOM.\n[pid=82759] <process did exit: exitCode=255, signal=null>\n[pid=82759] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-ZECDE5 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82759\u001b[22m\n\u001b[2m  - [pid=82759][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82759] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82759] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-ZECDE5 -juggler-pipe -silent\n<launched> pid=82759\n[pid=82759][err] Couldn't load XPCOM.\n[pid=82759] <process did exit: exitCode=255, signal=null>\n[pid=82759] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-ZECDE5 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82759\u001b[22m\n\u001b[2m  - [pid=82759][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82759] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82759] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:01.891Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-b67b48f6b87069ee371e",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 238,
+              "column": 7
+            },
+            {
+              "title": "should cancel edits on escape",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 29,
+                      "status": "failed",
+                      "duration": 4,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-hDfSDZ -juggler-pipe -silent\n<launched> pid=82761\n[pid=82761][err] Couldn't load XPCOM.\n[pid=82761] <process did exit: exitCode=255, signal=null>\n[pid=82761] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-hDfSDZ -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82761\u001b[22m\n\u001b[2m  - [pid=82761][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82761] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82761] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-hDfSDZ -juggler-pipe -silent\n<launched> pid=82761\n[pid=82761][err] Couldn't load XPCOM.\n[pid=82761] <process did exit: exitCode=255, signal=null>\n[pid=82761] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-hDfSDZ -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82761\u001b[22m\n\u001b[2m  - [pid=82761][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82761] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82761] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-hDfSDZ -juggler-pipe -silent\n<launched> pid=82761\n[pid=82761][err] Couldn't load XPCOM.\n[pid=82761] <process did exit: exitCode=255, signal=null>\n[pid=82761] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-hDfSDZ -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82761\u001b[22m\n\u001b[2m  - [pid=82761][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82761] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82761] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:02.054Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-69b42b09a2fbcfba06c5",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 250,
+              "column": 7
+            },
+            {
+              "title": "should hide other controls when editing [C63654]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 32,
+                      "status": "passed",
+                      "duration": 558,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:05.678Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-a78df70d54244cfa1119",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 200,
+              "column": 7
+            },
+            {
+              "title": "should save edits on blur [C837456]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 34,
+                      "status": "passed",
+                      "duration": 523,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:05.858Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-32ef7f13f20229f15ae5",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 210,
+              "column": 7
+            },
+            {
+              "title": "should trim entered text [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 33,
+                      "status": "passed",
+                      "duration": 557,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:05.995Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-79179fdc158ab8a70361",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 224,
+              "column": 7
+            },
+            {
+              "title": "should remove the item if an empty text string was entered",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 31,
+                      "status": "passed",
+                      "duration": 514,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:06.156Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-b966d426cdce405aedca",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 238,
+              "column": 7
+            },
+            {
+              "title": "should cancel edits on escape",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 32,
+                      "status": "passed",
+                      "duration": 539,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:06.241Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-bef1ba5ffd33dd2fe8a7",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 250,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "[danza] Counter",
+          "file": "web/demo-todo-app.spec.ts",
+          "line": 259,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display the current number of todo items [C426968], [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "status": "passed",
+                      "duration": 403,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T18:59:59.365Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-faa6af60dd076b09f157",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 260,
+              "column": 7
+            },
+            {
+              "title": "should display the current number of todo items [C426968], [smoke]",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 30,
+                      "status": "failed",
+                      "duration": 3,
+                      "error": {
+                        "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tvNFMO -juggler-pipe -silent\n<launched> pid=82763\n[pid=82763][err] Couldn't load XPCOM.\n[pid=82763] <process did exit: exitCode=255, signal=null>\n[pid=82763] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tvNFMO -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82763\u001b[22m\n\u001b[2m  - [pid=82763][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82763] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82763] starting temporary directories cleanup\u001b[22m\n",
+                        "stack": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tvNFMO -juggler-pipe -silent\n<launched> pid=82763\n[pid=82763][err] Couldn't load XPCOM.\n[pid=82763] <process did exit: exitCode=255, signal=null>\n[pid=82763] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tvNFMO -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82763\u001b[22m\n\u001b[2m  - [pid=82763][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82763] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82763] starting temporary directories cleanup\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tvNFMO -juggler-pipe -silent\n<launched> pid=82763\n[pid=82763][err] Couldn't load XPCOM.\n[pid=82763] <process did exit: exitCode=255, signal=null>\n[pid=82763] starting temporary directories cleanup\nCall log:\n  \u001b[2m- <launching> /Users/petermsouzajr./Library/Caches/ms-playwright/firefox-1447/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/p5/2vg2b51j41xbbj768brmrmbr0000gn/T/playwright_firefoxdev_profile-tvNFMO -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=82763\u001b[22m\n\u001b[2m  - [pid=82763][err] Couldn't load XPCOM.\u001b[22m\n\u001b[2m  - [pid=82763] <process did exit: exitCode=255, signal=null>\u001b[22m\n\u001b[2m  - [pid=82763] starting temporary directories cleanup\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:02.108Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "07b00493789711fea56d-6a88416a41aeeeea533c",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 260,
+              "column": 7
+            },
+            {
+              "title": "should display the current number of todo items [C426968], [smoke]",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 34,
+                      "status": "passed",
+                      "duration": 434,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-05-05T19:00:06.387Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "07b00493789711fea56d-c9232022ebb4af9bad72",
+              "file": "web/demo-todo-app.spec.ts",
+              "line": 260,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2024-05-05T18:59:54.691Z",
+    "duration": 12146.037,
+    "expected": 54,
+    "skipped": 0,
+    "unexpected": 27,
+    "flaky": 0
+  }
+}
