@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 import { formatDuration } from '../../src/sharedMethods/dateFormatting';
 import { constructHeaderReport } from '../../src/dailyReportMethods/buildReport';
 import {
-  TEST_PURPOSES_AVAILABLE,
-  TEST_TARGETS_AVAILABLE,
+  TEST_CATEGORIES_AVAILABLE,
+  TEST_TYPES_AVAILABLE,
 } from '../../constants';
 
 const getRandomTestData = () => {
@@ -17,8 +17,8 @@ const getRandomTestData = () => {
     'skipped',
     'pending',
   ]);
-  const targetsAvailable = TEST_TARGETS_AVAILABLE();
-  const purposesAvailable = TEST_PURPOSES_AVAILABLE();
+  const typesAvailable = TEST_TYPES_AVAILABLE();
+  const categoriesAvailable = TEST_CATEGORIES_AVAILABLE();
   return {
     area: `${faker.lorem.word()}/${faker.lorem.word()}`,
     spec: `${faker.lorem.word()}`,
@@ -26,10 +26,10 @@ const getRandomTestData = () => {
       1,
       6
     )} - ${faker.lorem.words(1, 3)}`,
-    type: getRandomElement(targetsAvailable),
-    category: getRandomElement(purposesAvailable),
+    type: getRandomElement(typesAvailable),
+    category: getRandomElement(categoriesAvailable),
     teamName: faker.lorem.word(),
-    testrailId: `C${faker.number.int({ min: 10, max: 99999 })}`,
+    manualTestId: `C${faker.number.int({ min: 10, max: 99999 })}`,
     error: currentState === 'failed' ? faker.lorem.words(5, 20) : '',
     speedMillis: speedMillis,
     speed: formatDuration(speedMillis),
@@ -150,7 +150,7 @@ const fullReportOutput = {
               afterHooks: [],
               tests: [
                 {
-                  title: `can resend invite to a user, [${testData2.testrailId}]`,
+                  title: `can resend invite to a user, [${testData2.manualTestId}]`,
                   fullTitle: `[${testData2.teamName}] ${testData2.testName}, [${testData2.category}]`,
                   timedOut: null,
                   duration: testData2.speedMillis,
@@ -243,7 +243,7 @@ const expectedPayloadEntries = [
     priority: '',
     status: '',
     state: 'failed',
-    testrailId: '',
+    manualTestId: '',
     error: testData1.error,
     speed: testData1.speed,
   },
@@ -257,7 +257,7 @@ const expectedPayloadEntries = [
     priority: '',
     status: '',
     state: testData2.state,
-    testrailId: testData2.testrailId,
+    manualTestId: testData2.manualTestId,
     error: testData2.error,
     speed: testData2.speed,
   },

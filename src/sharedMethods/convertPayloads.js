@@ -30,6 +30,11 @@ export const transformPlaywrightToFriendlyFormat = (playwrightReports) => {
                 : test.status === 'unexpected'
                 ? 'failed'
                 : test.status;
+
+            const errorMessages = test.results
+              .filter((result) => result.error)
+              .map((result) => result.error.message);
+
             return {
               title: spec.title,
               fullTitle: `${suite.title} ${spec.title}`,
@@ -46,7 +51,7 @@ export const transformPlaywrightToFriendlyFormat = (playwrightReports) => {
               pending: state === 'skipped',
               context: null,
               code: '',
-              err: {},
+              err: errorMessages[0] || '',
               uuid: '',
               parentUUID: '',
               isHook: false,

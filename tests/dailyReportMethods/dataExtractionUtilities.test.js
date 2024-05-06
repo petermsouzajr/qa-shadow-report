@@ -1,6 +1,6 @@
 import {
-  TEST_PURPOSES_AVAILABLE,
-  TEST_TARGETS_AVAILABLE,
+  TEST_CATEGORIES_AVAILABLE,
+  TEST_TYPES_AVAILABLE,
 } from '../../constants';
 import {
   extractAreaFromFullFile,
@@ -8,16 +8,16 @@ import {
   extractSpecFromFullFile,
   extractTeamNameFromTest,
   extractTestNameFromFullTitle,
-  extracttestrailIdFromTest,
+  extractManualTestCaseIdFromTest,
   extractTypeFromFullFile,
 } from '../../src/dailyReportMethods/dataExtractionUtilities';
 
 describe('Extraction Functions', () => {
-  const targetsAvailable = TEST_TARGETS_AVAILABLE();
+  const typesAvailable = TEST_TYPES_AVAILABLE();
   describe('extractAreaFromFullFile', () => {
     it('should correctly extract the area from a full file path', async () => {
       const fullPath = 'cypress/e2e/cart/shopping.spec.ts';
-      const result = await extractAreaFromFullFile(fullPath, targetsAvailable);
+      const result = await extractAreaFromFullFile(fullPath, typesAvailable);
       expect(result).toEqual('cart');
     });
 
@@ -27,8 +27,8 @@ describe('Extraction Functions', () => {
   describe('extractCategoryFromTest', () => {
     it('should correctly extract the category from a test title', () => {
       const test = { fullTitle: '[functional] Add items to cart - [C12345]' };
-      const purposesAvailable = TEST_PURPOSES_AVAILABLE();
-      const result = extractCategoryFromTest(test, purposesAvailable);
+      const categoriesAvailable = TEST_CATEGORIES_AVAILABLE();
+      const result = extractCategoryFromTest(test, categoriesAvailable);
       expect(result).toEqual('functional');
     });
 
@@ -65,10 +65,10 @@ describe('Extraction Functions', () => {
     // Add more test cases
   });
 
-  describe('extracttestrailIdFromTest', () => {
-    it('should correctly extract the TestRail ID from a test title', () => {
+  describe('extractManualTestCaseIdFromTest', () => {
+    it('should correctly extract the Manual Test Case ID from a test title', () => {
       const test = { title: 'Test description [C12345]' };
-      const result = extracttestrailIdFromTest(test);
+      const result = extractManualTestCaseIdFromTest(test);
       expect(result).toEqual('C12345');
     });
 
@@ -77,9 +77,9 @@ describe('Extraction Functions', () => {
 
   describe('extractTypeFromFullFile', () => {
     it('should correctly extract the type from a full file path', () => {
-      const fullFile = `cypress/e2e/${targetsAvailable[1]}/shopping.spec.ts`;
-      const result = extractTypeFromFullFile(fullFile, targetsAvailable);
-      expect(result).toEqual(targetsAvailable[1]); // Assuming 'e2e' is in TEST_TARGETS_AVAILABLE
+      const fullFile = `cypress/e2e/${typesAvailable[1]}/shopping.spec.ts`;
+      const result = extractTypeFromFullFile(fullFile, typesAvailable);
+      expect(result).toEqual(typesAvailable[1]); // Assuming 'e2e' is in TEST_TYPES_AVAILABLE
     });
 
     // Add more test cases

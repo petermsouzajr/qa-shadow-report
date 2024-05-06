@@ -14,8 +14,8 @@ import { findHeaderRowIndex } from '../monthlySummaryMethods/summaryGenerationHe
 // Configuration and constants imports
 import * as constants from '../../constants.js';
 
-const targetsAvailable = constants.TEST_TARGETS_AVAILABLE();
-const purposesAvailable = constants.TEST_PURPOSES_AVAILABLE();
+const typesAvailable = constants.TEST_TYPES_AVAILABLE();
+const categoriesAvailable = constants.TEST_CATEGORIES_AVAILABLE();
 /**
  * Initializes an object to store structured daily payload data.
  * @returns {object} An object with empty arrays for payload segments.
@@ -41,24 +41,27 @@ export const constructReportPayloadEntry = async (result, test, playwright) => {
       ? test.projectName
       : await dataExtraction.extractAreaFromFullFile(
           result.fullFile,
-          targetsAvailable
+          typesAvailable
         );
 
     const spec = await dataExtraction.extractSpecFromFullFile(result.fullFile);
     const type = await dataExtraction.extractTypeFromFullFile(
       result.fullFile,
-      targetsAvailable
+      typesAvailable
     );
     const speed = await formatDuration(test.duration);
-    const testrailId = await dataExtraction.extracttestrailIdFromTest(test);
+    const manualTestId =
+      await dataExtraction.extractManualTestCaseIdFromTest(test);
     const teamName = await dataExtraction.extractTeamNameFromTest(test);
     const category = await dataExtraction.extractCategoryFromTest(
       test,
-      purposesAvailable
+      categoriesAvailable
     );
     const testName = await dataExtraction.extractTestNameFromFullTitle(
       test.fullTitle
     );
+
+    const errorMessage = playwright ? test.err : test.err?.message;
 
     let payloadEntry = {
       area,
@@ -70,11 +73,12 @@ export const constructReportPayloadEntry = async (result, test, playwright) => {
       priority: '',
       status: '',
       state: test.state,
-      testrailId,
-      error: test.err?.message ?? '',
+      manualTestId,
+      error: errorMessage || '',
       speed,
     };
 
+    // Enforce a maximum length for each cell in the payload entry
     Object.keys(payloadEntry).forEach((key) => {
       payloadEntry[key] = enforceMaxLength(payloadEntry[key], 500);
     });
@@ -261,8 +265,8 @@ export const constructHeaderReport = async (payload) => {
   try {
     // Define the structure for the types to be reported
     const typeArrays = [
-      { types: targetsAvailable, index: 3 },
-      { types: purposesAvailable, index: 4 },
+      { types: typesAvailable, index: 3 },
+      { types: categoriesAvailable, index: 4 },
       { types: teamNames, index: 5 },
     ];
 

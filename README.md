@@ -19,10 +19,10 @@ Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, 
 
 1. [Sheets Enhanced Configuration](#sheets-enhanced-configuration)
 
-   - [Column: Team Name](#column-team-name)
-   - [Column: Test Target](#column-test-target)
-   - [Column: Test Purpose](#column-test-purpose)
-   - [Column: Testrail Id](#column-testrail-id)
+   - [Column: Team](#column-team)
+   - [Column: Type](#column-type)
+   - [Column: Category](#column-category)
+   - [Column: Manual Case](#column-manual-case)
    - ['The Works'](#the-works)
 
 1. [Github CI/CD](#github-cicd)
@@ -184,7 +184,7 @@ In this example, running npm run playwright-test will:
 
 ### Sheets Enhanced Configuration
 
-#### Column: Team Name
+#### Column: Team
 
 If you have team names or labels indicating ownership of a test or code feature, you need to specify them to ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`.js`, or`.ts`) file:
 
@@ -231,14 +231,14 @@ describe('[Windsor] Unit test our math functions', () => {
 
 This configuration allows for a more organized and comprehensive report, showcasing test ownership and facilitating team-specific analysis. If you do not specify Team Names, there will be no metrics reported regarding Teams.
 
-### Column: Test Target
+### Column: Type
 
-The Test Target column compiles and categorizes data based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`.js`, or`.ts`) file. If you do not specify a list of Test Targets, the reporting software will use the default list, and will only compile metrics based on the default list of: `["api", "ui", "unit", "integration", "endToEnd", "performance", "security", "database", "accessibility", "mobile"]`.
+The Type column compiles and categorizes data based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`.js`, or`.ts`) file. If you do not specify a list of Test Targets, the reporting software will use the default list, and will only compile metrics based on the default list of: `["api", "ui", "unit", "integration", "endToEnd", "performance", "security", "database", "accessibility", "mobile"]`.
 
 ```
 module.exports = {
       teamNames: ['oregano'],
-      testTargets: [
+      testTypes: [
         'api',
         'ui',
         'unit',
@@ -256,9 +256,9 @@ module.exports = {
 };
 ```
 
-To incorporate a Test Target into your [framework] report, it's essential, and highly recommended, to integrate the Target Type into your [framework] file structure. This practice enhances organizational clarity within your team. For instance, in this example, 'api' is added after the e2e directory:
+To incorporate a test Tpye into your [framework] report, it's essential, and highly recommended, to integrate the test Type into your [framework] file structure. This practice enhances organizational clarity within your team. For instance, in this example, 'api' is added after the e2e directory:
 
-`[framework]/api/1-getting-started/todo.cy.js`
+`[framework]/e2e/api/1-getting-started/todo.cy.js`
 
 Similarly, you can structure your files for other types, such as UI or Performance:
 
@@ -268,15 +268,15 @@ Similarly, you can structure your files for other types, such as UI or Performan
 
 This method of file organization facilitates easy identification and categorization of tests based on their target type, thereby streamlining the reporting and analysis process.
 
-### Column: Test Purpose
+### Column: Category
 
-The Test Purpose column compiles data to represent the specific purpose of each test, based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`.js`, or`.ts`) file. If you do not specify a list of Test Purposes, the reporting software will use the default list, and will only compile metrics based on the default list of: `["smoke", "regression", "sanity", "exploratory", "functional", "load", "stress", "usability", "compatibility", "alpha", "beta"]`.
+The Category column compiles data to represent the specific purpose of each test, based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`.js`, or`.ts`) file. If you do not specify a list of Categories, the reporting software will use the default list, and will only compile metrics based on the default list of: `["smoke", "regression", "sanity", "exploratory", "functional", "load", "stress", "usability", "compatibility", "alpha", "beta"]`.
 
 ```
 module.exports = {
       teamNames: ['oregano'],
-      testTargets: ['mobile'],
-      testPurposes: [
+      testTypes: ['mobile'],
+      testCategories: [
         'smoke',
         'regression',
         'sanity',
@@ -321,9 +321,9 @@ describe('[Windsor] Unit test our math functions', () => {
 
 This approach not only categorizes your tests effectively but also adds clarity to the specific objectives they aim to achieve, thereby enhancing the insightfulness of your test reporting.
 
-### Column: Testrail Id
+### Column: Manual Case
 
-The TestRail ID column is designed to extract data from the test report output and align it with the associated TestRail ID in the TestRail ID column. Within the it block string in your [framework] tests, include the TestRail ID in square brackets at the end of the string. This notation specifies the TestRail ID linked to each particular test. For instance, `[C2452]` and `[C24534]` are examples of TestRail IDs used in this context:
+The Manual Case column is designed to display the Manual Case ID associated to the automated test. Within the it block string in your [framework] tests, include the Manual Case in square brackets at the end of the string. This notation specifies the Manual Case linked to each particular test. For instance, [C2452] and [C24534] are examples of manual cases used in this context. You can format identifiers using a prefix of letters (or symbols like # or -), followed by one or more numbers, as in [DEV-345], [TC-34535], and [#356363]. Make sure the identifier is enclosed within square brackets.
 
 ```
 describe('[Windsor] Unit test our math functions', () => {
@@ -347,7 +347,7 @@ describe('[Windsor] Unit test our math functions', () => {
 })
 ```
 
-This method ensures that each test is accurately linked to its corresponding TestRail ID, facilitating a more detailed and organized approach to test tracking, reporting, and auditing.
+This method ensures that each test is accurately linked to its corresponding Manual Case ID, facilitating a more detailed and organized approach to test tracking, reporting, and auditing.
 
 ### 'The Works'
 
@@ -360,13 +360,13 @@ module.exports = {
         'wilkins',
         'canonicus',
       ],
-      testTargets: [
+      testTypes: [
         'api',
         'ui',
         'accessibility',
         'mobile',
       ],
-      testPurposes: [
+      testCategories: [
         'smoke',
         'compatibility',
         'alpha',

@@ -98,7 +98,7 @@ export const COLUMNS_AVAILABLE = (playwright) => {
     'priority',
     'status',
     'state',
-    'testrail id',
+    'manual case',
     'error',
     'speed',
   ];
@@ -115,10 +115,10 @@ export const COLUMNS_AVAILABLE = (playwright) => {
     : baseColumns;
 };
 
-export const TEST_TARGETS_AVAILABLE = () => {
+export const TEST_TYPES_AVAILABLE = () => {
   const targets =
-    shadowConfigDetails && shadowConfigDetails.testTargets
-      ? shadowConfigDetails.testTargets
+    shadowConfigDetails && shadowConfigDetails.testTypes
+      ? shadowConfigDetails.testTypes
       : [
           'api',
           'ui',
@@ -135,10 +135,10 @@ export const TEST_TARGETS_AVAILABLE = () => {
   return targets;
 };
 
-export const TEST_PURPOSES_AVAILABLE = () => {
+export const TEST_CATEGORIES_AVAILABLE = () => {
   const purposes =
-    shadowConfigDetails && shadowConfigDetails.testPurposes
-      ? shadowConfigDetails.testPurposes
+    shadowConfigDetails && shadowConfigDetails.testCategories
+      ? shadowConfigDetails.testCategories
       : [
           'smoke',
           'regression',
