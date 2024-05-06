@@ -86,7 +86,7 @@ To ensure tests and reports are processed correctly, configure your `package.jso
     "cypress:run": "npm run cypress:prerun && cypress run --headless --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=false,json=true",
     "postcypress:run": "npm run report:merge",
     "report:merge": "mochawesome-merge cypress/results/*.json > cypress/results/output.json && npm run report:generate",
-    "report:generate": "qa-shadow-report",
+    "report:generate": "qa-shadow-report cypress",
     "cypress-test": "npm run cypress:run"
   },
 ```
@@ -108,13 +108,14 @@ Before you begin, ensure you have the following packages and authentication:
 - **Google Spreadsheet ID:** Find this in your sheet's URL and store it in an environment variable.
 - **Service Account Credentials for Google Sheets:** Follow the detailed guide from `node-google-spreadsheet` they have a great document describing Google Service Accounts [node-google-spreadshee: Google Service Account](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=authentication-methods)
   to set up and safely store your credentials, updating `shadowReportConfig.*` (`js`, or `ts`) with the path to these credentials. Use `.gitignore` to secure your credentials within your project.
+- **playwright.config:** `reporter: [ ['json', {  outputFile: 'test-results/output.json' }]]` or comperable inline command.
 - **Create a configuration file:** In the root of your Playwright project, create a configuration file named: `shadowReportConfig.*` (`js`, or `ts`).
 
 ```
 module.exports = {
   googleSpreadsheetId: 'v544j5h4h456v6n',
   googleKeyFilePath: 'googleCredentials.json',
-  testData: 'playwright/test-results/output.json',
+  testData: './test-results/output.json',
 };
 ```
 
@@ -123,10 +124,10 @@ module.exports = {
 To ensure tests and reports are processed correctly, configure your `package.json` similarly to the following example:
 
 ```
-  "scripts": {
-    "playwright:prerun": "rm -rf playwright/test-results",
-    "playwright:run": "npm run playwright:prerun && playwright test --output=playwright/test-results --reporter=json,overwrite=false,html=false,json=true",
-    "report:generate": "qa-shadow-report --framework=playwright",
+"scripts": {
+    "playwright:prerun": "rm -rf test-results",
+    "playwright:run": "npm run playwright:prerun && playwright test || true",
+    "report:generate": "qa-shadow-report playwright",
     "playwright-test": "npm run playwright:run && npm run report:generate"
   },
 ```
