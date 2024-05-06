@@ -8,7 +8,7 @@
     "cypress:run": "npm run cypress:prerun && cypress run --headless --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=false,json=true",
     "postcypress:run": "npm run report:merge",
     "report:merge": "mochawesome-merge cypress/results/*.json > cypress/results/output.json && npm run report:generate",
-    "report:generate": "cy-shadow-report",
+    "report:generate": "cy-shadow-report cypress",
     "test": "npm run cypress:run"
   },
   "keywords": [],
@@ -20,6 +20,6 @@
     "mochawesome-merge": "^4.3.0"
   },
   "dependencies": {
-    "cy-shadow-report": "^1.0.6"
+    "qa-shadow-report": "^1.1.4"
   }
 }
