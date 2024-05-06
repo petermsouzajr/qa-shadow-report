@@ -124,7 +124,7 @@ module.exports = {
 To ensure tests and reports are processed correctly, configure your `package.json` similarly to the following example:
 
 ```
-"scripts": {
+  "scripts": {
     "playwright:prerun": "rm -rf test-results",
     "playwright:run": "npm run playwright:prerun && playwright test || true",
     "report:generate": "qa-shadow-report playwright",
