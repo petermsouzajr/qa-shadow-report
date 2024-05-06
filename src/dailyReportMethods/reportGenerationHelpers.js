@@ -58,14 +58,14 @@ export const generateStateReports = (defaultHeaderMetrics, index) => {
     let formula;
 
     switch (type) {
-    case 'skipped/pending':
-      formula = `${adjustedMetric} formula skipped/pending`;
-      break;
-    case 'total':
-      formula = `${adjustedMetric} formula total`;
-      break;
-    default:
-      formula = `${type} formula base`;
+      case 'skipped/pending':
+        formula = `${adjustedMetric} formula skipped/pending`;
+        break;
+      case 'total':
+        formula = `${adjustedMetric} formula total`;
+        break;
+      default:
+        formula = `${type} formula base`;
     }
 
     return [`# ${adjustedMetric}`, formula];
@@ -244,11 +244,11 @@ export const constructHeaderRegex = () => {
  */
 export const determineSubjectColumn = (type) => {
   const columnsAvailable = constants.COLUMNS_AVAILABLE();
-  const targetsAvailable = constants.TEST_TARGETS_AVAILABLE();
-  const purposesAvailable = constants.TEST_PURPOSES_AVAILABLE();
-  if (purposesAvailable.includes(type)) {
+  const typesAvailable = constants.TEST_TYPES_AVAILABLE();
+  const categoriesAvailable = constants.TEST_CATEGORIES_AVAILABLE();
+  if (categoriesAvailable.includes(type)) {
     return numberToLetter(columnsAvailable.indexOf('category'));
-  } else if (targetsAvailable.includes(type)) {
+  } else if (typesAvailable.includes(type)) {
     return numberToLetter(columnsAvailable.indexOf('type'));
   }
   return numberToLetter(columnsAvailable.indexOf('team'));

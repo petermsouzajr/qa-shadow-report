@@ -64,7 +64,9 @@
               "pending": false,
               "context": null,
               "code": "// We'll store our item text in a variable so we can reuse it\nconst newItem = 'Feed the cat';\n// Let's get the input element and use the `type` command to\n// input our new list item. After typing the content of our item,\n// we need to type the enter key as well in order to submit the input.\n// This input has a data-test attribute so we'll use that to select the\n// element in accordance with best practices:\n// https://on.cypress.io/selecting-elements\ncy.get('[data-test=new-todo]').type(`${newItem}{enter}`);\n// Now that we've typed our new item, let's check that it actually was added to the list.\n// Since it's the newest item, it should exist as the last element in the list.\n// In addition, with the two default items, we should have a total of 3 elements in the list.\n// Since assertions yield the element that was asserted on,\n// we can chain both of these assertions together into a single statement.\ncy.get('.todo-list li').should('have.length', 3).last().should('have.text', newItem);",
-              "err": {},
+              "err": {
+                "message": "expected '<li>' to have text 'Feed the cat' but the text was 'Walk the dog'"
+              },
               "uuid": "52870656-f9a4-4b64-a8b1-a33960f79955",
               "parentUUID": "68bc8cc6-ccff-4678-8d9b-e79ba3235e35",
               "isHook": false,
@@ -110,7 +112,9 @@
                   "pending": false,
                   "context": null,
                   "code": "// We'll click on the \"active\" button in order to\n// display only incomplete items\ncy.contains('Active').click();\n// After filtering, we can assert that there is only the one\n// incomplete item in the list.\ncy.get('.todo-list li').should('have.length', 1).first().should('have.text', 'Walk the dog');\n// For good measure, let's also assert that the task we checked off\n// does not exist on the page.\ncy.contains('Pay electric bill').should('not.exist');",
-                  "err": {},
+                  "err": {
+                    "message": "expected '<li>' to have text 'Walk the dog' but the text was 'Pay electric bill'"
+                  },
                   "uuid": "5159931e-3dcd-4163-a4ea-3b518e092f2c",
                   "parentUUID": "872245be-a872-41f8-9801-e8ce9f174f56",
                   "isHook": false,
