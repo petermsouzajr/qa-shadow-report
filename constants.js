@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import fs from 'fs';
 import path, { dirname } from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
@@ -87,72 +88,110 @@ export const FORMULA_TEMPLATES = [
   '=ROWS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows})',
 ];
 
-export const COLUMNS_AVAILABLE = (playwright) => {
-  let baseColumns = [
-    'area',
-    'spec',
-    'test name',
-    'type',
-    'category',
-    'team',
-    'priority',
-    'status',
-    'state',
-    'manual case',
-    'error',
-    'speed',
-  ];
+const cache = {};
 
-  // Prepend 'browser' if playwright is true
-  if (playwright) {
-    baseColumns.shift();
-    baseColumns = ['browser', ...baseColumns];
+function getCachedOrCompute(key, computeFunction) {
+  if (cache[key]) {
+    return cache[key];
   }
+  const data = computeFunction();
+  cache[key] = data;
+  return data;
+}
 
-  // Override with shadowConfigDetails columns if they are available
-  return shadowConfigDetails && shadowConfigDetails.columns
-    ? shadowConfigDetails.columns
-    : baseColumns;
+/**
+ * Gets the available columns for test reports, adjusted for Playwright if specified.
+ * @param {boolean} playwright - Flag indicating whether to include 'browser' column for Playwright.
+ * @returns {Array} An array of column names.
+ */
+export const COLUMNS_AVAILABLE = (playwright) => {
+  return getCachedOrCompute(
+    `columns-${playwright ? 'playwright' : 'default'}`,
+    () => {
+      let baseColumns = [
+        'area',
+        'spec',
+        'test name',
+        'type',
+        'category',
+        'team',
+        'priority',
+        'status',
+        'state',
+        'manual case',
+        'error',
+        'speed',
+      ];
+
+      if (playwright) {
+        baseColumns = ['browser', ...baseColumns];
+      }
+
+      if (shadowConfigDetails && Array.isArray(shadowConfigDetails.columns)) {
+        // console.info(chalk.green('Using custom columns list.'));
+        return shadowConfigDetails.columns;
+      } else {
+        // console.info(chalk.blue('Using default columns list.'));
+        return baseColumns;
+      }
+    }
+  );
 };
 
 export const TEST_TYPES_AVAILABLE = () => {
-  const targets =
-    shadowConfigDetails && shadowConfigDetails.testTypes
-      ? shadowConfigDetails.testTypes
-      : [
-          'api',
-          'ui',
-          'unit',
-          'integration',
-          'endToEnd',
-          'performance',
-          'security',
-          'database',
-          'accessibility',
-          'web',
-          'mobile',
-        ];
-  return targets;
+  return getCachedOrCompute('testTypes', () => {
+    const hasCustomTypes =
+      shadowConfigDetails &&
+      Array.isArray(shadowConfigDetails.testTypes) &&
+      shadowConfigDetails.testTypes.length > 0;
+    if (hasCustomTypes) {
+      console.info(chalk.green('Using custom test types list.'));
+      return shadowConfigDetails.testTypes;
+    } else {
+      console.info(chalk.blue('Using default test types list.'));
+      return [
+        'api',
+        'ui',
+        'unit',
+        'integration',
+        'endToEnd',
+        'performance',
+        'security',
+        'database',
+        'accessibility',
+        'web',
+        'mobile',
+      ];
+    }
+  });
 };
 
 export const TEST_CATEGORIES_AVAILABLE = () => {
-  const purposes =
-    shadowConfigDetails && shadowConfigDetails.testCategories
-      ? shadowConfigDetails.testCategories
-      : [
-          'smoke',
-          'regression',
-          'sanity',
-          'exploratory',
-          'functional',
-          'load',
-          'stress',
-          'usability',
-          'compatibility',
-          'alpha',
-          'beta',
-        ];
-  return purposes;
+  return getCachedOrCompute('testCategories', () => {
+    const hasCustomCategories =
+      shadowConfigDetails &&
+      Array.isArray(shadowConfigDetails.testCategories) &&
+      shadowConfigDetails.testCategories.length > 0;
+    if (hasCustomCategories) {
+      console.info(chalk.green('Using custom test category list.'));
+      return shadowConfigDetails.testCategories;
+    } else {
+      console.info(chalk.blue('Using default test category list.'));
+      return [
+        'smoke',
+        'regression',
+        'sanity',
+        'exploratory',
+        'functional',
+        'load',
+        'stress',
+        'usability',
+        'compatibility',
+        'alpha',
+        'beta',
+      ];
+    }
+  });
 };
 
 export const DEFAULT_HEADER_METRICS = [
@@ -167,22 +206,30 @@ export const HEADER_INDICATORS = ['test name', 'state'];
 export const FOOTER_ROW = '- END -';
 
 export const ALL_TEAM_NAMES = () => {
-  const teams =
-    shadowConfigDetails && shadowConfigDetails.teamNames
-      ? shadowConfigDetails.teamNames
-      : [
-          'raptors',
-          'kimchi',
-          'protus',
-          'danza',
-          'sloth',
-          'winter',
-          'oregano',
-          'spoofer',
-          'juniper',
-          'occaecati',
-          'wilkins',
-          'canonicus',
-        ];
-  return teams;
+  return getCachedOrCompute('teamNames', () => {
+    const hasCustomTeams =
+      shadowConfigDetails &&
+      Array.isArray(shadowConfigDetails.teamNames) &&
+      shadowConfigDetails.teamNames.length > 0;
+    if (hasCustomTeams) {
+      console.info(chalk.green('Using custom team names list.'));
+      return shadowConfigDetails.teamNames;
+    } else {
+      console.info(chalk.blue('Using default team names list.'));
+      return [
+        'raptors',
+        'kimchi',
+        'protus',
+        'danza',
+        'sloth',
+        'winter',
+        'oregano',
+        'spoofer',
+        'juniper',
+        'occaecati',
+        'wilkins',
+        'canonicus',
+      ];
+    }
+  });
 };

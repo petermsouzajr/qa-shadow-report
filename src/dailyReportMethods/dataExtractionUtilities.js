@@ -1,4 +1,4 @@
-import { TEST_CATEGORIES_AVAILABLE } from '../../constants.js';
+import { ALL_TEAM_NAMES } from '../../constants.js';
 
 /**
  * Asynchronously extracts the area from a full file path string, excluding any segments
@@ -86,12 +86,21 @@ export const extractSpecFromFullFile = (fullFilePath) => {
 };
 
 /**
+ * Helper function to escape special characters in regular expression strings.
+ * @param {string} string The input string to escape.
+ * @returns {string} The escaped string.
+ */
+const escapeRegExp = (string) => {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
+
+/**
  * Extracts the team name from the test object's full title.
- * Assumes the team name is encapsulated in square brackets []
- * and does not start with 'C' followed by digits.
+ * Assumes the team name is encapsulated in square brackets [].
+ * The word must be an exact match from the list of team names, case insensitive.
  *
  * @param {Object} test The test object containing the fullTitle property.
- * @returns {string} The extracted team name.
+ * @returns {string} The extracted team name, or an empty string if no valid name found.
  * @throws {TypeError} If the input test object does not have a fullTitle property or it's not a string.
  */
 export const extractTeamNameFromTest = (test) => {
@@ -101,15 +110,15 @@ export const extractTeamNameFromTest = (test) => {
     );
   }
 
-  const testCategories = TEST_CATEGORIES_AVAILABLE();
-  // Convert the array to a regex string
-  const testCategoriesRegex = testCategories.join('|');
+  const allTeamNames = ALL_TEAM_NAMES();
+  // Create a regex pattern that matches any of the team names enclosed in brackets, case insensitive
+  const teamNamesPattern = `\\[(${allTeamNames
+    .map((name) => escapeRegExp(name))
+    .join('|')})\\]`;
+  const teamNameRegex = new RegExp(teamNamesPattern, 'i');
 
-  // This regex matches any string within brackets that doesn't start with 'C' followed by numbers
-  const teamNameMatch = test.fullTitle.match(
-    new RegExp(`\\[((?!${testCategoriesRegex}|C\\d+).+?)\\]`)
-  );
-  return teamNameMatch ? teamNameMatch[1].trim() : '';
+  const teamNameMatch = test.fullTitle.match(teamNameRegex);
+  return teamNameMatch ? teamNameMatch[1] : '';
 };
 
 /**
