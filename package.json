@@ -1,15 +1,17 @@
 {
   "name": "qa-shadow-report",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "bin": {
     "qa-shadow-report": "./cli.js"
   },
   "description": "npm package that prints formatted test reports into a google sheet or csv file",
   "main": "src/index.js",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "lint": "eslint . --report-unused-disable-directives",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "postinstall": "node scripts/postinstall.js",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch"
   },
   "repository": "git+ssh://git@github.com/petermsouzajr/qa-shadow-report.git",
   "keywords": [
@@ -34,13 +36,14 @@
     "@faker-js/faker": "^8.3.1",
     "@types/jest": "^29.5.12",
     "babel-jest": "^29.7.0",
-    "eslint": "^8.48.0",
-    "eslint-plugin-import": "^2.28.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.0.2",
     "eslint-plugin-promise": "^6.1.1",
     "jest": "^29.7.0"
   },
   "dependencies": {
+    "chalk": "^5.3.0",
     "googleapis": "^126.0.1",
     "prettier": "^3.0.3"
   },

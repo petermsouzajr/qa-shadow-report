@@ -64,7 +64,7 @@ To locally test and trigger the main functionality of this project, follow the s
 
 #### Steps
 
-1. From the root of the repository, run `node cli.js`. This script is the entry point for the application's main functionality, and accepts Options and Flags e.g. `node cli.js monthly-summary --duplicate`.
+1. From the root of the repository, run `node cli.js`. This script is the entry point for the application's main functionality, and accepts Options and Flags e.g. `node cli.js qa-shadow-report monthly-summary --duplicate`.
 2. Observe the spreadsheet for report results.
 
 This should give you the same result as if the package was installed or run from the `demo` branch.
