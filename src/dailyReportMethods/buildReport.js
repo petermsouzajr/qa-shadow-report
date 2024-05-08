@@ -16,6 +16,8 @@ import * as constants from '../../constants.js';
 
 const typesAvailable = constants.TEST_TYPES_AVAILABLE();
 const categoriesAvailable = constants.TEST_CATEGORIES_AVAILABLE();
+const allTeamNames = constants.ALL_TEAM_NAMES();
+
 /**
  * Initializes an object to store structured daily payload data.
  * @returns {object} An object with empty arrays for payload segments.
@@ -52,7 +54,10 @@ export const constructReportPayloadEntry = async (result, test, playwright) => {
     const speed = await formatDuration(test.duration);
     const manualTestId =
       await dataExtraction.extractManualTestCaseIdFromTest(test);
-    const teamName = await dataExtraction.extractTeamNameFromTest(test);
+    const teamName = await dataExtraction.extractTeamNameFromTest(
+      test,
+      allTeamNames
+    );
     const category = await dataExtraction.extractCategoryFromTest(
       test,
       categoriesAvailable

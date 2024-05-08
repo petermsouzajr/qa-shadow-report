@@ -1,4 +1,4 @@
-import { TEST_CATEGORIES_AVAILABLE } from '../../constants.js';
+import { ALL_TEAM_NAMES } from '../../constants.js';
 
 /**
  * Asynchronously extracts the area from a full file path string, excluding any segments
@@ -26,7 +26,7 @@ export const extractAreaFromFullFile = async (fullFile, testTypesAvailable) => {
     .filter((segment) => !testTypesAvailable.includes(segment))
     .join('/');
 
-  return area; // The function only returns the area, spec and type were not defined in the original snippet
+  return area; // The function only returns the area
 };
 
 /**
@@ -86,30 +86,39 @@ export const extractSpecFromFullFile = (fullFilePath) => {
 };
 
 /**
+ * Helper function to escape special characters in regular expression strings.
+ * @param {string} string The input string to escape.
+ * @returns {string} The escaped string.
+ */
+const escapeRegExp = (string) => {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
+
+/**
  * Extracts the team name from the test object's full title.
- * Assumes the team name is encapsulated in square brackets []
- * and does not start with 'C' followed by digits.
+ * Assumes the team name is encapsulated in square brackets [].
+ * The word must be an exact match from the list of team names, case insensitive.
  *
  * @param {Object} test The test object containing the fullTitle property.
- * @returns {string} The extracted team name.
+ * @param {Array<string>} allTeamNames - An array of strings representing available team names.
+ * @returns {string} The extracted team name, or an empty string if no valid name found.
  * @throws {TypeError} If the input test object does not have a fullTitle property or it's not a string.
  */
-export const extractTeamNameFromTest = (test) => {
+export const extractTeamNameFromTest = (test, allTeamNames) => {
   if (!test || typeof test.fullTitle !== 'string') {
     throw new TypeError(
       'The "test" object must have a "fullTitle" property of type string.'
     );
   }
 
-  const testCategories = TEST_CATEGORIES_AVAILABLE();
-  // Convert the array to a regex string
-  const testCategoriesRegex = testCategories.join('|');
+  // Create a regex pattern that matches any of the team names enclosed in brackets, case insensitive
+  const teamNamesPattern = `\\[(${allTeamNames
+    .map((name) => escapeRegExp(name))
+    .join('|')})\\]`;
+  const teamNameRegex = new RegExp(teamNamesPattern, 'i');
 
-  // This regex matches any string within brackets that doesn't start with 'C' followed by numbers
-  const teamNameMatch = test.fullTitle.match(
-    new RegExp(`\\[((?!${testCategoriesRegex}|C\\d+).+?)\\]`)
-  );
-  return teamNameMatch ? teamNameMatch[1].trim() : '';
+  const teamNameMatch = test.fullTitle.match(teamNameRegex);
+  return teamNameMatch ? teamNameMatch[1] : '';
 };
 
 /**
