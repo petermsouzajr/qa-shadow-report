@@ -28,69 +28,33 @@ if (fs.existsSync(path.join(__dirname, '..', '.git'))) {
   process.exit(0);
 }
 
-const promptUser = (message, callback) => {
+const promptUser = (message, options, callback) => {
   rl.question(chalk.blue(message), (answer) => {
-    callback(answer.trim().toLowerCase());
+    answer = answer.trim().toLowerCase();
+    if (options.includes(answer)) {
+      callback(answer);
+    } else {
+      confirmExit();
+    }
   });
 };
 
-const checkForPackage = (packageName) => {
-  const packageJsonPath = path.join(projectRootPath, 'package.json');
-  try {
-    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-    return (
-      packageName in packageJson.dependencies ||
-      packageName in packageJson.devDependencies
-    );
-  } catch (error) {
-    console.error(chalk.red(`Error reading package.json: ${error}`));
-    return false;
-  }
-};
-
-const isPlaywrightInstalled = checkForPackage('playwright');
-
-const getPackageManager = () => {
-  const hasYarnLock = fs.existsSync(path.join(process.cwd(), 'yarn.lock'));
-  const hasPackageLock = fs.existsSync(
-    path.join(process.cwd(), 'package-lock.json')
-  );
-
-  if (hasYarnLock) {
-    return 'yarn';
-  } else if (hasPackageLock) {
-    return 'npm';
-  } else {
-    console.error(
-      chalk.red(
-        'No package manager lock file found. Please ensure you are in a Node.js project.'
-      )
-    );
-    process.exit(1);
-  }
-};
-
-const installPackages = (manager) => {
-  const command = manager === 'yarn' ? 'yarn add' : 'npm install';
-  console.info(
-    chalk.green(`Installing packages with ${manager}: ${packages.join(', ')}`)
-  );
-  execSync(`${command} --save-dev ${packages.join(' ')}`, { stdio: 'inherit' });
-  inquireConfigFileCreation();
-};
-
-const handleExit = () => {
-  console.info(
-    chalk.yellow(
-      'Installation aborted. Check the setup guide information on dependencies https://www.npmjs.com/package/qa-shadow-report#sheets-setup-guide.'
-    )
-  );
-  rl.close();
-};
-
-const handleInvalidInput = (options) => {
-  console.error(
-    chalk.red(`Invalid input. Please enter ${options}, or "EXIT".`)
+const confirmExit = () => {
+  rl.question(
+    chalk.yellow('Would you like to exit setup? [y/n]: '),
+    (answer) => {
+      if (answer === 'n') {
+        startSetup();
+      } else {
+        console.info(
+          chalk.yellow(
+            'Exiting setup. Check the setup guide information on dependencies https://www.npmjs.com/package/qa-shadow-report#sheets-setup-guide'
+          )
+        );
+        rl.close();
+        process.exit(0);
+      }
+    }
   );
 };
 
@@ -99,6 +63,7 @@ const createConfigFile = () => {
     console.info(
       chalk.yellow(`Config file '${configFileName}' already exists.`)
     );
+    return;
   } else {
     const defaultConfigContent = `
     // Sample Configuration File: Adjust values below to match your project's setup
@@ -152,143 +117,85 @@ const createConfigFile = () => {
     });
     console.info(
       chalk.green(
-        `Created config file: ${configFileName} in ${projectRootPath}`
+        `Config file created at: ${configFileName} in ${projectRootPath}`
       )
     );
   }
 };
 
-const handlePlaywrightConfirmation = () => {
+const installPackages = (manager) => {
+  console.info(
+    chalk.green(`Installing packages with ${manager}: ${packages.join(', ')}`)
+  );
+  execSync(`${manager} add --dev ${packages.join(' ')}`, { stdio: 'inherit' });
+  console.log(chalk.green('Packages installed successfully.'));
+};
+
+const handlePostInstallTasks = (framework) => {
   promptUser(
-    'It looks like you are using Playwright, is that correct? (Yes/No): ',
-    (answer) => {
-      if (answer === 'no') {
-        handleCypressConfirmation();
-      } else if (answer === 'yes') {
+    'A config file is required for qa-shadow-report would you like us to create one now? [y/n]: ',
+    ['y', 'n'],
+    (create) => {
+      if (create === 'y') {
+        createConfigFile();
+      } else {
+        console.info(
+          chalk.yellow(
+            'Skipping configuration file creation. Check the setup guide information on dependencies https://www.npmjs.com/package/qa-shadow-report#sheets-setup-guide'
+          )
+        );
+      }
+      if (framework === 'pw') {
         console.info(
           chalk.yellow(
             "Please ensure 'playwright.config.js' is updated to use the JSON reporter, reporter: [['json', { outputFile: 'test-results/output.json' }]];"
           )
         );
-        inquireConfigFileCreation();
-      } else if (answer === 'exit') {
-        handleExit();
-      } else {
-        handleInvalidInput('Yes/No');
-        handlePlaywrightConfirmation();
       }
+      rl.close();
     }
   );
-};
 
-const handleCypressConfirmation = () => {
-  promptUser(
-    `It looks like you are using Cypress, is that correct? (Yes/No): `,
-    (pkgAnswer) => {
-      if (pkgAnswer === 'yes') {
-        confirmPackageManager();
-      } else if (pkgAnswer === 'no') {
-        handlePlaywrightConfirmation();
-      } else if (pkgAnswer === 'exit') {
-        handleExit();
-      } else {
-        handleInvalidInput('Yes/No');
-        handleCypressConfirmation();
+  if (framework === 'cy') {
+    promptUser(
+      `Would you like to install 'mochawesome' for Cypress test reporting with Yarn or NPM? [yarn/npm]: `,
+      ['yarn', 'npm'],
+      (installer) => {
+        if (['yarn', 'npm'].includes(installer)) {
+          installPackages(installer);
+        } else {
+          console.info(
+            chalk.yellow(
+              'Skipping dependency installation. Check the setup guide information on dependencies https://www.npmjs.com/package/qa-shadow-report#sheets-setup-guide'
+            )
+          );
+          rl.close();
+        }
       }
-    }
-  );
-};
-
-const askForPackageManager = () => {
-  promptUser(
-    'Please type "YARN", "NPM" to install packages, or "EXIT" to exit package creation step.',
-    (packageManager) => {
-      if (packageManager === 'yarn' || packageManager === 'npm') {
-        installPackages(packageManager);
-      } else if (packageManager === 'exit') {
-        handleExit();
-      } else {
-        handleInvalidInput('Yarn/Npm');
-        askForPackageManager();
-      }
-    }
-  );
-};
-
-const switchManager = (currentManager) => {
-  const newManager = currentManager === 'yarn' ? 'npm' : 'yarn';
-  promptUser(
-    `Would you like to install the required packages ${packages.join(
-      ', '
-    )} for qa-shadow-report and Cypress with ${newManager}? (Yes/No): `,
-    (installAnswer) => {
-      if (installAnswer === 'yes') {
-        installPackages(newManager);
-      } else if (installAnswer === 'no') {
-        askForPackageManager();
-      } else if (installAnswer === 'exit') {
-        handleExit();
-      } else {
-        handleInvalidInput('Yes/No');
-        switchManager(currentManager);
-      }
-    }
-  );
-};
-
-const confirmPackageManager = () => {
-  const manager = getPackageManager();
-  promptUser(
-    `Would you like to install the required packages ${packages.join(
-      ', '
-    )} for qa-shadow-report and Cypress with ${manager}? (Yes/No): `,
-    (installAnswer) => {
-      if (installAnswer === 'yes') {
-        installPackages(manager);
-      } else if (installAnswer === 'no') {
-        switchManager(manager);
-      } else if (installAnswer === 'exit') {
-        handleExit();
-      } else {
-        handleInvalidInput('Yes/No');
-        confirmPackageManager();
-      }
-    }
-  );
-};
-
-const inquireConfigFileCreation = () => {
-  promptUser(
-    'A configuration file is required for qa-shadow-report. Would you like us to create that now? (Yes/No): ',
-    (cfgAnswer) => {
-      if (cfgAnswer === 'yes') {
-        createConfigFile();
-      } else if (cfgAnswer === 'no' || cfgAnswer === 'exit') {
-        handleExit();
-      } else {
-        handleInvalidInput('Yes/No');
-        inquireConfigFileCreation();
-      }
-    }
-  );
-};
-
-// Entry point to check if Playwright or Cypress is installed
-const checkInstallation = () => {
-  if (isPlaywrightInstalled) {
-    handlePlaywrightConfirmation();
-  } else {
-    handleCypressConfirmation();
+    );
   }
 };
 
-// Error handling for the installation checking process
+const startSetup = () => {
+  promptUser(
+    'Are you using Playwright (pw) or Cypress (cy)? [pw/cy]: ',
+    ['pw', 'cy'],
+    (framework) => {
+      if (['pw', 'cy'].includes(framework)) {
+        handlePostInstallTasks(framework);
+      } else {
+        confirmExit();
+      }
+    }
+  );
+};
+
 try {
-  checkInstallation();
+  startSetup();
 } catch (error) {
   console.error(
     chalk.red('An error occurred during the post-installation script:'),
     error
   );
-  process.exit(1); // Exit with an error code to indicate failure
+  process.exit(1);
 }
