@@ -26,7 +26,7 @@ export const extractAreaFromFullFile = async (fullFile, testTypesAvailable) => {
     .filter((segment) => !testTypesAvailable.includes(segment))
     .join('/');
 
-  return area; // The function only returns the area, spec and type were not defined in the original snippet
+  return area; // The function only returns the area
 };
 
 /**
@@ -100,17 +100,17 @@ const escapeRegExp = (string) => {
  * The word must be an exact match from the list of team names, case insensitive.
  *
  * @param {Object} test The test object containing the fullTitle property.
+ * @param {Array<string>} allTeamNames - An array of strings representing available team names.
  * @returns {string} The extracted team name, or an empty string if no valid name found.
  * @throws {TypeError} If the input test object does not have a fullTitle property or it's not a string.
  */
-export const extractTeamNameFromTest = (test) => {
+export const extractTeamNameFromTest = (test, allTeamNames) => {
   if (!test || typeof test.fullTitle !== 'string') {
     throw new TypeError(
       'The "test" object must have a "fullTitle" property of type string.'
     );
   }
 
-  const allTeamNames = ALL_TEAM_NAMES();
   // Create a regex pattern that matches any of the team names enclosed in brackets, case insensitive
   const teamNamesPattern = `\\[(${allTeamNames
     .map((name) => escapeRegExp(name))

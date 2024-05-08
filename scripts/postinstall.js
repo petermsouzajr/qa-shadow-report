@@ -11,6 +11,8 @@ const configFileName = 'shadowReportConfig.js';
 const projectRootPath = path.join(__dirname, '..', '..');
 const configFilePath = path.join(projectRootPath, configFileName);
 const packages = ['mochawesome', 'mochawesome-merge'];
+const setupLink =
+  'https://www.npmjs.com/package/qa-shadow-report#sheets-setup-guide';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -48,7 +50,7 @@ const confirmExit = () => {
       } else {
         console.info(
           chalk.yellow(
-            'Exiting setup. Check the setup guide information on dependencies https://www.npmjs.com/package/qa-shadow-report#sheets-setup-guide'
+            `Exiting setup. Check the setup guide information on dependencies ${setupLink}}`
           )
         );
         rl.close();
@@ -141,7 +143,7 @@ const handlePostInstallTasks = (framework) => {
       } else {
         console.info(
           chalk.yellow(
-            'Skipping configuration file creation. Check the setup guide information on dependencies https://www.npmjs.com/package/qa-shadow-report#sheets-setup-guide'
+            `Skipping configuration file creation. Check the setup guide information on dependencies ${setupLink}}`
           )
         );
       }
@@ -166,7 +168,7 @@ const handlePostInstallTasks = (framework) => {
         } else {
           console.info(
             chalk.yellow(
-              'Skipping dependency installation. Check the setup guide information on dependencies https://www.npmjs.com/package/qa-shadow-report#sheets-setup-guide'
+              `Skipping dependency installation. Check the setup guide information on dependencies ${setupLink}}`
             )
           );
           rl.close();
