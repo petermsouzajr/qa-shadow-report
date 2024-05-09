@@ -1,15 +1,20 @@
+#!/usr/bin/env node
+
 import fs from 'fs';
 import { execSync } from 'child_process';
 import readline from 'readline';
 import chalk from 'chalk';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { isProjectConfigured } from './configuredStatus.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const configFileName = 'shadowReportConfig.js';
-const projectRootPath = path.join(__dirname, '..', '..');
+const projectRootPath = path.join(__dirname, '..');
 const configFilePath = path.join(projectRootPath, configFileName);
+const isConfiguredFilePath = path.join(__dirname, 'configuredStatus.js');
+const isConfigured = isProjectConfigured();
 const packages = ['mochawesome', 'mochawesome-merge'];
 const setupLink =
   'https://www.npmjs.com/package/qa-shadow-report#sheets-setup-guide';
@@ -18,17 +23,6 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
-
-// Check if running in a git repository directory
-if (fs.existsSync(path.join(__dirname, '..', '.git'))) {
-  console.log(
-    chalk.yellow(
-      'Detected development environment, skipping post-install script.'
-    )
-  );
-  rl.close();
-  process.exit(0);
-}
 
 const promptUser = (message, options, callback) => {
   rl.question(chalk.blue(message), (answer) => {
@@ -49,10 +43,12 @@ const confirmExit = () => {
         startSetup();
       } else {
         console.info(
+          chalk.green('Exiting setup.'),
           chalk.yellow(
-            `Exiting setup. Check the setup guide information on dependencies ${setupLink}}`
+            ` Check the setup guide information on dependencies ${setupLink}`
           )
         );
+        updateIsConfiguredFile(true);
         rl.close();
         process.exit(0);
       }
@@ -61,9 +57,15 @@ const confirmExit = () => {
 };
 
 const createConfigFile = () => {
+  console.info(
+    chalk.blue('Checking if config file exists at path:'),
+    chalk.green(` '${configFilePath}'`)
+  );
   if (fs.existsSync(configFilePath)) {
     console.info(
-      chalk.yellow(`Config file '${configFileName}' already exists.`)
+      chalk.yellow('Config file'),
+      chalk.green(` '${configFileName}'`),
+      chalk.yellow(' already exists.')
     );
     return;
   } else {
@@ -129,52 +131,105 @@ const installPackages = (manager) => {
   console.info(
     chalk.green(`Installing packages with ${manager}: ${packages.join(', ')}`)
   );
-  execSync(`${manager} add --dev ${packages.join(' ')}`, { stdio: 'inherit' });
-  console.log(chalk.green('Packages installed successfully.'));
+  try {
+    execSync(`${manager} add --dev ${packages.join(' ')}`, {
+      stdio: 'inherit',
+    });
+    console.log(chalk.green('Packages installed successfully.'));
+  } catch (error) {
+    console.error(chalk.red('Failed to install packages:'), error);
+  }
 };
 
 const handlePostInstallTasks = (framework) => {
   promptUser(
-    'A config file is required for qa-shadow-report would you like us to create one now? [y/n]: ',
+    `A config file is required for qa-shadow-report would you like us to create one now at path ${configFilePath}? [y/n]: `,
     ['y', 'n'],
     (create) => {
       if (create === 'y') {
         createConfigFile();
+        proceedWithFrameworkSpecificInstructions(framework);
       } else {
         console.info(
+          chalk.green(`Skipping configuration file creation.`),
           chalk.yellow(
-            `Skipping configuration file creation. Check the setup guide information on dependencies ${setupLink}}`
+            ` Check the setup guide information on dependencies ${setupLink}`
           )
         );
+        proceedWithFrameworkSpecificInstructions(framework);
       }
-      if (framework === 'pw') {
-        console.info(
-          chalk.yellow(
-            "Please ensure 'playwright.config.js' is updated to use the JSON reporter, reporter: [['json', { outputFile: 'test-results/output.json' }]];"
-          )
-        );
-      }
-      rl.close();
     }
   );
+};
 
-  if (framework === 'cy') {
+const proceedWithFrameworkSpecificInstructions = (framework) => {
+  if (framework === 'pw') {
+    console.info(
+      chalk.yellow('Please ensure'),
+      chalk.green("'playwright.config.js'"),
+      chalk.yellow(' is updated to use the JSON reporter,'),
+      chalk.green(
+        " reporter: [['json', { outputFile: 'test-results/output.json' }]]"
+      )
+    );
+    finalizeSetup();
+  } else if (framework === 'cy') {
     promptUser(
-      `Would you like to install 'mochawesome' for Cypress test reporting with Yarn or NPM? [yarn/npm]: `,
-      ['yarn', 'npm'],
+      `Would you like to install 'mochawesome' for Cypress test reporting with Yarn or NPM, or skip this step (skip)? [yarn/npm/skip]: `,
+      ['yarn', 'npm', 'skip'],
       (installer) => {
         if (['yarn', 'npm'].includes(installer)) {
           installPackages(installer);
         } else {
           console.info(
+            chalk.green('Skipping dependency installation.'),
             chalk.yellow(
-              `Skipping dependency installation. Check the setup guide information on dependencies ${setupLink}}`
+              ` Check the setup guide information on dependencies ${setupLink}`
             )
           );
-          rl.close();
+        }
+        finalizeSetup();
+      }
+    );
+  }
+};
+
+const updateIsConfiguredFile = (isConfigured) => {
+  try {
+    const content = fs.readFileSync(isConfiguredFilePath, 'utf8');
+    const searchValue = isConfigured ? 'return false;' : 'return true;';
+    const replaceValue = isConfigured ? 'return true;' : 'return false;';
+    const updatedContent = content.replace(searchValue, replaceValue);
+    fs.writeFileSync(isConfiguredFilePath, updatedContent, 'utf8');
+  } catch (err) {
+    console.error(
+      chalk.red('Failed to update the configuredStatus file:', err)
+    );
+  }
+};
+
+const finalizeSetup = () => {
+  console.log(chalk.green('qa-shadow-report setup complete!'));
+  updateIsConfiguredFile(true);
+  rl.close();
+};
+
+const confirmReconfigure = () => {
+  if (isConfigured) {
+    promptUser(
+      'Your project has already been configured, would you like to continue with configuration? [y/n]: ',
+      ['y', 'n'],
+      (answer) => {
+        if (answer === 'y') {
+          updateIsConfiguredFile(false);
+          startSetup();
+        } else {
+          confirmExit();
         }
       }
     );
+  } else {
+    startSetup();
   }
 };
 
@@ -193,10 +248,12 @@ const startSetup = () => {
 };
 
 try {
-  startSetup();
+  confirmReconfigure();
 } catch (error) {
   console.error(
-    chalk.red('An error occurred during the post-installation script:'),
+    chalk.red(
+      `An error occurred during the post-installation script. Check the setup guide information on dependencies ${setupLink}`
+    ),
     error
   );
   process.exit(1);

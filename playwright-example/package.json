@@ -18,6 +18,6 @@
   },
   "dependencies": {
     "playwright": "^1.43.1",
-    "qa-shadow-report": "^1.1.4"
+    "qa-shadow-report": "^1.1.5"
   }
 }

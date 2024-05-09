@@ -2,14 +2,15 @@
   "name": "qa-shadow-report",
   "version": "1.1.5",
   "bin": {
-    "qa-shadow-report": "./cli.js"
+    "qa-shadow-report": "./cli.js",
+    "qasr": "./cli.js",
+    "qasr-setup": "./scripts/postinstall.js"
   },
   "description": "npm package that prints formatted test reports into a google sheet or csv file",
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint . --report-unused-disable-directives",
     "lint:fix": "npm run lint -- --fix",
-    "postinstall": "node scripts/postinstall.js",
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch"
   },
