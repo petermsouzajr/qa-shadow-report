@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "shadowReportConfig.js",
-  "scripts": {},
+  "scripts": {
+    "playwright:prerun": "rm -rf test-results",
+    "playwright:run": "npm run playwright:prerun && playwright test || true",
+    "report:generate": "qa-shadow-report playwright",
+    "playwright-test": "npm run playwright:run && npm run report:generate"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -12,6 +17,7 @@
     "@types/node": "^20.12.8"
   },
   "dependencies": {
-    "playwright": "^1.43.1"
+    "playwright": "^1.43.1",
+    "qa-shadow-report": "^1.1.5"
   }
 }
