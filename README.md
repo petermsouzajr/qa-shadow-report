@@ -33,7 +33,7 @@ Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, 
 
 ### qa-shadow-report setup guide
 
-Upon installing qa-shadow-report, you will be prompted with several Yes or No questions to guide you through setting up the tool for your testing framework and package manager. You may choose to exit the setup at any time, by entering EXIT. You will then need to manually complete the setup by following the detailed instructions provided in the [Cypress](#cypress) or [Playwright](#playwright) sections of this guide.
+Upon installing qa-shadow-report, you can run the command `qasr-setup` which initiates a couple of Yes or No questions to guide you through setting up the tool for your testing framework and package manager. You may choose to exit the setup at any time, by entering EXIT. You will then need to manually complete the setup by following the detailed instructions provided in the [Cypress](#cypress) or [Playwright](#playwright) sections of this guide.
 
 This setup process is designed to tailor the installation to your specific needs, ensuring that all dependencies and configurations are correctly established for your environment.
 
@@ -66,7 +66,7 @@ This setup process is designed to tailor the installation to your specific needs
 
 ### Cypress
 
-Before you begin, ensure you have the following packages and authentication:
+Before you begin, ensure you have the following packages and authentication, you can run the command `qasr-setup` which initiates a couple of Yes or No questions to guide you through setting up the tool for your testing framework and package manager:
 
 - **Mochawesome and Mochawesome Merge:** Usually installed by the setup wizard, these are recommended for Cypress test report generation: `npm install --save-dev mochawesome mochawesome-merge`.
 - **Google Spreadsheet ID:** Find this in your sheet's URL and store it in an environment variable.
@@ -128,7 +128,7 @@ Adjust these scripts as needed for your project's requirements.
 
 ### Playwright
 
-Before you begin, ensure you have the following packages and authentication:
+Before you begin, ensure you have the following packages and authentication, you can run the command `qasr-setup` which initiates a couple of Yes or No questions to guide you through setting up the tool for your testing framework and package manager:
 
 - **Google Spreadsheet ID:** Find this in your sheet's URL and store it in an environment variable.
 - **Service Account Credentials for Google Sheets:** Follow the detailed guide from `node-google-spreadsheet` they have a great document describing Google Service Accounts [node-google-spreadshee: Google Service Account](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=authentication-methods)
@@ -140,7 +140,7 @@ Before you begin, ensure you have the following packages and authentication:
   reporter: [['json', { outputFile: 'test-results/output.json' }]];
   ```
 
-- **qa-shadow-report configuration file:** Usually installed by the setup wizard in the root of your Cypress project, named: `shadowReportConfig.*` (`js`, or `ts`).
+- **qa-shadow-report configuration file:** `shadowReportConfig.*` (`js`, or `ts`) Can be installed by the setup wizard in the root of your Cypress project, you can run the command `qasr-setup` which initiates a couple of Yes or No questions to guide you through setting up the tool for your testing framework and package manager.
 
   - `teamNames`: An array of identifiers representing different teams within your organization that may use or contribute to the testing process.
   - `testTypes`: Specifies the types of tests included in your project, such as API tests or UI tests, to help organize and filter test executions.
@@ -229,6 +229,7 @@ In this example, running npm run playwright-test will:
 - `qa-shadow-report [framework]` or `qasr [framework]` - Generates a monthly and daily report in sheets, if none exist.
 - `qa-shadow-report [framework] todays-report` - Generates todays report in sheets, if none exist.
 - `qa-shadow-report [framework] monthly-summary` - Generates a monthly summary in sheets, if none exist.
+- `qasr-setup` - Initiates the setup process fo reither Cypress or PLaywright, NPM or Yarn
 - `--csv` - Outputs the test results in cypress/downloads folder in csv format, if none exist.
 - `--duplicate` - Allows duplicate daily reports to be created.
 - `--help` - Outputs a summary of available commands and their usage.
