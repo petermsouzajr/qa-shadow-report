@@ -11,7 +11,7 @@ import { isProjectConfigured } from './configuredStatus.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const configFileName = 'shadowReportConfig.js';
-const projectRootPath = path.join(__dirname, '..');
+const projectRootPath = path.join(__dirname, '..','..','..');
 const configFilePath = path.join(projectRootPath, configFileName);
 const isConfiguredFilePath = path.join(__dirname, 'configuredStatus.js');
 const isConfigured = isProjectConfigured();
