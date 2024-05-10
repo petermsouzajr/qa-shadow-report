@@ -5,6 +5,7 @@ import { main } from './src/index.js';
 import { handleDailyReport } from './src/sharedMethods/dailyReportHandler.js';
 import { handleSummary } from './src/sharedMethods/summaryHandler.js';
 import { spawn } from 'child_process';
+import { GOOGLE_KEYFILE_PATH, GOOGLE_SHEET_ID } from './constants.js';
 
 /**
  * Main execution function for the command-line interface.
@@ -74,15 +75,36 @@ async function run() {
     process.exit(0);
   }
 
+  if (GOOGLE_KEYFILE_PATH() === false || GOOGLE_SHEET_ID() === false) {
+    // If the Google Sheets configuration is missing, default to CSV
+    console.info(
+      chalk.yellow(
+        "You haven't set up a Google Sheets config yet. Use the command"
+      ),
+      chalk.green('qasr-setup'),
+      chalk.yellow(
+        'to create a config file. We can create a CSV report instead.'
+      )
+    );
+    optionsPayload.csv = true;
+  }
+
   if (openWizard || !isConfigured) {
     // Execute the postinstall.js script
-    const child = spawn(
-      'node',
-      ['./node_modules/qa-shadow-report/scripts/postinstall.js'],
-      {
-        stdio: 'inherit', // inherit stdio to allow interactive input/output
-      }
-    );
+    const child = spawn('node', ['./scripts/postinstall.js'], {
+      stdio: 'inherit', // inherit stdio to allow interactive input/output
+    });
+
+    child.on('close', (code) => {
+      console.log(`postinstall.js process exited with code ${code}`);
+      process.exit(code);
+    });
+
+    // Ensure the parent script does not continue
+    child.on('error', (err) => {
+      console.error('Failed to start postinstall.js:', err);
+      process.exit(1);
+    });
   } else if (!framework) {
     console.error(
       chalk.yellow(
