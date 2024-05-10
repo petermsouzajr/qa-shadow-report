@@ -4,14 +4,40 @@ import fs from 'fs';
 import { execSync } from 'child_process';
 import readline from 'readline';
 import chalk from 'chalk';
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import path from 'path';
 import { isProjectConfigured } from './configuredStatus.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
 const configFileName = 'shadowReportConfig.js';
-const projectRootPath = path.join(__dirname, '..','..','..');
+const findProjectRoot = (startPath) => {
+  let currentDir = startPath;
+
+  while (currentDir !== path.parse(currentDir).root) {
+    const packageJsonPath = path.join(currentDir, 'package.json');
+
+    if (fs.existsSync(packageJsonPath)) {
+      const nodeModulesPath = path.join(currentDir, 'node_modules');
+
+      // Check if the current directory is inside a node_modules directory
+      if (!currentDir.includes(path.sep + 'node_modules' + path.sep)) {
+        return currentDir;
+      }
+    }
+
+    currentDir = path.dirname(currentDir);
+  }
+
+  return null;
+};
+
+const projectRootPath = findProjectRoot(__dirname);
+
+if (!projectRootPath) {
+  console.error('Error: Could not determine the project root path.');
+  process.exit(1);
+}
+
 const configFilePath = path.join(projectRootPath, configFileName);
 const isConfiguredFilePath = path.join(__dirname, 'configuredStatus.js');
 const isConfigured = isProjectConfigured();
@@ -107,13 +133,13 @@ const createConfigFile = () => {
         // 'beta',
       ],
       // Replace with the actual Google Spreadsheet ID:
-      googleSpreadsheetId: 'your-google-spreadsheet-id',
+      // googleSpreadsheetId: 'your-google-spreadsheet-id',
     
       // Path to your Google credentials file:
-      googleKeyFilePath: 'googleCredentials.json',
+      // googleKeyFilePath: 'googleCredentials.json',
     
       // Path to your test data results:
-      testData: './path-to-test-results/output.json',
+      // testData: './path-to-test-results/output.json',
     };
     `;
     fs.writeFileSync(configFilePath, defaultConfigContent, {
@@ -128,13 +154,20 @@ const createConfigFile = () => {
 };
 
 const installPackages = (manager) => {
-  console.info(
-    chalk.green(`Installing packages with ${manager}: ${packages.join(', ')}`)
-  );
   try {
-    execSync(`${manager} add --dev ${packages.join(' ')}`, {
-      stdio: 'inherit',
-    });
+    if (manager === 'npm') {
+      console.info(
+        chalk.green(`Installing packages with npm: ${packages.join(', ')}`)
+      );
+      execSync(`npm install --save-dev ${packages.join(' ')}`, {
+        stdio: 'inherit',
+      });
+    } else if (manager === 'yarn') {
+      console.info(
+        chalk.green(`Installing packages with yarn: ${packages.join(', ')}`)
+      );
+      execSync(`yarn add --dev ${packages.join(' ')}`, { stdio: 'inherit' });
+    }
     console.log(chalk.green('Packages installed successfully.'));
   } catch (error) {
     console.error(chalk.red('Failed to install packages:'), error);
@@ -143,7 +176,9 @@ const installPackages = (manager) => {
 
 const handlePostInstallTasks = (framework) => {
   promptUser(
-    `A config file is required for qa-shadow-report would you like us to create one now at path ${configFilePath}? [y/n]: `,
+    `A config file is required for qa-shadow-report would you like us to create one now at path ${chalk.green(
+      configFilePath
+    )}? ${chalk.green('[y/n]')}: `,
     ['y', 'n'],
     (create) => {
       if (create === 'y') {
@@ -175,7 +210,9 @@ const proceedWithFrameworkSpecificInstructions = (framework) => {
     finalizeSetup();
   } else if (framework === 'cy') {
     promptUser(
-      `Would you like to install 'mochawesome' for Cypress test reporting with Yarn or NPM, or skip this step (skip)? [yarn/npm/skip]: `,
+      `Would you like to install 'mochawesome' for Cypress test reporting with Yarn or NPM, or skip this step (skip)? ${chalk.green(
+        '[yarn/npm/skip]'
+      )}: `,
       ['yarn', 'npm', 'skip'],
       (installer) => {
         if (['yarn', 'npm'].includes(installer)) {
@@ -217,7 +254,9 @@ const finalizeSetup = () => {
 const confirmReconfigure = () => {
   if (isConfigured) {
     promptUser(
-      'Your project has already been configured, would you like to continue with configuration? [y/n]: ',
+      `Your already ran configuration, would you like to continue with configuration? ${chalk.green(
+        '[y/n]'
+      )}: `,
       ['y', 'n'],
       (answer) => {
         if (answer === 'y') {
@@ -235,7 +274,9 @@ const confirmReconfigure = () => {
 
 const startSetup = () => {
   promptUser(
-    'Are you using Playwright (pw) or Cypress (cy)? [pw/cy]: ',
+    `Are you using Playwright (pw) or Cypress (cy)? ${chalk.green(
+      '[pw/cy]'
+    )}: `,
     ['pw', 'cy'],
     (framework) => {
       if (['pw', 'cy'].includes(framework)) {
