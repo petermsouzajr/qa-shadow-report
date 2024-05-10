@@ -44,15 +44,20 @@ const configPath =
   findConfigFile(parentDir, 'shadowReportConfig') ||
   absoluteDefaultConfigPath;
 
-if (!configPath) {
-  console.error(
-    'Please specify the path to the shadowReportConfig.js file or ensure it exists in the project root.'
-  );
-  process.exit(1);
-}
+  let shadowConfigDetails = {};
 
-const shadowConfig = await import(configPath);
-const shadowConfigDetails = shadowConfig.default;
+  try {
+    if (fs.existsSync(configPath)) {
+      const shadowConfig = await import(configPath);
+      shadowConfigDetails = shadowConfig.default;
+    } else {
+      // console.info(chalk.yellow('No configuration file found. Using defaults.'));
+    }
+  } catch (error) {
+    console.error(chalk.red(`Error loading configuration file at path: ${configPath}`));
+    console.error(chalk.red(error));
+  
+}
 
 // Define the formula keys for daily report header metrics.
 export const FORMULA_KEYS = [
@@ -63,11 +68,23 @@ export const FORMULA_KEYS = [
 ];
 
 export const GOOGLE_SHEET_ID = () => {
-  const sheetId =
-    shadowConfigDetails && shadowConfigDetails.googleSpreadsheetId
-      ? shadowConfigDetails.googleSpreadsheetId
-      : '6d567d67576fgd76dfg76dghfg';
+  let sheetId
+    if (shadowConfigDetails && shadowConfigDetails.googleSpreadsheetId) {
+       shadowConfigDetails.googleSpreadsheetId
+    } else {
+      sheetId = false
+    }
   return sheetId;
+};
+
+export const GOOGLE_KEYFILE_PATH = () => {
+  let keyFilePath
+    if (shadowConfigDetails && shadowConfigDetails.googleKeyFilePath) {
+       keyFilePath = shadowConfigDetails.googleKeyFilePath
+    } else {
+      keyFilePath = false
+    }
+  return keyFilePath;
 };
 
 export const TEST_DATA = (cypress) => {

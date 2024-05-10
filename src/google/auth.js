@@ -1,19 +1,34 @@
 import { google } from 'googleapis';
-import { GOOGLE_SHEET_ID } from '../../constants.js';
+import { GOOGLE_SHEET_ID, GOOGLE_KEYFILE_PATH } from '../../constants.js';
 
-const keyFilePath = 'googleCredentials.json';
+const keyFilePath = GOOGLE_KEYFILE_PATH();
 
-export const auth = new google.auth.GoogleAuth({
-  keyFile: keyFilePath,
-  scopes: 'https://www.googleapis.com/auth/spreadsheets',
-});
+let auth, client, sheets, spreadsheetId;
 
-let client;
-async function getClient() {
-  client = await auth.getClient();
+if (keyFilePath) {
+  try {
+    auth = new google.auth.GoogleAuth({
+      keyFile: keyFilePath,
+      scopes: 'https://www.googleapis.com/auth/spreadsheets',
+    });
+
+    async function getClient() {
+      try {
+        client = await auth.getClient();
+        sheets = google.sheets({ version: 'v4', auth: client });
+        spreadsheetId = GOOGLE_SHEET_ID();
+      } catch (error) {
+        console.error('Error obtaining Google API client:', error);
+        client = null; // Set client to null if there's an error
+      }
+    }
+
+    getClient();
+  } catch (error) {
+    console.error('Could not load the default credentials. Please ensure the Google credentials file exists and is properly configured.');
+    console.error(error);
+    auth = null; // Set auth to null if there's an error
+  }
 }
-getClient();
 
-export const sheets = google.sheets({ version: 'v4', auth: client });
-
-export const spreadsheetId = GOOGLE_SHEET_ID();
+export { auth, sheets, spreadsheetId };
