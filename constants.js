@@ -1,14 +1,31 @@
 import chalk from 'chalk';
 import fs from 'fs';
-import path, { dirname } from 'path';
-import { fileURLToPath, pathToFileURL } from 'url';
+import path from 'path';
+import { pathToFileURL } from 'url';
 
 // Since __dirname is not available in ES modules, we need to derive it
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
 
-// Start the search from the parent directory of the current __dirname
-const parentDir = dirname(dirname(__dirname));
+// Function to find the project root directory
+const findProjectRoot = (startPath) => {
+  let currentDir = startPath;
+
+  while (currentDir !== path.parse(currentDir).root) {
+    const packageJsonPath = path.join(currentDir, 'package.json');
+
+    if (fs.existsSync(packageJsonPath)) {
+      // Check if the current directory is inside a node_modules directory
+      if (!currentDir.includes(path.sep + 'node_modules' + path.sep)) {
+        return currentDir;
+      }
+    }
+
+    currentDir = path.dirname(currentDir);
+  }
+
+  return null;
+};
 
 // Function to find the config file
 const findConfigFile = (startPath, baseFileName) => {
@@ -35,28 +52,35 @@ const getConfigPathFromArgs = () => {
   return configIndex > 0 ? args[configIndex] : null;
 };
 
+// Determine the project root path
+const projectRootPath = findProjectRoot(__dirname);
+
+if (!projectRootPath) {
+  console.error('Error: Could not determine the project root path.');
+  process.exit(1);
+}
+
 const defaultConfigPath = path.join(__dirname, 'shadowReportConfig.js');
 const absoluteDefaultConfigPath = pathToFileURL(defaultConfigPath).href;
 
 // Main logic to determine config path
 const configPath =
   getConfigPathFromArgs() ||
-  findConfigFile(parentDir, 'shadowReportConfig') ||
+  findConfigFile(projectRootPath, 'shadowReportConfig') ||
   absoluteDefaultConfigPath;
 
-  let shadowConfigDetails = {};
+let shadowConfigDetails = {};
 
-  try {
-    if (fs.existsSync(configPath)) {
-      const shadowConfig = await import(configPath);
-      shadowConfigDetails = shadowConfig.default;
-    } else {
-      // console.info(chalk.yellow('No configuration file found. Using defaults.'));
-    }
-  } catch (error) {
-    console.error(chalk.red(`Error loading configuration file at path: ${configPath}`));
-    console.error(chalk.red(error));
-  
+try {
+  if (fs.existsSync(configPath)) {
+    const shadowConfig = await import(pathToFileURL(configPath).href);
+    shadowConfigDetails = shadowConfig.default;
+  }
+} catch (error) {
+  console.error(
+    chalk.red(`Error loading configuration file at path: ${configPath}`)
+  );
+  console.error(chalk.red(error));
 }
 
 // Define the formula keys for daily report header metrics.
@@ -68,22 +92,23 @@ export const FORMULA_KEYS = [
 ];
 
 export const GOOGLE_SHEET_ID = () => {
-  let sheetId
-    if (shadowConfigDetails && shadowConfigDetails.googleSpreadsheetId) {
-       shadowConfigDetails.googleSpreadsheetId
-    } else {
-      sheetId = false
-    }
+  let sheetId;
+
+  if (shadowConfigDetails && shadowConfigDetails.googleSpreadsheetId) {
+    sheetId = shadowConfigDetails.googleSpreadsheetId;
+  } else {
+    sheetId = false;
+  }
   return sheetId;
 };
 
 export const GOOGLE_KEYFILE_PATH = () => {
-  let keyFilePath
-    if (shadowConfigDetails && shadowConfigDetails.googleKeyFilePath) {
-       keyFilePath = shadowConfigDetails.googleKeyFilePath
-    } else {
-      keyFilePath = false
-    }
+  let keyFilePath;
+  if (shadowConfigDetails && shadowConfigDetails.googleKeyFilePath) {
+    keyFilePath = shadowConfigDetails.googleKeyFilePath;
+  } else {
+    keyFilePath = false;
+  }
   return keyFilePath;
 };
 

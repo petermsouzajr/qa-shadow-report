@@ -86,7 +86,7 @@ async function run() {
         'to create a config file. We can create a CSV report instead.'
       )
     );
-    optionsPayload.CSV = true;
+    optionsPayload.csv = true;
   }
 
   if (openWizard || !isConfigured) {

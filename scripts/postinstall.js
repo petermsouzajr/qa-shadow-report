@@ -4,8 +4,7 @@ import fs from 'fs';
 import { execSync } from 'child_process';
 import readline from 'readline';
 import chalk from 'chalk';
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import path from 'path';
 import { isProjectConfigured } from './configuredStatus.js';
 
 const __filename = new URL(import.meta.url).pathname;
