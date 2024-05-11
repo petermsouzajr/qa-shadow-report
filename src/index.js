@@ -3,6 +3,7 @@ import { handleSummary } from './sharedMethods/summaryHandler.js';
 import { handleDailyReport } from './sharedMethods/dailyReportHandler.js';
 import { doesTodaysReportExist } from './sharedMethods/dailyReportRequired.js';
 import { isSummaryRequired } from './sharedMethods/summaryRequired.js';
+import chalk from 'chalk';
 
 let topLevelSpreadsheetData = {};
 let summaryTabData = {};
@@ -23,12 +24,18 @@ export const dataObjects = {
  * @constant {string} noReportMessage - Message indicating today's report already exists.
  */
 const lastMonth = getFormattedMonth('lastMonth');
-const dailyduplicateInstruction = ' e.g. "qa-shadow-report --duplicate"';
-const summaryDuplicateInstruction =
-  ' "qa-shadow-report monthly-summary --duplicate"';
-const duplicateInstruction =
-  ' If you would like to create a duplicate monthly summary, use the optional flag "--duplicate" in your reporting command,';
-const noSummaryMessage = `No ${lastMonth} summary required${duplicateInstruction}${summaryDuplicateInstruction}.`;
+const dailyduplicateInstruction = ` e.g. ${chalk.green(
+  'qa-shadow-report --duplicate'
+)}`;
+const summaryDuplicateInstruction = ` ${chalk.green(
+  'qa-shadow-report monthly-summary --duplicate'
+)}`;
+const duplicateInstruction = ` If you would like to create a duplicate monthly summary, use the optional flag ${chalk.green(
+  '--duplicate'
+)} in your reporting command,`;
+const noSummaryMessage = chalk.yellow(
+  `No ${lastMonth} summary required${duplicateInstruction}${summaryDuplicateInstruction}.`
+);
 const noReportMessage = `Today\`s report already exists${duplicateInstruction}${dailyduplicateInstruction}.`;
 /**
  * Handles report and summary tasks based on pre-existing conditions.

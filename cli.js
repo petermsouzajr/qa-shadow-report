@@ -22,7 +22,6 @@ async function run() {
   const command = commands[0] || ''; // Select the first command if multiple, though typically there should only be one
   const isCSV = args.includes('--csv'); // Checks if the CSV output is requested
   const isDuplicate = args.includes('--duplicate'); // Checks if duplication is requested
-  const openWizard = args.includes('--wizard'); // Checks if the user wants to open the configuration wizard
   const frameworkArg = args.find((arg) =>
     ['cypress', 'playwright', 'cy', 'pw'].includes(arg)
   );
@@ -90,9 +89,9 @@ async function run() {
     optionsPayload.csv = true;
   }
 
-  if (openWizard || !isConfigured) {
+  if (!isConfigured) {
     const moduleRoot = path.dirname(
-      require.resolve('qa-shadow-report/package.json')
+      import.meta.resolve('qa-shadow-report/package.json')
     );
     const postInstallPath = path.join(moduleRoot, 'scripts', 'postinstall.js');
     const postInstallScriptPath = postInstallPath;
@@ -113,7 +112,7 @@ async function run() {
     });
   } else if (!framework) {
     console.error(
-      chalk.yellow('Please specify a framework:'),
+      chalk.yellow('Sheet not created. Please specify a framework:'),
       chalk.green('cypress'),
       chalk.yellow('or'),
       chalk.green('playwright')

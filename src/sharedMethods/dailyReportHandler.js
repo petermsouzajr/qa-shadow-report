@@ -26,6 +26,7 @@ import { TEST_DATA } from '../../constants.js';
 import { saveCSV } from './csvHandler.js';
 import { doesTodaysReportExist } from './dailyReportRequired.js';
 import { transformPlaywrightToFriendlyFormat } from './convertPayloads.js';
+import chalk from 'chalk';
 
 /**
  * Handles the creation and population of a daily report.
@@ -70,8 +71,12 @@ export const handleDailyReport = async ({
       saveCSV(reportPayload, duplicate, cypress);
     } else {
       const todaysReportExists = await doesTodaysReportExist();
-      const noReportMessage = `Today\`s report already exists.
-      If you would like to create a duplicate, use the optional flag "--duplicate" in your reporting command,e.g. "qa-shadow-report --duplicate".`;
+      const noReportMessage = chalk.yellow(`Today\`s report already exists.
+      If you would like to create a duplicate, use the optional flag ${chalk.green(
+        '--duplicate'
+      )} in your reporting command,e.g. ${chalk.yellow(
+        'qa-shadow-report --duplicate'
+      )}.`);
       if (todaysReportExists && !duplicate) {
         console.info(noReportMessage);
         return;
