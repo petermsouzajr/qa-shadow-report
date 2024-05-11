@@ -47,7 +47,7 @@ async function run() {
     try {
       // Determine if we are in a local development environment or an installed package
       const isLocalDev = !__dirname.includes('node_modules/qa-shadow-report');
-      const postInstallPath = isLocalDev
+      const postInstallPath = !isLocalDev
         ? path.resolve(__dirname, 'scripts', 'postinstall.js')
         : path.resolve(
             __dirname,
@@ -134,9 +134,10 @@ async function run() {
     });
   } else if (!framework) {
     console.error(
-      chalk.yellow(
-        'Error: Please specify a framework: "cypress" or "playwright".'
-      )
+      chalk.yellow('Please specify a framework:'),
+      chalk.green('cypress'),
+      chalk.yellow('or'),
+      chalk.green('playwright')
     );
     process.exit(1);
   } else if (unsupportedCsvForMonthly || unsupportedDuplicateCsvForMonthly) {
