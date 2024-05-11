@@ -93,7 +93,7 @@ async function run() {
     const moduleRoot = path.dirname(
       import.meta.resolve('qa-shadow-report/package.json')
     );
-    const postInstallPath = path.join(moduleRoot, 'scripts', 'postinstall.js');
+    const postInstallPath = path.join(moduleRoot, 'scripts', 'postInstall.js');
     const postInstallScriptPath = postInstallPath;
 
     // Execute the postInstall.js script
