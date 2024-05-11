@@ -3,71 +3,37 @@ import fs from 'fs';
 import path from 'path';
 import { pathToFileURL } from 'url';
 
-// Since __dirname is not available in ES modules, we need to derive it
-const __filename = new URL(import.meta.url).pathname;
-const __dirname = path.dirname(__filename);
-
-// Function to find the project root directory
-const findProjectRoot = (startPath) => {
-  let currentDir = startPath;
-
-  while (currentDir !== path.parse(currentDir).root) {
-    const packageJsonPath = path.join(currentDir, 'package.json');
-
-    if (fs.existsSync(packageJsonPath)) {
-      // Check if the current directory is inside a node_modules directory
-      if (!currentDir.includes(path.sep + 'node_modules' + path.sep)) {
-        return currentDir;
-      }
-    }
-
-    currentDir = path.dirname(currentDir);
-  }
-
-  return null;
-};
-
 // Function to find the config file
-const findConfigFile = (startPath, baseFileName) => {
+const findConfigFile = (baseFileName) => {
+  const moduleRoot = path.dirname(
+    require.resolve('qa-shadow-report/package.json')
+  );
   const extensions = ['.js', '.ts']; // Array of possible extensions
-  let currentDir = startPath;
-  while (currentDir !== path.parse(currentDir).root) {
-    for (const ext of extensions) {
-      const fileNameWithExt = baseFileName + ext;
-      const filePath = path.join(currentDir, fileNameWithExt);
-
-      if (fs.existsSync(filePath)) {
-        return filePath;
-      }
+  for (const ext of extensions) {
+    const filePath = path.join(moduleRoot, `${baseFileName}${ext}`);
+    if (fs.existsSync(filePath)) {
+      return filePath;
     }
-    currentDir = path.dirname(currentDir);
   }
   return null;
-};
-
-// Function to get config path from arguments
-const getConfigPathFromArgs = () => {
-  const args = process.argv;
-  const configIndex = args.findIndex((arg) => arg === '--config') + 1;
-  return configIndex > 0 ? args[configIndex] : null;
 };
 
 // Determine the project root path
-const projectRootPath = findProjectRoot(__dirname);
+const projectRootPath = path.dirname(
+  require.resolve('qa-shadow-report/package.json')
+);
 
 if (!projectRootPath) {
   console.error('Error: Could not determine the project root path.');
   process.exit(1);
 }
 
-const defaultConfigPath = path.join(__dirname, 'shadowReportConfig.js');
+const defaultConfigPath = path.join(projectRootPath, 'shadowReportConfig.js');
 const absoluteDefaultConfigPath = pathToFileURL(defaultConfigPath).href;
 
 // Main logic to determine config path
 const configPath =
-  getConfigPathFromArgs() ||
-  findConfigFile(projectRootPath, 'shadowReportConfig') ||
-  absoluteDefaultConfigPath;
+  findConfigFile('shadowReportConfig') || absoluteDefaultConfigPath;
 
 let shadowConfigDetails = {};
 

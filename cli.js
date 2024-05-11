@@ -7,7 +7,6 @@ import { handleSummary } from './src/sharedMethods/summaryHandler.js';
 import { spawn } from 'child_process';
 import { GOOGLE_KEYFILE_PATH, GOOGLE_SHEET_ID } from './constants.js';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
 /**
  * Main execution function for the command-line interface.
@@ -15,8 +14,6 @@ import { fileURLToPath } from 'url';
  * Supports generating daily and monthly reports with optional CSV output and duplication.
  */
 async function run() {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
   const args = process.argv.slice(2);
   const commands = args.filter((arg) =>
     ['todays-report', 'monthly-summary'].includes(arg)
@@ -41,28 +38,6 @@ async function run() {
     duplicate: isDuplicate,
     cypress: isCypress,
     playwright: isPlaywright,
-  };
-
-  const resolvePostInstallScript = () => {
-    try {
-      // Determine if we are in a local development environment or an installed package
-      const isLocalDev = !__dirname.includes('node_modules/qa-shadow-report');
-      const postInstallPath = !isLocalDev
-        ? path.resolve(__dirname, 'scripts', 'postinstall.js')
-        : path.resolve(
-            __dirname,
-            '..',
-            '..',
-            '..',
-            'scripts',
-            'postinstall.js'
-          );
-      return postInstallPath;
-    } catch (error) {
-      console.error('Error: Unable to resolve the path to postinstall.js.');
-      console.error(error);
-      process.exit(1);
-    }
   };
 
   if (args.includes('--help')) {
@@ -116,7 +91,11 @@ async function run() {
   }
 
   if (openWizard || !isConfigured) {
-    const postInstallScriptPath = resolvePostInstallScript();
+    const moduleRoot = path.dirname(
+      require.resolve('qa-shadow-report/package.json')
+    );
+    const postInstallPath = path.join(moduleRoot, 'scripts', 'postinstall.js');
+    const postInstallScriptPath = postInstallPath;
 
     // Execute the postInstall.js script
     const child = spawn('node', [postInstallScriptPath], {
