@@ -11,6 +11,7 @@ import { createNewTab } from '../google/googleSheetIntegration/createNewTab.js';
 import { HEADER_INDICATORS } from '../../constants.js';
 import { getCurrentTime, getFormattedMonth } from './dateFormatting.js';
 import { isSummaryRequired } from './summaryRequired.js';
+import chalk from 'chalk';
 
 /**
  * Send the summary data (payload) to a specified destination sheet tab.
@@ -192,11 +193,16 @@ export const handleSummary = async ({
   const summaryRequired = await isSummaryRequired({ csv });
 
   const lastMonth = getFormattedMonth('lastMonth');
-  const noSummaryMessage = `No ${lastMonth} summary required If you would like to create a duplicate,
-  use the Monthly Summary command directly, with the optional flag "--duplicate", e.g. "qa-shadow-report monthly-summary --duplicate".`;
+  const noSummaryMessage =
+    chalk.yellow(`No ${lastMonth} summary required If you would like to create a duplicate,
+  use the Monthly Summary command directly, with the optional flag ${chalk.green(
+    '--duplicate'
+  )}, e.g. ${chalk.green('qa-shadow-report monthly-summary --duplicate')}.`);
 
   if (csv) {
-    console.warn('CSV format is not supported for summary reports');
+    console.warn(
+      chalk.yellow('CSV format is not supported for summary reports')
+    );
     return;
   }
 
