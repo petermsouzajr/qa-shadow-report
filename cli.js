@@ -107,11 +107,11 @@ async function run() {
 
     // Ensure the parent script does not continue
     child.on('error', (err) => {
-      console.error('Failed to start postInstall.js:', err);
+      console.info('Failed to start postInstall.js:', err);
       process.exit(1);
     });
   } else if (!framework) {
-    console.error(
+    console.info(
       chalk.yellow('Sheet not created. Please specify a framework:'),
       chalk.green('cypress'),
       chalk.yellow('or'),
@@ -119,7 +119,7 @@ async function run() {
     );
     process.exit(1);
   } else if (unsupportedCsvForMonthly || unsupportedDuplicateCsvForMonthly) {
-    console.error(
+    console.info(
       chalk.yellow(
         'Error: CSV output for "monthly-summary" with or without duplication is not supported.'
       )

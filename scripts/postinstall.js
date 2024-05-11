@@ -140,6 +140,10 @@ const createConfigFile = () => {
     
       // Path to your test data results, matching the output format of the test runner:
       // testData: './path-to-test-results/output.json',
+
+      // Default path to the directory where CSV downloads will be saved:
+      // (optional) uncomment and replace with your desired path:
+      // csvDownloadsPath: 'downloads',
     };
     `;
     fs.writeFileSync(configFilePath, defaultConfigContent, {

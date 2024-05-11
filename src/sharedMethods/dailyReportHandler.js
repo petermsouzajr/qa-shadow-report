@@ -68,7 +68,7 @@ export const handleDailyReport = async ({
         ],
         ...fullDailyPayload.bodyPayload,
       ];
-      saveCSV(reportPayload, duplicate, cypress);
+      saveCSV(reportPayload, duplicate);
     } else {
       const todaysReportExists = await doesTodaysReportExist();
       const noReportMessage = chalk.yellow(`Today\`s report already exists.
