@@ -7,6 +7,24 @@ import { handleSummary } from './src/sharedMethods/summaryHandler.js';
 import { spawn } from 'child_process';
 import { GOOGLE_KEYFILE_PATH, GOOGLE_SHEET_ID } from './constants.js';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+/**
+ * Resolves the path to the postInstall.js script.
+ * @returns {string} The resolved path to the postInstall.js script.
+ */
+const resolvePostInstallScript = () => {
+  try {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const postInstallPath = path.join(__dirname, 'scripts', 'postInstall.js');
+    return postInstallPath;
+  } catch (error) {
+    console.error('Error: Unable to resolve the path to postInstall.js.');
+    console.error(error);
+    process.exit(1);
+  }
+};
 
 /**
  * Main execution function for the command-line interface.
@@ -90,11 +108,13 @@ async function run() {
   }
 
   if (!isConfigured) {
-    const moduleRoot = path.dirname(
-      import.meta.resolve('qa-shadow-report/package.json')
-    );
-    const postInstallPath = path.join(moduleRoot, 'scripts', 'postInstall.js');
-    const postInstallScriptPath = postInstallPath;
+    const postInstallScriptPath = resolvePostInstallScript();
+
+    // const moduleRoot = path.dirname(
+    //   import.meta.resolve('qa-shadow-report/package.json')
+    // );
+    // const postInstallPath = path.join(moduleRoot, 'scripts', 'postInstall.js');
+    // const postInstallScriptPath = postInstallPath;
 
     // Execute the postInstall.js script
     const child = spawn('node', [postInstallScriptPath], {
