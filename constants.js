@@ -180,6 +180,28 @@ export const COLUMNS_AVAILABLE = (playwright) => {
   );
 };
 
+export const CSV_DOWNLOADS_PATH = () => {
+  let downloadsPath = 'downloads';
+  return getCachedOrCompute('csvDownloadsPath', () => {
+    const hasCustomTypes =
+      shadowConfigDetails &&
+      Array.isArray(shadowConfigDetails.csvDownloadsPath) &&
+      shadowConfigDetails.csvDownloadsPath.length > 0;
+    if (hasCustomTypes) {
+      downloadsPath = shadowConfigDetails.csvDownloadsPath;
+      console.info(
+        chalk.green(
+          `downloading CSV to custom downloads folder path ${downloadsPath}.`
+        )
+      );
+      return shadowConfigDetails.csvDownloadsPath;
+    } else {
+      console.info(chalk.blue('Using default downloads folder.'));
+    }
+    return downloadsPath;
+  });
+};
+
 export const TEST_TYPES_AVAILABLE = () => {
   return getCachedOrCompute('testTypes', () => {
     const hasCustomTypes =

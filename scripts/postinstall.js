@@ -106,7 +106,7 @@ const createConfigFile = () => {
         //'canonicus',
       ],
       testTypes: [
-        // Uncomment the relevant test types or add your own:
+        // (default list) Uncomment the relevant test types or add your own:
         // 'api',
         // 'ui',
         // 'unit',
@@ -119,7 +119,7 @@ const createConfigFile = () => {
         // 'mobile',
       ],
       testCategories: [
-        // Uncomment the relevant test categories or add your own:
+        // (default list) Uncomment the relevant test categories or add your own:
         // 'smoke',
         // 'regression',
         // 'sanity',
@@ -132,14 +132,18 @@ const createConfigFile = () => {
         // 'alpha',
         // 'beta',
       ],
-      // Replace with the actual Google Spreadsheet ID:
+      // Replace with the actual Google Spreadsheet ID, found in the URL:
       // googleSpreadsheetId: 'your-google-spreadsheet-id',
     
-      // Path to your Google credentials file:
+      // Path to your Google credentials file, service account credentials JSON file:
       // googleKeyFilePath: 'googleCredentials.json',
     
-      // Path to your test data results:
+      // Path to your test data results, matching the output format of the test runner:
       // testData: './path-to-test-results/output.json',
+
+      // Default path to the directory where CSV downloads will be saved:
+      // (optional) uncomment and replace with your desired path:
+      // csvDownloadsPath: 'downloads',
     };
     `;
     fs.writeFileSync(configFilePath, defaultConfigContent, {
@@ -186,7 +190,7 @@ const handlePostInstallTasks = (framework) => {
         proceedWithFrameworkSpecificInstructions(framework);
       } else {
         console.info(
-          chalk.green(`Skipping configuration file creation.`),
+          chalk.green(`Skipping config file creation.`),
           chalk.yellow(
             ` Check the setup guide information on dependencies ${setupLink}`
           )
@@ -210,7 +214,9 @@ const proceedWithFrameworkSpecificInstructions = (framework) => {
     finalizeSetup();
   } else if (framework === 'cy') {
     promptUser(
-      `Would you like to install 'mochawesome' for Cypress test reporting with Yarn or NPM, or skip this step (skip)? ${chalk.green(
+      `Would you like to install ${chalk.green(
+        packages.join(', ')
+      )} for Cypress test reporting with Yarn or NPM, or skip this step (skip)? ${chalk.green(
         '[yarn/npm/skip]'
       )}: `,
       ['yarn', 'npm', 'skip'],
@@ -254,7 +260,7 @@ const finalizeSetup = () => {
 const confirmReconfigure = () => {
   if (isConfigured) {
     promptUser(
-      `Your already ran configuration, would you like to continue with configuration? ${chalk.green(
+      `You already ran configuration, would you like to continue with configuration? ${chalk.green(
         '[y/n]'
       )}: `,
       ['y', 'n'],

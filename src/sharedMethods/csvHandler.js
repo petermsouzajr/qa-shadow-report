@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { getCurrentTime, getTodaysFormattedDate } from './dateFormatting.js';
+import { CSV_DOWNLOADS_PATH } from '../../constants.js';
+import chalk from 'chalk';
 
 /**
  * Converts a 2D array into a CSV string format.
@@ -23,12 +25,10 @@ const arrayToCSV = (data) => {
  * Saves CSV data to a file in the Cypress downloads directory.
  * @param {Array<Array<string>>} reportPayload - The 2D array to convert to CSV and save.
  * @param {boolean} duplicate - If true, allows creating a duplicate report for the day.
- * @param {boolean} cypress - If true, parses test result JSON in cypress format CSV.
  */
-export const saveCSV = (reportPayload, duplicate, cypress) => {
+export const saveCSV = (reportPayload, duplicate) => {
   const csvData = arrayToCSV(reportPayload);
-  const folder = cypress ? 'cypress' : 'playwright';
-  const downloadsPath = path.join(folder, 'downloads');
+  const downloadsPath = CSV_DOWNLOADS_PATH();
   const todaysTitle = getTodaysFormattedDate();
   const time = getCurrentTime();
   let filePath = path.join(downloadsPath, `${todaysTitle}.csv`);
@@ -38,8 +38,11 @@ export const saveCSV = (reportPayload, duplicate, cypress) => {
   }
 
   if (fs.existsSync(filePath) && !duplicate) {
-    console.error(
-      'CSV file already exists. Use --duplicate flag to allow creating a duplicate file "qa-shadow-report --csv --duplicate".'
+    console.info(
+      chalk.yellow('CSV file already exists. Use'),
+      chalk.green('--duplicate'),
+      chalk.yellow('flag to allow creating a duplicate file'),
+      chalk.green('qa-shadow-report --csv --duplicate')
     );
     return;
   } else if (fs.existsSync(filePath) && duplicate) {
