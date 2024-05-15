@@ -40,6 +40,8 @@ const getRandomTestData = () => {
 const testData1 = getRandomTestData({});
 const testData2 = getRandomTestData({});
 
+const allTeamNames = [testData1.teamName, testData2.teamName];
+
 const fullReportOutput = {
   stats: {
     suites: 59,
@@ -364,4 +366,5 @@ export const testResultData = {
   appendedEmptyHeaderPayload,
   appendedHeaderPayload,
   emptyDailyPayload,
+  allTeamNames,
 };
