@@ -117,8 +117,8 @@ export const TEST_DATA = (cypress) => {
     shadowConfigDetails && shadowConfigDetails.testData
       ? shadowConfigDetails.testData
       : cypress
-      ? 'output2.json'
-      : 'output3.json';
+      ? 'cypressTestResults.json'
+      : 'playwrightTestResults.json';
   return testData;
 };
 

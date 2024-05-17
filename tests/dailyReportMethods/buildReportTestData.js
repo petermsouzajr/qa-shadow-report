@@ -10,6 +10,13 @@ const getRandomTestData = () => {
   const getRandomElement = (array) => {
     return array[Math.floor(Math.random() * array.length)];
   };
+  const generateRandomFolderStructure = () => {
+    const numFolders = Math.floor(Math.random() * 6) + 1;
+    const folders = Array.from({ length: numFolders }, () =>
+      faker.lorem.word()
+    );
+    return folders.join('/');
+  };
   const speedMillis = faker.number.int({ min: 0, max: 9999999 });
   const currentState = getRandomElement([
     'passed',
@@ -20,7 +27,7 @@ const getRandomTestData = () => {
   const typesAvailable = TEST_TYPES_AVAILABLE();
   const categoriesAvailable = TEST_CATEGORIES_AVAILABLE();
   return {
-    area: `${faker.lorem.word()}/${faker.lorem.word()}`,
+    area: generateRandomFolderStructure(),
     spec: `${faker.lorem.word()}`,
     testName: `${faker.lorem.words(1, 3)} - ${faker.lorem.sentence(
       1,
@@ -39,8 +46,6 @@ const getRandomTestData = () => {
 
 const testData1 = getRandomTestData({});
 const testData2 = getRandomTestData({});
-
-const allTeamNames = [testData1.teamName, testData2.teamName];
 
 const fullReportOutput = {
   stats: {
@@ -366,5 +371,6 @@ export const testResultData = {
   appendedEmptyHeaderPayload,
   appendedHeaderPayload,
   emptyDailyPayload,
-  allTeamNames,
+  testData1,
+  testData2,
 };

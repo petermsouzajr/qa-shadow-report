@@ -24,7 +24,10 @@ describe('Daily Report Methods', () => {
       const mockResults = testResultData.fullReportOutput.results[0];
       const mockTest = mockResults.suites[0].tests[0];
       const typesAvailable = TEST_TYPES_AVAILABLE();
-      const allTeamNames = testResultData.allTeamNames;
+      const allTeamNames = [
+        testResultData.testData1.teamName,
+        testResultData.testData2.teamName,
+      ];
       const payloadEntry = await constructReportPayloadEntry(
         mockResults,
         mockTest,
@@ -37,7 +40,10 @@ describe('Daily Report Methods', () => {
 
   describe('processTestSuites', () => {
     test('should process test suites and extract payload entries', async () => {
-      const allTeamNames = testResultData.allTeamNames;
+      const allTeamNames = [
+        testResultData.testData1.teamName,
+        testResultData.testData2.teamName,
+      ];
       const testDataEntries = testResultData.expectedPayloadEntries.map(
         (entry, index) => ({
           ...entry,
