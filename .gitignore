@@ -3,3 +3,5 @@ node_modules
 googleCredentials.json
 shadowReportConfig.js
 package-lock.json
+cypressTestResults.json
+playwrightTestResults.json

@@ -14,10 +14,6 @@ import { findHeaderRowIndex } from '../monthlySummaryMethods/summaryGenerationHe
 // Configuration and constants imports
 import * as constants from '../../constants.js';
 
-const typesAvailable = constants.TEST_TYPES_AVAILABLE();
-const categoriesAvailable = constants.TEST_CATEGORIES_AVAILABLE();
-const allTeamNames = constants.ALL_TEAM_NAMES();
-
 /**
  * Initializes an object to store structured daily payload data.
  * @returns {object} An object with empty arrays for payload segments.
@@ -38,6 +34,10 @@ export const initializeDailyPayload = () => ({
  * @returns {Promise<Object>} A promise that resolves to the constructed payload entry.
  */
 export const constructReportPayloadEntry = async (result, test, playwright) => {
+  const typesAvailable = constants.TEST_TYPES_AVAILABLE();
+  const categoriesAvailable = constants.TEST_CATEGORIES_AVAILABLE();
+  const allTeamNames = constants.ALL_TEAM_NAMES();
+
   try {
     const area = playwright
       ? test.projectName
@@ -266,7 +266,10 @@ export const buildDailyPayload = async (dataSet, playwright) => {
  * @throws {Error} Throws an error if report generation fails.
  */
 export const constructHeaderReport = async (payload) => {
+  const typesAvailable = constants.TEST_TYPES_AVAILABLE();
+  const categoriesAvailable = constants.TEST_CATEGORIES_AVAILABLE();
   const teamNames = constants.ALL_TEAM_NAMES();
+
   try {
     // Define the structure for the types to be reported
     const typeArrays = [
