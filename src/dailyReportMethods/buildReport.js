@@ -13,6 +13,7 @@ import { findHeaderRowIndex } from '../monthlySummaryMethods/summaryGenerationHe
 
 // Configuration and constants imports
 import * as constants from '../../constants.js';
+import { getKeysPattern } from './reportGenerationHelpers.js';
 
 /**
  * Initializes an object to store structured daily payload data.
@@ -365,13 +366,15 @@ export const processHeaderWithFormulas = (
     const columnsAvailable = constants.COLUMNS_AVAILABLE(playwright);
 
     const stateColumn = numberToLetter(columnsAvailable.indexOf('state'));
-    const regexPattern = reportGeneration.constructHeaderRegex();
+    const regexPattern = reportGeneration.constructHeaderRegex(getKeysPattern);
     headerPayload.forEach((subArray, rowIndex) => {
       subArray.forEach((str, colIndex) => {
         const match = str.match(regexPattern);
         if (match) {
           const subjectColumn = reportGeneration.determineSubjectColumn(
-            match[1]
+            match[1],
+            columnsAvailable,
+            numberToLetter
           );
           const formulas = getFormulas(
             match[1],

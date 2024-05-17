@@ -36,7 +36,7 @@ const duplicateInstruction = ` If you would like to create a duplicate monthly s
 const noSummaryMessage = chalk.yellow(
   `No ${lastMonth} summary required${duplicateInstruction}${summaryDuplicateInstruction}.`
 );
-const noReportMessage = `Today\`s report already exists${duplicateInstruction}${dailyduplicateInstruction}.`;
+const noReportMessage = chalk.yellow(`Today\`s report already exists${duplicateInstruction}${dailyduplicateInstruction}.`);
 /**
  * Handles report and summary tasks based on pre-existing conditions.
  * - If the CSV option is selected, handles daily report creation immediately.

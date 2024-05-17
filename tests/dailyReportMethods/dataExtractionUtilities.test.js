@@ -7,6 +7,7 @@ import {
   extractManualTestCaseIdFromTest,
   extractTypeFromFullFile,
 } from '../../src/dailyReportMethods/dataExtractionUtilities';
+// @ts-ignore
 import { testResultData } from './buildReportTestData';
 
 describe('Extraction Functions', () => {
@@ -26,6 +27,7 @@ describe('Extraction Functions', () => {
       const typesAvailable = ['unit', 'integration', 'e2e'];
       const invalidFullFile = 12345; // Not a string
       await expect(
+        // @ts-ignore
         extractAreaFromFullFile(invalidFullFile, typesAvailable)
       ).rejects.toThrow('The "fullFile" argument must be a string.');
     });
@@ -34,6 +36,7 @@ describe('Extraction Functions', () => {
       const fullFilePath = 'src/tests/unit/cart/shopping.spec.ts';
       const invalidTypesAvailable = 'invalidType'; // Not an array
       await expect(
+        // @ts-ignore
         extractAreaFromFullFile(fullFilePath, invalidTypesAvailable)
       ).rejects.toThrow(
         'The "testTypesAvailable" argument must be an array of strings.'
@@ -152,6 +155,7 @@ describe('Extraction Functions', () => {
       const test = { fullTitle: '[functional] Add items to cart - [C12345]' };
       const invalidCategoriesAvailable = 'This is not an array';
       expect(() =>
+        // @ts-ignore
         extractCategoryFromTest(test, invalidCategoriesAvailable)
       ).toThrow(
         'The "testCategoriesAvailable" argument must be an array of strings.'
@@ -162,6 +166,7 @@ describe('Extraction Functions', () => {
       const test = { fullTitle: '[functional] Add items to cart - [C12345]' };
       const invalidCategoriesAvailable = [123, 456];
       expect(() =>
+        // @ts-ignore
         extractCategoryFromTest(test, invalidCategoriesAvailable)
       ).toThrow(
         'The "testCategoriesAvailable" argument must be an array of strings.'
@@ -206,6 +211,7 @@ describe('Extraction Functions', () => {
 
     it('should throw a TypeError if fullFilePath is not a string', () => {
       const invalidFullFilePath = 12345; // Not a string
+      // @ts-ignore
       expect(() => extractSpecFromFullFile(invalidFullFilePath)).toThrow(
         'The "fullFilePath" must be a string.'
       );
@@ -291,6 +297,7 @@ describe('Extraction Functions', () => {
 
     it('should throw a TypeError if allTeamNames is not an array', () => {
       const test = { fullTitle: '[TeamAlpha] Test description' };
+      // @ts-ignore
       expect(() => extractTeamNameFromTest(test, 'TeamAlpha')).toThrow(
         'The "allTeamNames" must be an array of strings.'
       );
@@ -299,6 +306,7 @@ describe('Extraction Functions', () => {
     it('should throw a TypeError if allTeamNames is not an array of strings', () => {
       const test = { fullTitle: '[TeamAlpha] Test description' };
       const allTeamNames = ['TeamAlpha', 123, 'TeamGamma'];
+      // @ts-ignore
       expect(() => extractTeamNameFromTest(test, allTeamNames)).toThrow(
         'The "allTeamNames" must be an array of strings.'
       );
@@ -356,6 +364,7 @@ describe('Extraction Functions', () => {
 
     it('should throw a TypeError if the fullTitle is not a string', () => {
       const fullTitle = 12345;
+      // @ts-ignore
       expect(() => extractTestNameFromFullTitle(fullTitle)).toThrow(TypeError);
     });
 
@@ -476,6 +485,7 @@ describe('Extraction Functions', () => {
       const fullFile = 12345;
       const testTypesAvailable = ['type1', 'type2', 'type3'];
       expect(() =>
+        // @ts-ignore
         extractTypeFromFullFile(fullFile, testTypesAvailable)
       ).toThrow(TypeError);
     });
@@ -484,6 +494,7 @@ describe('Extraction Functions', () => {
       const fullFile = '/path/to/type1/file.js';
       const testTypesAvailable = 'type1';
       expect(() =>
+        // @ts-ignore
         extractTypeFromFullFile(fullFile, testTypesAvailable)
       ).toThrow(TypeError);
     });
@@ -492,6 +503,7 @@ describe('Extraction Functions', () => {
       const fullFile = '/path/to/type1/file.js';
       const testTypesAvailable = ['type1', 123, 'type3'];
       expect(() =>
+        // @ts-ignore
         extractTypeFromFullFile(fullFile, testTypesAvailable)
       ).toThrow(TypeError);
     });
