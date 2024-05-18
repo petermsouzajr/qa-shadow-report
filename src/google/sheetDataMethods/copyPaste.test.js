@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { copyPasteNormal } from '../../../src/google/sheetDataMethods/cpoyPaste';
+import { copyPasteNormal } from './cpoyPaste';
 
 const mockCopyPasteNormal = jest.fn();
 

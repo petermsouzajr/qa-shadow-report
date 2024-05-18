@@ -117,8 +117,8 @@ export const TEST_DATA = (cypress) => {
     shadowConfigDetails && shadowConfigDetails.testData
       ? shadowConfigDetails.testData
       : cypress
-      ? 'cypressTestResults.json'
-      : 'playwrightTestResults.json';
+        ? 'cypressTestResults.json'
+        : 'playwrightTestResults.json';
   return testData;
 };
 
@@ -166,6 +166,7 @@ export const COLUMNS_AVAILABLE = (playwright) => {
       ];
 
       if (playwright) {
+        baseColumns.shift();
         baseColumns = ['browser', ...baseColumns];
       }
 

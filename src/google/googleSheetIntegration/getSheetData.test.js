@@ -2,7 +2,7 @@ import { jest } from '@jest/globals';
 import {
   getTopLevelSpreadsheetData,
   getTabValuesByTitle,
-} from '../../../src/google/googleSheetIntegration/getSheetData';
+} from './getSheetData';
 
 // Mocking dependencies
 const mockSheets = {

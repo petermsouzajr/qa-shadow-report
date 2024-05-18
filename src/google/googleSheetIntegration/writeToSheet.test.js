@@ -2,7 +2,7 @@ import { jest } from '@jest/globals';
 import {
   writeToSheet,
   batchUpdateMasterSheet,
-} from '../../../src/google/googleSheetIntegration/writeToSheet';
+} from './writeToSheet';
 
 // Dummy values for auth and spreadsheetId
 const dummyAuth = { dummyAuth: true };

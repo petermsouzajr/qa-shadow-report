@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { formatDuration } from '../../src/sharedMethods/dateFormatting';
-import { constructHeaderReport } from '../../src/dailyReportMethods/buildReport';
+import { formatDuration } from '../sharedMethods/dateFormatting';
+import { constructHeaderReport } from './buildReport';
 import {
   TEST_CATEGORIES_AVAILABLE,
   TEST_TYPES_AVAILABLE,
