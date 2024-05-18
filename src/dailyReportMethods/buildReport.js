@@ -7,7 +7,7 @@ import * as dataExtraction from './extraction/dataExtractionUtilities.js';
 import * as reportGeneration from './reportGenerationHelpers.js';
 
 // Shared methods imports
-import { enforceMaxLength } from '../sharedMethods/cellMaxLength.js';
+import { enforceMaxLength } from './utilities/cellMaxLength.js';
 import { sortPayload } from './processing/sortDailyReportRows.js';
 import { findHeaderRowIndex } from '../monthlySummaryMethods/summaryGenerationHelpers.js';
 

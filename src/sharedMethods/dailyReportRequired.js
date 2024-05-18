@@ -19,7 +19,7 @@ export const doesTodaysReportExist = async () => {
     // Check if a sheet for today already exists
     return existingTabTitles.includes(todaysTitle);
   } catch (error) {
-    console.error('Error checking if today\'s report exists:', error);
+    console.error("Error checking if today's report exists:", error);
     // Depending on how you want to handle errors, you might want to rethrow the error or resolve to a default value
     throw error; // or return false; if you want to assume no report exists if an error occurs
   }
