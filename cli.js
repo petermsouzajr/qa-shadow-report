@@ -110,12 +110,6 @@ async function run() {
   if (!isConfigured) {
     const postInstallScriptPath = resolvePostInstallScript();
 
-    // const moduleRoot = path.dirname(
-    //   import.meta.resolve('qa-shadow-report/package.json')
-    // );
-    // const postInstallPath = path.join(moduleRoot, 'scripts', 'postInstall.js');
-    // const postInstallScriptPath = postInstallPath;
-
     // Execute the postInstall.js script
     const child = spawn('node', [postInstallScriptPath], {
       stdio: 'inherit', // inherit stdio to allow interactive input/output

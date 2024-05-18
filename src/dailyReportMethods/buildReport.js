@@ -3,28 +3,19 @@ import { formatDuration } from '../sharedMethods/dateFormatting.js';
 import { numberToLetter } from '../sharedMethods/dataHandler.js';
 
 // Data extraction and reporting imports
-import * as dataExtraction from './dataExtractionUtilities.js';
+import * as dataExtraction from './extraction/dataExtractionUtilities.js';
 import * as reportGeneration from './reportGenerationHelpers.js';
 
 // Shared methods imports
-import { enforceMaxLength } from '../sharedMethods/cellMaxLength.js';
-import { sortPayload } from '../sharedMethods/sortDailyReportRows.js';
+import { enforceMaxLength } from './utilities/cellMaxLength.js';
+import { sortPayload } from './processing/sortDailyReportRows.js';
 import { findHeaderRowIndex } from '../monthlySummaryMethods/summaryGenerationHelpers.js';
 
 // Configuration and constants imports
 import * as constants from '../../constants.js';
-
-/**
- * Initializes an object to store structured daily payload data.
- * @returns {object} An object with empty arrays for payload segments.
- */
-export const initializeDailyPayload = () => ({
-  bodyPayload: [],
-  headerPayload: [],
-  summaryHeaderStylePayload: [],
-  summaryGridStyles: [],
-  footerPayload: [],
-});
+import { getKeysPattern } from './reportGenerationHelpers.js';
+import { initializeDailyPayload } from './initialization/initializeDailyPayload.js';
+import { processTestSuites } from './processing/processTestSuites.js';
 
 /**
  * Constructs a single report payload entry based on the test result and details.
@@ -91,54 +82,6 @@ export const constructReportPayloadEntry = async (result, test, playwright) => {
     return payloadEntry;
   } catch (error) {
     console.error('Error constructing report payload entry:', error);
-    throw error;
-  }
-};
-
-/**
- * Asynchronously processes test suites to extract payload entries.
- * @param {Array} results - The array of result objects containing test suites.
- * @param {Boolean} playwright - A boolean indicating if the test is in playwright format.
- * @returns {Promise<Array>} - A promise that resolves to an array of constructed payload entries.
- */
-export const processTestSuites = async (results, playwright) => {
-  const processSuite = async (suites, resultData) => {
-    let payloads = [];
-    for (const suite of suites) {
-      if (suite.tests && suite.tests.length > 0) {
-        const suitePayloads = await Promise.all(
-          suite.tests.map((test) =>
-            constructReportPayloadEntry(resultData, test, playwright)
-          )
-        );
-        payloads.push(...suitePayloads);
-      }
-      if (suite.suites && suite.suites.length > 0) {
-        const nestedPayloads = await processSuite(suite.suites, resultData);
-        payloads.push(...nestedPayloads);
-      }
-    }
-    return payloads;
-  };
-
-  try {
-    const payloadEntriesPromises = results.map(async (result) => {
-      // If there are tests at the result level, process them
-      if (result.tests && result.tests.length > 0) {
-        return Promise.all(
-          result.tests.map((test) =>
-            constructReportPayloadEntry(result, test, playwright)
-          )
-        );
-      }
-      // Otherwise, process the suites
-      return processSuite(result.suites, result);
-    });
-
-    const nestedPayloadEntries = await Promise.all(payloadEntriesPromises);
-    return nestedPayloadEntries.flat(Infinity);
-  } catch (error) {
-    console.error('Error processing test suites:', error);
     throw error;
   }
 };
@@ -365,13 +308,15 @@ export const processHeaderWithFormulas = (
     const columnsAvailable = constants.COLUMNS_AVAILABLE(playwright);
 
     const stateColumn = numberToLetter(columnsAvailable.indexOf('state'));
-    const regexPattern = reportGeneration.constructHeaderRegex();
+    const regexPattern = reportGeneration.constructHeaderRegex(getKeysPattern);
     headerPayload.forEach((subArray, rowIndex) => {
       subArray.forEach((str, colIndex) => {
         const match = str.match(regexPattern);
         if (match) {
           const subjectColumn = reportGeneration.determineSubjectColumn(
-            match[1]
+            match[1],
+            columnsAvailable,
+            numberToLetter
           );
           const formulas = getFormulas(
             match[1],
