@@ -10,8 +10,8 @@ import {
   generateTeamReport,
   generateTypeReport,
   getKeysPattern,
-} from '../../src/dailyReportMethods/reportGenerationHelpers.js';
-import { numberToLetter } from '../../src/sharedMethods/dataHandler.js';
+} from './reportGenerationHelpers.js';
+import { numberToLetter } from '../sharedMethods/dataHandler.js';
 
 describe('report generation helpers', () => {
   describe('generatePlaceholders', () => {

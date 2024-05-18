@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { createSummaryTitle } from '../../../src/google/sheetDataMethods/createTabNames';
+import { createSummaryTitle } from './createTabNames';
 
 describe('createSummaryTitle', () => {
   it('should generate a summary title based on the previous month and year', () => {

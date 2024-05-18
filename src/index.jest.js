@@ -1,8 +1,8 @@
-import { handleDailyReport } from '../src/sharedMethods/dailyReportHandler.js';
-import { handleSummary } from '../src/sharedMethods/summaryHandler.js';
-import { doesTodaysReportExist } from '../src/sharedMethods/dailyReportRequired.js';
-import { isSummaryRequired } from '../src/sharedMethods/summaryRequired.js';
-import { dataObjects, main } from '../src/index.js';
+import { handleDailyReport } from './sharedMethods/dailyReportHandler.js';
+import { handleSummary } from './sharedMethods/summaryHandler.js';
+import { doesTodaysReportExist } from './sharedMethods/dailyReportRequired.js';
+import { isSummaryRequired } from './sharedMethods/summaryRequired.js';
+import { dataObjects, main } from './index.js';
 
 // Mock the dependent modules
 jest.mock('./sharedMethods/summaryRequired');

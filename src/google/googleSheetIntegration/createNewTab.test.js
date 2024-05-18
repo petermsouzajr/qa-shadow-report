@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { createNewTab } from '../../../src/google/googleSheetIntegration/createNewTab';
+import { createNewTab } from './createNewTab';
 
 describe('createNewTab', () => {
   const mockCreateSummaryTitle = jest.fn();

@@ -6,9 +6,9 @@ import {
   extractTestNameFromFullTitle,
   extractManualTestCaseIdFromTest,
   extractTypeFromFullFile,
-} from '../../src/dailyReportMethods/dataExtractionUtilities';
+} from './dataExtractionUtilities';
 // @ts-ignore
-import { testResultData } from './buildReportTestData';
+import { testResultData } from '../buildReportTestData';
 
 describe('Extraction Functions', () => {
   describe('extractAreaFromFullFile', () => {

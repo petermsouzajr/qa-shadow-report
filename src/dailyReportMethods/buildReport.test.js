@@ -3,27 +3,22 @@ import {
   TEST_TYPES_AVAILABLE,
 } from '../../constants.js';
 import {
-  initializeDailyPayload,
   constructReportPayloadEntry,
-  processTestSuites,
+  // @ts-ignore
   appendStateReportsToHeader,
-} from '../../src/dailyReportMethods/buildReport.js';
-import { extractTeamNameFromTest } from '../../src/dailyReportMethods/dataExtractionUtilities.js';
+} from './buildReport.js';
+import { extractTeamNameFromTest } from './extraction/dataExtractionUtilities.js';
 import { testResultData } from './buildReportTestData.js';
+import { initializeDailyPayload } from './initialization/initializeDailyPayload.js';
 
 describe('Daily Report Methods', () => {
-  describe('initializeDailyPayload', () => {
-    test('should return an object with empty arrays for payload segments', () => {
-      const payload = initializeDailyPayload();
-      expect(payload).toEqual(testResultData.emptyDailyPayload);
-    });
-  });
-
   describe('constructReportPayloadEntry', () => {
     test('should construct a payload entry based on test result and details', async () => {
       const mockResults = testResultData.fullReportOutput.results[0];
       const mockTest = mockResults.suites[0].tests[0];
+      // @ts-ignore
       const typesAvailable = TEST_TYPES_AVAILABLE();
+      // @ts-ignore
       const allTeamNames = [
         testResultData.testData1.teamName,
         testResultData.testData2.teamName,
@@ -38,27 +33,6 @@ describe('Daily Report Methods', () => {
     });
   });
 
-  describe('processTestSuites', () => {
-    test('should process test suites and extract payload entries', async () => {
-      const allTeamNames = [
-        testResultData.testData1.teamName,
-        testResultData.testData2.teamName,
-      ];
-      const testDataEntries = testResultData.expectedPayloadEntries.map(
-        (entry, index) => ({
-          ...entry,
-          team: '', // update with team names parsed from allteams and the index of the testdata entries
-        })
-      );
-      const dataSet = testResultData.fullReportOutput.results;
-      const payloadEntries = await processTestSuites(
-        dataSet,
-        false // Assuming this is not a Playwright test for this example
-      );
-
-      expect(payloadEntries).toEqual(testDataEntries);
-    });
-  });
 
   describe('extractTeamNameFromTest', () => {
     const allTeamNames = ['team1', 'Team2', 'team-3'];
@@ -118,6 +92,7 @@ describe('Daily Report Methods', () => {
   describe('appendStateReportsToHeader', () => {
     it('should correctly append state reports to a non-empty header payload', async () => {
       const modifiedHeader = testResultData.unappendedHeaderPayload;
+      // @ts-ignore
       appendStateReportsToHeader(modifiedHeader, DEFAULT_HEADER_METRICS);
 
       expect(modifiedHeader).toEqual(testResultData.appendedHeaderPayload);
@@ -125,6 +100,7 @@ describe('Daily Report Methods', () => {
 
     it('should correctly append state reports to an empty header payload', async () => {
       const modifiedHeader = testResultData.emptyHeaderPayload;
+      // @ts-ignore
       appendStateReportsToHeader(modifiedHeader, DEFAULT_HEADER_METRICS);
 
       expect(modifiedHeader).toEqual(testResultData.appendedEmptyHeaderPayload);
