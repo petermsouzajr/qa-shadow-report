@@ -9,6 +9,7 @@ module.exports = {
   // If you're using ESM, you might need the following options as well:
   testEnvironment: 'node',
   moduleFileExtensions: ['js', 'mjs', 'cjs', 'ts', 'json', 'node'],
+  collectCoverageFrom: ['src/**/*.mjs', 'src/**/*.js'],
   testMatch: [
     '**/__tests__/**/*.mjs',
     '**/?(*.)+(spec|test).mjs',

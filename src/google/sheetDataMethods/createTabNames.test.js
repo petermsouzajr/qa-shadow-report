@@ -21,6 +21,7 @@ describe('createSummaryTitle', () => {
     const expectedMonth = mockGetFormattedMonth('lastMonth');
     const expectedYear = mockGetPreviousMonthsYear();
     const title = createSummaryTitle(
+      // @ts-ignore
       mockGetFormattedMonth,
       mockGetPreviousMonthsYear
     );
@@ -33,6 +34,7 @@ describe('createSummaryTitle', () => {
 
     // Wrap the function call in a try-catch block
     try {
+      // @ts-ignore
       createSummaryTitle(mockGetFormattedMonth, mockGetPreviousMonthsYear);
       // Fail the test if no error is thrown
       expect(true).toBe(true);

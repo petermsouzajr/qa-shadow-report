@@ -1,5 +1,4 @@
 import { jest } from '@jest/globals';
-import { copyPasteNormal } from './cpoyPaste';
 
 const mockCopyPasteNormal = jest.fn();
 

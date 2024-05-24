@@ -5,3 +5,4 @@ shadowReportConfig.js
 package-lock.json
 cypressTestResults.json
 playwrightTestResults.json
+coverage
