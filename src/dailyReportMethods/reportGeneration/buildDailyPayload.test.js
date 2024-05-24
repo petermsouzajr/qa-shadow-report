@@ -2,10 +2,10 @@ import { buildDailyPayload } from './buildDailyPayload.js';
 import { testResultData } from '../buildReportTestData.js';
 
 describe('buildDailyPayload', () => {
-  const isPlaywrightOption = [true, false];
-  isPlaywrightOption.forEach((isPlaywright) => {
-    const playwrightOrCypress = isPlaywright ? 'Playwright' : 'Cypress';
-    it(`should build the daily payload correctly when using ${playwrightOrCypress}`, async () => {});
+  const isPlaywrightOptions = [true, false];
+  isPlaywrightOptions.forEach((isPlaywright) => {
+    const testFramework = isPlaywright ? 'Playwright' : 'Cypress';
+    it(`should build the daily payload correctly when using ${testFramework}`, async () => {});
   });
 
   it('should throw an error if dataSet is not an object', async () => {

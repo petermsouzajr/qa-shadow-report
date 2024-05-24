@@ -2,11 +2,11 @@ import { extractTeamNameFromTest } from './extraction/dataExtractionUtilities.js
 
 describe('Daily Report Methods', () => {
   describe('constructReportPayloadEntry', () => {
-    const isPlaywrightOption = [true, false];
-    isPlaywrightOption.forEach((isPlaywright) => {
-      const playwrightOrCypress = isPlaywright ? 'Playwright' : 'Cypress';
+    const isPlaywrightOptions = [true, false];
+    isPlaywrightOptions.forEach((isPlaywright) => {
+      const testFramework = isPlaywright ? 'Playwright' : 'Cypress';
 
-      it(`should construct a payload entry based on test result and details when using ${playwrightOrCypress}`, async () => {});
+      it(`should construct a payload entry based on test result and details when using ${testFramework}`, async () => {});
     });
   });
 
