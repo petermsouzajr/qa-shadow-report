@@ -7,3 +7,4 @@ cypressTestResults.json
 playwrightTestResults.json
 jestTestResults.json
 coverage
+docs
