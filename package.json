@@ -34,8 +34,8 @@
   },
   "homepage": "https://github.com/petermsouzajr/qa-shadow-report#readme",
   "devDependencies": {
-    "@babel/core": "^7.24.5",
-    "@babel/preset-env": "^7.24.5",
+    "@babel/core": "^7.24.6",
+    "@babel/preset-env": "^7.24.6",
     "@faker-js/faker": "^8.3.1",
     "@types/jest": "^29.5.12",
     "babel-jest": "^29.7.0",

@@ -1,35 +1,53 @@
-// import { dataObjects } from '../../index.js';
-// import {
-//   getFormattedMonth,
-//   getPreviousMonthsYear,
-//   getTodaysFormattedDate,
-// } from '../../sharedMethods/dateFormatting.js';
-// import { getTopLevelSpreadsheetData } from '../googleSheetIntegration/getSheetData.js';
-// import { createSummaryTitle } from './createTabNames.js';
-// import {
-//   findTabTitleDataInArray,
-//   getExistingTabTitlesInRange,
-//   getTabIdFromTitle,
-//   findMatchingColumnByTabId,
-//   getHeaderAndFooterDataByTabTitle,
-// } from './getSheetInfo.js';
+import { jest } from '@jest/globals';
+import { dataObjects } from '../../index.js';
+import {
+  getFormattedMonth,
+  getPreviousMonthsYear,
+  getTodaysFormattedDate,
+} from '../../sharedMethods/dateFormatting.js';
+import { getTopLevelSpreadsheetData } from '../googleSheetIntegration/getSheetData.js';
+import { createSummaryTitle } from './createTabNames.js';
+import {
+  findTabTitleDataInArray,
+  getExistingTabTitlesInRange,
+  getTabIdFromTitle,
+  findMatchingColumnByTabId,
+  getHeaderAndFooterDataByTabTitle,
+} from './getSheetInfo.js';
 
 describe('findTabTitleDataInArray', () => {
-  it('should return undefined if sheetValuesArray is empty', () => {
-    //     const sheetValuesArray = [];
-    //     const sheetTitle = 'sheet2';
-    //     const result = findTabTitleDataInArray(sheetValuesArray, sheetTitle);
-    //     expect(result).toBeUndefined();
+  it('should find the sheet data object by title', () => {
+    const sheetValuesArray = [
+      { config: { url: 'http://example.com/sheet1' } },
+      { config: { url: 'http://example.com/sheet2' } },
+    ];
+    const sheetTitle = 'sheet2';
+    const result = findTabTitleDataInArray(sheetValuesArray, sheetTitle);
+    expect(result).toEqual({ config: { url: 'http://example.com/sheet2' } });
+  });
+
+  it('should return undefined if the sheet title is not found', () => {
+    const sheetValuesArray = [
+      { config: { url: 'http://example.com/sheet1' } },
+      { config: { url: 'http://example.com/sheet3' } },
+    ];
+    const sheetTitle = 'sheet2';
+    const result = findTabTitleDataInArray(sheetValuesArray, sheetTitle);
+    expect(result).toBeUndefined();
+  });
+
+  it('should throw a TypeError if sheetValuesArray is not an array', () => {
+    expect(() => findTabTitleDataInArray({}, 'sheet1')).toThrow(
+      'Invalid sheetValuesArray: Expected an array.'
+    );
+  });
+
+  it('should throw a TypeError if sheetTitle is not a string', () => {
+    expect(() => findTabTitleDataInArray([], 123)).toThrow(
+      'Invalid sheetTitle: Expected a string.'
+    );
   });
 });
-
-// jest.mock('../../sharedMethods/dateFormatting');
-// jest.mock('../googleSheetIntegration/getSheetData');
-// jest.mock('../../index', () => ({
-//   dataObjects: {
-//     topLevelSpreadsheetData: {},
-//   },
-// }));
 
 // describe('getExistingTabTitlesInRange', () => {
 //   beforeEach(() => {
@@ -38,7 +56,7 @@ describe('findTabTitleDataInArray', () => {
 
 //   it('should return titles that match the last month and year criteria', async () => {
 //     getFormattedMonth
-//       .mockReturnValueOnce('lastMonth')
+//       .mockReturnValueOnce('March')
 //       .mockReturnValueOnce('February');
 //     getPreviousMonthsYear.mockReturnValue('2023');
 //     getTopLevelSpreadsheetData.mockResolvedValue({
@@ -54,6 +72,66 @@ describe('findTabTitleDataInArray', () => {
 //     const titles = await getExistingTabTitlesInRange('lastMonth');
 //     expect(titles).toEqual(['February 20, 2023', 'February 25, 2023']);
 //   });
+
+//   it('should return all titles if "when" is not "lastMonth"', async () => {
+//     getFormattedMonth.mockReturnValue('March');
+//     getTopLevelSpreadsheetData.mockResolvedValue({
+//       data: {
+//         sheets: [
+//           { properties: { title: 'February 20, 2023' } },
+//           { properties: { title: 'March 15, 2023' } },
+//         ],
+//       },
+//     });
+
+//     const titles = await getExistingTabTitlesInRange('');
+//     expect(titles).toEqual(['February 20, 2023', 'March 15, 2023']);
+//   });
+
+//   it('should throw a TypeError if "when" is not a string', async () => {
+//     await expect(getExistingTabTitlesInRange(123)).rejects.toThrow(TypeError);
+//   });
+
+//   it('should throw an error if metadata format is invalid', async () => {
+//     getTopLevelSpreadsheetData.mockResolvedValue({ data: {} });
+
+//     await expect(getExistingTabTitlesInRange('lastMonth')).rejects.toThrow(
+//       'Invalid spreadsheet metadata format.'
+//     );
+//   });
+// });
+
+// jest.mock('../../sharedMethods/dateFormatting');
+// jest.mock('../googleSheetIntegration/getSheetData');
+// jest.mock('../../index', () => ({
+//   dataObjects: {
+//     topLevelSpreadsheetData: {},
+//   },
+// }));
+
+// describe('getExistingTabTitlesInRange', () => {
+//   beforeEach(() => {
+//     jest.clearAllMocks();
+//   });
+
+// it('should return titles that match the last month and year criteria', async () => {
+// getFormattedMonth
+//   .mockReturnValueOnce('lastMonth')
+// .mockReturnValueOnce('February');
+// getPreviousMonthsYear.mockReturnValue('2023');
+// getTopLevelSpreadsheetData.mockResolvedValue({
+//   data: {
+//     sheets: [
+//       { properties: { title: 'February 20, 2023' } },
+//       { properties: { title: 'March 15, 2023' } },
+//       { properties: { title: 'February 25, 2023' } },
+//     ],
+//   },
+// });
+
+// const titles = await getExistingTabTitlesInRange('lastMonth');
+//   expect(titles).toEqual(['February 20, 2023', 'February 25, 2023']);
+// });
 
 //   it('should return all titles if "when" is not "lastMonth"', async () => {
 //     getFormattedMonth.mockReturnValue('March');
