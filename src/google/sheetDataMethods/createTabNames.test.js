@@ -3,7 +3,7 @@ import { createSummaryTitle } from './createTabNames.js';
 import * as dateFormatting from '../../sharedMethods/dateFormatting.js';
 
 // Spy on the original functions
-jest.mock('../../src/sharedMethods/dateFormatting.js', () => {
+jest.mock('../../sharedMethods/dateFormatting.js', () => {
   return {
     getFormattedMonth: jest.fn(),
     getPreviousMonthsYear: jest.fn(),

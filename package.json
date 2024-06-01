@@ -12,6 +12,7 @@
     "lint": "eslint . --report-unused-disable-directives",
     "lint:fix": "npm run lint -- --fix",
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:sanity": "node --experimental-vm-modules node_modules/.bin/jest --testNamePattern='\\[sanity\\]'",
     "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
     "test:coverage": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
     "docs": "jsdoc -c jsdoc.json"

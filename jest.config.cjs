@@ -1,6 +1,6 @@
 module.exports = {
   transform: {
-    '^.+\\.jsx?$': 'babel-jest',
+    // '^.+\\.js$': 'babel-jest',
   },
   transformIgnorePatterns: [
     'node_modules/(?!(module-that-needs-transpiling)/)', // Add any modules that need to be transpiled by Babel
