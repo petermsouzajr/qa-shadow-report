@@ -9,7 +9,7 @@ module.exports = {
   testEnvironment: 'node',
   moduleFileExtensions: ['js', 'json', 'node'],
   collectCoverage: true,
-  coverageReporters: ['json', 'html'],
+  // coverageReporters: ['json', 'html'], //commented out for now, later project updae will use json output and send results to google sheet.
   collectCoverageFrom: [
     'src/**/*.mjs',
     'src/**/*.js',
@@ -22,5 +22,4 @@ module.exports = {
     '**/__tests__/**/*.js',
     '**/?(*.)+(spec|test).js',
   ],
-  // ... any other configuration options
 };
