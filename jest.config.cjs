@@ -9,7 +9,7 @@ module.exports = {
   testEnvironment: 'node',
   moduleFileExtensions: ['js', 'json', 'node'],
   collectCoverage: true,
-  // coverageReporters: ['json', 'html'], //commented out for now, later project updae will use json output and send results to google sheet.
+  // coverageReporters: ['json', 'html'], //not required yet, later project update will use json output and send results to google sheet.
   collectCoverageFrom: [
     'src/**/*.mjs',
     'src/**/*.js',
