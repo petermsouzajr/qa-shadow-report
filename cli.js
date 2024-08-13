@@ -93,7 +93,10 @@ async function run() {
     process.exit(0);
   }
 
-  if (GOOGLE_KEYFILE_PATH() === false || GOOGLE_SHEET_ID() === false) {
+  if (
+    GOOGLE_KEYFILE_PATH() === false ||
+    (GOOGLE_SHEET_ID() === false && !isCSV)
+  ) {
     // If the Google Sheets configuration is missing, default to CSV
     console.info(
       chalk.yellow(

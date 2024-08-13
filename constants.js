@@ -123,27 +123,31 @@ export const TEST_DATA = (cypress) => {
       ? cypressFile
       : playwrightFile;
 
-  const testDataPath = path.resolve(__dirname, testData);
+  const testDataPath = path.resolve(projectRootPath, testData);
 
-  if (!fs.existsSync(testDataPath)) {
-    console.log(`Test results file "${testData}" not found.`);
+  const cypressExists = fs.existsSync(path.resolve(__dirname, cypressFile));
+  const playwrightExists = fs.existsSync(
+    path.resolve(__dirname, playwrightFile)
+  );
 
-    const cypressExists = fs.existsSync(path.resolve(__dirname, cypressFile));
-    const playwrightExists = fs.existsSync(
-      path.resolve(__dirname, playwrightFile)
+  if (!cypressExists && !playwrightExists && !shadowConfigFile) {
+    console.log(
+      chalk.yellow(
+        `It looks like you have added a results path to the configuration ${chalk.green(configPath)}. ` +
+          `If you are a new user, please run your tests and ensure that ` +
+          `the results are stored in a JSON format in a specified directory.`
+      )
     );
-
-    if (!cypressExists && !playwrightExists) {
-      console.log(
-        chalk.yellow(
-          `It seems there are no test result files in your results directory ${chalk.yellow(configPath)}. ` +
-            `If you're a new user, please run your tests and ensure that ` +
-            `the results are stored in a JSON format in the specified directory.`
-        )
-      );
-      // You can choose to exit the process or continue depending on your requirement
-      // process.exit(1);
-    }
+    process.exit(1);
+  }
+  if (!fs.existsSync(testDataPath)) {
+    console.error(
+      chalk.yellow(
+        `Test results file ${chalk.green(`testData:"${testData}`)}" not found at path: ${chalk.green(testDataPath)}. ` +
+          `Please ensure the file is present.`
+      )
+    );
+    process.exit(1);
   }
 
   return testData;
