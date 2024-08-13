@@ -99,14 +99,17 @@ const createConfigFile = () => {
     // Sample Configuration File: Adjust values below to match your project's setup
     
     module.exports = {
+        // Uncomment the relevant teams or add your own in the Describe block or It block:
+        //  describe('[oregano] Unit test our math functions', () => {
+        //    context('math', () => {
+        //      it('can add numbers [C2452][smoke]', () => {
       teamNames: [
-        // Uncomment the relevant teams or add your own:
         //'oregano',
         //'wilkins',
         //'canonicus',
       ],
+        // (default list) Uncomment the relevant test types or add your own by modifying your folder structure [framework]/ui/1-getting-started/todo.cy.js:
       testTypes: [
-        // (default list) Uncomment the relevant test types or add your own:
         // 'api',
         // 'ui',
         // 'unit',
@@ -118,8 +121,11 @@ const createConfigFile = () => {
         // 'accessibility',
         // 'mobile',
       ],
+        // (default list) Uncomment the relevant test categories or add your own in the Describe block or It block:
+        //  describe('[oregano] Unit test our math functions', () => {
+        //    context('math', () => {
+        //      it('can add numbers [C2452][smoke]', () => {        
       testCategories: [
-        // (default list) Uncomment the relevant test categories or add your own:
         // 'smoke',
         // 'regression',
         // 'sanity',
