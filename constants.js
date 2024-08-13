@@ -130,16 +130,24 @@ export const TEST_DATA = (cypress) => {
     path.resolve(__dirname, playwrightFile)
   );
 
-  if (!cypressExists && !playwrightExists && !shadowConfigFile) {
-    console.log(
+  if (!fs.existsSync(configPath)) {
+    console.error(
       chalk.yellow(
-        `It looks like you have added a results path to the configuration ${chalk.green(configPath)}. ` +
-          `If you are a new user, please run your tests and ensure that ` +
-          `the results are stored in a JSON format in a specified directory.`
+        `Configuration file not found. ` + `run ${chalk.green('qasr-setup')}.`
       )
     );
     process.exit(1);
   }
+
+  if (!cypressExists && !playwrightExists && !shadowConfigFile) {
+    console.log(
+      chalk.yellow(
+        `It looks like you have added a config file ${chalk.green(configPath)} but haven't added a filepath to your results, please add a path to your JSON test results (usually compiled from mochawesome).`
+      )
+    );
+    process.exit(1);
+  }
+  
   if (!fs.existsSync(testDataPath)) {
     console.error(
       chalk.yellow(
