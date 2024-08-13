@@ -16,7 +16,7 @@ const findProjectRoot = (startPath) => {
 
     if (fs.existsSync(packageJsonPath)) {
       // Check if the current directory is inside a node_modules directory
-      if (!currentDir.includes(path.sep + 'node_modules' + path.sep)) {
+      if (!currentDir.includes(path.sep + 'node_modules')) {
         return currentDir;
       }
     }
@@ -74,13 +74,13 @@ let shadowConfigDetails = {};
 try {
   if (fs.existsSync(configPath)) {
     const shadowConfig = await import(pathToFileURL(configPath).href);
-    shadowConfigDetails = shadowConfig.default;
+    shadowConfigDetails = shadowConfig.default || {};
   }
 } catch (error) {
   console.error(
     chalk.red(`Error loading configuration file at path: ${configPath}`)
   );
-  console.error(chalk.red(error));
+  console.error(chalk.red(error.message));
 }
 
 // Define the formula keys for daily report header metrics.
@@ -126,7 +126,6 @@ export const TEST_DATA = (cypress) => {
   const testDataPath = path.resolve(__dirname, testData);
 
   if (!fs.existsSync(testDataPath)) {
-
     console.log(`Test results file "${testData}" not found.`);
 
     const cypressExists = fs.existsSync(path.resolve(__dirname, cypressFile));
