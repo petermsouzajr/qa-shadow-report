@@ -147,6 +147,7 @@ export const TEST_DATA = (cypress) => {
     );
     process.exit(1);
   }
+  
   if (!fs.existsSync(testDataPath)) {
     console.error(
       chalk.yellow(
