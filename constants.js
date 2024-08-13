@@ -113,12 +113,35 @@ export const GOOGLE_KEYFILE_PATH = () => {
 };
 
 export const TEST_DATA = (cypress) => {
-  const testData =
-    shadowConfigDetails && shadowConfigDetails.testData
-      ? shadowConfigDetails.testData
-      : cypress
-        ? 'cypressTestResults.json'
-        : 'playwrightTestResults.json';
+  const shadowConfigFile = shadowConfigDetails && shadowConfigDetails.testData;
+  const cypressFile = 'cypressTestResults.json';
+  const playwrightFile = 'playwrightTestResults.json';
+
+  const testData = shadowConfigFile
+    ? shadowConfigFile
+    : cypress
+      ? cypressFile
+      : playwrightFile;
+
+  if (!fs.existsSync(path.resolve(__dirname, testData))) {
+    console.log(`Test results file "${testData}" not found.`);
+
+    const cypressExists = fs.existsSync(path.resolve(__dirname, cypressFile));
+    const playwrightExists = fs.existsSync(
+      path.resolve(__dirname, playwrightFile)
+    );
+
+    if (!cypressExists && !playwrightExists) {
+      console.log(
+        `It seems there are no test result files in your results directory ${configPath}. ` +
+          `If you're a new user, please run your tests and ensure that ` +
+          `the results are stored in a JSON format in the specified directory.`
+      );
+      // You can choose to exit the process or continue depending on your requirement
+      process.exit(1);
+    }
+  }
+
   return testData;
 };
 
