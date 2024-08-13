@@ -126,6 +126,7 @@ export const TEST_DATA = (cypress) => {
   const testDataPath = path.resolve(__dirname, testData);
 
   if (!fs.existsSync(testDataPath)) {
+
     console.log(`Test results file "${testData}" not found.`);
 
     const cypressExists = fs.existsSync(path.resolve(__dirname, cypressFile));
