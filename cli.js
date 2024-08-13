@@ -94,8 +94,8 @@ async function run() {
   }
 
   if (
-    GOOGLE_KEYFILE_PATH() === false ||
-    (GOOGLE_SHEET_ID() === false && !isCSV)
+    (GOOGLE_KEYFILE_PATH() === false || GOOGLE_SHEET_ID() === false) &&
+    !isCSV
   ) {
     // If the Google Sheets configuration is missing, default to CSV
     console.info(
