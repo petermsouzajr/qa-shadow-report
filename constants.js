@@ -138,7 +138,6 @@ export const TEST_DATA = (cypress) => {
           `the results are stored in a JSON format in a specified directory.`
       )
     );
-    // You can choose to exit the process or continue depending on your requirement
     process.exit(1);
   }
   if (!fs.existsSync(testDataPath)) {
