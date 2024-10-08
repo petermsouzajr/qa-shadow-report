@@ -95,7 +95,9 @@ export const GOOGLE_SHEET_ID = () => {
   let sheetId;
 
   if (shadowConfigDetails && shadowConfigDetails.googleSpreadsheetId) {
-    sheetId = shadowConfigDetails.googleSpreadsheetId;
+    sheetId = shadowConfigDetails.googleSpreadsheetId
+      .split('/d/')[1]
+      .split('/')[0];
   } else {
     sheetId = false;
   }
@@ -147,7 +149,7 @@ export const TEST_DATA = (cypress) => {
     );
     process.exit(1);
   }
-  
+
   if (!fs.existsSync(testDataPath)) {
     console.error(
       chalk.yellow(
