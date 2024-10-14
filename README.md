@@ -1,51 +1,77 @@
 # Cypress & Playwright Reporting: Seamless Integration with Google Sheets and CSV
 
-Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, streamlining test result integration and boosting team collaboration. It not only provides immediate insights into automation project health but also leads a paradigm shift in organizational methods, promoting clearer coordination and efficiency. Note: Cypress is a registered trademark of Cypress.io, Playwright is a registered trademark of Microsoft Corporation, and Google Sheets is a registered trademark of Google Inc. This application is not officially endorsed or certified by Playwright, Microsoft Corporation, Google Inc., or Cypress.io.
+Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, streamlining test result integration and boosting team collaboration. It not only provides immediate insights into automation project health but also leads a paradigm shift in organizational methods, promoting clearer coordination and efficiency.
+
+**Note:** Cypress is a registered trademark of Cypress.io, Playwright is a registered trademark of Microsoft Corporation, and Google Sheets is a registered trademark of Google Inc. This application is not officially endorsed or certified by Playwright, Microsoft Corporation, Google Inc., or Cypress.io.
 
 ## Table of Contents
 
 1. [Installation](#installation)
-1. [Quick Start](#quickstart)
-   - [Generate a Report as CSV](#generate-reports-in-csv-format)
-1. [Samples](#samples)
-
+2. [Quick Start](#quick-start)
+   - [Generate Reports in CSV Format](#generate-reports-in-csv-format)
+3. [Samples](#samples)
    - [Sheets Daily Report](#sheets-daily-report)
    - [Sheets Monthly Summary](#sheets-monthly-summary)
    - [CSV Daily Report](#csv-daily-report)
-
-1. [Sheets Setup Guide](#sheets-setup-guide)
-
+4. [Sheets Setup Guide](#sheets-setup-guide)
    - [Cypress](#cypress)
    - [Playwright](#playwright)
-
-1. [Sheets Enhanced Configuration](#sheets-enhanced-configuration)
-
+5. [Sheets Enhanced Configuration](#sheets-enhanced-configuration)
    - [Column: Team](#column-team)
    - [Column: Type](#column-type)
    - [Column: Category](#column-category)
    - [Column: Manual Case](#column-manual-case)
    - ['The Works'](#the-works)
-
-1. [Github CI/CD](#github-cicd)
-1. [Demo Branch](#demo-branch)
+6. [cypress/grep Integration](#cypressgrep-integration)
+7. [GitHub CI/CD](#github-cicd)
+8. [Demo Branch](#demo-branch)
 
 ## Installation
 
-### qa-shadow-report setup guide
+### qa-shadow-report Setup Guide
 
-Upon installing qa-shadow-report, you can run the command `qasr-setup` which initiates a couple of Yes or No questions to guide you through setting up the tool for your testing framework and package manager. You may choose to exit the setup at any time, by entering EXIT. You will then need to manually complete the setup by following the detailed instructions provided in the [Cypress](#cypress) or [Playwright](#playwright) sections of this guide.
+Upon installing `qa-shadow-report`, you can run the command `npx qasr-setup`, which initiates a series of Yes or No questions to guide you through setting up the tool for your testing framework and package manager. You may choose to exit the setup at any time by entering `EXIT`. You will then need to manually complete the setup by following the detailed instructions provided in the [Cypress](#cypress) or [Playwright](#playwright) sections of this guide.
 
 This setup process is designed to tailor the installation to your specific needs, ensuring that all dependencies and configurations are correctly established for your environment.
 
-## Quickstart
+**Note:** The commands in this guide assume the use of `npm/npx`. If you prefer to use `yarn`, replace `npm/npx` with `yarn` where appropriate.
 
-### Generate Reports In CSV format
+## Quick Start
+
+### Generate Reports in CSV Format
 
 - Use the base commands with a framework of Cypress or Playwright and the optional flag `--csv` to run a daily report.
-  - `qa-shadow-report [framework] --csv`
-  - `qa-shadow-report [framework] todays-report --csv`
-- Ensure JSON data is present from [framework] test results output, check the [Prerequisites](#prerequisites) section to see a [framework] configuration.
-- A detailed summary will be downloaded into the Cypress Downloads folder `cypress/downloads`
+
+  - **Using NPX:**
+
+    ```
+    npx qa-shadow-report [framework] --csv
+    ```
+
+    ```
+    npx qa-shadow-report [framework] todays-report --csv
+    ```
+
+  - **Using NPM Scripts:**
+
+    Add to your `package.json` scripts:
+
+    ```
+    "scripts": {
+      "report:csv": "qa-shadow-report [framework] --csv",
+    }
+    ```
+
+    Then run:
+
+    ```
+    npm run report:csv
+    ```
+
+- Ensure JSON data is present from your framework's test results output. Check the [Prerequisites](#prerequisites) section to see a framework configuration.
+
+- A detailed summary will be downloaded into the `cypress/downloads` folder.
+
 - Monthly summary reports are not currently supported in CSV format.
 
 ## Samples
@@ -62,13 +88,16 @@ This setup process is designed to tailor the installation to your specific needs
 
 ![Screenshot of Feature](images/csvDailyReport.png)
 
-## Sheets setup Guide
+## Sheets Setup Guide
 
 ### Cypress
 
-Before you begin, ensure you have the following packages and authentication, you can run the command `qasr-setup` which initiates a couple of Yes or No questions to guide you through setting up the tool for your testing framework and package manager:
+Before you begin, ensure you have the following packages and authentication. You can run the command `npx qasr-setup`, which initiates a series of Yes or No questions to guide you through setting up the tool for your testing framework and package manager:
 
-- **Mochawesome and Mochawesome Merge:** Usually installed by the setup wizard, these are recommended for Cypress test report generation: `npm install --save-dev mochawesome mochawesome-merge`.
+- **Mochawesome and Mochawesome Merge:** Usually installed by the setup wizard, these are recommended for Cypress test report generation:
+
+`npm install --save-dev mochawesome mochawesome-merge`
+
 - **Google Spreadsheet ID:** Place the sheet's URL directly in an environment variable: `https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160`.
 - **Service Account Credentials for Google Sheets:** Follow the detailed guide from `node-google-spreadsheet` they have a great document describing Google Service Accounts [node-google-spreadshee: Google Service Account](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=authentication-methods)
   to set up and safely store your credentials, updating `shadowReportConfig.*` (`js`, or `ts`) with the path to these credentials. Use `.gitignore` to secure your credentials within your project.
@@ -96,7 +125,7 @@ Before you begin, ensure you have the following packages and authentication, you
       'smoke',
       'sanity',
     ],
-    googleSpreadsheetId: 'v544j5h4h456v6n',
+    googleSpreadsheetId: 'https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160',
     googleKeyFilePath: 'googleCredentials.json',
     testData: 'cypress/results/output.json',
     csvDownloadsPath: 'downloads'
@@ -114,25 +143,25 @@ To ensure tests and reports are processed correctly, configure your `package.jso
     "postcypress:run": "npm run report:merge",
     "report:merge": "mochawesome-merge cypress/results/*.json > cypress/results/output.json && npm run report:generate",
     "report:generate": "qa-shadow-report cypress",
-    "cypress": "npm run cypress:run"
+    "cypress-test": "npm run cypress:run"
   },
 ```
 
-In this example, running `npm cypress-test` will
+In this example, running `npm run cypress-test` will
 
-- `cypress:prerun` delete all previous test run data.
-- `cypress:run` run all Cypress tests and add each test result to a `results` folder, in JSON format.
-- `postcypress:run` call `report:merge`.
-- `report:merge` merge individual test results into one large JSON object.
+- `cypress:prerun` Delete all previous test run data.
+- `cypress:run` Run all Cypress tests and add each test result to a `results` folder, in JSON format.
+- `postcypress:run` Call `report:merge`.
+- `report:merge` Merge individual test results into one large JSON object.
 - `report:generate`: Generate a report based on the Cypress test results using qa-shadow-report.
 
 Adjust these scripts as needed for your project's requirements.
 
 ### Playwright
 
-Before you begin, ensure you have the following packages and authentication, you can run the command `qasr-setup` which initiates a couple of Yes or No questions to guide you through setting up the tool for your testing framework and package manager:
+Before you begin, ensure you have the following packages and authentication, you can run the command `npx qasr-setup` which initiates a couple of Yes or No questions to guide you through setting up the tool for your testing framework and package manager:
 
-- **Google Spreadsheet ID:** Find this in your sheet's URL and store it in an environment variable.
+- **Google Spreadsheet ID:** Place the sheet's URL directly in an environment variable: `https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160`.
 - **Service Account Credentials for Google Sheets:** Follow the detailed guide from `node-google-spreadsheet` they have a great document describing Google Service Accounts [node-google-spreadshee: Google Service Account](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=authentication-methods)
   to set up and safely store your credentials, updating `shadowReportConfig.*` (`js`, or `ts`) with the path to these credentials. Use `.gitignore` to secure your credentials within your project.
 - **Playwright Configuration**: In the `playwright.config.js` file, specify the reporter like this:
@@ -142,7 +171,7 @@ Before you begin, ensure you have the following packages and authentication, you
   reporter: [['json', { outputFile: 'test-results/output.json' }]];
   ```
 
-- **qa-shadow-report configuration file:** `shadowReportConfig.*` (`js`, or `ts`) Can be installed by the setup wizard in the root of your Cypress project, you can run the command `qasr-setup` which initiates a couple of Yes or No questions to guide you through setting up the tool for your testing framework and package manager.
+- **qa-shadow-report Configuration File:** `shadowReportConfig.*` (`js`, or `ts`) Can be installed by the setup wizard in the root of your project, you can run the command `npx qasr-setup` which initiates a series of Yes or No questions to guide you through setting up the tool for your testing framework and package manager.
 
   - `teamNames`: An array of identifiers representing different teams within your organization that may use or contribute to the testing process.
   - `testTypes`: Specifies the types of tests included in your project, such as API tests or UI tests, to help organize and filter test executions.
@@ -166,7 +195,7 @@ Before you begin, ensure you have the following packages and authentication, you
       'smoke',
       'sanity',
     ],
-    googleSpreadsheetId: 'v544j5h4h456v6n',
+    googleSpreadsheetId: 'https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160',
     googleKeyFilePath: 'googleCredentials.json',
     testData: 'cypress/results/output.json',
     csvDownloadsPath: 'downloads'
@@ -198,42 +227,63 @@ In this example, running npm run playwright-test will:
 
     All commands require that test report data is present, in this example, the report data is generated by the testing framework.
 
-- **To run the standard global functionality**
+- **To run the root `qa-shadow-report` functionality**
 
-  - Run the command `qa-shadow-report [framework]`.
+  - **Using NPX:**
+
+    ```
+    npx qa-shadow-report [framework]
+    ```
+
+  - **Using NPM Scripts:**
+
+    Add to your `package.json`:
+
+    ```
+    "scripts": {
+      "report:generate": "npx qa-shadow-report [framework]"
+    }
+    ```
+
+    Then run:
+
+    ```
+    npm run report:generate
+    ```
+
   - This command processes the data from the test results and create a detailed report.
-  - A new sheet Tab will be creted with the current days title e.g `Mar 24, 2024`, to which this detailed report will be written.
-  - If tabs exist on the Sheet for the previous month e.g. current month is April and Sheet Tabs exist for `Mar 24, 2024`, `Mar 25, 2024`, then a monthly summary will be generated with that previous months data `Summary Mar 2024`.
+  - A new Sheet Tab will be created with the current day's title (e.g., `Mar 24, 2024`), to which this detailed report will be written.
+  - If the Sheet has Tabs for the previous month (e.g., current month is April and sheet tabs exist for `Mar 24, 2024`, `Mar 25, 2024`), then a monthly summary will be generated with that previous month's data (`Summary Mar 2024`).
   - The report will fail if JSON test result data is not present.
-  - Duplicate Sheet Tabs are not allowed, to create a duplicate tab, use the flag `--duplicate`.
+  - Duplicate Sheet Tabs are not created by defualt, to create a duplicate Tab, use the flag `--duplicate`.
 
 - **To run the daily report only**
 
-  - Run `qa-shadow-report [framework] todays-report`.
+  - Run `npx qa-shadow-report [framework] todays-report`.
   - Ensure JSON data is present from framework test results output.
-  - Duplicate Sheet Tabs are not allowed, to create a duplicte tab, use the flag `--duplicate`.
+  - Duplicate Sheet Tabs are not created by defualt, to create a duplicte Tab, use the flag `--duplicate`.
   - This command will bypass the task of generating a monthly summary.
 
 - **To run the monthly summary report only**
 
-  - Run `qa-shadow-report [framework] monthly-summary`.
+  - Run `npx qa-shadow-report [framework] monthly-summary`.
   - Ensure daily reports from the previous month are present, otherwise no summary will be generated.
-  - Duplicate Sheet Tabs are not allowed, to create a duplicate tab, use the flag `--duplicate`.
+  - Duplicate Sheet Tabs are not created by defualt, to create a duplicate Tab, use the flag `--duplicate`.
   - This command will bypass the task of generating a daily report.
 
 ### To Generate Duplicates
 
 - Use the base commands with the optional flag `--duplicate`
-  - `qa-shadow-report [framework] --duplicate`
-  - `qa-shadow-report [framework] todays-report --duplicate`
-  - Monthly summary dupliactes must be created directly, using the command `qa-shadow-report [framework] monthly-summary`.
+  - `npx qa-shadow-report [framework] --duplicate`
+  - `npx qa-shadow-report [framework] todays-report --duplicate`
+  - Monthly summary dupliactes must be created directly, using the command `npx qa-shadow-report [framework] monthly-summary`.
 
 ### Quick Command Reference
 
-- `qa-shadow-report [framework]` or `qasr [framework]` - Generates a monthly and daily report in sheets, if none exist.
-- `qa-shadow-report [framework] todays-report` - Generates todays report in sheets, if none exist.
-- `qa-shadow-report [framework] monthly-summary` - Generates a monthly summary in sheets, if none exist.
-- `qasr-setup` - Initiates the setup process fo reither Cypress or PLaywright, NPM or Yarn
+- `npx qa-shadow-report [framework]` or `npx qasr [framework]` - Generates a monthly and daily report in Sheets, if none exist.
+- `npx qa-shadow-report [framework] todays-report` - Generates todays report in Sheets, if none exist.
+- `npx qa-shadow-report [framework] monthly-summary` - Generates a monthly summary in Sheets, if none exist.
+- `npx qasr-setup` - Initiates the setup process for either Cypress or Playwright.
 - `--csv` - Outputs the test results in cypress/downloads folder in csv format, if none exist.
 - `--duplicate` - Allows duplicate daily reports to be created.
 - `--help` - Outputs a summary of available commands and their usage.
@@ -254,7 +304,7 @@ module.exports = {
     'wilkins',
     'canonicus',
   ],
-  googleSpreadsheetId: 'v544j5h4h456v6n',
+  googleSpreadsheetId: 'https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160',
   googleKeyFilePath: 'googleCredentials.json',
   testData: '[framework]/results/output.json',
   csvDownloadsPath: 'downloads'
@@ -262,7 +312,7 @@ module.exports = {
 
 ```
 
-The Team Name column aggregates and displays data based on the team names you define. Include the team name within square brackets in the describe block string to identify the team responsible for the feature code. For instance, `[Windsor]` is used as the team name in this example:
+The **Team Name** column aggregates and displays data based on the team names you define. Include the team name within square brackets in the describe/context/it block string to identify the team responsible for the feature code. For instance, `[Windsor]` is used as the team name in this example:
 
 ```
 describe('[Windsor] Unit test our math functions', () => {
@@ -290,7 +340,7 @@ This configuration allows for a more organized and comprehensive report, showcas
 
 ### Column: Type
 
-The Type column compiles and categorizes data based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`.js`, or`.ts`) file. If you do not specify a list of Test Targets, the reporting software will use the default list, and will only compile metrics based on the default list of: `["api", "ui", "unit", "integration", "endToEnd", "performance", "security", "database", "accessibility", "mobile"]`.
+The **Type** column compiles and categorizes data based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`.js`, or`.ts`) file. If you do not specify a list of Test Targets, the reporting software will use the default list, and will only compile metrics based on the default list of: `["api", "ui", "unit", "integration", "endToEnd", "performance", "security", "database", "accessibility", "mobile"]`.
 
 ```
 module.exports = {
@@ -307,7 +357,7 @@ module.exports = {
         'accessibility',
         'mobile',
       ],
-      googleSpreadsheetId: 'v544j5h4h456v6n',
+      googleSpreadsheetId: 'https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160',
       googleKeyFilePath: 'googleCredentials.json',
       testData: '[framework]/results/output.json',
       csvDownloadsPath: 'downloads'
@@ -328,7 +378,7 @@ This method of file organization facilitates easy identification and categorizat
 
 ### Column: Category
 
-The Category column compiles data to represent the specific purpose of each test, based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`.js`, or`.ts`) file. If you do not specify a list of Categories, the reporting software will use the default list, and will only compile metrics based on the default list of: `["smoke", "regression", "sanity", "exploratory", "functional", "load", "stress", "usability", "compatibility", "alpha", "beta"]`.
+The **Category** column compiles data to represent the specific purpose of each test, based on predefined categories. To ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`.js`, or`.ts`) file. If you do not specify a list of Categories, the reporting software will use the default list, and will only compile metrics based on the default list of: `["smoke", "regression", "sanity", "exploratory", "functional", "load", "stress", "usability", "compatibility", "alpha", "beta"]`.
 
 ```
 module.exports = {
@@ -347,14 +397,14 @@ module.exports = {
         'alpha',
         'beta',
       ],
-      googleSpreadsheetId: 'v544j5h4h456v6n',
+      googleSpreadsheetId: 'https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160',
       googleKeyFilePath: 'googleCredentials.json',
       testData: '[framework]/results/output.json',
       csvDownloadsPath: 'downloads'
     };
 ```
 
-To indicate the purpose of a test within your [framework] suite, add the Test Purpose in square brackets at the end of the string in the `it` block. This annotation specifies the intended coverage of the test. For example, in this snippet, `[smoke]` and `[usability]` are used to denote Test Purposes:
+To indicate the purpose of a test within your [framework] suite, add the Test Purpose in square brackets in the describe/context/it block, usually at the end of the string. This annotation specifies the intended coverage of the test. For example, in this snippet, `[smoke]` and `[usability]` are used to denote Test Purposes:
 
 ```
 describe('[Windsor] Unit test our math functions', () => {
@@ -382,7 +432,7 @@ This approach not only categorizes your tests effectively but also adds clarity 
 
 ### Column: Manual Case
 
-The Manual Case column is designed to display the Manual Case ID associated to the automated test. Within the it block string in your [framework] tests, include the Manual Case in square brackets at the end of the string. This notation specifies the Manual Case linked to each particular test. For instance, [C2452] and [C24534] are examples of manual cases used in this context. You can format identifiers using a prefix of letters (or symbols like # or -), followed by one or more numbers, as in [DEV-345], [TC-34535], and [#356363]. Make sure the identifier is enclosed within square brackets.
+The **Manual Case** column is designed to display the Manual Case ID associated to the automated test. Within the describe/context/it block string in your [framework] tests, include the Manual Case in square brackets at the end of the string. This notation specifies the Manual Case linked to each particular test. For instance, [C2452] and [C24534] are examples of manual cases used in this context. You can format identifiers using a prefix of letters (or symbols like # or -), followed by one or more numbers, as in [DEV-345], [TC-34535], and [#356363]. Make sure the identifier is enclosed within square brackets.
 
 ```
 describe('[Windsor] Unit test our math functions', () => {
@@ -431,14 +481,46 @@ module.exports = {
         'alpha',
         'beta',
       ],
-      googleSpreadsheetId: 'v544j5h4h456v6n',
+      googleSpreadsheetId: 'https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160',
       googleKeyFilePath: 'googleCredentials.json',
       testData: '[framework]/results/output.json',
       csvDownloadsPath: 'downloads'
     };
 ```
 
-### Github CI/CD
+## cypress/grep Integration
+
+To enhance your testing workflow and leverage the team name, test type, and test category annotations you've included in your test titles, we recommend integrating the [`cypress-grep`](https://www.npmjs.com/package/@cypress/grep) plugin.
+
+### Benefits of Using cypress/grep
+
+- **Selective Test Execution:** Run only the tests that match certain patterns, such as `[smoke]`, `[api]`, or `[Windsor]`, improving efficiency.
+
+- **Enhanced Filtering:** Easily filter tests by team, type, or category directly from the command line or via environment variables.
+
+### Usage
+
+You can use `cypress/grep` to run tests that match specific patterns:
+
+- **Run all smoke tests:**
+
+`npx cypress run --env grep=[smoke],grepFilterSpecs=true`
+
+- **Run all tests for the 'Windsor' team:**
+
+`npx cypress run --env grep=[Windsor],grepFilterSpecs=true`
+
+- **Run all smoke tests for team Windsor:**
+
+`npx cypress run --env grep=[Windsor];[smoke],grepFilterSpecs=true`
+
+- **cypress/grep `Tags` Feature**
+
+The `cypress/grep` package has a Tags feature, which allows you to add an Object after the test description, like this: `it('verifies X = 2', { tags: 'smoke' }, () => {`. This format does not break the functionality of `qa-shadow-report`, but it is not fully supported either. Specifically, `qa-shadow-report` will not parse the object or include its tags in the generated report. Only the text in the test description itself will be parsed and added to the report, meaning that any tags added as objects will be ignored by `qa-shadow-report`.
+
+By integrating `cypress/grep`, you can run subsets of tests based on your annotations, which aligns perfectly with your team's naming conventions and test categorization.
+
+### GitHub CI/CD
 
 This package is best suited for automated nightly runs, enabling teams to efficiently monitor project status and collaborate on test results every morning.
 
@@ -535,4 +617,6 @@ The demo branch is an excellent resource for understanding how `qa-shadow-report
 
 ## Copyright
 
-© 2024 Peter Souza. All rights reserved. Users are granted the freedom to use this code according to their needs and preferences. Note: Cypress is a registered trademark of Cypress.io, Playwright is a registered trademark of Microsoft Corporation, and Google Sheets is a registered trademark of Google Inc. This application is not officially endorsed or certified by Playwright, Microsoft Corporation, Google Inc., or Cypress.io.
+© 2024 Peter Souza. All rights reserved. Users are granted the freedom to use this code according to their needs and preferences.
+
+**Note:** Cypress is a registered trademark of Cypress.io, Playwright is a registered trademark of Microsoft Corporation, and Google Sheets is a registered trademark of Google Inc. This application is not officially endorsed or certified by Playwright, Microsoft Corporation, Google Inc., or Cypress.io.
