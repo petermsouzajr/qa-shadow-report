@@ -2,7 +2,9 @@ import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
 import { pathToFileURL } from 'url';
+import dotenv from 'dotenv';
 
+dotenv.config();
 // Since __dirname is not available in ES modules, we need to derive it
 const __filename = new URL(import.meta.url).pathname;
 const __dirname = path.dirname(__filename);
@@ -105,14 +107,28 @@ export const GOOGLE_SHEET_ID = () => {
 };
 
 export const GOOGLE_KEYFILE_PATH = () => {
-  let keyFilePath;
-  if (process.env.GOOGLE_KEY_FILE_PATH) {
-    keyFilePath = process.env.GOOGLE_KEY_FILE_PATH; // Use the environment variable if it exists
-  } else if (shadowConfigDetails && shadowConfigDetails.googleKeyFilePath) {
-    keyFilePath = shadowConfigDetails.googleKeyFilePath; // Fallback to the config value if set
-  } else {
-    keyFilePath = false;
+  let keyFilePath = '';
+
+  if (
+    shadowConfigDetails &&
+    typeof shadowConfigDetails.googleKeyFilePath === 'string'
+  ) {
+    const envVarMatch = shadowConfigDetails.googleKeyFilePath.match(
+      /^process\.env\.(\w+)$/
+    );
+
+    if (envVarMatch) {
+      const envVarName = envVarMatch[1]; // Extract the environment variable name (e.g., 'GOOGLE_KEY_FILE_PATH')
+
+      // Check if the environment variable exists in process.env
+      if (process.env[envVarName]) {
+        keyFilePath = process.env[envVarName] || ''; // Set the value from process.env
+      }
+    } else {
+      keyFilePath = shadowConfigDetails.googleKeyFilePath; // Use the raw config value if it's not an environment variable
+    }
   }
+
   return keyFilePath;
 };
 
