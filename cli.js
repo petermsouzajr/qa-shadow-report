@@ -96,19 +96,27 @@ async function run() {
   if (
     (GOOGLE_KEYFILE_PATH() === false || GOOGLE_SHEET_ID() === false) &&
     !isCSV
-  ) {
-    // If the Google Sheets configuration is missing, default to CSV
-    console.info(
-      chalk.yellow(
-        "You haven't set up a Google Sheets config yet. Use the command"
-      ),
-      chalk.green('qasr-setup'),
-      chalk.yellow(
-        'to create a config file. We can create a CSV report instead.'
-      )
-    );
-    optionsPayload.csv = true;
-  }
+  )
+    if (process.env.CI) {
+      // console.error(
+      //   chalk.red(
+      //     'Missing Google Sheets config in CI environment. Exiting to avoid prompt.'
+      //   )
+      // );
+      process.exit(1); // Exit with failure in CI mode if the config is missing
+    } else {
+      // If the Google Sheets configuration is missing, default to CSV
+      console.info(
+        chalk.yellow(
+          "You haven't set up a Google Sheets config yet. Use the command"
+        ),
+        chalk.green('qasr-setup'),
+        chalk.yellow(
+          'to create a config file. We can create a CSV report instead.'
+        )
+      );
+      optionsPayload.csv = true;
+    }
 
   if (!isConfigured) {
     const postInstallScriptPath = resolvePostInstallScript();
