@@ -546,42 +546,45 @@ For seamless integration in GitHub Actions, as required for manual package opera
 **Note:** A suitable GitHub Action configuration is required for this process to function correctly:
 
 ```
-name: Nightly Cypress Test and Report
+name: Nightly regression and report
 
 on:
   schedule:
-    # Schedule to run at 00:00 UTC (You can adjust the time as needed)
-    - cron: '0 0 * * *'
+    - cron: "0 1 * * *" # Runs daily at 1 AM UTC
+  push:
+    branches:
+      - main
 
 jobs:
-  cypress-test-and-report:
+  qa-regression-and-report:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14' # Specify the Node.js version
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "21"
 
-    - name: Install GPG
-      run: sudo apt-get install -y gpg
+      - name: Install GPG
+        run: sudo apt-get install -y gpg
 
-    - name: Decrypt Google Sheets Key
-      run: |
-        echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --passphrase-fd 0 --output google-key.json --decrypt google-key.json.gpg
+      - name: Decrypt Google Sheets Key
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |
+          echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --output googleCredentials.json --decrypt googleCredentials.json.gpg
 
-    - name: Install dependencies
-      run: npm install
+      - name: Set Google Key File Path
+        run: echo "GOOGLE_KEY_FILE_PATH=$(pwd)/googleCredentials.json" >> $GITHUB_ENV
 
-    - name: Run Cypress Tests and Generate Report
-      run: |
-        npm run cypress:prerun
-        npm run cypress:run
-        npm run postcypress:run
-        npm run report:generate
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Run QA regression tests
+        run: npm run cypress:nightly
 ```
 
 Additional Notes:
