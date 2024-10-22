@@ -98,11 +98,6 @@ async function run() {
     !isCSV
   )
     if (process.env.CI) {
-      // console.error(
-      //   chalk.red(
-      //     'Missing Google Sheets config in CI environment. Exiting to avoid prompt.'
-      //   )
-      // );
       process.exit(1); // Exit with failure in CI mode if the config is missing
     } else {
       // If the Google Sheets configuration is missing, default to CSV
