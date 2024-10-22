@@ -93,10 +93,7 @@ async function run() {
     process.exit(0);
   }
 
-  if (
-    (GOOGLE_KEYFILE_PATH() === false || GOOGLE_SHEET_ID() === false) &&
-    !isCSV
-  ) {
+  if ((!GOOGLE_KEYFILE_PATH() || GOOGLE_SHEET_ID() === false) && !isCSV) {
     if (process.env.CI) {
       console.info(chalk.yellow('CI environment detected.'));
       process.exit(1); // Exit with failure in CI mode if the config is missing
