@@ -260,20 +260,25 @@ const detectFramework = () => {
     }
   }
 
-  return '../'; // Fallback if no framework is detected
+  return ''; // Fallback if no framework is detected
 };
 
 export const CSV_DOWNLOADS_PATH = () => {
   const projectRoot = findProjectRoot(process.cwd());
   const framework = detectFramework();
 
-  let downloadsPath = path.join(projectRoot, framework, 'downloads');
+  let downloadsPath =
+    shadowConfigDetails &&
+    typeof shadowConfigDetails.csvDownloadsPath === 'string'
+      ? path.resolve(projectRoot, shadowConfigDetails.csvDownloadsPath) // Use the user-specified path
+      : path.join(projectRoot, framework, 'downloads'); // Fallback to system default
 
   return getCachedOrCompute('csvDownloadsPath', () => {
     const hasCustomTypes =
       shadowConfigDetails &&
       Array.isArray(shadowConfigDetails.csvDownloadsPath) &&
       shadowConfigDetails.csvDownloadsPath.length > 0;
+
     if (hasCustomTypes) {
       downloadsPath = shadowConfigDetails.csvDownloadsPath;
       console.info(
