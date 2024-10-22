@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "chalk": "^5.3.0",
+    "dotenv": "^16.4.5",
     "googleapis": "^126.0.1",
     "prettier": "^3.0.3"
   },

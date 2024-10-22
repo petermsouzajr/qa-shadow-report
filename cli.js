@@ -96,8 +96,9 @@ async function run() {
   if (
     (GOOGLE_KEYFILE_PATH() === false || GOOGLE_SHEET_ID() === false) &&
     !isCSV
-  )
+  ) {
     if (process.env.CI) {
+      console.info(chalk.yellow('CI environment detected.'));
       process.exit(1); // Exit with failure in CI mode if the config is missing
     } else {
       // If the Google Sheets configuration is missing, default to CSV
@@ -112,7 +113,7 @@ async function run() {
       );
       optionsPayload.csv = true;
     }
-
+  }
   if (!isConfigured && !process.env.CI) {
     const postInstallScriptPath = resolvePostInstallScript();
 
