@@ -8,7 +8,6 @@ const path = require('path');
 const { isProjectConfigured } = require('./configuredStatus.js');
 
 // Get the directory name of the current script
-const __dirname = path.dirname(__filename);
 const configFileName = 'shadowReportConfig.js';
 const findProjectRoot = (startPath) => {
   let currentDir = startPath;
