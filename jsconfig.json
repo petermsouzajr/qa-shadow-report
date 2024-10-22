@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "allowJs": true,
-    "checkJs": true,
-    "target": "es2017"
+    "module": "esnext", // Change module type to ES modules
+    "allowJs": true, // Allows JS files
+    "checkJs": true, // Type-checking in JS files
+    "target": "es2020", // Updated target to support newer features like import.meta
+    "moduleResolution": "node" // Ensures proper resolution of modules
   },
   "include": ["**/*"]
 }
