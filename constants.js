@@ -240,13 +240,45 @@ export const COLUMNS_AVAILABLE = (playwright) => {
   );
 };
 
+const detectFramework = () => {
+  const projectRoot = process.cwd();
+  const files = fs.readdirSync(projectRoot);
+
+  const cypressRegex = /cypress\./i;
+  const playwrightRegex = /playwright\./i;
+  const webdriverioRegex = /wdio\./i;
+
+  for (const file of files) {
+    if (cypressRegex.test(file)) {
+      return 'cypress';
+    }
+    if (playwrightRegex.test(file)) {
+      return 'playwright';
+    }
+    if (webdriverioRegex.test(file)) {
+      return 'webdriverio';
+    }
+  }
+
+  return ''; // Fallback if no framework is detected
+};
+
 export const CSV_DOWNLOADS_PATH = () => {
-  let downloadsPath = 'downloads';
+  const projectRoot = findProjectRoot(process.cwd());
+  const framework = detectFramework();
+
+  let downloadsPath =
+    shadowConfigDetails &&
+    typeof shadowConfigDetails.csvDownloadsPath === 'string'
+      ? path.resolve(projectRoot, shadowConfigDetails.csvDownloadsPath) // Use the user-specified path
+      : path.join(projectRoot, framework, 'downloads'); // Fallback to system default
+
   return getCachedOrCompute('csvDownloadsPath', () => {
     const hasCustomTypes =
       shadowConfigDetails &&
       Array.isArray(shadowConfigDetails.csvDownloadsPath) &&
       shadowConfigDetails.csvDownloadsPath.length > 0;
+
     if (hasCustomTypes) {
       downloadsPath = shadowConfigDetails.csvDownloadsPath;
       console.info(
