@@ -240,8 +240,35 @@ export const COLUMNS_AVAILABLE = (playwright) => {
   );
 };
 
+const detectFramework = () => {
+  const projectRoot = process.cwd();
+  const files = fs.readdirSync(projectRoot);
+
+  const cypressRegex = /cypress\./i;
+  const playwrightRegex = /playwright\./i;
+  const webdriverioRegex = /wdio\./i;
+
+  for (const file of files) {
+    if (cypressRegex.test(file)) {
+      return 'cypress';
+    }
+    if (playwrightRegex.test(file)) {
+      return 'playwright';
+    }
+    if (webdriverioRegex.test(file)) {
+      return 'webdriverio';
+    }
+  }
+
+  return '../'; // Fallback if no framework is detected
+};
+
 export const CSV_DOWNLOADS_PATH = () => {
-  let downloadsPath = 'downloads';
+  const projectRoot = findProjectRoot(process.cwd());
+  const framework = detectFramework();
+
+  let downloadsPath = path.join(projectRoot, framework, 'downloads');
+
   return getCachedOrCompute('csvDownloadsPath', () => {
     const hasCustomTypes =
       shadowConfigDetails &&
