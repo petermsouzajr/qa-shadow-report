@@ -118,7 +118,7 @@ async function run() {
       optionsPayload.csv = true;
     }
 
-  if (!isConfigured) {
+  if (!isConfigured && !process.env.CI) {
     const postInstallScriptPath = resolvePostInstallScript();
 
     // Execute the postInstall.js script
