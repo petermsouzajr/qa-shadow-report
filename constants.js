@@ -106,8 +106,10 @@ export const GOOGLE_SHEET_ID = () => {
 
 export const GOOGLE_KEYFILE_PATH = () => {
   let keyFilePath;
-  if (shadowConfigDetails && shadowConfigDetails.googleKeyFilePath) {
-    keyFilePath = shadowConfigDetails.googleKeyFilePath;
+  if (process.env.GOOGLE_KEY_FILE_PATH) {
+    keyFilePath = process.env.GOOGLE_KEY_FILE_PATH; // Use the environment variable if it exists
+  } else if (shadowConfigDetails && shadowConfigDetails.googleKeyFilePath) {
+    keyFilePath = shadowConfigDetails.googleKeyFilePath; // Fallback to the config value if set
   } else {
     keyFilePath = false;
   }
