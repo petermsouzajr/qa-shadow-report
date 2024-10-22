@@ -1,14 +1,18 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const { execSync } = require('child_process');
-const readline = require('readline');
-const chalk = require('chalk');
-const path = require('path');
-const { isProjectConfigured } = require('./configuredStatus.js');
+import fs from 'fs';
+import { execSync } from 'child_process';
+import readline from 'readline';
+import chalk from 'chalk';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { isProjectConfigured } from './configuredStatus.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Get the directory name of the current script
-const __dirname = path.dirname(__filename);
 const configFileName = 'shadowReportConfig.js';
 const findProjectRoot = (startPath) => {
   let currentDir = startPath;

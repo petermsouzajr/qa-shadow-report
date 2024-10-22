@@ -10,17 +10,17 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 /**
- * Resolves the path to the postInstall.cjs script.
- * @returns {string} The resolved path to the postInstall.cjs script.
+ * Resolves the path to the postInstall.js script.
+ * @returns {string} The resolved path to the postInstall.js script.
  */
 const resolvePostInstallScript = () => {
   try {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
-    const postInstallPath = path.join(__dirname, 'scripts', 'postInstall.cjs');
+    const postInstallPath = path.join(__dirname, 'scripts', 'postInstall.js');
     return postInstallPath;
   } catch (error) {
-    console.error('Error: Unable to resolve the path to postInstall.cjs.');
+    console.error('Error: Unable to resolve the path to postInstall.js.');
     console.error(error);
     process.exit(1);
   }
@@ -113,7 +113,7 @@ async function run() {
   if (!isConfigured) {
     const postInstallScriptPath = resolvePostInstallScript();
 
-    // Execute the postInstall.cjs script
+    // Execute the postInstall.js script
     const child = spawn('node', [postInstallScriptPath], {
       stdio: 'inherit', // inherit stdio to allow interactive input/output
     });
@@ -124,7 +124,7 @@ async function run() {
 
     // Ensure the parent script does not continue
     child.on('error', (err) => {
-      console.info('Failed to start postInstall.cjs:', err);
+      console.info('Failed to start postInstall.js:', err);
       process.exit(1);
     });
   } else if (!framework) {
