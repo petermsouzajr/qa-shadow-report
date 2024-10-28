@@ -94,15 +94,30 @@ export const FORMULA_KEYS = [
 ];
 
 export const GOOGLE_SHEET_ID = () => {
-  let sheetId;
+  let sheetId = '';
 
-  if (shadowConfigDetails && shadowConfigDetails.googleSpreadsheetId) {
-    sheetId = shadowConfigDetails.googleSpreadsheetId
-      .split('/d/')[1]
-      .split('/')[0];
-  } else {
-    sheetId = false;
+  if (
+    shadowConfigDetails &&
+    typeof shadowConfigDetails.googleSpreadsheetId === 'string'
+  ) {
+    const envVarMatch = shadowConfigDetails.googleSpreadsheetId.match(
+      /^process\.env\.(\w+)$/
+    );
+
+    if (envVarMatch) {
+      const envVarName = envVarMatch[1]; // Extract the environment variable name (e.g., 'SHEET_ID')
+
+      // Check if the environment variable exists in process.env
+      if (process.env[envVarName]) {
+        sheetId = process.env[envVarName].split('/d/')[1].split('/')[0] || ''; // Set the value from process.env
+      }
+    } else {
+      sheetId = shadowConfigDetails.googleSpreadsheetId
+        .split('/d/')[1]
+        .split('/')[0]; // Use the raw config value if it's not an environment variable
+    }
   }
+
   return sheetId;
 };
 
