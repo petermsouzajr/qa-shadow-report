@@ -30,9 +30,15 @@ Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, 
 
 ### qa-shadow-report Setup Guide
 
-Upon installing `qa-shadow-report`, you can run the command `npx qasr-setup`, which initiates a series of Yes or No questions to guide you through setting up the tool for your testing framework and package manager. You may choose to exit the setup at any time by entering `EXIT`. You will then need to manually complete the setup by following the detailed instructions provided in the [Cypress](#cypress) or [Playwright](#playwright) sections of this guide.
+After installing `qa-shadow-report` using the command:
 
-This setup process is designed to tailor the installation to your specific needs, ensuring that all dependencies and configurations are correctly established for your environment.
+    `npm i qa-shadow-report`
+
+you will then need to run the command:
+
+    `npx qasr-setup`
+
+this initiates a series of `Yes` or `No` questions to guide you through setting up the tool for your testing framework and package manager. You may choose to exit the setup at any time by entering `EXIT`, which is not recommended. If you exit setup, you will then need to restart using the command `npx qasr-setup`
 
 **Note:** The commands in this guide assume the use of `npm/npx`. If you prefer to use `yarn`, replace `npm/npx` with `yarn` where appropriate.
 
@@ -40,39 +46,40 @@ This setup process is designed to tailor the installation to your specific needs
 
 ### Generate Reports in CSV Format
 
-- Use the base commands with a framework of Cypress or Playwright and the optional flag `--csv` to run a daily report.
+- Ensure test result data is present in your framework's test results output folder, in the form of JSON. This output should be present after you finish `qasr-setup` AND run your test suite. test results will usually be found in `results/output.json`.
 
-  - **Using NPX:**
+- A detailed CSV will be compiled and generated in the `[framework]/downloads` folder.
 
-    ```
-    npx qa-shadow-report [framework] --csv
-    ```
+- Only daily summmaries are available for CSV, monthly summary reports are not currently supported in CSV format.
 
-    ```
-    npx qa-shadow-report [framework] todays-report --csv
-    ```
+Use either command to generate reports using either **NPX** or **NPM scripts** with a framework of **Cypress** or **Playwright** and the optional flag `--csv`. These commands will generate a CSV report, and initiate setup if you havent yet run the qa-shadow-report setup.
 
-  - **Using NPM Scripts:**
+- **Using NPX:**
+  Run one of the following commands:
 
-    Add to your `package.json` scripts:
+      npx qa-shadow-report [framework] --csv
 
-    ```
-    "scripts": {
-      "report:csv": "qa-shadow-report [framework] --csv",
-    }
-    ```
+  Or, the more verbose
 
-    Then run:
+      npx qa-shadow-report [framework] todays-report --csv
 
-    ```
-    npm run report:csv
-    ```
+- **Using NPM Scripts:**
 
-- Ensure JSON data is present from your framework's test results output. Check the [Prerequisites](#prerequisites) section to see a framework configuration.
+  Add to your `package.json` scripts:
 
-- A detailed summary will be downloaded into the `cypress/downloads` folder.
+  ```
+  "scripts": {
+    "report:csv": "qa-shadow-report [framework] --csv",
+    or
+    "report:csv": "qa-shadow-report [framework] todays-report --csv",
+  }
+  ```
 
-- Monthly summary reports are not currently supported in CSV format.
+  Then run:
+
+  ```
+  npm run report:csv
+  ```
 
 ## Samples
 
@@ -620,6 +627,6 @@ The demo branch is an excellent resource for understanding how `qa-shadow-report
 
 ## Copyright
 
-© 2024 Peter Souza. All rights reserved. Users are granted the freedom to use this code according to their needs and preferences.
+© 2025 Peter Souza. All rights reserved. Users are granted the freedom to use this code according to their needs and preferences.
 
 **Note:** Cypress is a registered trademark of Cypress.io, Playwright is a registered trademark of Microsoft Corporation, and Google Sheets is a registered trademark of Google Inc. This application is not officially endorsed or certified by Playwright, Microsoft Corporation, Google Inc., or Cypress.io.

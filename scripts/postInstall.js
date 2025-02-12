@@ -159,9 +159,15 @@ const createConfigFile = () => {
       encoding: 'utf-8',
     });
     console.info(
-      chalk.green(
-        `Config file created at: ${configFileName} in ${projectRootPath}`
-      )
+      chalk.blue(`Config file created at: `),
+      chalk.green(`${projectRootPath}/${configFileName}`)
+    );
+    console.info(
+      chalk.yellow(`Please update the `),
+      chalk.green(`testData `),
+      chalk.yellow(`sourcepath in `),
+      chalk.green(`${configFileName} `),
+      chalk.yellow(`to match your project's setup.`)
     );
   }
 };
