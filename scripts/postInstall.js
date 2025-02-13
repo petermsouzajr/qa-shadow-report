@@ -142,8 +142,8 @@ const createConfigFile = () => {
         // 'alpha',
         // 'beta',
       ],
-      // Google Spreadsheet URL: Replace with either the actual spreadsheet ID or an environment variable.
-      // googleSpreadsheetId: 'your-google-spreadsheet-id' OR googleSpreadsheetId: process.env.GOOGLE_SHEET_URL,
+      // Google Spreadsheet URL: Replace with either the spreadsheet URL or an environment variable.
+      // googleSpreadsheetUrl: 'your-google-spreadsheet-url' OR googleSpreadsheetUrl: process.env.GOOGLE_SHEET_URL,
 
       // Path to Google credentials file (service account JSON file): Replace with the file path or use an environment variable.
       // googleKeyFilePath: 'googleCredentials.json' OR googleKeyFilePath: process.env.GOOGLE_KEY_FILE_PATH,
