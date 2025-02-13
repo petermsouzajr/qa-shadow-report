@@ -98,9 +98,9 @@ export const GOOGLE_SHEET_ID = () => {
 
   if (
     shadowConfigDetails &&
-    typeof shadowConfigDetails.googleSpreadsheetId === 'string'
+    typeof shadowConfigDetails.googleSpreadsheetUrl === 'string'
   ) {
-    const envVarMatch = shadowConfigDetails.googleSpreadsheetId.match(
+    const envVarMatch = shadowConfigDetails.googleSpreadsheetUrl.match(
       /^process\.env\.(\w+)$/
     );
 
@@ -112,7 +112,7 @@ export const GOOGLE_SHEET_ID = () => {
         sheetId = process.env[envVarName].split('/d/')[1].split('/')[0] || ''; // Set the value from process.env
       }
     } else {
-      sheetId = shadowConfigDetails.googleSpreadsheetId
+      sheetId = shadowConfigDetails.googleSpreadsheetUrl
         .split('/d/')[1]
         .split('/')[0]; // Use the raw config value if it's not an environment variable
     }
