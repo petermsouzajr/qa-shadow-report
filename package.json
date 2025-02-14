@@ -1,6 +1,6 @@
 {
   "name": "qa-shadow-report",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "bin": {
     "qa-shadow-report": "./cli.js",
     "qasr": "./cli.js",

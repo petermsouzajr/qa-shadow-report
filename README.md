@@ -23,7 +23,10 @@ Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, 
    - [Column: Manual Case](#column-manual-case)
    - ['The Works'](#the-works)
 6. [cypress/grep Integration](#cypressgrep-integration)
-7. [GitHub CI/CD](#github-cicd)
+7. [CI/CD](#cicd)
+   - [GitHub](#github-actions-example)
+   - [GitLab](#gitlab-ci-example)
+   - [AWS](#aws-codebuild-example)
 8. [Demo Branch](#demo-branch)
 
 ## Installation
@@ -550,7 +553,7 @@ For seamless integration into CI/CD pipelines, the Google Sheets credentials nee
 3. **Decrypting the Secret in CI/CD**
    - **Workflow Modification:** Incorporate steps in your CI/CD workflow to decrypt the secret file using the stored passphrase. The modifications should align with your project's encryption setup.
 
-**GitHub Actions Example:**
+#### GitHub Actions Example:
 
 ```yaml
 name: Nightly regression and report
@@ -594,7 +597,8 @@ jobs:
         run: npm run cypress:nightly
 ```
 
-**GitLab CI Example:**  
+#### GitLab CI Example:
+
 (Note: To schedule nightly runs, set up a pipeline schedule in your GitLab project settings.)
 
 ```yaml
@@ -617,7 +621,8 @@ nightly_regression:
     - main
 ```
 
-**AWS CodeBuild Example:**
+#### AWS CodeBuild Example:
+
 For AWS CodeBuild, you can set up a comparable configuration using a `buildspec.yml` file:
 
 ```yaml
