@@ -19,6 +19,7 @@ import {
   getCurrentTime,
   getDayIndex,
   getFormattedMonth,
+  getPreviousMonthsYear,
 } from './dateFormatting.js';
 import {
   isSummaryRequired,
@@ -27,7 +28,6 @@ import {
 import chalk from 'chalk';
 import { WEEK_START, DAYS, SHORT_DAYS, MONTHS } from '../../constants.js';
 
-// Calculate header indicators' length for reference.
 export const getHeaderIndicatorsLength = () => {
   return HEADER_INDICATORS.length;
 };
@@ -209,6 +209,11 @@ export const handleSummary = async ({
     await sendSummaryHeaders(fullSummaryPayload.headerPayload);
     await sendSummaryBody(fullSummaryPayload.bodyPayload);
     await summaryHeaderStyling(fullSummaryPayload.summaryHeaderStylePayload);
+    console.info(
+      chalk.green(
+        `Monthly Summary created for ${getFormattedMonth('lastMonth')} ${getPreviousMonthsYear(getFormattedMonth())}.`
+      )
+    );
   } catch (error) {
     console.error('An error occurred in handleSummary:', error);
     throw new Error('Failed to handle summary.');
@@ -307,9 +312,7 @@ export const handleWeeklySummary = async ({
       ? `${summaryTitle}_${currentTime}`
       : summaryTitle;
     await createNewWeeklyTab(summaryPageTitle);
-    // Calculate the weekly date range
     const { startDate, endDate } = getWeeklyDateRange();
-    // Filter tabs for the weekly range (assuming titles are date-based)
     const weeklySheetTitles = existingSheetTitles.filter((title) => {
       const tabDate = new Date(title);
       return tabDate >= startDate && tabDate <= endDate;
@@ -357,6 +360,9 @@ export const handleWeeklySummary = async ({
     await sendSummaryHeaders(fullSummaryPayload.headerPayload);
     await sendSummaryBody(fullSummaryPayload.bodyPayload);
     await summaryHeaderStyling(fullSummaryPayload.summaryHeaderStylePayload);
+    console.info(
+      chalk.green(`Weekly Summary created for ${getFormattedWeekRange()}.`)
+    );
   } catch (error) {
     console.error('An error occurred in handleWeeklySummary:', error);
     throw new Error('Failed to handle weekly summary.');

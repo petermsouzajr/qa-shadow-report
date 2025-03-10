@@ -222,7 +222,6 @@ const createRepeatCellRequest = (
  * // all preceding rows in the sheet with ID 12345.
  */
 export const buildColorStylesPayload = (sheetId, fullDailyPayload) => {
-  // Define colors
   const lightGrey = { red: 0.9, green: 0.9, blue: 0.9 }; // Light grey color (e.g., #D9D9D9)
   const darkGrey = { red: 0.75, green: 0.75, blue: 0.75 }; // Dark grey color (e.g., #A9A9A9)
 
@@ -324,34 +323,34 @@ export const BuildTextStyles = async (sheetId, fullDailyPayload) => {
       repeatCell: {
         range: {
           sheetId: sheetId,
-          startRowIndex: headerRowIndex - 1, // Zero-based index; if headerRowIndex is 1, then it's correct
-          endRowIndex: headerRowIndex, // This applies the format to only the header row
-          endColumnIndex: headerRow.length, // The length of columns in the header
+          startRowIndex: headerRowIndex - 1,
+          endRowIndex: headerRowIndex,
+          endColumnIndex: headerRow.length,
         },
         cell: headerAndFooterRowFormat,
         fields: 'userEnteredFormat.textFormat',
       },
     },
     {
-      // Apply bold and fontSize 12 to header row
+      // Apply bold and fontSize 12 to footer row
       repeatCell: {
         range: {
           sheetId: sheetId,
-          startRowIndex: footerRowIndex, // Zero-based index; if headerRowIndex is 1, then it's correct
-          endRowIndex: footerRowIndex + 1, // This applies the format to only the header row
-          endColumnIndex: headerRow.length, // The length of columns in the header
+          startRowIndex: footerRowIndex,
+          endRowIndex: footerRowIndex + 1,
+          endColumnIndex: headerRow.length,
         },
         cell: headerAndFooterRowFormat,
         fields: 'userEnteredFormat.textFormat',
       },
     },
     {
-      // Apply bold and fontSize 10 to other rows
+      // Apply bold and fontSize 10 to other header rows
       repeatCell: {
         range: {
           sheetId: sheetId,
-          endRowIndex: headerRowIndex - 1, // Until the end of the data
-          endColumnIndex: headerRow.length, // Assuming the body has the same length as the header
+          endRowIndex: headerRowIndex - 1,
+          endColumnIndex: headerRow.length,
         },
         cell: otherRowFormat,
         fields: 'userEnteredFormat.textFormat',
@@ -375,7 +374,7 @@ export const setTextWrappingToClip = async (sheetId, fullDailyPayload) => {
           endRowIndex:
             fullDailyPayload.bodyPayload.length +
             fullDailyPayload.headerPayload.length,
-          endColumnIndex: headerRow.length, // Replace with the actual number of columns
+          endColumnIndex: headerRow.length,
         },
         cell: {
           userEnteredFormat: {
@@ -411,7 +410,7 @@ export const createTextAlignmentPayload = async (sheetId, fullDailyPayload) => {
             fullDailyPayload.bodyPayload.length +
             fullDailyPayload.headerPayload.length,
           startColumnIndex: testNameTargetIndex,
-          endColumnIndex: testNameTargetIndex + 1, // Replace with the actual number of columns you want to format
+          endColumnIndex: testNameTargetIndex + 1,
         },
         cell: {
           userEnteredFormat: {
@@ -427,7 +426,7 @@ export const createTextAlignmentPayload = async (sheetId, fullDailyPayload) => {
           sheetId: sheetId,
           endRowIndex: headerRowIndex,
           startColumnIndex: specTargetIndex,
-          endColumnIndex: specTargetIndex + 1, // Replace with the actual number of columns you want to format
+          endColumnIndex: specTargetIndex + 1,
         },
         cell: {
           userEnteredFormat: {
@@ -443,7 +442,7 @@ export const createTextAlignmentPayload = async (sheetId, fullDailyPayload) => {
           sheetId: sheetId,
           endRowIndex: headerRowIndex,
           startColumnIndex: typeTargetIndex,
-          endColumnIndex: typeTargetIndex + 1, // Replace with the actual number of columns you want to format
+          endColumnIndex: typeTargetIndex + 1,
         },
         cell: {
           userEnteredFormat: {
@@ -459,7 +458,7 @@ export const createTextAlignmentPayload = async (sheetId, fullDailyPayload) => {
           sheetId: sheetId,
           endRowIndex: headerRowIndex,
           startColumnIndex: stateTargetIndex,
-          endColumnIndex: stateTargetIndex + 1, // Replace with the actual number of columns you want to format
+          endColumnIndex: stateTargetIndex + 1,
         },
         cell: {
           userEnteredFormat: {
@@ -475,7 +474,7 @@ export const createTextAlignmentPayload = async (sheetId, fullDailyPayload) => {
           sheetId: sheetId,
           startRowIndex: headerRowIndex - 1,
           endRowIndex: headerRowIndex,
-          endColumnIndex: headerRow.length, // Replace with the actual number of columns you want to format
+          endColumnIndex: headerRow.length,
         },
         cell: {
           userEnteredFormat: {
@@ -494,7 +493,7 @@ export const createTextAlignmentPayload = async (sheetId, fullDailyPayload) => {
             fullDailyPayload.bodyPayload.length +
             fullDailyPayload.headerPayload.length,
           startColumnIndex: typeTargetIndex,
-          endColumnIndex: typeTargetIndex + 1, // Replace with the actual number of columns you want to format
+          endColumnIndex: typeTargetIndex + 1,
         },
         cell: {
           userEnteredFormat: {
@@ -510,7 +509,7 @@ export const createTextAlignmentPayload = async (sheetId, fullDailyPayload) => {
           sheetId: sheetId,
           startRowIndex: footerRowIndex,
           endRowIndex: footerRowIndex + 1,
-          endColumnIndex: headerRow.length, // Replace with the actual number of columns you want to format
+          endColumnIndex: headerRow.length,
         },
         cell: {
           userEnteredFormat: {
@@ -526,7 +525,7 @@ export const createTextAlignmentPayload = async (sheetId, fullDailyPayload) => {
           sheetId: sheetId,
           endRowIndex: headerRowIndex - 1,
           startColumnIndex: teamTargetIndex,
-          endColumnIndex: teamTargetIndex + 1, // Replace with the actual number of columns you want to format
+          endColumnIndex: teamTargetIndex + 1,
         },
         cell: {
           userEnteredFormat: {
@@ -545,7 +544,6 @@ export const createTextAlignmentPayload = async (sheetId, fullDailyPayload) => {
           endRowIndex:
             fullDailyPayload.bodyPayload.length +
             fullDailyPayload.headerPayload.length,
-          // startColumnIndex: verticalRange.startColumnIndex,
           endColumnIndex: specTargetIndex + 1,
         },
         cell: {
@@ -571,43 +569,41 @@ export const setColumnWidths = async (sheetId, fullDailyPayload) => {
   const teamTargetIndex = headerRow.indexOf('team');
 
   const columnWidths = [
-    // { startIndex: areaTargetIndex, endIndex: areaTargetIndex + 1, width: 200 }, // Column A
     {
-      // startIndex: testNameTargetIndex,
       endIndex: testNameTargetIndex + 1,
       width: 180,
-    }, // Column B
+    },
     {
       startIndex: categoryTargetIndex,
       endIndex: categoryTargetIndex + 1,
       width: 160,
-    }, // Column B
+    },
     {
       startIndex: statusTargetIndex,
       endIndex: statusTargetIndex + 1,
       width: 160,
-    }, // Column B
+    },
     {
       startIndex: typeTargetIndex,
       endIndex: typeTargetIndex + 1,
       width: 120,
-    }, // Column B
+    },
     {
       startIndex: teamTargetIndex,
       endIndex: teamTargetIndex + 1,
       width: 120,
-    }, // Column B
+    },
   ];
   const requests = columnWidths.map((columnWidth) => ({
     updateDimensionProperties: {
       range: {
         sheetId: sheetId,
-        dimension: 'COLUMNS', // Use 'ROWS' for row heights
-        startIndex: columnWidth.startIndex, // Index of the first column to update
-        endIndex: columnWidth.endIndex, // Index of the last column to update + 1
+        dimension: 'COLUMNS',
+        startIndex: columnWidth.startIndex,
+        endIndex: columnWidth.endIndex,
       },
       properties: {
-        pixelSize: columnWidth.width, // Desired width in pixels
+        pixelSize: columnWidth.width,
       },
       fields: 'pixelSize',
     },

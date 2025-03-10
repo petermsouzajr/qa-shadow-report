@@ -23,22 +23,15 @@ export const constructPayloadForCopyPaste = async (
   destinationTabTitle
 ) => {
   try {
-    // // Calculate header indicators' length for reference.
     const headerIndicatorsLength = getHeaderIndicatorsLength();
-
-    // Retrieve titles and values of tabs from the last month.
     const sortedTitles = sourceTabTitles.sort((a, b) => {
       const dateA = new Date(a);
       const dateB = new Date(b);
       return dateA - dateB;
     });
     const lastMonthTabValues = await fetchLastMonthTabValues(sortedTitles);
-
-    // Initialize the payload and column metrics for processing.
     const summaryPayload = initializeReportPayload();
     let columnMetrics = initializeReportColumnMetrics(headerIndicatorsLength);
-
-    // Fetch the destination tab's ID based on its title.
     const destinationTabId = await getTabIdFromTitle(destinationTabTitle);
 
     columnMetrics.longestHeaderEnd = await findLongestHeaderWithinSeries(
@@ -47,7 +40,6 @@ export const constructPayloadForCopyPaste = async (
       columnMetrics
     );
 
-    // Process the fetched data from source tabs and prepare the payload.
     await processSourceTabTitles(
       sortedTitles,
       destinationTabId,

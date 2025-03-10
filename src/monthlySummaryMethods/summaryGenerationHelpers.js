@@ -338,7 +338,6 @@ const processSourceColumns = async (
    * @type {number}
    */
   const headerMetricDestinationStartRow = 1;
-  // columnMetrics.longestHeaderEnd - headerFooterData.headerRow; ///this activating this line will align metrics to bottom
 
   /**
    * Represents the parameters for the header metric destination.

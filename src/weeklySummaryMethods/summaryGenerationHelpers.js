@@ -147,7 +147,6 @@ export const findLongestHeaderWithinWeeklySeries = async (
       );
     }
     return updatedColumnMetrics.longestHeaderEnd;
-    // return true;
   } catch (error) {
     console.error('Failed to find longest header within series:', error);
     throw error;
@@ -340,7 +339,6 @@ const processSourceColumns = async (
    * @type {number}
    */
   const headerMetricDestinationStartRow = 1;
-  // columnMetrics.longestHeaderEnd - headerFooterData.headerRow; ///this activating this line will align metrics to bottom
 
   /**
    * Represents the parameters for the header metric destination.
@@ -548,8 +546,6 @@ const processSourceColumns = async (
     columnMetrics.defaultHeaderMetricsDestinationColumnEnd += length;
   };
 
-  // Call the methods with the required length parameter
-  // headerIndicatorsLength /* derived or given value */;
   adjustDefaultHeaderMetricsDestinationStart(headerIndicatorsLength);
   adjustDefaultHeaderMetricsDestinationEnd(headerIndicatorsLength);
 };

@@ -23,7 +23,7 @@ export const writeToSheet = async (sheetTitle, values, sheetsInstance) => {
     });
   } catch (error) {
     console.error(`Error writing to sheet "${sheetTitle}":`, error);
-    throw error; // Ensure errors are thrown for test catching
+    throw error;
   }
 };
 
@@ -49,6 +49,6 @@ export const batchUpdateMasterSheet = async (payload, sheetsInstance) => {
     });
   } catch (error) {
     console.error('Error applying batch update:', error);
-    throw error; // Ensure errors are thrown for test catching
+    throw error;
   }
 };

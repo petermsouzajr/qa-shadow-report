@@ -27,7 +27,7 @@ export const extractAreaFromFullFile = async (fullFile, testTypesAvailable) => {
     .filter((segment) => !testTypesAvailable.includes(segment))
     .join('/');
 
-  return area; // The function only returns the area
+  return area;
 };
 
 /**

@@ -91,22 +91,15 @@ export const getExistingTabTitlesInRange = async (when = '') => {
  */
 export const getExistingTabTitlesInWeeklyRange = async () => {
   try {
-    // Calculate the weekly date range
     const now = new Date();
-
-    // Calculate the start of the current week
     const startDate = new Date(now);
     startDate.setDate(
       now.getDate() - ((now.getDay() + 7 - getDayIndex(WEEK_START())) % 7)
     );
     startDate.setHours(0, 0, 0, 0);
-
-    // Calculate the end of the current week
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 6);
     endDate.setHours(23, 59, 59, 999);
-
-    // Fetch spreadsheet metadata
     const metaData =
       Object.keys(dataObjects.topLevelSpreadsheetData).length === 0
         ? await getTopLevelSpreadsheetData()
@@ -122,7 +115,6 @@ export const getExistingTabTitlesInWeeklyRange = async () => {
       throw new Error('Invalid titles format: Expected an array of strings.');
     }
 
-    // Filter titles to include only those within the weekly range
     return titles.filter((title) => {
       const tabDate = new Date(title);
       return tabDate >= startDate && tabDate <= endDate;
@@ -334,7 +326,6 @@ export const getHeaderAndFooterDataByTabTitle = async (sheetTitle) => {
     let footerRow = 0;
     let headerValues = [];
 
-    // Find the right sheet data
     const metaData = dataObjects.lastMonthSheetValues[0].find((item) =>
       item.data.range.startsWith(`'${sheetTitle}'`)
     );
@@ -347,7 +338,7 @@ export const getHeaderAndFooterDataByTabTitle = async (sheetTitle) => {
     const rows = metaData.data.values;
 
     rows.forEach((row, index) => {
-      if (row.includes(FOOTER_ROW)) footerRow = index + 1; // Assuming FOOTER_ROW marks the end row
+      if (row.includes(FOOTER_ROW)) footerRow = index + 1;
       if (HEADER_INDICATORS.every((indicator) => row.includes(indicator))) {
         headerRow = index + 1;
         headerValues = row;
@@ -377,7 +368,6 @@ export const getHeaderAndFooterDataByWeeklyTabTitle = async (sheetTitle) => {
     let footerRow = 0;
     let headerValues = [];
 
-    // Find the right sheet data
     const metaData = dataObjects.lastWeekSheetValues[0].find((item) =>
       item.data.range.startsWith(`'${sheetTitle}'`)
     );
@@ -390,7 +380,7 @@ export const getHeaderAndFooterDataByWeeklyTabTitle = async (sheetTitle) => {
     const rows = metaData.data.values;
 
     rows.forEach((row, index) => {
-      if (row.includes(FOOTER_ROW)) footerRow = index + 1; // Assuming FOOTER_ROW marks the end row
+      if (row.includes(FOOTER_ROW)) footerRow = index + 1;
       if (HEADER_INDICATORS.every((indicator) => row.includes(indicator))) {
         headerRow = index + 1;
         headerValues = row;

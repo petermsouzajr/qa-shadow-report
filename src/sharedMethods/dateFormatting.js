@@ -84,5 +84,5 @@ export const formatDuration = (durationMillis) => {
  * @returns {number} Day index.
  */
 export const getDayIndex = (dayName) => {
-  return DAYS[dayName] || 0; // Default to Sunday if invalid
+  return DAYS[dayName] || 0;
 };

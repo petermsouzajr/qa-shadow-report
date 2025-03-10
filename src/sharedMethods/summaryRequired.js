@@ -6,7 +6,7 @@ import {
   getFormattedYear,
 } from './dateFormatting.js';
 import { createWeeklySummaryTitle } from '../sharedMethods/summaryHandler.js';
-import { DAYS, WEEK_START } from '../../constants.js';
+import { WEEK_START } from '../../constants.js';
 
 /**
  * Determines whether a summary sheet title for the provided sheet tab titles
@@ -103,28 +103,9 @@ export const isWeeklySummaryRequired = async ({ csv }) => {
     return false;
   }
   try {
-    const now = new Date();
-
-    // Calculate the start of the current week
-    const startDate = new Date(now);
-    startDate.setDate(
-      now.getDate() - ((now.getDay() + 7 - getDayIndex(WEEK_START())) % 7)
-    );
-    startDate.setHours(0, 0, 0, 0);
-
-    // Calculate the end of the current week
-    const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 6);
-    endDate.setHours(23, 59, 59, 999);
-
     const existingTabTitles = await getExistingTabTitlesInRange();
-    // Filter titles to check only those within the current week
-    const weeklyTabTitles = existingTabTitles.filter((title) => {
-      const tabDate = new Date(title);
-      return tabDate >= startDate && tabDate <= endDate;
-    });
 
-    return isWeeklySummaryNeeded(weeklyTabTitles);
+    return isWeeklySummaryNeeded(existingTabTitles);
   } catch (error) {
     console.error('Error in isWeeklySummaryRequired:', error);
     return false;
@@ -141,31 +122,29 @@ export const isWeeklySummaryRequired = async ({ csv }) => {
  */
 const isWeeklySummaryNeeded = (tabTitles) => {
   try {
-    // If there are no sheets in the given range, no summary is needed
     if (tabTitles.length === 0) {
       return false;
     }
 
-    // Define the expected weekly summary tab format (e.g., "Summary-YYYY-MM-DD")
     const now = new Date();
     const startDate = new Date(now);
-    // Adjust to the start of the week (assuming WEEK_START is defined elsewhere)
     startDate.setDate(
       now.getDate() - ((now.getDay() + 7 - getDayIndex(WEEK_START())) % 7)
     );
     startDate.setHours(0, 0, 0, 0);
 
-    // Format the expected summary tab title
-    const expectedSummaryTitle = createWeeklySummaryTitle();
+    const daysSinceStart = Math.floor(
+      (now - startDate) / (1000 * 60 * 60 * 24)
+    );
+    const isEndOfWeek = daysSinceStart === 6; // 6 days after start (0-based: Mon=0, Sun=6)
 
-    // Check if a summary tab already exists for this week
+    if (!isEndOfWeek) {
+      return false;
+    }
+    const expectedSummaryTitle = createWeeklySummaryTitle();
     const summaryExists = tabTitles.some(
       (title) => title.startsWith('Weekly') && title === expectedSummaryTitle
     );
-
-    // A summary is needed if:
-    // 1. There are sheets in the range (already checked above with length > 0)
-    // 2. No summary exists for this week
     return !summaryExists;
   } catch (error) {
     console.error('Error in isSummaryNeeded:', error);

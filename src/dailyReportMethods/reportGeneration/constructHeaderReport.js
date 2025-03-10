@@ -32,10 +32,8 @@ export const constructHeaderReport = async (payload) => {
       { types: teamNames, index: 5 },
     ];
 
-    // Initialize an array to store all report entries
     const allReportEntries = [];
 
-    // Loop through each type structure to generate report entries
     for (const typeData of typeArrays) {
       if (!Array.isArray(typeData.types)) {
         throw new Error(
@@ -51,13 +49,9 @@ export const constructHeaderReport = async (payload) => {
       allReportEntries.push(reportEntry);
     }
 
-    // Calculate the maximum number of types across all categories
     const maxTypes = Math.max(...typeArrays.map((t) => t.types.length));
-
-    // Generate placeholders for the report
     const placeholders = generatePlaceholders(maxTypes);
 
-    // Combine all report entries and placeholders into one report
     return combineReports(allReportEntries, placeholders);
   } catch (error) {
     console.error('Error constructing header report:', error);
