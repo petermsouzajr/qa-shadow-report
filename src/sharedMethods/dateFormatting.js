@@ -74,7 +74,7 @@ export const formatDuration = (durationMillis) => {
   const minutes = Math.floor(durationMillis / 60000);
   const seconds = Math.floor((durationMillis % 60000) / 1000);
   const milliseconds = durationMillis % 1000;
-  return `${minutes}:${seconds}:${milliseconds}`;
+  return `${"'"}${minutes}:${seconds}:${milliseconds}`;
 };
 
 /**
