@@ -153,6 +153,10 @@ const createConfigFile = () => {
 
       // Directory for saving CSV downloads (optional). Uncomment and replace with your preferred path or use an environment variable.
       // csvDownloadsPath: 'downloads' OR csvDownloadsPath: process.env.CSV_DOWNLOADS_PATH,
+
+     // Weekly summary settings (optional). Set weekly sart date to activate summaries, and specify the start day or use default of Monday.
+     // weeklySummaryStartDay: 'Monday' // Starting day of the week for weekly summaries (e.g., 'Monday', 'Tuesday', etc.) OR process.env.WEEKLY_SUMMARY_START_DAY
+    },
     };
     `;
     fs.writeFileSync(configFilePath, defaultConfigContent, {

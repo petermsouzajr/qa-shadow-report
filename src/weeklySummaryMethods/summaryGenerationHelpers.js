@@ -1,10 +1,10 @@
 import { getTabValuesByTitle } from '../google/googleSheetIntegration/getSheetData.js';
 import { copyPasteNormal } from '../google/sheetDataMethods/copyPaste.js';
 import {
-  findMatchingColumnByTabId,
+  findMatchingColumnByWeeklyTabId,
   findTabTitleDataInArray,
-  getHeaderAndFooterDataByTabTitle,
-  getTabIdFromTitle,
+  getTabIdFromWeeklyTitle,
+  getHeaderAndFooterDataByWeeklyTabTitle,
 } from '../google/sheetDataMethods/getSheetInfo.js';
 import { dataObjects } from '../index.js';
 import { numberToLetter } from '../sharedMethods/dataHandler.js';
@@ -20,7 +20,7 @@ import { DEFAULT_HEADER_METRICS, HEADER_INDICATORS } from '../../constants.js';
  * @param {string[]} titles - An array of tab titles to fetch values for.
  * @returns {Promise<object[]>} - A promise that resolves to an array of tab values corresponding to the provided titles.
  */
-export const fetchLastMonthTabValues = async (titles) => {
+export const fetchLastWeekTabValues = async (titles) => {
   // Define the additional arguments that getTabValuesByTitle expects
   const sheetsInstance = '';
   const authParam = '';
@@ -31,7 +31,7 @@ export const fetchLastMonthTabValues = async (titles) => {
       getTabValuesByTitle(title, sheetsInstance, authParam, spreadsheetIdParam)
     )
   );
-  dataObjects.lastMonthSheetValues.push(data);
+  dataObjects.lastWeekSheetValues.push(data);
   return data;
 };
 
@@ -74,7 +74,7 @@ export const getHeaderMetricsSourceColumnStart = async (
   title,
   defaultHeaderMetrics
 ) => {
-  return await findMatchingColumnByTabId(title, defaultHeaderMetrics);
+  return await findMatchingColumnByWeeklyTabId(title, defaultHeaderMetrics);
 };
 
 /**
@@ -105,23 +105,24 @@ export const getAdjustedHeaderRowIndex = (headerFooterData) => {
  * Finds the maximum header index within a series of source tabs.
  *
  * @param {string[]} sourceTabTitles - The titles of the source tabs.
- * @param {Array} lastMonthTabValues - The tab values from the last month.
+ * @param {Array} weeklyTabValues - The tab values from the last week.
  * @param {Object} columnMetrics - The current metrics for columns.
  * @returns {Promise<Object>} - The updated column metrics.
  * @throws {Error} - If data for any source tab title cannot be found or is invalid.
  */
-export const findLongestHeaderWithinSeries = async (
+export const findLongestHeaderWithinWeeklySeries = async (
   sourceTabTitles,
-  lastMonthTabValues,
+  weeklyTabValues,
   columnMetrics
 ) => {
   let updatedColumnMetrics = { ...columnMetrics };
   try {
     for (const sourceTabTitle of sourceTabTitles) {
       const sourceData = await findTabTitleDataInArray(
-        lastMonthTabValues,
+        weeklyTabValues,
         sourceTabTitle
       );
+
       if (
         !sourceData ||
         !sourceData.data ||
@@ -141,11 +142,12 @@ export const findLongestHeaderWithinSeries = async (
 
       const headerRowActual = headerRowIndex + 1;
       updatedColumnMetrics.longestHeaderEnd = Math.max(
-        updatedColumnMetrics.longestHeaderEnd,
+        updatedColumnMetrics.longestHeaderEnd || 0,
         headerRowActual
       );
     }
     return updatedColumnMetrics.longestHeaderEnd;
+    // return true;
   } catch (error) {
     console.error('Failed to find longest header within series:', error);
     throw error;
@@ -157,7 +159,7 @@ export const findLongestHeaderWithinSeries = async (
  *
  * @returns {object} - An object with empty arrays for body payload, header payload, summary header style payload, and summary grid styles.
  */
-export const initializeReportPayload = () => ({
+export const initializeWeeklyReportPayload = () => ({
   bodyPayload: [],
   headerPayload: [],
   summaryHeaderStylePayload: [],
@@ -566,7 +568,7 @@ const processSourceColumns = async (
  *
  * @returns {Promise<void>}
  */
-export const processSourceTabTitles = async (
+export const processWeeklySourceTabTitles = async (
   titles,
   destinationTabId,
   summaryPayload,
@@ -575,8 +577,9 @@ export const processSourceTabTitles = async (
   headerIndicatorsLength
 ) => {
   for (let title of titles) {
-    const headerFooterData = await getHeaderAndFooterDataByTabTitle(title);
-    const sourcePageId = await getTabIdFromTitle(title);
+    const headerFooterData =
+      await getHeaderAndFooterDataByWeeklyTabTitle(title);
+    const sourcePageId = await getTabIdFromWeeklyTitle(title);
     await processSourceColumns(
       headerFooterData,
       title,

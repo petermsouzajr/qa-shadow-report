@@ -1,3 +1,5 @@
+import { DAYS } from '../../constants.js';
+
 /**
  * Retrieves the current day of the month.
  * @returns {number} The day of the month.
@@ -73,4 +75,14 @@ export const formatDuration = (durationMillis) => {
   const seconds = Math.floor((durationMillis % 60000) / 1000);
   const milliseconds = durationMillis % 1000;
   return `${minutes}:${seconds}:${milliseconds}`;
+};
+
+/**
+ * Helper function to convert day name to index (0 = Sunday, 1 = Monday, ..., 6 = Saturday).
+ *
+ * @param {string} dayName - Day name (e.g., "Monday").
+ * @returns {number} Day index.
+ */
+export const getDayIndex = (dayName) => {
+  return DAYS[dayName] || 0; // Default to Sunday if invalid
 };

@@ -16,29 +16,29 @@ export const addColumnsAndRowsToTabId = async (
     requests: [
       columnQuantity > 0
         ? {
-          insertDimension: {
-            range: {
-              sheetId: tabId,
-              dimension: 'COLUMNS',
-              startIndex: 0,
-              endIndex: columnQuantity,
+            insertDimension: {
+              range: {
+                sheetId: tabId,
+                dimension: 'COLUMNS',
+                startIndex: 0,
+                endIndex: columnQuantity,
+              },
+              inheritFromBefore: false,
             },
-            inheritFromBefore: false,
-          },
-        }
+          }
         : null,
       rowQuantity > 0
         ? {
-          insertDimension: {
-            range: {
-              sheetId: tabId,
-              dimension: 'ROWS',
-              startIndex: 0,
-              endIndex: rowQuantity,
+            insertDimension: {
+              range: {
+                sheetId: tabId,
+                dimension: 'ROWS',
+                startIndex: 0,
+                endIndex: rowQuantity,
+              },
+              inheritFromBefore: false,
             },
-            inheritFromBefore: false,
-          },
-        }
+          }
         : null,
     ].filter((request) => request !== null), // Filter out any null if no columns/rows need to be added
   };

@@ -1,9 +1,6 @@
 import { batchUpdateMasterSheet } from '../google/googleSheetIntegration/writeToSheet.js';
 import { findHeaderRowIndex } from '../monthlySummaryMethods/summaryGenerationHelpers.js';
-import {
-  solidBlackWidthOne,
-  solidBlackWidthTwo,
-} from '../monthlySummaryMethods/summaryStyles.js';
+import { solidBlackWidthOne, solidBlackWidthTwo } from './summaryStyles.js';
 
 /**
  * Creates a grid style for a specific tab with defined borders.
