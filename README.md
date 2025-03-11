@@ -10,10 +10,10 @@ Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, 
 2. [Quick Start](#quick-start)
    - [Generate Reports in CSV Format](#generate-reports-in-csv-format)
 3. [Samples](#samples)
-   - [Sheets Daily Report](#sheets-daily-report)
-   - [Sheets Weekly Summary](#sheets-weekly-summary)
-   - [Sheets Monthly Summary](#sheets-monthly-summary)
-   - [CSV Daily Report](#csv-daily-report)
+   - [Daily Report in Sheets](#daily-report-in-sheets)
+   - [Weekly Summary in Sheets](#weekly-summary-in-sheets)
+   - [Monthly Summary in Sheets](#monthly-summary-in-sheets)
+   - [Daily Report in CSV](#daily-report-in-csv)
 4. [Sheets Setup Guide](#sheets-setup-guide)
    - [Cypress](#cypress)
    - [Playwright](#playwright)
@@ -87,25 +87,26 @@ Use either command to generate reports using either **NPX** or **NPM scripts** w
 
 ## Samples
 
-### Sheets Daily Report
+### Daily Report in Sheets
 
-The Daily Summary features high-level metrics such as a test quantity and percentage pass rate across multiple categories. Test details are organized into columns that include: the feature area, spec title, test name, test type, test category, team identifiers, test priority, test status, test state, manual case id, error details, and execution speed in format mm:ss:mmm.
+The Daily Summary features high-level metrics such as a test quantity and percentage pass rate across multiple categories. Test details are organized into columns that include: the feature area, spec title, test name, test type, test category, team identifiers, test priority, test status, test state, manual case id, error details, and speed of execution (in mm:ss:mmm format).
 
 This structured format enables teams to quickly assess test outcomes on demand, with an example entry in the feature `area` '1-getting-started', in the 'todo' `spec`, the `test name` example to-do app can add new todo items', classified as `type` 'api', with no `category`, 'billing `team` is responsible, `status` 'passing' with a `speed` of '370 milliseconds'. The team may want to type in a `status` of 'billing team adding test category' with a `priority` of 'low'.
 ![Screenshot of Feature](images/dailyReport.png)
 
-### Sheets Weekly Summary
+### Weekly Summary in Sheets
 
 The Weekly Summary is optional, and it provides a short term summary of the previous weeks `passed`, `failed`, `skipped`, and `total` test results. This summary is a great tool for teams who have weekly meetings to discuss their progress/status/gameplan
 ![Screenshot of Feature](images/weeklySummary.png)
 
-### Sheets Monthly Summary
+### Monthly Summary in Sheets
 
 The Monthly Summary provides a brief overview of historical test execution results, giving long term visibility into `passed`, `failed`, `skipped`, and `total` test results for the previous month, allowing trends to emerge.
 ![Screenshot of Feature](images/monthlySummary.png)
 
-### CSV Daily Report
+### Daily Report in CSV
 
+The Daily Report in CSV format delivers hardcoded snapshot of high-level test metrics, mirroring the formulaic insights provided by the Daily Summary in Sheets: feature area, spec title, test name, test type, test category, team identifiers, priority, status, state, manual case ID, error details, and speed of execution (in mm:ss:mmm format). Unlike the Sheets version, which leverages formulas for dynamic calculations, the CSV report contains hardcoded values, ensuring compatibility with static file formats while maintaining the same depth of analysis.
 ![Screenshot of Feature](images/csvDailyReport.png)
 
 ## Sheets Setup Guide

@@ -19,7 +19,7 @@ import {
   setTextWrappingToClip,
 } from './styles.js';
 import { TEST_DATA } from '../../constants.js';
-import { saveCSV } from './csvHandler.js';
+import { calculateDailySummaryMetrics, saveCSV } from './csvHandler.js';
 import { doesTodaysReportExist } from './dailyReportRequired.js';
 import { transformPlaywrightToFriendlyFormat } from './convertPayloads.js';
 import chalk from 'chalk';
@@ -59,11 +59,35 @@ export const handleDailyReport = async ({
     }
     const fullDailyPayload = await buildDailyPayload(testPayload, playwright);
     if (csv) {
-      const reportPayload = [
+      const summaryHeader = calculateDailySummaryMetrics(
+        fullDailyPayload.bodyPayload
+      );
+      // Ensure the original header is a 1D array
+      const originalHeader = Array.isArray(
         fullDailyPayload.headerPayload[
           fullDailyPayload.headerPayload.length - 1
-        ],
-        ...fullDailyPayload.bodyPayload,
+        ]
+      )
+        ? fullDailyPayload.headerPayload[
+            fullDailyPayload.headerPayload.length - 1
+          ]
+        : [
+            fullDailyPayload.headerPayload[
+              fullDailyPayload.headerPayload.length - 1
+            ],
+          ];
+
+      // Pad the original header to match body row length (12 columns)
+      const bodyRowLength = fullDailyPayload.bodyPayload[0]?.length || 12;
+      const paddedOriginalHeader = [
+        ...originalHeader,
+        ...Array(Math.max(0, bodyRowLength - originalHeader.length)).fill(''),
+      ];
+
+      const reportPayload = [
+        ...summaryHeader, // Multi-row header, each row is 12 columns
+        paddedOriginalHeader, // Column names, padded to 12 columns
+        ...fullDailyPayload.bodyPayload, // Already 2D, each row is 12 columns
       ];
       saveCSV(reportPayload, duplicate);
     } else {
