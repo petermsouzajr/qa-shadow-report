@@ -365,6 +365,24 @@ export const TEST_CATEGORIES_AVAILABLE = () => {
   });
 };
 
+export const WEEK_START = () => {
+  return getCachedOrCompute('startDay', () => {
+    return shadowConfigDetails.weeklySummaryStartDay;
+  });
+};
+
+export const WEEKLY_SUMMARY_ENABLED = () => {
+  return getCachedOrCompute('active', () => {
+    const weeklySummaryActive =
+      shadowConfigDetails && shadowConfigDetails.weeklySummaryStartDay;
+    if (weeklySummaryActive) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+};
+
 export const DEFAULT_HEADER_METRICS = [
   '# passed tests',
   '# failed tests',
@@ -404,3 +422,38 @@ export const ALL_TEAM_NAMES = () => {
     }
   });
 };
+
+export const DAYS = {
+  Sunday: 0,
+  Monday: 1,
+  Tuesday: 2,
+  Wednesday: 3,
+  Thursday: 4,
+  Friday: 5,
+  Saturday: 6,
+};
+
+export const SHORT_DAYS = {
+  Monday: 'Mon',
+  Tuesday: 'Tue',
+  Wednesday: 'Wed',
+  Thursday: 'Thu',
+  Friday: 'Fri',
+  Saturday: 'Sat',
+  Sunday: 'Sun',
+};
+
+export const MONTHS = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];

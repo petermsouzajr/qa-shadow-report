@@ -30,37 +30,24 @@ export const buildDailyPayload = async (dataSet, playwright) => {
       throw new Error('Invalid columnsAvailable: Expected an array.');
     }
 
-    // Initialize the structure for daily payload
     let fullDailyPayload = initializeDailyPayload();
-
-    // Process test suites to construct payload entries
     const payloadEntries = await processTestSuites(dataSet, playwright);
     fullDailyPayload.bodyPayload = payloadEntries;
 
-    // Sort the structured data
     sortPayload(fullDailyPayload);
-
-    // Map object values to body payload
     fullDailyPayload.bodyPayload = fullDailyPayload.bodyPayload.map(
       Object.values
     );
-
-    // Construct and assign report headers
     fullDailyPayload.headerPayload = await constructHeaderReport(
       fullDailyPayload.bodyPayload
     );
-
-    // Append state reports to the header payload
     appendStateReportsToHeader(
       fullDailyPayload.headerPayload,
       DEFAULT_HEADER_METRICS,
       playwright
     );
-
-    // Append available columns and save to configuration
     fullDailyPayload.headerPayload.push(columnsAvailable);
 
-    // Append the end row to the footer payload
     const headerRowIndex = findHeaderRowIndex(fullDailyPayload.headerPayload);
     const headerRow = fullDailyPayload.headerPayload[headerRowIndex - 1];
     const statusTargetIndex = headerRow.indexOf('state');
@@ -71,6 +58,6 @@ export const buildDailyPayload = async (dataSet, playwright) => {
     return fullDailyPayload;
   } catch (error) {
     console.error('Error building daily payload:', error);
-    throw error; // Rethrow to allow further error handling from the caller
+    throw error;
   }
 };

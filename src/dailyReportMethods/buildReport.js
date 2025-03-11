@@ -1,13 +1,6 @@
-// Utility functions imports
 import { formatDuration } from '../sharedMethods/dateFormatting.js';
-
-// Data extraction and reporting imports
 import * as dataExtraction from './extraction/dataExtractionUtilities.js';
-
-// Shared methods imports
 import { enforceMaxLength } from './utilities/cellMaxLength.js';
-
-// Configuration and constants imports
 import * as constants from '../../constants.js';
 
 /**

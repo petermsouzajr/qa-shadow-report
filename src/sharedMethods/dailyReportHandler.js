@@ -60,7 +60,6 @@ export const handleDailyReport = async ({
     const fullDailyPayload = await buildDailyPayload(testPayload, playwright);
     if (csv) {
       const reportPayload = [
-        // Gets the last element of the headerPayload array, which is the column titles
         fullDailyPayload.headerPayload[
           fullDailyPayload.headerPayload.length - 1
         ],
@@ -162,9 +161,10 @@ export const handleDailyReport = async ({
       await batchUpdateMasterSheet(columnWidthPayload);
 
       await batchUpdateMasterSheet(rowMergePayload);
+      console.info(chalk.green(`Daily Report created for ${todaysDate}.`));
     }
   } catch (error) {
     console.error('Error in handleDailyReport:', error);
-    throw error; // Depending on the context you might want to handle the error differently
+    throw error;
   }
 };

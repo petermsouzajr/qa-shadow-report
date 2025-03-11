@@ -275,7 +275,6 @@ export const buildFormulas = (
   const templates = constants.FORMULA_TEMPLATES;
   const keys = constants.FORMULA_KEYS;
 
-  // Generate actual formula strings by filling in the templates
   const filledFormulas = templates.map(fillTemplate);
 
   const combinedObject = keys.reduce((obj, key, index) => {
@@ -405,7 +404,6 @@ export const createMergeQueries = (data, headerRowIndex, sheetId) => {
     throw new Error('Sheet ID must be a non-negative integer.');
   }
 
-  // Helper function to create a single merge query object
   const createMergeQuery = (start, end, startColumn, endColumn) => ({
     sheetId,
     startRowIndex: start,
@@ -414,7 +412,6 @@ export const createMergeQueries = (data, headerRowIndex, sheetId) => {
     endColumnIndex: endColumn,
   });
 
-  // Processes merges for a single column
   const processColumn = (columnIndex) => {
     const merges = [];
     let startMergeIndex = headerRowIndex;
@@ -439,10 +436,7 @@ export const createMergeQueries = (data, headerRowIndex, sheetId) => {
     return merges;
   };
 
-  // Combine merge queries for both columns
   const merges = [...processColumn(0), ...processColumn(1)];
-
-  // Construct the requestBody for the batch update
   const requestBody = {
     requests: merges.map((merge) => ({
       mergeCells: {

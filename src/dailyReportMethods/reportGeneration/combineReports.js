@@ -25,7 +25,6 @@ export const combineReports = (allReportEntries, placeholders) => {
   let combinedReports = [];
 
   try {
-    // Determine the maximum count of type entries across all reports
     const maxTypeCount = Math.max(
       ...allReportEntries.map((report) => {
         if (!Array.isArray(report)) {
@@ -35,7 +34,6 @@ export const combineReports = (allReportEntries, placeholders) => {
       })
     );
 
-    // Iterate over each type count index
     for (let i = 0; i < maxTypeCount; i++) {
       let combinedRowTests = [];
       let combinedRowPassed = [];
@@ -46,7 +44,6 @@ export const combineReports = (allReportEntries, placeholders) => {
         combinedRowPassed.push(...(report[2 * i + 1] || placeholders[1]));
       });
 
-      // Add the combined rows to the main array
       combinedReports.push(combinedRowTests, combinedRowPassed);
     }
 
