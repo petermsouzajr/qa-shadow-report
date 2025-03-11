@@ -1,20 +1,31 @@
-import { handleSummary } from './sharedMethods/summaryHandler.js';
+import {
+  handleSummary,
+  handleWeeklySummary,
+} from './sharedMethods/summaryHandler.js';
 import { handleDailyReport } from './sharedMethods/dailyReportHandler.js';
 import { doesTodaysReportExist } from './sharedMethods/dailyReportRequired.js';
-import { isSummaryRequired } from './sharedMethods/summaryRequired.js';
+import {
+  isSummaryRequired,
+  isWeeklySummaryRequired,
+} from './sharedMethods/summaryRequired.js';
 import chalk from 'chalk';
 import { getFormattedMonth } from './sharedMethods/dateFormatting.js';
+import { WEEKLY_SUMMARY_ENABLED } from '../constants.js';
 
 let topLevelSpreadsheetData = {};
 let summaryTabData = {};
 let todaysReportData = {};
 let lastMonthSheetValues = [];
+let lastWeekSheetValues = [];
+let weeklySummaryTabData = {};
 
 export const dataObjects = {
   topLevelSpreadsheetData,
   summaryTabData,
+  weeklySummaryTabData,
   todaysReportData,
   lastMonthSheetValues,
+  lastWeekSheetValues,
 };
 
 /**
@@ -30,11 +41,17 @@ const dailyduplicateInstruction = ` e.g. ${chalk.green(
 const summaryDuplicateInstruction = ` ${chalk.green(
   'qa-shadow-report monthly-summary --duplicate'
 )}`;
-const duplicateInstruction = ` If you would like to create a duplicate monthly summary, use the optional flag ${chalk.green(
+const weeklySummaryDuplicateInstruction = ` ${chalk.green(
+  'qa-shadow-report weekly-summary --duplicate'
+)}`;
+const duplicateInstruction = ` If you would like to create a duplicate, use the optional flag ${chalk.green(
   '--duplicate'
 )} in your reporting command,`;
 const noSummaryMessage = chalk.yellow(
   `No ${lastMonth} summary required${duplicateInstruction}${summaryDuplicateInstruction}.`
+);
+const noWeeklySummaryMessage = chalk.yellow(
+  `No weekly summary required${duplicateInstruction}${weeklySummaryDuplicateInstruction}.`
 );
 const noReportMessage = chalk.yellow(
   `Today\`s report already exists${duplicateInstruction}${dailyduplicateInstruction}.`
@@ -61,19 +78,26 @@ export const main = async ({ csv, duplicate, cypress, playwright }) => {
       return;
     }
 
-    const summaryRequired = await isSummaryRequired({ csv });
+    const monthlySummaryRequired = await isSummaryRequired({ csv });
+    const weeklySummaryRequired = await isWeeklySummaryRequired({ csv });
 
-    if (summaryRequired) {
+    if (monthlySummaryRequired) {
       await handleSummary({ csv, duplicate, cypress, playwright });
-    } else {
-      console.info(noSummaryMessage);
+      // } else {
+      //   console.info(noSummaryMessage);
     }
 
     const todaysReportExists = await doesTodaysReportExist();
     if (todaysReportExists && !duplicate) {
-      console.info(noReportMessage);
+      // console.info(noReportMessage);
     } else {
       await handleDailyReport({ csv, duplicate, cypress, playwright });
+    }
+
+    if (WEEKLY_SUMMARY_ENABLED() && weeklySummaryRequired) {
+      await handleWeeklySummary({ csv, duplicate, cypress, playwright });
+      // } else {
+      //   console.info(chalk.yellow(noWeeklySummaryMessage));
     }
   } catch (error) {
     console.error(

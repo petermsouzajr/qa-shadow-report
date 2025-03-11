@@ -15,10 +15,8 @@ export const enforceMaxLength = (str, maxLength) => {
   }
 
   try {
-    // Convert the input to a string if it's a number
     const result =
       typeof str === 'number' || typeof str === 'string' ? String(str) : '';
-    // Return the truncated string
     return result.substring(0, maxLength);
   } catch (error) {
     console.error('Error in enforceMaxLength:', error);

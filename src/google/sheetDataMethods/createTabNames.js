@@ -19,7 +19,7 @@ export const createSummaryTitle = () => {
       );
     }
 
-    return `Summary ${lastMonth} ${previousMonthsYear}`;
+    return `Monthly summary ${lastMonth} ${previousMonthsYear}`;
   } catch (error) {
     console.error('Error in createSummaryTitle:', error);
     throw error;

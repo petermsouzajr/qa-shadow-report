@@ -1,13 +1,11 @@
-import { getLastMonthTabTitles } from '../google/sheetDataMethods/getLastMonthTabTitles.js';
+import { getTabIdFromTitle } from '../google/sheetDataMethods/getSheetInfo.js';
 import {
-  getExistingTabTitlesInRange,
-  getTabIdFromTitle,
-} from '../google/sheetDataMethods/getSheetInfo.js';
+  getHeaderIndicatorsLength,
+  initializeReportColumnMetrics,
+} from '../sharedMethods/summaryHandler.js';
 import {
   fetchLastMonthTabValues,
   findLongestHeaderWithinSeries,
-  getHeaderIndicatorsLength,
-  initializeReportColumnMetrics,
   initializeReportPayload,
   processSourceTabTitles,
 } from './summaryGenerationHelpers.js';
@@ -25,27 +23,15 @@ export const constructPayloadForCopyPaste = async (
   destinationTabTitle
 ) => {
   try {
-    // // Calculate header indicators' length for reference.
     const headerIndicatorsLength = getHeaderIndicatorsLength();
-
-    // Fetch existing tab titles in the specified range.
-    const existingTabTitles = await getExistingTabTitlesInRange();
-
-    // Retrieve titles and values of tabs from the last month.
-    // const lastMonthTabTitles = await getLastMonthTabTitles(existingTabTitles);
     const sortedTitles = sourceTabTitles.sort((a, b) => {
       const dateA = new Date(a);
       const dateB = new Date(b);
       return dateA - dateB;
     });
-    const lastMonthTabValues =
-      await fetchLastMonthTabValues(sortedTitles);
-
-      // Initialize the payload and column metrics for processing.
+    const lastMonthTabValues = await fetchLastMonthTabValues(sortedTitles);
     const summaryPayload = initializeReportPayload();
     let columnMetrics = initializeReportColumnMetrics(headerIndicatorsLength);
-
-    // Fetch the destination tab's ID based on its title.
     const destinationTabId = await getTabIdFromTitle(destinationTabTitle);
 
     columnMetrics.longestHeaderEnd = await findLongestHeaderWithinSeries(
@@ -54,7 +40,6 @@ export const constructPayloadForCopyPaste = async (
       columnMetrics
     );
 
-    // Process the fetched data from source tabs and prepare the payload.
     await processSourceTabTitles(
       sortedTitles,
       destinationTabId,

@@ -3,7 +3,10 @@ import chalk from 'chalk';
 import { isProjectConfigured } from './scripts/configuredStatus.js';
 import { main } from './src/index.js';
 import { handleDailyReport } from './src/sharedMethods/dailyReportHandler.js';
-import { handleSummary } from './src/sharedMethods/summaryHandler.js';
+import {
+  handleSummary,
+  handleWeeklySummary,
+} from './src/sharedMethods/summaryHandler.js';
 import { spawn } from 'child_process';
 import { GOOGLE_KEYFILE_PATH, GOOGLE_SHEET_ID } from './constants.js';
 import path from 'path';
@@ -34,7 +37,7 @@ const resolvePostInstallScript = () => {
 async function run() {
   const args = process.argv.slice(2);
   const commands = args.filter((arg) =>
-    ['todays-report', 'monthly-summary'].includes(arg)
+    ['todays-report', 'monthly-summary', 'weekly-summary'].includes(arg)
   );
 
   const command = commands[0] || ''; // Select the first command if multiple, though typically there should only be one
@@ -47,9 +50,13 @@ async function run() {
   const framework = frameworkArg || ''; // Ensure the framework is correctly specified
   const isCypress = framework === 'cypress' || framework === 'cy';
   const isPlaywright = framework === 'playwright' || framework === 'pw';
-  const unsupportedCsvForMonthly = isCSV && command.includes('monthly-summary');
-  const unsupportedDuplicateCsvForMonthly =
-    isCSV && isDuplicate && command.includes('monthly-summary');
+  const unsupportedCsvForSummary =
+    isCSV &&
+    (command.includes('monthly-summary') || command.includes('weekly-summary'));
+  const unsupportedDuplicateCsvForSummary =
+    isCSV &&
+    isDuplicate &&
+    (command.includes('monthly-summary') || command.includes('weekly-summary'));
   const optionsPayload = {
     csv: isCSV,
     duplicate: isDuplicate,
@@ -68,6 +75,7 @@ async function run() {
     Commands (Optional):
       todays-report               Only generate today's report.
       monthly-summary             Only generate previous months summary.
+      weekly-summary              Only generate previous weeks summary.
 
     Options (Optional):
       --csv                       Output the report in CSV format.
@@ -80,7 +88,7 @@ async function run() {
       Generate today's report for Playwright in CSV format:
         qa-shadow-report playwright todays-report --csv
 
-      Generate a daily report and monthly summary when necessary, in google sheets, for cypress:
+      Generate a daily report, and/or summaries as configured, in google sheets, for cypress:
         qa-shadow-report cypress
 
     Shortcuts:
@@ -136,10 +144,10 @@ async function run() {
       chalk.green('playwright')
     );
     process.exit(1);
-  } else if (unsupportedCsvForMonthly || unsupportedDuplicateCsvForMonthly) {
+  } else if (unsupportedCsvForSummary || unsupportedDuplicateCsvForSummary) {
     console.info(
       chalk.yellow(
-        'Error: CSV output for "monthly-summary" with or without duplication is not supported.'
+        'Error: CSV output for summaries with or without duplication is not supported.'
       )
     );
     process.exit(1);
@@ -151,6 +159,9 @@ async function run() {
           break;
         case 'monthly-summary':
           await handleSummary({ ...optionsPayload });
+          break;
+        case 'weekly-summary':
+          await handleWeeklySummary({ ...optionsPayload });
           break;
         default:
           await main({ ...optionsPayload });
