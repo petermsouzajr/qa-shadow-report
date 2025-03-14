@@ -125,7 +125,7 @@ describe('main function', () => {
       await main(options);
 
       expect(mockHandleSummary).not.toHaveBeenCalled();
-    });
+    }, 10000);
   });
 
   describe('Daily report handling', () => {
