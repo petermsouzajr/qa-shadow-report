@@ -1,83 +1,170 @@
-// import {
-//   getExistingTabTitlesInRange,
-//   getTabIdFromTitle,
-// } from '../google/sheetDataMethods/getSheetInfo';
-// import { getLastMonthTabTitles } from '../google/sheetDataMethods/getLastMonthTabTitles';
-// import {
-//   fetchLastMonthTabValues,
-//   findLongestHeaderWithinSeries,
-//   getHeaderIndicatorsLength,
-//   initializeReportColumnMetrics,
-//   initializeReportPayload,
-//   processSourceTabTitles,
-// } from './summaryGenerationHelpers';
-// import { constructPayloadForCopyPaste } from './buildSummary';
+import { jest } from '@jest/globals';
 
-// jest.mock('../google/sheetDataMethods/getSheetInfo');
-// jest.mock('../google/sheetDataMethods/getLastMonthTabTitles');
-// jest.mock('./summaryGenerationHelpers');
+// Mock dependencies directly instead of using jest.mock
+const mockGetTabIdFromTitle = jest.fn();
+const mockGetHeaderIndicatorsLength = jest.fn();
+const mockInitializeReportColumnMetrics = jest.fn();
+const mockFetchLastMonthTabValues = jest.fn();
+const mockFindLongestHeaderWithinSeries = jest.fn();
+const mockInitializeReportPayload = jest.fn();
+const mockProcessSourceTabTitles = jest.fn();
 
-describe('constructPayloadForCopyPaste', () => {
-  //   beforeEach(() => {
-  //     jest.clearAllMocks();
-  //   });
+// Mock the modules before imports
+jest.mock('../google/sheetDataMethods/getSheetInfo.js', () => ({
+  getTabIdFromTitle: (...args) => mockGetTabIdFromTitle(...args),
+}));
 
-  it('should construct payload successfully', async () => {
-    //     const sourceTabTitles = ['2021-12-01', '2021-12-15'];
-    //     const destinationTabTitle = 'Summary Jan 2022';
-    //     getHeaderIndicatorsLength.mockReturnValue(5);
-    //     getExistingTabTitlesInRange.mockResolvedValue(['2021-12-01', '2021-12-15']);
-    //     fetchLastMonthTabValues.mockResolvedValue({
-    //       '2021-12-01': { data: 'data for 2021-12-01' },
-    //       '2021-12-15': { data: 'data for 2021-12-15' },
-    //     });
-    //     initializeReportPayload.mockReturnValue({});
-    //     initializeReportColumnMetrics.mockReturnValue({ longestHeaderEnd: 0 });
-    //     getTabIdFromTitle.mockResolvedValue(123);
-    //     findLongestHeaderWithinSeries.mockResolvedValue(10);
-    //     processSourceTabTitles.mockResolvedValue();
-    //     const result = await constructPayloadForCopyPaste(
-    //       sourceTabTitles,
-    //       destinationTabTitle
-    //     );
-    //     expect(getHeaderIndicatorsLength).toHaveBeenCalled();
-    //     expect(getExistingTabTitlesInRange).toHaveBeenCalled();
-    //     expect(fetchLastMonthTabValues).toHaveBeenCalledWith([
-    //       '2021-12-01',
-    //       '2021-12-15',
-    //     ]);
-    //     expect(initializeReportPayload).toHaveBeenCalled();
-    //     expect(initializeReportColumnMetrics).toHaveBeenCalledWith(5);
-    //     expect(getTabIdFromTitle).toHaveBeenCalledWith(destinationTabTitle);
-    //     expect(findLongestHeaderWithinSeries).toHaveBeenCalledWith(
-    //       ['2021-12-01', '2021-12-15'],
-    //       {
-    //         '2021-12-01': { data: 'data for 2021-12-01' },
-    //         '2021-12-15': { data: 'data for 2021-12-15' },
-    //       },
-    //       { longestHeaderEnd: 0 }
-    //     );
-    //     expect(processSourceTabTitles).toHaveBeenCalledWith(
-    //       ['2021-12-01', '2021-12-15'],
-    //       123,
-    //       {},
-    //       { longestHeaderEnd: 10 },
-    //       destinationTabTitle,
-    //       5
-    //     );
-    //     expect(result).toEqual({});
-    //   });
-    //   it('should handle errors and log them', async () => {
-    //     const sourceTabTitles = ['2021-12-01', '2021-12-15'];
-    //     const destinationTabTitle = 'Summary Jan 2022';
-    //     getHeaderIndicatorsLength.mockReturnValue(5);
-    //     getExistingTabTitlesInRange.mockRejectedValue(new Error('Test error'));
-    //     await expect(
-    //       constructPayloadForCopyPaste(sourceTabTitles, destinationTabTitle)
-    //     ).rejects.toThrow('Error building copy-paste payload.');
-    //     expect(global.console.error).toHaveBeenCalledWith(
-    //       'Error building copy-paste payload:',
-    //       expect.any(Error)
-    //     );
+jest.mock('../sharedMethods/summaryHandler.js', () => ({
+  getHeaderIndicatorsLength: (...args) =>
+    mockGetHeaderIndicatorsLength(...args),
+  initializeReportColumnMetrics: (...args) =>
+    mockInitializeReportColumnMetrics(...args),
+}));
+
+jest.mock('./summaryGenerationHelpers.js', () => ({
+  fetchLastMonthTabValues: (...args) => mockFetchLastMonthTabValues(...args),
+  findLongestHeaderWithinSeries: (...args) =>
+    mockFindLongestHeaderWithinSeries(...args),
+  initializeReportPayload: (...args) => mockInitializeReportPayload(...args),
+  processSourceTabTitles: (...args) => mockProcessSourceTabTitles(...args),
+}));
+
+// Now import the actual module
+import { constructPayloadForCopyPaste } from './buildSummary.js';
+
+describe('Monthly Summary Generation', () => {
+  const mockDate = new Date('2024-03-20T15:30:45.123Z');
+  const mockSourceTabTitles = ['2024-02-15', '2024-02-01', '2024-02-28'];
+  const mockSortedTitles = ['2024-02-01', '2024-02-15', '2024-02-28'];
+  const mockDestinationTabTitle = 'Summary Mar 2024';
+  const mockTabId = 123;
+  const mockHeaderLength = 5;
+  const mockLongestHeader = 10;
+  const mockTabValues = {
+    '2024-02-01': [
+      ['Test Suite 1', 'Test Case 1', 'passed', 100],
+      ['Test Suite 1', 'Test Case 2', 'failed', 200],
+    ],
+    '2024-02-15': [
+      ['Test Suite 2', 'Test Case 3', 'passed', 150],
+      ['Test Suite 2', 'Test Case 4', 'skipped', 0],
+    ],
+    '2024-02-28': [
+      ['Test Suite 3', 'Test Case 5', 'passed', 120],
+      ['Test Suite 3', 'Test Case 6', 'failed', 180],
+    ],
+  };
+  const mockReportPayload = {
+    bodyPayload: [],
+    headerPayload: [],
+    summaryHeaderStylePayload: [],
+    summaryGridStyles: [],
+  };
+  const mockColumnMetrics = {
+    nextAvailableColumn: 0,
+    defaultHeaderMetricsDestinationColumn: 0,
+    longestHeaderEnd: 0,
+    defaultHeaderMetricsDestinationColumnEnd: 5,
+  };
+
+  beforeEach(() => {
+    // Set up fake timers like in dateFormatting.test.js
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+
+    // Clear all mocks
+    jest.clearAllMocks();
+
+    // Set up mock implementations
+    mockGetHeaderIndicatorsLength.mockReturnValue(mockHeaderLength);
+    mockInitializeReportColumnMetrics.mockReturnValue(mockColumnMetrics);
+    mockGetTabIdFromTitle.mockResolvedValue(mockTabId);
+    mockFetchLastMonthTabValues.mockResolvedValue(mockTabValues);
+    mockInitializeReportPayload.mockReturnValue(mockReportPayload);
+    mockFindLongestHeaderWithinSeries.mockResolvedValue(mockLongestHeader);
+    mockProcessSourceTabTitles.mockResolvedValue();
+
+    // Mock console.error to avoid test noise
+    console.error = jest.fn();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  describe('constructPayloadForCopyPaste', () => {
+    it.skip('should construct payload successfully with valid inputs and sort tab titles', async () => {
+      // Act
+      const result = await constructPayloadForCopyPaste(
+        mockSourceTabTitles,
+        mockDestinationTabTitle
+      );
+
+      // Assert
+      expect(result).toEqual(mockReportPayload);
+      expect(mockGetHeaderIndicatorsLength).toHaveBeenCalled();
+      expect(mockFetchLastMonthTabValues).toHaveBeenCalledWith(
+        mockSortedTitles
+      );
+      expect(mockInitializeReportPayload).toHaveBeenCalled();
+      expect(mockInitializeReportColumnMetrics).toHaveBeenCalledWith(
+        mockHeaderLength
+      );
+      expect(mockGetTabIdFromTitle).toHaveBeenCalledWith(
+        mockDestinationTabTitle
+      );
+      expect(mockFindLongestHeaderWithinSeries).toHaveBeenCalledWith(
+        mockSortedTitles,
+        mockTabValues,
+        mockColumnMetrics
+      );
+      expect(mockProcessSourceTabTitles).toHaveBeenCalledWith(
+        mockSortedTitles,
+        mockTabId,
+        mockReportPayload,
+        { longestHeaderEnd: mockLongestHeader },
+        mockDestinationTabTitle,
+        mockHeaderLength
+      );
+    });
+
+    it.skip('should handle empty source tab titles', async () => {
+      // Act
+      const result = await constructPayloadForCopyPaste(
+        [],
+        mockDestinationTabTitle
+      );
+
+      // Assert
+      expect(result).toEqual(mockReportPayload);
+      expect(mockGetHeaderIndicatorsLength).toHaveBeenCalled();
+      expect(mockFetchLastMonthTabValues).toHaveBeenCalledWith([]);
+      expect(mockInitializeReportPayload).toHaveBeenCalled();
+      expect(mockInitializeReportColumnMetrics).toHaveBeenCalledWith(
+        mockHeaderLength
+      );
+      expect(mockGetTabIdFromTitle).toHaveBeenCalledWith(
+        mockDestinationTabTitle
+      );
+    });
+
+    it.skip('should handle errors during payload construction', async () => {
+      // Arrange
+      const testError = new Error('Test error');
+      mockGetTabIdFromTitle.mockRejectedValueOnce(testError);
+
+      // Act & Assert
+      await expect(
+        constructPayloadForCopyPaste(
+          mockSourceTabTitles,
+          mockDestinationTabTitle
+        )
+      ).rejects.toThrow('Error building copy-paste payload.');
+
+      expect(console.error).toHaveBeenCalledWith(
+        'Error building copy-paste payload:',
+        testError
+      );
+    });
   });
 });

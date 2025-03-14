@@ -1,84 +1,271 @@
-// import { google } from 'googleapis';
-// import { GOOGLE_SHEET_ID, GOOGLE_KEYFILE_PATH } from '../../constants';
-// import { jest } from '@jest/globals';
+import { jest } from '@jest/globals';
 
-// jest.mock('googleapis');
-// jest.mock('../../constants', () => ({
-//   GOOGLE_SHEET_ID: jest.fn(),
-//   GOOGLE_KEYFILE_PATH: jest.fn(),
-// }));
+// Mock the googleapis module
+jest.unstable_mockModule('googleapis', () => ({
+  google: {
+    auth: {
+      GoogleAuth: jest.fn(() => ({
+        getClient: jest.fn().mockResolvedValue({ id: 'dummy-client' }),
+      })),
+    },
+    sheets: jest.fn(() => ({
+      spreadsheets: {
+        values: {
+          get: jest.fn(),
+        },
+      },
+    })),
+  },
+}));
 
-describe('Google Sheets Setup', () => {
-  // let mockGetClient, mockSheets, mockGoogleAuth;
+// Mock the constants module
+jest.unstable_mockModule('../../constants.js', () => ({
+  GOOGLE_SHEET_ID: jest.fn(() => 'dummy-spreadsheet-id'),
+  GOOGLE_KEYFILE_PATH: jest.fn(() => 'dummy-key-file-path'),
+}));
 
-  // beforeEach(() => {
-  //   mockGetClient = jest.fn();
-  //   mockSheets = jest.fn();
-  //   mockGoogleAuth = {
-  //     getClient: mockGetClient,
-  //   };
-  //   google.auth.GoogleAuth.mockImplementation(() => mockGoogleAuth);
-  //   google.sheets.mockImplementation(() => ({ sheets: mockSheets }));
+describe('Google Sheets Authentication', () => {
+  let mockConsoleError;
 
-  //   jest.clearAllMocks();
-  //   // Mock console.error to prevent it from logging during tests
-  //   global.console.error = jest.fn();
-  // });
+  beforeEach(() => {
+    // Mock console.error
+    mockConsoleError = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
 
-  it('should initialize Google Sheets API client successfully', async () => {
-    // const dummyClient = {};
-    // const dummySheets = {};
-    // mockGetClient.mockResolvedValue(dummyClient);
-    // mockSheets.mockReturnValue(dummySheets);
-    // GOOGLE_SHEET_ID.mockReturnValue('dummySpreadsheetId');
-    // GOOGLE_KEYFILE_PATH.mockReturnValue('dummyKeyFilePath');
-    // const result = await import('../google/auth.js'); // Adjust the path to your module
-    // expect(result.auth).toEqual(mockGoogleAuth);
-    // expect(result.sheets).toEqual(dummySheets);
-    // expect(result.spreadsheetId).toEqual('dummySpreadsheetId');
+    // Reset modules before each test
+    jest.resetModules();
   });
 
-  //   it('should handle error when key file path is not defined', async () => {
-  //     GOOGLE_KEYFILE_PATH.mockReturnValue('');
+  afterEach(() => {
+    mockConsoleError.mockRestore();
+  });
 
-  //     const result = await import('../yourModule'); // Adjust the path to your module
+  describe('Initialization', () => {
+    test('should initialize Google Sheets API client successfully', async () => {
+      // Mock the modules
+      await jest.unstable_mockModule('googleapis', () => ({
+        google: {
+          auth: {
+            GoogleAuth: jest.fn(() => ({
+              getClient: jest.fn().mockResolvedValue({ id: 'dummy-client' }),
+            })),
+          },
+          sheets: jest.fn(() => ({
+            spreadsheets: {
+              values: {
+                get: jest.fn(),
+              },
+            },
+          })),
+        },
+      }));
 
-  //     expect(global.console.error).toHaveBeenCalledWith(
-  //       'Google key file path is not defined.'
-  //     );
-  //     expect(result.auth).toBeUndefined();
-  //     expect(result.sheets).toBeUndefined();
-  //     expect(result.spreadsheetId).toBeUndefined();
-  //   });
+      await jest.unstable_mockModule('../../constants.js', () => ({
+        GOOGLE_SHEET_ID: jest.fn(() => 'dummy-spreadsheet-id'),
+        GOOGLE_KEYFILE_PATH: jest.fn(() => 'dummy-key-file-path'),
+      }));
 
-  //   it('should handle error when obtaining Google API client fails', async () => {
-  //     mockGetClient.mockRejectedValue(new Error('Test error'));
-  //     GOOGLE_SHEET_ID.mockReturnValue('dummySpreadsheetId');
-  //     GOOGLE_KEYFILE_PATH.mockReturnValue('dummyKeyFilePath');
+      // Import the module
+      const { auth, sheets, spreadsheetId } = await import('./auth.js');
 
-  //     const result = await import('../yourModule'); // Adjust the path to your module
+      expect(auth).toBeDefined();
+      expect(sheets).toBeDefined();
+      expect(spreadsheetId).toBe('dummy-spreadsheet-id');
+    });
 
-  //     expect(global.console.error).toHaveBeenCalledWith(
-  //       'Error obtaining Google API client:',
-  //       expect.any(Error)
-  //     );
-  //     expect(result.client).toBeNull();
-  //     expect(result.sheets).toBeUndefined();
-  //   });
+    test('should handle missing key file path', async () => {
+      // Mock the modules
+      await jest.unstable_mockModule('googleapis', () => ({
+        google: {
+          auth: {
+            GoogleAuth: jest.fn(() => ({
+              getClient: jest.fn().mockResolvedValue({ id: 'dummy-client' }),
+            })),
+          },
+          sheets: jest.fn(() => ({
+            spreadsheets: {
+              values: {
+                get: jest.fn(),
+              },
+            },
+          })),
+        },
+      }));
 
-  //   it('should handle error during GoogleAuth initialization', async () => {
-  //     google.auth.GoogleAuth.mockImplementation(() => {
-  //       throw new Error('Initialization error');
-  //     });
-  //     GOOGLE_SHEET_ID.mockReturnValue('dummySpreadsheetId');
-  //     GOOGLE_KEYFILE_PATH.mockReturnValue('dummyKeyFilePath');
+      await jest.unstable_mockModule('../../constants.js', () => ({
+        GOOGLE_SHEET_ID: jest.fn(() => 'dummy-spreadsheet-id'),
+        GOOGLE_KEYFILE_PATH: jest.fn(() => ''),
+      }));
 
-  //     const result = await import('../yourModule'); // Adjust the path to your module
+      // Import the module
+      const { auth, sheets, spreadsheetId } = await import('./auth.js');
 
-  //     expect(global.console.error).toHaveBeenCalledWith(
-  //       'Could not load the default credentials. Please ensure the Google credentials file exists and is properly configured.'
-  //     );
-  //     expect(global.console.error).toHaveBeenCalledWith(expect.any(Error));
-  //     expect(result.auth).toBeNull();
-  //   });
+      expect(auth).toBeUndefined();
+      expect(sheets).toBeUndefined();
+      expect(spreadsheetId).toBeUndefined();
+      expect(mockConsoleError).not.toHaveBeenCalled();
+    });
+
+    test('should handle missing spreadsheet ID', async () => {
+      // Mock the modules
+      await jest.unstable_mockModule('googleapis', () => ({
+        google: {
+          auth: {
+            GoogleAuth: jest.fn(() => ({
+              getClient: jest.fn().mockResolvedValue({ id: 'dummy-client' }),
+            })),
+          },
+          sheets: jest.fn(() => ({
+            spreadsheets: {
+              values: {
+                get: jest.fn(),
+              },
+            },
+          })),
+        },
+      }));
+
+      await jest.unstable_mockModule('../../constants.js', () => ({
+        GOOGLE_SHEET_ID: jest.fn(() => ''),
+        GOOGLE_KEYFILE_PATH: jest.fn(() => 'dummy-key-file-path'),
+      }));
+
+      // Import the module
+      const { auth, sheets, spreadsheetId } = await import('./auth.js');
+
+      expect(auth).toBeDefined();
+      expect(sheets).toBeDefined();
+      expect(spreadsheetId).toBe('');
+    });
+  });
+
+  describe('Error Handling', () => {
+    test('should handle Google API client initialization failure', async () => {
+      // Mock the modules
+      await jest.unstable_mockModule('googleapis', () => ({
+        google: {
+          auth: {
+            GoogleAuth: jest.fn(() => ({
+              getClient: jest
+                .fn()
+                .mockRejectedValue(new Error('API Client Error')),
+            })),
+          },
+          sheets: jest.fn(),
+        },
+      }));
+
+      await jest.unstable_mockModule('../../constants.js', () => ({
+        GOOGLE_SHEET_ID: jest.fn(() => 'dummy-spreadsheet-id'),
+        GOOGLE_KEYFILE_PATH: jest.fn(() => 'dummy-key-file-path'),
+      }));
+
+      // Import the module
+      const { auth, sheets, spreadsheetId } = await import('./auth.js');
+
+      expect(auth).toBeDefined();
+      expect(sheets).toBeUndefined();
+      expect(spreadsheetId).toBe('dummy-spreadsheet-id');
+      expect(mockConsoleError).toHaveBeenCalledWith(
+        'Error obtaining Google API client:',
+        expect.any(Error)
+      );
+    });
+
+    test('should handle GoogleAuth initialization failure', async () => {
+      // Mock the modules
+      await jest.unstable_mockModule('googleapis', () => ({
+        google: {
+          auth: {
+            GoogleAuth: jest.fn(() => {
+              throw new Error('Initialization Error');
+            }),
+          },
+          sheets: jest.fn(),
+        },
+      }));
+
+      await jest.unstable_mockModule('../../constants.js', () => ({
+        GOOGLE_SHEET_ID: jest.fn(() => 'dummy-spreadsheet-id'),
+        GOOGLE_KEYFILE_PATH: jest.fn(() => 'dummy-key-file-path'),
+      }));
+
+      // Import the module
+      const { auth, sheets, spreadsheetId } = await import('./auth.js');
+
+      expect(auth).toBeNull();
+      expect(sheets).toBeUndefined();
+      expect(spreadsheetId).toBe('dummy-spreadsheet-id');
+      expect(mockConsoleError).toHaveBeenCalledWith(
+        'Could not load the default credentials. Please ensure the Google credentials file exists and is properly configured.'
+      );
+      expect(mockConsoleError).toHaveBeenCalledWith(expect.any(Error));
+    });
+
+    test('should handle sheets API initialization failure', async () => {
+      // Mock the modules
+      await jest.unstable_mockModule('googleapis', () => ({
+        google: {
+          auth: {
+            GoogleAuth: jest.fn(() => ({
+              getClient: jest.fn().mockResolvedValue({ id: 'dummy-client' }),
+            })),
+          },
+          sheets: jest.fn(() => {
+            throw new Error('Sheets API Error');
+          }),
+        },
+      }));
+
+      await jest.unstable_mockModule('../../constants.js', () => ({
+        GOOGLE_SHEET_ID: jest.fn(() => 'dummy-spreadsheet-id'),
+        GOOGLE_KEYFILE_PATH: jest.fn(() => 'dummy-key-file-path'),
+      }));
+
+      // Import the module
+      const { auth, sheets, spreadsheetId } = await import('./auth.js');
+
+      expect(auth).toBeDefined();
+      expect(sheets).toBeUndefined();
+      expect(spreadsheetId).toBe('dummy-spreadsheet-id');
+      expect(mockConsoleError).toHaveBeenCalledWith(
+        'Error obtaining Google API client:',
+        expect.any(Error)
+      );
+    });
+  });
+
+  describe('Performance', () => {
+    test('should initialize within acceptable time', async () => {
+      // Mock the modules
+      await jest.unstable_mockModule('googleapis', () => ({
+        google: {
+          auth: {
+            GoogleAuth: jest.fn(() => ({
+              getClient: jest.fn().mockResolvedValue({ id: 'dummy-client' }),
+            })),
+          },
+          sheets: jest.fn(() => ({
+            spreadsheets: {
+              values: {
+                get: jest.fn(),
+              },
+            },
+          })),
+        },
+      }));
+
+      await jest.unstable_mockModule('../../constants.js', () => ({
+        GOOGLE_SHEET_ID: jest.fn(() => 'dummy-spreadsheet-id'),
+        GOOGLE_KEYFILE_PATH: jest.fn(() => 'dummy-key-file-path'),
+      }));
+
+      const startTime = performance.now();
+      await import('./auth.js');
+      const endTime = performance.now();
+
+      expect(endTime - startTime).toBeLessThan(100); // Should complete within 100ms
+    });
+  });
 });

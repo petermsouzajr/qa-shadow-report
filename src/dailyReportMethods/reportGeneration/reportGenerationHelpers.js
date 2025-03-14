@@ -207,6 +207,7 @@ export const generateReport = (types, payload, searchIndex, isTeam = false) => {
  * @param {number} totalNumberOfRows - Total number of rows including header.
  * @param {number} bodyRowCount - Count of the body rows, excluding header.
  * @param {string} subjectColumn - Column letter(s) of the subject data.
+ * @param constants
  * @param {string} stateColumn - Column letter(s) of the state data.
  * @returns {Object} An object containing formulas as key-value pairs.
  * @throws {Error} If arguments do not meet the required conditions.

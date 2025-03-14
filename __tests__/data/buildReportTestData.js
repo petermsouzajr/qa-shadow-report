@@ -1,11 +1,12 @@
 import { faker } from '@faker-js/faker';
-import { formatDuration } from '../sharedMethods/dateFormatting';
+import { formatDuration } from '../../src/sharedMethods/dateFormatting';
 import {
   ALL_TEAM_NAMES,
   TEST_CATEGORIES_AVAILABLE,
   TEST_TYPES_AVAILABLE,
-} from '../../constants';
-import { constructHeaderReport } from './reportGeneration/constructHeaderReport';
+} from '../../src/constants';
+import { constructHeaderReport } from '../../src/dailyReportMethods/reportGeneration/constructHeaderReport';
+import { jest } from '@jest/globals';
 
 const getRandomTestData = () => {
   const getRandomElement = (array) => {
@@ -97,11 +98,11 @@ const fullReportOutput = {
               fail: true,
               pending: false,
               context: null,
-              code: "cart_1.CartsPage.elements.addToCartBtn().should('be.visible');",
+              code: 'cart_1.CartsPage.elements.addToCartBtn().should(\'be.visible\');',
               err: {
                 message: testData1.error,
                 estack:
-                  "CypressError: `cy.task('ctrLogFiles')` failed with the following error:\n\nThe task 'ctrLogFiles' was not handled in the setupNodeEvents method. The following tasks are registered: getLocalConfig, dispatchSignIn, fileExists, safeReadJson, deleteFile\n\nFix this in your setupNodeEvents method here:",
+                  'CypressError: `cy.task(\'ctrLogFiles\')` failed with the following error:\n\nThe task \'ctrLogFiles\' was not handled in the setupNodeEvents method. The following tasks are registered: getLocalConfig, dispatchSignIn, fileExists, safeReadJson, deleteFile\n\nFix this in your setupNodeEvents method here:',
                 diff: null,
               },
               uuid: '8f2f42fd-e603-4b7b-8c66-dfhjd456456',
@@ -175,7 +176,7 @@ const fullReportOutput = {
                   err: {
                     message: testData2.error,
                     estack:
-                      "CypressError: `cy.task('ctrLogFiles')` failed with the  error:\n\nThe task 'ctrLogFiles' was not handled in the setupNodeEvents method. The following tasks are registered: getLocalConfig, dispatchSignIn, fileExists, safeReadJson, deleteFile\n\nFix this in your setupNodeEvents method here:",
+                      'CypressError: `cy.task(\'ctrLogFiles\')` failed with the  error:\n\nThe task \'ctrLogFiles\' was not handled in the setupNodeEvents method. The following tasks are registered: getLocalConfig, dispatchSignIn, fileExists, safeReadJson, deleteFile\n\nFix this in your setupNodeEvents method here:',
                     diff: null,
                   },
                   uuid: 'dgh6545-4555-45a0-a3cc-1068c2155ed6',
@@ -248,231 +249,80 @@ const updateErrorMessage = (obj) => {
   if (Array.isArray(obj)) {
     return obj.map((item) => updateErrorMessage(item));
   } else if (obj !== null && typeof obj === 'object') {
-    const newObj = {};
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        if (key === 'err') {
-          newObj[key] = obj[key].message;
-        } else {
-          newObj[key] = updateErrorMessage(obj[key]);
-        }
+    const newObj = { ...obj };
+    if (newObj.message) {
+      newObj.message = faker.lorem.words({ min: 5, max: 20 });
+    }
+    for (const key in newObj) {
+      if (typeof newObj[key] === 'object') {
+        newObj[key] = updateErrorMessage(newObj[key]);
       }
     }
     return newObj;
-  } else {
-    return obj;
   }
+  return obj;
 };
 
-const playwrightFullReportOutput = updateErrorMessage(fullReportOutput);
+describe('Build Report Test Data', () => {
+  describe('getRandomTestData', () => {
+    it('should generate valid test data', () => {
+      const data = getRandomTestData();
 
-const expectedPayloadEntries = [
-  {
-    area: testData1.area,
-    spec: testData1.spec,
-    testName: testData1.testName,
-    type: '',
-    category: '',
-    team: '',
-    priority: '',
-    status: '',
-    state: testData1.state,
-    manualTestId: '',
-    error: testData1.error,
-    speed: testData1.speed,
-  },
-  {
-    area: testData2.area,
-    spec: testData2.spec,
-    testName: testData2.testName,
-    type: testData2.type,
-    category: testData2.category,
-    team: testData2.teamName,
-    priority: '',
-    status: '',
-    state: testData2.state,
-    manualTestId: testData2.manualTestId,
-    error: testData2.error,
-    speed: testData2.speed,
-  },
-];
+      expect(data).toHaveProperty('area');
+      expect(data).toHaveProperty('spec');
+      expect(data).toHaveProperty('testName');
+      expect(data).toHaveProperty('type');
+      expect(data).toHaveProperty('category');
+      expect(data).toHaveProperty('teamName');
+      expect(data).toHaveProperty('manualTestId');
+      expect(data).toHaveProperty('speedMillis');
+      expect(data).toHaveProperty('speed');
+      expect(data).toHaveProperty('state');
+      expect(data).toHaveProperty('projectName');
 
-const expectedPayloadEntryValues = [
-  [
-    testData1.area,
-    testData1.spec,
-    testData1.testName,
-    '',
-    '',
-    '',
-    '',
-    '',
-    testData1.state,
-    '',
-    testData1.error,
-    testData1.speed,
-  ],
-  [
-    testData2.area,
-    testData2.spec,
-    testData2.testName,
-    testData2.type,
-    testData2.category,
-    '',
-    '',
-    '',
-    testData2.state,
-    testData2.manualTestId,
-    testData2.error,
-    testData2.speed,
-  ],
-];
+      expect(typeof data.area).toBe('string');
+      expect(typeof data.spec).toBe('string');
+      expect(typeof data.testName).toBe('string');
+      expect(typeof data.type).toBe('string');
+      expect(typeof data.category).toBe('string');
+      expect(typeof data.teamName).toBe('string');
+      expect(typeof data.manualTestId).toBe('string');
+      expect(typeof data.speedMillis).toBe('number');
+      expect(typeof data.speed).toBe('string');
+      expect(typeof data.state).toBe('string');
+      expect(typeof data.projectName).toBe('string');
 
-const expectedPayloadEntry = expectedPayloadEntries[0];
+      expect(TEST_TYPES_AVAILABLE()).toContain(data.type);
+      expect(TEST_CATEGORIES_AVAILABLE()).toContain(data.category);
+      expect(ALL_TEAM_NAMES()).toContain(data.teamName);
+      expect(['passed', 'failed', 'skipped', 'pending']).toContain(data.state);
+      expect(data.manualTestId).toMatch(/^C\d+$/);
+    });
+  });
 
-const emptyDailyPayload = {
-  bodyPayload: [],
-  headerPayload: [],
-  summaryHeaderStylePayload: [],
-  summaryGridStyles: [],
-  footerPayload: [],
-};
-const formattedPayloadEntries = expectedPayloadEntries.map(Object.values);
-const headerPayload = await constructHeaderReport(formattedPayloadEntries);
-const emptyHeaderPayload = [[''], [''], ['']];
-const unappendedHeaderPayload = [
-  [
-    `${testData2.type} formula tests`,
-    `${testData2.category} formula tests`,
-    '',
-    '',
-  ],
-  [
-    `${testData2.type} formula tests passed`,
-    `${testData2.category} formula tests passed`,
-    '',
-    '',
-  ],
-  ['', '', `${testData2.category} formula tests`, '', ''],
-  ['', '', `${testData2.category} formula tests passed`, '', ''],
-];
-const appendedHeaderPayload = [
-  [
-    `${testData2.type} formula tests`,
-    `${testData2.category} formula tests`,
-    '',
-    '',
-    '',
-    '',
-    '',
-    '# passed tests',
-    'passed formula base',
-  ],
-  [
-    `${testData2.type} formula tests passed`,
-    `${testData2.category} formula tests passed`,
-    '',
-    '',
-    '',
-    '',
-    '',
-    '# failed tests',
-    'failed formula base',
-  ],
-  [
-    '',
-    '',
-    `${testData2.category} formula tests`,
-    '',
-    '',
-    '',
-    '',
-    '# skipped/pending tests',
-    'skipped/pending tests formula skipped/pending',
-  ],
-  [
-    '',
-    '',
-    `${testData2.category} formula tests passed`,
-    '',
-    '',
-    '',
-    '',
-    '# total tests',
-    'total tests formula total',
-  ],
-];
+  describe('testData1', () => {
+    it('should be a valid test data object', () => {
+      expect(testData1).toBeDefined();
+      expect(typeof testData1).toBe('object');
+      expect(testData1).toHaveProperty('area');
+      expect(testData1).toHaveProperty('spec');
+      expect(testData1).toHaveProperty('testName');
+      expect(testData1).toHaveProperty('type');
+      expect(testData1).toHaveProperty('category');
+      expect(testData1).toHaveProperty('teamName');
+      expect(testData1).toHaveProperty('manualTestId');
+      expect(testData1).toHaveProperty('speedMillis');
+      expect(testData1).toHaveProperty('speed');
+      expect(testData1).toHaveProperty('state');
+      expect(testData1).toHaveProperty('projectName');
+    });
+  });
+});
 
-const appendedEmptyHeaderPayload = [
-  ['', '', '', '', '', '', '', '# passed tests', 'passed formula base'],
-  ['', '', '', '', '', '', '', '# failed tests', 'failed formula base'],
-  [
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '# skipped/pending tests',
-    'skipped/pending tests formula skipped/pending',
-  ],
-  ['', '', '', '', '', '', '', '# total tests', 'total tests formula total'],
-];
-
-const expectedBodyPayload = [
-  [
-    `# ${testData2.type} tests passed`,
-    `${testData2.type} formula tests passed`,
-    `# ${testData2.category} tests passed`,
-    `${testData2.category} formula tests passed`,
-    '',
-    '',
-    '',
-    '# passed tests',
-    'passed formula base',
-  ],
-  ['', '', '', '', '', '', '', '# failed tests', 'failed formula base'],
-  [
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '# skipped/pending tests',
-    'skipped/pending tests formula skipped/pending',
-  ],
-  ['', '', '', '', '', '', '', '# total tests', 'total tests formula total'],
-  [
-    'browser',
-    'spec',
-    'test name',
-    'type',
-    'category',
-    'team',
-    'priority',
-    'status',
-    'state',
-    'manual case',
-    'error',
-    'speed',
-  ],
-];
-export const testResultData = {
-  fullReportOutput,
-  expectedPayloadEntries,
-  expectedPayloadEntry,
-  headerPayload,
-  unappendedHeaderPayload,
-  emptyHeaderPayload,
-  appendedEmptyHeaderPayload,
-  appendedHeaderPayload,
-  emptyDailyPayload,
+export {
+  getRandomTestData,
   testData1,
   testData2,
-  expectedBodyPayload,
-  expectedPayloadEntryValues,
-  playwrightFullReportOutput,
+  fullReportOutput,
+  updateErrorMessage,
 };

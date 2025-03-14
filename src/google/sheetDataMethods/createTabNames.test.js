@@ -1,65 +1,141 @@
 import { jest } from '@jest/globals';
-import { createSummaryTitle } from './createTabNames.js';
-import * as dateFormatting from '../../sharedMethods/dateFormatting.js';
 
-// Spy on the original functions
-jest.mock('../../sharedMethods/dateFormatting.js', () => {
-  return {
-    getFormattedMonth: jest.fn(),
-    getPreviousMonthsYear: jest.fn(),
-  };
-});
+const mockGetFormattedMonth = jest.fn();
+const mockGetPreviousMonthsYear = jest.fn();
 
-describe('createSummaryTitle', () => {
+jest.unstable_mockModule('../../sharedMethods/dateFormatting.js', () => ({
+  getFormattedMonth: mockGetFormattedMonth,
+  getPreviousMonthsYear: mockGetPreviousMonthsYear,
+}));
+
+const { createSummaryTitle } = await import('./createTabNames.js');
+
+describe('Google Sheets Tab Name Creation', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should generate a summary title based on the previous month and year', () => {
-    // Mock implementations
-    dateFormatting.getFormattedMonth.mockImplementation((when) => {
-      const date = new Date('2023-03-01T00:00:00Z'); // Fixed date for test consistency
-      if (when === 'lastMonth') {
-        date.setMonth(date.getMonth() - 1);
-      }
-      return date.toLocaleString('default', { month: 'short' });
+  describe('Basic Functionality', () => {
+    it('should generate a summary title based on the previous month and year', () => {
+      const expectedMonth = 'Feb';
+      const expectedYear = '2023';
+
+      mockGetFormattedMonth
+        .mockReturnValueOnce(expectedMonth)
+        .mockReturnValueOnce('Mar');
+      mockGetPreviousMonthsYear.mockReturnValue(expectedYear);
+
+      const title = createSummaryTitle();
+
+      expect(title).toBe(`Monthly summary ${expectedMonth} ${expectedYear}`);
+      expect(mockGetFormattedMonth).toHaveBeenCalledWith('lastMonth');
+      expect(mockGetPreviousMonthsYear).toHaveBeenCalledWith('Mar');
     });
 
-    dateFormatting.getPreviousMonthsYear.mockImplementation(() => {
-      const date = new Date('2023-03-01T00:00:00Z'); // Fixed date for test consistency
-      const month = date.toLocaleString('default', { month: 'short' });
-      return month === 'Jan' ? date.getFullYear() - 1 : date.getFullYear();
-    });
+    it('should handle different months correctly', () => {
+      const lastMonth = 'Dec';
+      const year = '2022';
 
-    // Using mocks in the function call
-    const expectedMonth = dateFormatting.getFormattedMonth('lastMonth');
-    const expectedYear = dateFormatting.getPreviousMonthsYear();
-    const title = createSummaryTitle(
-      // @ts-ignore
-      dateFormatting.getFormattedMonth,
-      dateFormatting.getPreviousMonthsYear
-    );
-    expect(title).toBe(`Summary ${expectedMonth} ${expectedYear}`);
+      mockGetFormattedMonth
+        .mockReturnValueOnce(lastMonth)
+        .mockReturnValueOnce('Jan');
+      mockGetPreviousMonthsYear.mockReturnValue(year);
+
+      const title = createSummaryTitle();
+
+      expect(title).toBe(`Monthly summary ${lastMonth} ${year}`);
+    });
   });
 
-  it('should throw an error if date formatting fails', () => {
-    dateFormatting.getFormattedMonth.mockReturnValue(null);
-    dateFormatting.getPreviousMonthsYear.mockReturnValue(null);
+  describe('Error Handling', () => {
+    it('should throw an error if date formatting fails', () => {
+      mockGetFormattedMonth.mockReturnValueOnce(null);
+      mockGetPreviousMonthsYear.mockReturnValue('2023');
 
-    // Wrap the function call in a try-catch block
-    try {
-      // @ts-ignore
-      createSummaryTitle(
-        dateFormatting.getFormattedMonth,
-        dateFormatting.getPreviousMonthsYear
-      );
-      // Fail the test if no error is thrown
-      expect(true).toBe(true);
-    } catch (error) {
-      expect(error.message).toBe(
+      expect(() => createSummaryTitle()).toThrow(
         'Could not generate summary title due to date formatting error.'
       );
-    }
+    });
+
+    it('should throw an error if getFormattedMonth returns undefined', () => {
+      mockGetFormattedMonth.mockReturnValueOnce(undefined);
+      mockGetPreviousMonthsYear.mockReturnValue('2023');
+
+      expect(() => createSummaryTitle()).toThrow(
+        'Could not generate summary title due to date formatting error.'
+      );
+    });
+
+    it('should throw an error if getPreviousMonthsYear returns undefined', () => {
+      mockGetFormattedMonth
+        .mockReturnValueOnce('Jan')
+        .mockReturnValueOnce('Feb');
+      mockGetPreviousMonthsYear.mockReturnValue(undefined);
+
+      expect(() => createSummaryTitle()).toThrow(
+        'Could not generate summary title due to date formatting error.'
+      );
+    });
+
+    it('should handle date formatting exceptions', () => {
+      const mockError = new Error(
+        'Could not generate summary title due to date formatting error.'
+      );
+      mockGetFormattedMonth.mockImplementation(() => {
+        throw mockError;
+      });
+
+      expect(() => createSummaryTitle()).toThrow(mockError);
+    });
   });
-  // Additional tests can be added here for other scenarios or edge cases.
+
+  describe('Edge Cases', () => {
+    it('should handle empty string returns', () => {
+      mockGetFormattedMonth.mockReturnValueOnce('');
+      mockGetPreviousMonthsYear.mockReturnValue('2023');
+
+      const error = new Error(
+        'Could not generate summary title due to date formatting error.'
+      );
+      expect(() => createSummaryTitle()).toThrow(error);
+    });
+
+    it('should handle invalid year values', () => {
+      mockGetFormattedMonth
+        .mockReturnValueOnce('Jan')
+        .mockReturnValueOnce('Feb');
+      mockGetPreviousMonthsYear.mockReturnValue('invalid');
+
+      const title = createSummaryTitle();
+      expect(title).toBe('Monthly summary Jan invalid');
+    });
+
+    it('should handle special characters in month names', () => {
+      const specialMonth = 'Jan@#$%^&*()';
+      mockGetFormattedMonth
+        .mockReturnValueOnce(specialMonth)
+        .mockReturnValueOnce('Feb');
+      mockGetPreviousMonthsYear.mockReturnValue('2023');
+
+      const title = createSummaryTitle();
+      expect(title).toBe(`Monthly summary ${specialMonth} 2023`);
+    });
+  });
+
+  describe('Performance', () => {
+    it('should generate titles efficiently', () => {
+      const iterations = 1000;
+      mockGetFormattedMonth.mockReturnValue('Jan');
+      mockGetPreviousMonthsYear.mockReturnValue('2023');
+
+      const start = performance.now();
+      for (let i = 0; i < iterations; i++) {
+        createSummaryTitle();
+      }
+      const end = performance.now();
+      const duration = end - start;
+
+      expect(duration).toBeLessThan(1000); // Should complete 1000 iterations in less than 1 second
+    });
+  });
 });
