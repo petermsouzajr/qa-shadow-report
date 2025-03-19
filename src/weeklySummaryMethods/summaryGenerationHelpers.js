@@ -242,6 +242,11 @@ const processSourceColumns = async (
    * Constructs the body source parameters.
    *
    * @param {Object} details - An object containing necessary details.
+   * @param details.sourcePageId
+   * @param details.headerRowIndex
+   * @param details.footerRow
+   * @param details.srcColNumber
+   * @param details.srcEndCol
    * @returns {Object} - Body source parameters.
    */
   const buildBodySourceParams = ({
@@ -262,6 +267,11 @@ const processSourceColumns = async (
    * Constructs the body destination parameters.
    *
    * @param {Object} details - An object containing necessary details.
+   * @param details.destinationTabId
+   * @param details.startRowIndex
+   * @param details.endRowIndex
+   * @param details.nextAvailableColumn
+   * @param details.endColumn
    * @returns {Object} - Body destination parameters.
    */
   const buildBodyDestinationParams = ({
@@ -310,6 +320,10 @@ const processSourceColumns = async (
    * Constructs header metric source parameters.
    *
    * @param {Object} config - Configuration object with required properties.
+   * @param config.sourcePageId
+   * @param config.startRow
+   * @param config.startColumn
+   * @param config.endColumn
    * @returns {Object} - Header metric source parameters.
    */
   const buildHeaderMetricSourceParams = ({

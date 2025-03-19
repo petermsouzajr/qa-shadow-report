@@ -28,8 +28,8 @@ export const transformPlaywrightToFriendlyFormat = (playwrightReports) => {
               test.status === 'expected'
                 ? 'passed'
                 : test.status === 'unexpected'
-                ? 'failed'
-                : test.status;
+                  ? 'failed'
+                  : test.status;
 
             const errorMessages = test.results
               .filter((result) => result.error)

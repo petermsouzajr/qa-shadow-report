@@ -23,7 +23,7 @@ Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, 
    - [Column: Category](#column-category)
    - [Column: Manual Case](#column-manual-case)
    - ['The Works'](#the-works)
-6. [Cypress-Grep Integration](#cypressgrep-integration)
+6. [cypress/grep Integration](#cypressgrep-integration)
 7. [CI/CD](#cicd)
    - [GitHub](#github-actions-example)
    - [GitLab](#gitlab-ci-example)
@@ -272,7 +272,8 @@ All commands require that test suite result data is present, in this example, th
   - This command processes the data from the test results and create a detailed report.
   - A new Sheet Tab will be created with the current day's title (e.g., `Mar 24, 2024`), to which this detailed report will be written.
   - If the Sheet has Tabs for the previous month (e.g., current month is April and sheet tabs exist for `Mar 24, 2024`, `Mar 25, 2024`), then a monthly summary will be generated with that previous month's data (`Summary Mar 2024`).
-  - The report will fail if test result data is not present in JSON format.
+  - If you have activated the Weekly Summary feature, and the Sheet has Tabs for the previous week, a weekly summary will be generated with that week's data.
+  - The reports will fail if test result data is not present in JSON format.
   - Duplicate Sheet Tabs are not created by defualt, to create a duplicate Tab, use the flag `--duplicate`.
 
 - **To run the daily report only**
@@ -298,7 +299,7 @@ All commands require that test suite result data is present, in this example, th
 - Use the base commands with the optional flag `--duplicate`
   - `npx qa-shadow-report [framework] --duplicate`
   - `npx qa-shadow-report [framework] todays-report --duplicate`
-  - Monthly summary dupliactes must be created directly, using the command `npx qa-shadow-report [framework] monthly-summary`.
+  - Monthly summary dupliactes must be created directly, using the command `npx qa-shadow-report [framework] monthly-summary --duplicate`.
 
 ### Quick Command Reference
 
@@ -511,7 +512,7 @@ module.exports = {
 
 ## cypress/grep Integration
 
-To enhance your testing workflow and leverage the team name, test type, and test category annotations you've included in your test titles, we recommend integrating the [`cypress-grep`](https://www.npmjs.com/package/@cypress/grep) plugin.
+To enhance your testing workflow and leverage the team name, test type, and test category annotations you've included in your test titles, we recommend integrating the [`cypress/grep`](https://www.npmjs.com/package/@cypress/grep) plugin.
 
 ### Benefits of Using cypress/grep
 
@@ -543,7 +544,7 @@ By integrating `cypress/grep`, you can run subsets of tests based on your annota
 
 ### CI/CD
 
-This package is best suited for automated nightly runs, enabling teams to efficiently monitor project status and collaborate on test results every morning.
+This package is best suited for automated nightly runs where the daily report can help individual contributors or curious supervisors who need immediate and up-to-date insights. The weekly report is great for weekly meetings, providing a short-term summary of the previous week's test results. The monthly report offers a high-level overview, highlighting trends for QA managers or responsible parties to track long-term progress and performance.
 
 **Integrating Google Sheets Credentials with CI/CD:**
 

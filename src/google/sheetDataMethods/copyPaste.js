@@ -15,6 +15,16 @@
  *  - {number} endRow - Ending row index for the destination.
  *  - {number} startCol - Starting column index for the destination.
  *  - {number} endCol - Ending column index for the destination.
+ * @param sourceParams.sourcePageId
+ * @param sourceParams.startRow
+ * @param sourceParams.endRow
+ * @param sourceParams.startCol
+ * @param sourceParams.endCol
+ * @param destinationParams.destinationTabId
+ * @param destinationParams.startRow
+ * @param destinationParams.endRow
+ * @param destinationParams.startCol
+ * @param destinationParams.endCol
  * @returns {Object} - A structured object representing the copy-paste configuration.
  * @throws {Error} Throws an error if the input parameters are not correctly structured.
  */

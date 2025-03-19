@@ -14,6 +14,12 @@ const __dirname = dirname(__filename);
 
 // Get the directory name of the current script
 const configFileName = 'shadowReportConfig.js';
+
+/**
+ * Finds the root directory of the project by looking for package.json.
+ * @param {string} startPath - The path to start searching from.
+ * @returns {string|null} The path to the project root or null if not found.
+ */
 const findProjectRoot = (startPath) => {
   let currentDir = startPath;
 
@@ -85,6 +91,12 @@ const confirmExit = () => {
     }
   );
 };
+
+/**
+ * Creates the configuration file with default values.
+ * @param {string} configPath - Path to the configuration file.
+ * @param {Object} config - Configuration object.
+ */
 
 const createConfigFile = () => {
   console.info(
@@ -191,7 +203,7 @@ const installPackages = (manager) => {
       );
       execSync(`yarn add --dev ${packages.join(' ')}`, { stdio: 'inherit' });
     }
-    console.log(chalk.green('Packages installed successfully.'));
+    console.info(chalk.green('Packages installed successfully.'));
   } catch (error) {
     console.error(chalk.red('Failed to install packages:'), error);
   }
@@ -209,7 +221,7 @@ const handlePostInstallTasks = (framework) => {
         proceedWithFrameworkSpecificInstructions(framework);
       } else {
         console.info(
-          chalk.green(`Skipping config file creation.`),
+          chalk.green('Skipping config file creation.'),
           chalk.yellow(
             ` Check the setup guide information on dependencies ${setupLink}`
           )
@@ -271,7 +283,7 @@ const updateIsConfiguredFile = (isConfigured) => {
 };
 
 const finalizeSetup = () => {
-  console.log(chalk.green('qa-shadow-report setup complete!'));
+  console.info(chalk.green('qa-shadow-report setup complete!'));
   updateIsConfiguredFile(true);
   rl.close();
 };
@@ -324,3 +336,13 @@ try {
   );
   process.exit(1);
 }
+
+// Export functions for testing
+export {
+  findProjectRoot,
+  createConfigFile,
+  installPackages,
+  handlePostInstallTasks,
+  proceedWithFrameworkSpecificInstructions,
+  startSetup,
+};
