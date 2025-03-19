@@ -35,6 +35,7 @@ export const getHeaderIndicatorsLength = () => {
 /**
  * Initializes column metrics object to manage column positions and header lengths during report construction.
  *
+ * @param headerIndicatorsLength
  * @returns {object} - An object containing metrics for next available column, default header metrics for destination column,
  * longest header end position, and end position for default header metrics destination column.
  */

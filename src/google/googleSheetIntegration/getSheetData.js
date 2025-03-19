@@ -3,6 +3,10 @@ import { sheets, auth, spreadsheetId } from '../auth.js';
 
 /**
  * Retrieves the top-level data from the spreadsheet.
+ * @param sheetsInstance
+ * @param authParam
+ * @param spreadsheetIdParam
+ * @param dataObjectsRef
  * @returns {Promise<Object>} A promise that resolves with the top-level spreadsheet data.
  */
 export const getTopLevelSpreadsheetData = async (
@@ -31,6 +35,9 @@ export const getTopLevelSpreadsheetData = async (
 /**
  * Retrieves the values from a specific tab by its title.
  * @param {string} tabTitle - The title of the tab to get values from.
+ * @param sheetsInstance
+ * @param authParam
+ * @param spreadsheetIdParam
  * @returns {Promise<Object>} A promise that resolves with the values from the specified tab.
  */
 export const getTabValuesByTitle = async (

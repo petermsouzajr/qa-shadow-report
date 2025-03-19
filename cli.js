@@ -109,7 +109,7 @@ async function run() {
       // If the Google Sheets configuration is missing, default to CSV
       console.info(
         chalk.yellow(
-          "You haven't set up a Google Sheets config yet. Use the command"
+          'You haven\'t set up a Google Sheets config yet. Use the command'
         ),
         chalk.green('qasr-setup'),
         chalk.yellow(
@@ -154,18 +154,18 @@ async function run() {
   } else {
     try {
       switch (command) {
-        case 'todays-report':
-          await handleDailyReport({ ...optionsPayload });
-          break;
-        case 'monthly-summary':
-          await handleSummary({ ...optionsPayload });
-          break;
-        case 'weekly-summary':
-          await handleWeeklySummary({ ...optionsPayload });
-          break;
-        default:
-          await main({ ...optionsPayload });
-          break;
+      case 'todays-report':
+        await handleDailyReport({ ...optionsPayload });
+        break;
+      case 'monthly-summary':
+        await handleSummary({ ...optionsPayload });
+        break;
+      case 'weekly-summary':
+        await handleWeeklySummary({ ...optionsPayload });
+        break;
+      default:
+        await main({ ...optionsPayload });
+        break;
       }
     } catch (error) {
       console.error('Error executing command:', error);

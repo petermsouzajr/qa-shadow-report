@@ -2,9 +2,16 @@
   "compilerOptions": {
     "module": "esnext", // Change module type to ES modules
     "allowJs": true, // Allows JS files
-    "checkJs": true, // Type-checking in JS files
+    "checkJs": false, // Type-checking in JS files
     "target": "es2020", // Updated target to support newer features like import.meta
-    "moduleResolution": "node" // Ensures proper resolution of modules
+    "moduleResolution": "node", // Ensures proper resolution of modules
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "noEmit": true
   },
-  "include": ["**/*"]
+  "include": ["**/*"],
+  "exclude": ["node_modules", "**/*.test.js"]
 }

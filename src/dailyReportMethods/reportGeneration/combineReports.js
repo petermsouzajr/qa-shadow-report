@@ -15,29 +15,35 @@ export const combineReports = (allReportEntries, placeholders) => {
   }
 
   if (allReportEntries.some((entry) => !Array.isArray(entry))) {
+    console.error('Invalid report entry: Expected an array.');
     throw new Error('Invalid report entry: Expected an array.');
   }
 
   if (placeholders.some((entry) => !Array.isArray(entry))) {
+    console.error('Invalid placeholder entry: Expected an array.');
     throw new Error('Invalid placeholder entry: Expected an array.');
   }
 
   let combinedReports = [];
 
   try {
+    // Find the maximum number of type pairs across all reports
     const maxTypeCount = Math.max(
       ...allReportEntries.map((report) => {
         if (!Array.isArray(report)) {
+          console.error('Invalid report entry: Expected an array.');
           throw new Error('Invalid report entry: Expected an array.');
         }
         return report.length / 2;
       })
     );
 
+    // For each type pair
     for (let i = 0; i < maxTypeCount; i++) {
       let combinedRowTests = [];
       let combinedRowPassed = [];
 
+      // For each report
       allReportEntries.forEach((report) => {
         // Push entries or placeholders for tests and passed metrics
         combinedRowTests.push(...(report[2 * i] || placeholders[0]));

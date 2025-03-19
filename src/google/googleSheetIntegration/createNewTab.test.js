@@ -1,120 +1,280 @@
 import { jest } from '@jest/globals';
-import { createNewTab } from './createNewTab';
+import { createNewTab, createNewWeeklyTab } from './createNewTab';
 
-describe('createNewTab', () => {
-  const mockCreateSummaryTitle = jest.fn();
-  const mockDataObjects = { summaryTabData: null, todaysReportData: null };
+describe('Google Sheets Tab Creation', () => {
+  // Test Data Setup
+  const createMockData = () => ({
+    summaryTabData: null,
+    todaysReportData: null,
+    weeklySummaryTabData: null,
+  });
 
-  // Dummy values for auth and spreadsheetId
-  const dummyAuth = { dummyAuth: true };
-  const dummySpreadsheetId = 'dummySpreadsheetId';
-
-  // Initialize mockBatchUpdate as a Jest mock function
-  const mockBatchUpdate = jest.fn();
-
-  // Mock Sheets API with dummy auth and spreadsheetId
-  const mockSheetsAPI = {
-    auth: dummyAuth,
-    spreadsheetId: dummySpreadsheetId,
+  const createMockSheetsAPI = (auth, spreadsheetId, batchUpdate) => ({
+    auth,
+    spreadsheetId,
     spreadsheets: {
-      batchUpdate: mockBatchUpdate,
+      batchUpdate,
     },
-  };
+  });
+
+  // Mock Setup
+  let mockDataObjects;
+  let mockSheetsAPI;
+  let mockBatchUpdate;
+  let mockCreateSummaryTitle;
+  let mockCreateWeeklySummaryTitle;
 
   beforeEach(() => {
+    // Reset mocks
     jest.clearAllMocks();
-    // Mock console.error to prevent it from logging during tests
     global.console.error = jest.fn();
-  });
 
-  it('should create a new summary tab and update summaryTabData', async () => {
-    const mockSheetName = 'Summary';
-    // @ts-ignore
-    mockBatchUpdate.mockResolvedValue({ data: 'mockResponse' });
-    mockCreateSummaryTitle.mockReturnValue('Summary');
+    // Initialize mock data
+    mockDataObjects = createMockData();
+    mockBatchUpdate = jest.fn();
+    mockCreateSummaryTitle = jest.fn();
+    mockCreateWeeklySummaryTitle = jest.fn();
 
-    const response = await createNewTab(
-      mockSheetName,
-      // @ts-ignore
-      mockCreateSummaryTitle,
-      mockDataObjects,
-      mockSheetsAPI
+    // Setup mock Sheets API
+    mockSheetsAPI = createMockSheetsAPI(
+      { dummyAuth: true },
+      'dummySpreadsheetId',
+      mockBatchUpdate
     );
-
-    expect(mockBatchUpdate).toHaveBeenCalledWith({
-      auth: dummyAuth,
-      spreadsheetId: dummySpreadsheetId,
-      requestBody: {
-        requests: [{ addSheet: { properties: { title: mockSheetName } } }],
-      },
-    });
-    expect(response).toEqual({ data: 'mockResponse' });
-    expect(mockDataObjects.summaryTabData).toEqual(response);
   });
 
-  it('should create a new regular tab and update todaysReportData', async () => {
-    const mockSheetName = 'RegularTab';
-    // @ts-ignore
-    mockBatchUpdate.mockResolvedValue({ data: 'mockRegularResponse' });
+  // createNewTab Tests
+  describe('createNewTab', () => {
+    it('should create a new summary tab and update summaryTabData', async () => {
+      const mockSheetName = 'Summary';
+      const mockResponse = { data: 'mockResponse' };
+      mockBatchUpdate.mockResolvedValue(mockResponse);
+      mockCreateSummaryTitle.mockReturnValue('Summary');
 
-    const response = await createNewTab(
-      mockSheetName,
-      // @ts-ignore
-      mockCreateSummaryTitle,
-      mockDataObjects,
-      mockSheetsAPI
-    );
-
-    expect(mockBatchUpdate).toHaveBeenCalledWith({
-      auth: { dummyAuth: true },
-      requestBody: {
-        requests: [{ addSheet: { properties: { title: 'RegularTab' } } }],
-      },
-      spreadsheetId: 'dummySpreadsheetId',
-    });
-    expect(response).toEqual({ data: 'mockRegularResponse' });
-    expect(mockDataObjects.todaysReportData).toEqual(response);
-  });
-
-  it('should throw an error when the API call fails', async () => {
-    const mockSheetName = 'ErrorTab';
-    const mockError = new Error('API Error');
-    // @ts-ignore
-    mockBatchUpdate.mockRejectedValue(mockError);
-
-    await expect(
-      createNewTab(
+      const response = await createNewTab(
         mockSheetName,
-        // @ts-ignore
         mockCreateSummaryTitle,
         mockDataObjects,
         mockSheetsAPI
-      )
-    ).rejects.toThrow('API Error');
+      );
 
-    expect(mockBatchUpdate).toHaveBeenCalledWith({
-      auth: dummyAuth,
-      spreadsheetId: dummySpreadsheetId,
-      requestBody: {
-        requests: [{ addSheet: { properties: { title: mockSheetName } } }],
-      },
+      expect(mockBatchUpdate).toHaveBeenCalledWith({
+        auth: { dummyAuth: true },
+        spreadsheetId: 'dummySpreadsheetId',
+        requestBody: {
+          requests: [{ addSheet: { properties: { title: mockSheetName } } }],
+        },
+      });
+      expect(response).toEqual(mockResponse);
+      expect(mockDataObjects.summaryTabData).toEqual(mockResponse);
+    });
+
+    it('should create a new regular tab and update todaysReportData', async () => {
+      const mockSheetName = 'RegularTab';
+      const mockResponse = { data: 'mockRegularResponse' };
+      mockBatchUpdate.mockResolvedValue(mockResponse);
+      mockCreateSummaryTitle.mockReturnValue('DifferentTitle');
+
+      const response = await createNewTab(
+        mockSheetName,
+        mockCreateSummaryTitle,
+        mockDataObjects,
+        mockSheetsAPI
+      );
+
+      expect(mockBatchUpdate).toHaveBeenCalledWith({
+        auth: { dummyAuth: true },
+        spreadsheetId: 'dummySpreadsheetId',
+        requestBody: {
+          requests: [{ addSheet: { properties: { title: mockSheetName } } }],
+        },
+      });
+      expect(response).toEqual(mockResponse);
+      expect(mockDataObjects.todaysReportData).toEqual(mockResponse);
+    });
+
+    it('should handle API errors gracefully', async () => {
+      const mockSheetName = 'ErrorTab';
+      const mockError = new Error('API Error');
+      mockBatchUpdate.mockRejectedValue(mockError);
+
+      await expect(
+        createNewTab(
+          mockSheetName,
+          mockCreateSummaryTitle,
+          mockDataObjects,
+          mockSheetsAPI
+        )
+      ).rejects.toThrow('API Error');
+
+      expect(mockBatchUpdate).toHaveBeenCalledWith({
+        auth: { dummyAuth: true },
+        spreadsheetId: 'dummySpreadsheetId',
+        requestBody: {
+          requests: [{ addSheet: { properties: { title: mockSheetName } } }],
+        },
+      });
+      expect(console.error).toHaveBeenCalledWith(
+        '"createNewTab": Error creating new sheet:',
+        mockError
+      );
+    });
+
+    it('should call createSummaryTitle with correct parameters', async () => {
+      const mockSheetName = 'Summary';
+      mockBatchUpdate.mockResolvedValue({ data: 'mockResponse' });
+      mockCreateSummaryTitle.mockReturnValue(mockSheetName);
+
+      await createNewTab(
+        mockSheetName,
+        mockCreateSummaryTitle,
+        mockDataObjects,
+        mockSheetsAPI
+      );
+
+      expect(mockCreateSummaryTitle).toHaveBeenCalledWith();
+    });
+
+    it('should handle empty sheet name', async () => {
+      const mockSheetName = '';
+      mockBatchUpdate.mockResolvedValue({ data: 'mockResponse' });
+
+      await createNewTab(
+        mockSheetName,
+        mockCreateSummaryTitle,
+        mockDataObjects,
+        mockSheetsAPI
+      );
+
+      expect(mockBatchUpdate).toHaveBeenCalledWith({
+        auth: { dummyAuth: true },
+        spreadsheetId: 'dummySpreadsheetId',
+        requestBody: {
+          requests: [{ addSheet: { properties: { title: '' } } }],
+        },
+      });
+    });
+
+    it('should handle special characters in sheet name', async () => {
+      const mockSheetName = 'Special@#$%^&*()';
+      mockBatchUpdate.mockResolvedValue({ data: 'mockResponse' });
+
+      await createNewTab(
+        mockSheetName,
+        mockCreateSummaryTitle,
+        mockDataObjects,
+        mockSheetsAPI
+      );
+
+      expect(mockBatchUpdate).toHaveBeenCalledWith({
+        auth: { dummyAuth: true },
+        spreadsheetId: 'dummySpreadsheetId',
+        requestBody: {
+          requests: [{ addSheet: { properties: { title: mockSheetName } } }],
+        },
+      });
     });
   });
 
-  it('should call createSummaryTitle with specific parameters', async () => {
-    const mockSheetName = 'Summary';
-    // @ts-ignore
-    mockBatchUpdate.mockResolvedValue({ data: 'mockResponse' });
-    mockCreateSummaryTitle.mockReturnValue(mockSheetName);
+  // createNewWeeklyTab Tests
+  describe('createNewWeeklyTab', () => {
+    it('should create a new weekly summary tab and update weeklySummaryTabData', async () => {
+      const mockSheetName = 'Weekly Summary';
+      const mockResponse = { data: 'mockWeeklyResponse' };
+      mockBatchUpdate.mockResolvedValue(mockResponse);
+      mockCreateWeeklySummaryTitle.mockReturnValue('Weekly Summary');
 
-    await createNewTab(
-      mockSheetName,
-      // @ts-ignore
-      mockCreateSummaryTitle,
-      mockDataObjects,
-      mockSheetsAPI
-    );
+      const response = await createNewWeeklyTab(
+        mockSheetName,
+        mockCreateWeeklySummaryTitle,
+        mockDataObjects,
+        mockSheetsAPI
+      );
 
-    expect(mockCreateSummaryTitle).toHaveBeenCalledWith();
+      expect(mockBatchUpdate).toHaveBeenCalledWith({
+        auth: { dummyAuth: true },
+        spreadsheetId: 'dummySpreadsheetId',
+        requestBody: {
+          requests: [{ addSheet: { properties: { title: mockSheetName } } }],
+        },
+      });
+      expect(response).toEqual(mockResponse);
+      expect(mockDataObjects.weeklySummaryTabData).toEqual(mockResponse);
+    });
+
+    it('should create a new regular tab and update todaysReportData for non-summary tabs', async () => {
+      const mockSheetName = 'RegularWeeklyTab';
+      const mockResponse = { data: 'mockRegularWeeklyResponse' };
+      mockBatchUpdate.mockResolvedValue(mockResponse);
+      mockCreateWeeklySummaryTitle.mockReturnValue('DifferentWeeklyTitle');
+
+      const response = await createNewWeeklyTab(
+        mockSheetName,
+        mockCreateWeeklySummaryTitle,
+        mockDataObjects,
+        mockSheetsAPI
+      );
+
+      expect(mockBatchUpdate).toHaveBeenCalledWith({
+        auth: { dummyAuth: true },
+        spreadsheetId: 'dummySpreadsheetId',
+        requestBody: {
+          requests: [{ addSheet: { properties: { title: mockSheetName } } }],
+        },
+      });
+      expect(response).toEqual(mockResponse);
+      expect(mockDataObjects.todaysReportData).toEqual(mockResponse);
+    });
+
+    it('should handle API errors gracefully for weekly tabs', async () => {
+      const mockSheetName = 'WeeklyErrorTab';
+      const mockError = new Error('Weekly API Error');
+      mockBatchUpdate.mockRejectedValue(mockError);
+
+      await expect(
+        createNewWeeklyTab(
+          mockSheetName,
+          mockCreateWeeklySummaryTitle,
+          mockDataObjects,
+          mockSheetsAPI
+        )
+      ).rejects.toThrow('Weekly API Error');
+
+      expect(mockBatchUpdate).toHaveBeenCalledWith({
+        auth: { dummyAuth: true },
+        spreadsheetId: 'dummySpreadsheetId',
+        requestBody: {
+          requests: [{ addSheet: { properties: { title: mockSheetName } } }],
+        },
+      });
+      expect(console.error).toHaveBeenCalledWith(
+        '"createNewTab": Error creating new sheet:',
+        mockError
+      );
+    });
+  });
+
+  // Performance Tests
+  describe('Performance', () => {
+    it('should create tabs efficiently', async () => {
+      const mockSheetName = 'PerformanceTest';
+      const mockResponse = { data: 'mockResponse' };
+      mockBatchUpdate.mockResolvedValue(mockResponse);
+
+      const startTime = performance.now();
+      const iterations = 10;
+
+      for (let i = 0; i < iterations; i++) {
+        await createNewTab(
+          `${mockSheetName}${i}`,
+          mockCreateSummaryTitle,
+          mockDataObjects,
+          mockSheetsAPI
+        );
+      }
+
+      const endTime = performance.now();
+      expect(endTime - startTime).toBeLessThan(5000); // Should complete within 5 seconds
+    });
   });
 });

@@ -100,9 +100,6 @@ export const main = async ({ csv, duplicate, cypress, playwright }) => {
       //   console.info(chalk.yellow(noWeeklySummaryMessage));
     }
   } catch (error) {
-    console.error(
-      'An error occurred during the report and summary handling: ',
-      error
-    );
+    console.error('Error occurred:', error);
   }
 };
