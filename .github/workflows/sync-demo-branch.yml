@@ -14,13 +14,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: 'demo'
-          token: ${{ secrets.DEMO_UPDATE_PAT }}
+          token: ${{ secrets.DEMO_UPDATE_PAT }} # Ensure this secret exists
           fetch-depth: 0 # Needed for merge history
 
       # Configure Git user for the commit
       - name: Configure Git User
         run: |
-          # Using generic bot details, you can change these if desired
           git config user.name "GitHub Actions Bot"
           git config user.email "actions-bot@github.com"
 
@@ -28,16 +27,14 @@ jobs:
       - name: Fetch origin
         run: git fetch origin
 
-      # Perform the merge from main into the currently checked out demo branch
-      - name: Merge main into demo
+      # Perform the merge from main into demo
+      - name: Merge main into demo (preferring main for non-demo conflicts)
         run: |
-          # Merge main. --no-ff creates a merge commit.
-          # Git automatically uses .gitattributes in the demo branch.
-          git merge --no-ff origin/main -m "Auto-merge main into demo"
-        # This step might fail on complex conflicts not handled by merge=ours.
+          # Merge main using -X theirs to auto-resolve non-demo conflicts by taking main's version.
+          # .gitattributes merge=ours for demo folders takes precedence.
+          git merge --no-ff -X theirs origin/main -m "Auto-merge main into demo (preferring main for conflicts)"
 
-      # Push the merge commit back to the demo branch
+      # Push the merge commit (and resolved changes) back to the demo branch
       - name: Push changes to demo
         run: |
           git push origin demo
-          # actions/checkout@v4 with token handles auth for push
