@@ -9,7 +9,7 @@ jobs:
   sync-demo-branch:
     runs-on: ubuntu-latest
     steps:
-      # Keep v4 for this test
+      # Use v4, as v3 didn't help either
       - name: Checkout demo branch
         uses: actions/checkout@v4
         with:
@@ -22,6 +22,10 @@ jobs:
         run: |
           echo "Checking .gitattributes content:"
           cat .gitattributes || echo ".gitattributes not found!"
+
+      # *** ADDED: Check Git Version ***
+      - name: Check Git Version
+        run: git --version
 
       # Configure Git user for the commit
       - name: Configure Git User
@@ -37,13 +41,68 @@ jobs:
       - name: Fetch origin
         run: git fetch origin
 
-      # *** CHANGE HERE: Use -X ours strategy ***
-      - name: Merge main into demo using -X ours
+      # Perform the merge using -X ours and add verbose output
+      # Use continue-on-error to allow the next step to run
+      - name: Merge main into demo using -X ours (VERBOSE)
         run: |
-          # Using -X ours to force keeping demo's version on all conflicts
-          git merge --no-ff -X ours origin/main -m "Auto-merge main into demo (using -X ours)"
+          echo "Attempting merge with: git merge --no-ff -X ours --verbose origin/main"
+          git merge --no-ff -X ours --verbose origin/main -m "Auto-merge main into demo (using -X ours, verbose)"
+        continue-on-error: true # IMPORTANT: Allow workflow to continue to next step on failure
 
-      # Push the merge commit (and resolved changes) back to the demo branch
+      # *** ADDED: Show Git Status After Merge Attempt ***
+      # This step will run regardless of merge success/failure IF the previous step used continue-on-error
+      - name: Show Git Status After Merge Attempt
+        if: always() # Ensure this runs even if merge succeeded or failed
+        run: |
+          echo "--- Git Status after merge attempt ---"
+          git status --short # Use --short for concise output
+          echo "--- Files with conflicts (if any) ---"
+          # List files specifically marked as Unmerged (U)
+          git diff --name-only --diff-filter=U || echo "No files found with Unmerged status."
+
+      # *** IMPORTANT: Check if merge failed before trying to push ***
+      - name: Check merge result before push
+        id: merge_check
+        # Check the exit code of the merge step
+        run: |
+          # Note: This relies on the step ID of the merge step if you named it.
+          # Adjust 'steps.merge_step_id.outcome' if your merge step has an id:
+          # For now, we check if status shows unmerged files as a proxy
+          if git status --short | grep -q '^UU '; then
+            echo "Merge failed with conflicts. Aborting push."
+            echo "outcome=failure" >> $GITHUB_OUTPUT
+            exit 1 # Fail the workflow explicitly
+          elif git status --short | grep -q '^AA '; then # Added by us, deleted by them
+            echo "Merge failed with conflicts (AA). Aborting push."
+            echo "outcome=failure" >> $GITHUB_OUTPUT
+            exit 1 # Fail the workflow explicitly
+          elif git status --short | grep -q '^DD '; then # Deleted by both
+             echo "Merge failed with conflicts (DD). Aborting push."
+             echo "outcome=failure" >> $GITHUB_OUTPUT
+             exit 1 # Fail the workflow explicitly
+          elif git status --short | grep -q '^AU '; then # Added by us, unmerged by them
+             echo "Merge failed with conflicts (AU). Aborting push."
+             echo "outcome=failure" >> $GITHUB_OUTPUT
+             exit 1 # Fail the workflow explicitly
+          elif git status --short | grep -q '^UA '; then # Unmerged by us, added by them
+             echo "Merge failed with conflicts (UA). Aborting push."
+             echo "outcome=failure" >> $GITHUB_OUTPUT
+             exit 1 # Fail the workflow explicitly
+          elif git status --short | grep -q '^UD '; then # Unmerged by us, deleted by them
+             echo "Merge failed with conflicts (UD). Aborting push."
+             echo "outcome=failure" >> $GITHUB_OUTPUT
+             exit 1 # Fail the workflow explicitly
+          elif git status --short | grep -q '^DU '; then # Deleted by us, unmerged by them
+             echo "Merge failed with conflicts (DU). Aborting push."
+             echo "outcome=failure" >> $GITHUB_OUTPUT
+             exit 1 # Fail the workflow explicitly
+          else
+            echo "Merge appears successful or conflicts resolved automatically."
+             echo "outcome=success" >> $GITHUB_OUTPUT
+          fi
+
+      # Push only if the merge succeeded (checked in previous step)
       - name: Push changes to demo
+        if: steps.merge_check.outputs.outcome == 'success'
         run: |
           git push origin demo
