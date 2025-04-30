@@ -34,11 +34,10 @@ jobs:
         run: git fetch origin
 
       # Perform the merge from main into demo
-      - name: Merge main into demo (preferring main for non-demo conflicts)
+      - name: Merge main into demo TEST without -X theirs
         run: |
-          # Merge main using -X theirs to auto-resolve non-demo conflicts by taking main's version.
-          # .gitattributes merge=ours for demo folders takes precedence.
-          git merge --no-ff -X theirs origin/main -m "Auto-merge main into demo (preferring main for conflicts)"
+          # TEST: Removed -X theirs to see if .gitattributes merge=ours works alone
+          git merge --no-ff origin/main -m "Auto-merge main into demo (TEST: without -X theirs)"
 
       # Push the merge commit (and resolved changes) back to the demo branch
       - name: Push changes to demo
