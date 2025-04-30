@@ -1,0 +1,3 @@
+    cypress-example/ merge=ours
+    playwright-example/ merge=ours
+    .github/ merge=ours
