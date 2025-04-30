@@ -9,15 +9,15 @@ jobs:
   sync-demo-branch:
     runs-on: ubuntu-latest
     steps:
-      # *** CHANGE HERE: Revert to v3 for testing ***
+      # Keep v4 for this test
       - name: Checkout demo branch
-        uses: actions/checkout@v3 # Reverted for testing
+        uses: actions/checkout@v4
         with:
           ref: 'demo'
           token: ${{ secrets.DEMO_UPDATE_PAT }}
-          fetch-depth: 0 # Still needed
+          fetch-depth: 0
 
-      # Verify .gitattributes
+      # Verify .gitattributes (still good practice)
       - name: Verify .gitattributes
         run: |
           echo "Checking .gitattributes content:"
@@ -29,7 +29,7 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "actions-bot@github.com"
 
-      # Disable autocrlf (keep this for now, doesn't hurt)
+      # Disable autocrlf
       - name: Disable autocrlf
         run: git config --global core.autocrlf false
 
@@ -37,11 +37,11 @@ jobs:
       - name: Fetch origin
         run: git fetch origin
 
-      # Perform the merge from main into demo (Relying on .gitattributes)
-      - name: Merge main into demo (using .gitattributes)
+      # *** CHANGE HERE: Use -X ours strategy ***
+      - name: Merge main into demo using -X ours
         run: |
-          # Relying on .gitattributes to handle demo-specific folders
-          git merge --no-ff origin/main -m "Auto-merge main into demo"
+          # Using -X ours to force keeping demo's version on all conflicts
+          git merge --no-ff -X ours origin/main -m "Auto-merge main into demo (using -X ours)"
 
       # Push the merge commit (and resolved changes) back to the demo branch
       - name: Push changes to demo
