@@ -1,3 +1,7 @@
-    cypress-example/ merge=ours
-    playwright-example/ merge=ours
-    .github/ merge=ours
+# Always keep the demo branch's version of files in these directories
+.github/** merge=ours
+cypress-example/** merge=ours
+playwright-example/** merge=ours
+
+# Add any other demo-specific files/folders here too
+# e.g., other-demo-file.txt merge=ours
