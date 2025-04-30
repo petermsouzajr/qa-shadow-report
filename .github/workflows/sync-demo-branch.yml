@@ -9,30 +9,35 @@ jobs:
   sync-demo-branch:
     runs-on: ubuntu-latest
     steps:
+      # Checkout the demo branch first, this is where we'll merge into
       - name: Checkout demo branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: 'demo'
-          token: ${{ secrets.DEMO_UPDATE_PAT }} # Use the PAT for checkout
+          token: ${{ secrets.DEMO_UPDATE_PAT }}
+          fetch-depth: 0 # Needed for merge history
 
-      - name: Fetch changes from main branch
-        run: git fetch origin main
-
-      - name: Checkout main branch files excluding .github, cypress-example, and playwright-example
+      # Configure Git user for the commit
+      - name: Configure Git User
         run: |
-          git checkout origin/main -- . ':!/.github' ':!/cypress-example' ':!/playwright-example'
+          # Using generic bot details, you can change these if desired
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions-bot@github.com"
 
-      - name: Find last merged branch
-        id: last-merged-branch
-        run: |
-          git fetch --all
-          last_branch=$(git log -1 --pretty=format:"%s" | awk -F 'from ' '{print $2}')
-          echo "branch=$last_branch" >> $GITHUB_OUTPUT
+      # Fetch the latest changes from the remote, including main
+      - name: Fetch origin
+        run: git fetch origin
 
-      - name: Commit and push changes to demo branch
+      # Perform the merge from main into the currently checked out demo branch
+      - name: Merge main into demo
         run: |
-          git config --global user.email "peter@petermsouzajr.com"
-          git config --global user.name "Peter Souza"
-          branch_name="${{ steps.last-merged-branch.outputs.branch }}"
-          git commit -am "Sync changes from main branch to demo (merged from $branch_name)" || echo "No changes to commit"
-          git push https://${{ secrets.DEMO_UPDATE_PAT }}@github.com/petermsouzajr/qa-shadow-report.git demo
+          # Merge main. --no-ff creates a merge commit.
+          # Git automatically uses .gitattributes in the demo branch.
+          git merge --no-ff origin/main -m "Auto-merge main into demo"
+        # This step might fail on complex conflicts not handled by merge=ours.
+
+      # Push the merge commit back to the demo branch
+      - name: Push changes to demo
+        run: |
+          git push origin demo
+          # actions/checkout@v4 with token handles auth for push
