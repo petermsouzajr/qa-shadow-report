@@ -1,0 +1,101 @@
+name: Sync Demo Branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-demo-branch:
+    runs-on: ubuntu-latest
+    steps:
+      # Use v4
+      - name: Checkout demo branch
+        uses: actions/checkout@v4
+        with:
+          ref: 'demo'
+          token: ${{ secrets.DEMO_UPDATE_PAT }}
+          fetch-depth: 0
+
+      # Verify .gitattributes
+      - name: Verify .gitattributes
+        run: |
+          echo "Checking .gitattributes content:"
+          cat .gitattributes || echo ".gitattributes not found!"
+
+      # Check Git Version
+      - name: Check Git Version
+        run: git --version
+
+      # Configure Git user for the commit
+      - name: Configure Git User
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions-bot@github.com"
+
+      # Disable autocrlf
+      - name: Disable autocrlf
+        run: git config --global core.autocrlf false
+
+      # Fetch the latest changes from the remote, including main
+      - name: Fetch origin
+        run: git fetch origin
+
+      # Attempt the merge using -X ours, allow failure
+      - name: Attempt Merge main into demo using -X ours
+        id: merge_attempt # Give the step an ID
+        run: |
+          echo "Attempting merge with: git merge --no-ff -X ours origin/main"
+          # Use a standard merge message here, we might amend it later if needed
+          git merge --no-ff -X ours origin/main -m "Auto-merge main into demo"
+        continue-on-error: true
+
+      # *** NEW: Resolve conflicts by keeping 'ours' if merge failed ***
+      - name: Resolve Conflicts Favoring 'ours'
+        # Run only if the previous merge step failed
+        if: steps.merge_attempt.outcome == 'failure'
+        run: |
+          echo "Merge failed, attempting to resolve conflicts favouring 'ours'..."
+          # Get list of unmerged files (conflicts)
+          git diff --name-only --diff-filter=U > conflicted_files.txt
+
+          if [ -s conflicted_files.txt ]; then
+            echo "Conflicting files found:"
+            cat conflicted_files.txt
+            # For each conflicting file, checkout the version from 'ours' (demo branch)
+            # Use xargs to handle the list of files efficiently
+            echo "Checking out 'ours' version for conflicting files..."
+            xargs -r -a conflicted_files.txt git checkout --ours --
+            # Add the now-resolved files to the index
+            echo "Adding resolved files..."
+            xargs -r -a conflicted_files.txt git add --
+            # Commit the resolved merge
+            echo "Committing resolved merge..."
+            # You can use a specific message or potentially amend the failed merge commit
+            # Using a new message for clarity:
+            git commit -m "Auto-merge main into demo (Conflicts resolved favoring demo)"
+            echo "Conflicts resolved and committed."
+          else
+            echo "Merge failed, but no conflicting files found by 'git diff --diff-filter=U'. This is unexpected."
+            # Explicitly fail the job if merge failed but we couldn't find/resolve conflicts
+            exit 1
+          fi
+
+      # Check final status ONLY IF the resolution step ran (i.e., merge initially failed)
+      # This is mostly for logging/debugging if the resolution itself failed.
+      - name: Check Status After Resolution Attempt
+        if: steps.merge_attempt.outcome == 'failure'
+        run: |
+          echo "--- Git Status after conflict resolution attempt ---"
+          git status --short
+          # Check again for unmerged files. If any exist here, the resolution failed.
+          if git diff --name-only --diff-filter=U | read; then
+            echo "ERROR: Unmerged files still exist after resolution attempt!"
+            exit 1
+          fi
+
+      # Push the changes (either the successful initial merge or the resolved merge)
+      - name: Push changes to demo
+        run: |
+          echo "Pushing changes to demo..."
+          git push origin demo
