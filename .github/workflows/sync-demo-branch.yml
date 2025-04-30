@@ -17,6 +17,12 @@ jobs:
           token: ${{ secrets.DEMO_UPDATE_PAT }}
           fetch-depth: 0 # Needed for merge history
 
+      # Verify .gitattributes
+      - name: Verify .gitattributes
+        run: |
+          echo "Checking .gitattributes content:"
+          cat .gitattributes || echo ".gitattributes not found!"
+
       # Configure Git user for the commit
       - name: Configure Git User
         run: |
