@@ -29,6 +29,10 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "actions-bot@github.com"
 
+      # Disable autocrlf
+      - name: Disable autocrlf
+        run: git config --global core.autocrlf false
+
       # Fetch the latest changes from the remote, including main
       - name: Fetch origin
         run: git fetch origin
