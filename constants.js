@@ -31,7 +31,7 @@ const findProjectRoot = (startPath) => {
 
 // Function to find the config file
 const findConfigFile = (startPath, baseFileName) => {
-  const extensions = ['.js', '.ts']; // Array of possible extensions
+  const extensions = ['.js', '.ts', '.mjs']; // Array of possible extensions
   let currentDir = startPath;
   while (currentDir !== path.parse(currentDir).root) {
     for (const ext of extensions) {
