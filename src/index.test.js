@@ -65,10 +65,42 @@ jest.mock('./index.js', () => {
 // Import after mocking
 import { main } from './index.js';
 
+let mockProcessExit;
+
 describe('main function', () => {
+  beforeAll(() => {
+    mockProcessExit = jest.spyOn(process, 'exit').mockImplementation((code) => {
+      // console.warn(`Test Warning: process.exit(${code}) was called and suppressed.`);
+      // Optionally throw an error here if a test should explicitly fail when exit is called:
+      // throw new Error(`process.exit(${code}) called`);
+    });
+
+    global.shadowConfigDetails = {
+      googleSpreadsheetUrl:
+        'https://docs.google.com/spreadsheets/d/default_mock_id/edit',
+      googleKeyFilePath: 'default/mock/path/to/keyfile.json',
+      testTypes: ['unit', 'integration', 'e2e'],
+      testCategories: ['smoke', 'regression', 'performance'],
+      weeklySummaryStartDay: 'Monday',
+      weeklySummaryEnabled: true,
+      teamNames: ['team1', 'team2'],
+      csvDownloadsPath: './cypress/downloads',
+      // Ensure all fields that might be accessed by constants.js are here
+      // For TEST_DATA, it might need specific fields like testDataPath or similar
+      testDataPath: 'mock/path/to/test-data.json', // Assuming TEST_DATA needs something like this
+      resultsPath: 'mock/path/to/results.json', // Assuming TEST_DATA needs something like this
+    };
+  });
+
+  afterAll(() => {
+    mockProcessExit.mockRestore();
+    delete global.shadowConfigDetails;
+  });
+
   beforeEach(() => {
     // Reset all mocks before each test
     jest.clearAllMocks();
+    // mockProcessExit.mockClear(); // Clear calls to process.exit if needed per test
 
     // Mock console methods
     console.log = jest.fn();

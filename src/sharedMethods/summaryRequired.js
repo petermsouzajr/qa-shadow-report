@@ -77,13 +77,64 @@ const isSummaryNeeded = (tabTitles) => {
  * @param {boolean} options.csv - If true, outputs in CSV format.
  * @returns {Promise<boolean>} True if a summary is required, false otherwise.
  */
-export const isSummaryRequired = async ({ csv }) => {
-  if (csv) {
-    return false;
-  }
+export const isSummaryRequired = async (options = {}) => {
+  if (options.csv) return false;
   try {
+    const currentDate = new Date();
+    // console.log('[DEBUG] SUT currentDate:', currentDate.toISOString());
+
+    const lastMonth = getFormattedMonth('lastMonth');
+    // console.log('[DEBUG] SUT lastMonth:', lastMonth);
+
+    const currentMonth = getFormattedMonth();
+    // console.log('[DEBUG] SUT currentMonth:', currentMonth);
+
+    let yearForSummary = getFormattedYear();
+    if (currentMonth === 'Jan' && lastMonth === 'Dec') {
+      yearForSummary = getFormattedYear('lastYear');
+    }
+    // console.log('[DEBUG] SUT yearForSummary:', yearForSummary);
+
+    const targetSummaryTitle = createSummaryTitle(
+      lastMonth,
+      yearForSummary.toString()
+    );
+    // console.log('[DEBUG] SUT targetSummaryTitle:', targetSummaryTitle);
+
     const existingTabTitles = await getExistingTabTitlesInRange();
-    return isSummaryNeeded(existingTabTitles);
+    // console.log('[DEBUG] SUT existingTabTitles raw:', existingTabTitles);
+
+    if (!existingTabTitles) {
+      // console.error('Error: existingTabTitles is undefined');
+      return false;
+    }
+
+    const summaryExists = existingTabTitles.some(
+      (title) =>
+        title.trim().toLowerCase() === targetSummaryTitle.trim().toLowerCase()
+    );
+    // console.log('[DEBUG] SUT summaryExists:', summaryExists);
+
+    if (summaryExists) {
+      return false;
+    }
+
+    const searchPatternMonth = lastMonth;
+    const searchPatternYear = yearForSummary.toString();
+    // console.log('[DEBUG] SUT searchPatternMonth:', searchPatternMonth);
+    // console.log('[DEBUG] SUT searchPatternYear:', searchPatternYear);
+
+    const sheetsFromLastMonthExist = existingTabTitles.some((title) => {
+      const titleIncludesMonth = title.includes(searchPatternMonth);
+      const titleIncludesYear = title.includes(searchPatternYear);
+      return titleIncludesMonth && titleIncludesYear;
+    });
+    // console.log(
+    //   '[DEBUG] SUT sheetsFromLastMonthExist:',
+    //   sheetsFromLastMonthExist
+    // );
+
+    return sheetsFromLastMonthExist;
   } catch (error) {
     console.error('Error in isSummaryRequired:', error);
     return false;
@@ -142,12 +193,19 @@ const isWeeklySummaryNeeded = (tabTitles) => {
       return false;
     }
     const expectedSummaryTitle = createWeeklySummaryTitle();
-    const summaryExists = tabTitles.some(
-      (title) => title.startsWith('Weekly') && title === expectedSummaryTitle
-    );
+    // console.log('[SUT DEBUG] isWeeklySummaryNeeded - expectedSummaryTitle:', expectedSummaryTitle);
+    // console.log('[SUT DEBUG] isWeeklySummaryNeeded - tabTitles:', JSON.stringify(tabTitles));
+
+    const summaryExists = tabTitles.some((title) => {
+      const starts = title.startsWith('Weekly');
+      const matches = title === expectedSummaryTitle;
+      // console.log(`[SUT DEBUG] Checking title: "${title}", startsWeekly: ${starts}, matchesExpected: ${matches}`);
+      return starts && matches;
+    });
+    // console.log('[SUT DEBUG] isWeeklySummaryNeeded - summaryExists:', summaryExists);
     return !summaryExists;
   } catch (error) {
-    console.error('Error in isSummaryNeeded:', error);
+    console.error('Error in isWeeklySummaryNeeded:', error);
     return false;
   }
 };
