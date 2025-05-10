@@ -114,7 +114,20 @@ const createConfigFile = () => {
     const defaultConfigContent = `
     // Sample Configuration File: Adjust values below to match your project's setup
     
-    module.exports = {
+    // TypeScript type definition (will be ignored in JavaScript)
+    /** @type {{
+      teamNames?: string[];
+      testTypes?: string[];
+      testCategories?: string[];
+      googleSpreadsheetUrl?: string;
+      googleKeyFilePath?: string;
+      testData?: string;
+      csvDownloadsPath?: string;
+      weeklySummaryStartDay?: string;
+    }} */
+    
+    // Support both CommonJS and ES Modules
+    const config = {
         // Uncomment the relevant teams or add your own in the Describe block or It block:
         //  describe('[oregano] Unit test our math functions', () => {
         //    context('math', () => {
@@ -169,6 +182,13 @@ const createConfigFile = () => {
      // Weekly summary settings (optional). To activate, set weekly summary sart date, summary will includes the start date and the following 7 days.
      // weeklySummaryStartDay: 'Monday' OR process.env.WEEKLY_SUMMARY_START_DAY
     };
+
+    // Support both CommonJS and ES Modules
+    if (typeof module !== 'undefined' && module.exports) {
+      module.exports = config;
+    } else {
+      export default config;
+    }
     `;
     fs.writeFileSync(configFilePath, defaultConfigContent, {
       encoding: 'utf-8',
