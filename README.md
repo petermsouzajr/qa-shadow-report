@@ -15,7 +15,7 @@ Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, 
    - [Monthly Summary in Sheets](#monthly-summary-in-sheets)
    - [Daily Report in CSV](#daily-report-in-csv)
 4. [Sheets Setup Guide](#sheets-setup-guide)
-   - [Cypress](#cypress)
+   - [Cypress - with video](#cypress---with-video)
    - [Playwright](#playwright)
 5. [Sheets Enhanced Configuration](#sheets-enhanced-configuration)
    - [Column: Team](#column-team)
@@ -72,10 +72,8 @@ Use either command to generate reports using either **NPX** or **NPM scripts** w
   Add to your `package.json` scripts:
 
   ```json
-  // package.json
   "scripts": {
     "report:csv": "qa-shadow-report [framework] --csv",
-    "report:csv": "qa-shadow-report [framework] todays-report --csv", // more verbose
   }
   ```
 
@@ -111,9 +109,9 @@ The Daily Report in CSV format delivers hardcoded snapshot of high-level test me
 
 ## Sheets Setup Guide
 
-### Cypress
+### Cypress - with video
 
-Before you begin, ensure you have the following packages and authentication. You can run the command `npx qasr-setup`, which initiates a series of Yes or No questions to guide you through setting up the tool for your testing framework and package manager:
+Before you begin, ensure you have the following packages and authentication, check the video for Cypress install here: [Installing qa-shadow-report for Cypress](https://www.youtube.com/watch?v=3fhb_fJN1gs). You can run the command `npx qasr-setup`, which initiates a series of Yes or No questions to guide you through setting up the tool for your testing framework and package manager:
 
 - **Mochawesome and Mochawesome Merge:** Usually installed by the setup wizard, these are recommended for Cypress test report generation:
 
@@ -154,7 +152,6 @@ Before you begin, ensure you have the following packages and authentication. You
 To ensure tests and reports are processed correctly, configure your `package.json` similarly to the following example:
 
 ```json
-// package.json
   "scripts": {
     "cypress:prerun": "rm -rf cypress/results",
     "cypress:run": "npm run cypress:prerun && cypress run --headless --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=false,json=true --quiet  || true",
@@ -222,7 +219,6 @@ Before you begin, ensure you have the following packages and authentication, you
 To ensure tests and reports are processed correctly, configure your `package.json` similarly to the following example:
 
 ```json
-// package.josn
   "scripts": {
     "playwright:prerun": "rm -rf test-results",
     "playwright:run": "npm run playwright:prerun && playwright test || true",
@@ -257,7 +253,6 @@ All commands require that test suite result data is present, in this example, th
     Add to your `package.json`:
 
     ```json
-    // package.json
     "scripts": {
       "report:generate": "npx qa-shadow-report [framework]"
     }
