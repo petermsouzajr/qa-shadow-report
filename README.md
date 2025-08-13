@@ -16,7 +16,7 @@ Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, 
    - [Daily Report in CSV](#daily-report-in-csv)
 4. [Sheets Setup Guide](#sheets-setup-guide)
    - [Cypress - with video](#cypress---with-video)
-   - [Playwright](#playwright)
+   - [Playwright - with video](#playwright--with-video)
 5. [Sheets Enhanced Configuration](#sheets-enhanced-configuration)
    - [Column: Team](#column-team)
    - [Column: Type](#column-type)
@@ -173,9 +173,9 @@ In this example, running `npm run cypress-test` will
 
 Adjust these scripts as needed for your project's requirements.
 
-### Playwright
+### Playwright - with video
 
-Before you begin, ensure you have the following packages and authentication, you can run the command `npx qasr-setup` which initiates a couple of Yes or No questions to guide you through setting up the tool for your testing framework and package manager:
+Before you begin, ensure you have the following packages and authentication, check the video for playwright install here: [Installing qa-shadow-report for Playwright](https://youtu.be/aJafudHpRtk). You can run the command `npx qasr-setup` which initiates a couple of Yes or No questions to guide you through setting up the tool for your testing framework and package manager:
 
 - **Google Spreadsheet URL:** Place the sheet's URL directly in an environment variable: `https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160`.
 - **Service Account Credentials for Google Sheets:** Follow the detailed guide from `node-google-spreadsheet` they have a great document describing Google Service Accounts [node-google-spreadshee: Google Service Account](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=authentication-methods)
