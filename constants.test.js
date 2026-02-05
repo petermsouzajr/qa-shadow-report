@@ -9,6 +9,8 @@ import {
   ALL_TEAM_NAMES,
 } from './constants.js';
 
+// Most test using the globally set mockConfigDetails will fail because on constants.js, 
+// shadowConfigDetails is encapsulated and not set as a global object
 describe('Constants', () => {
   const originalEnv = process.env;
   const mockConfigDetails = {

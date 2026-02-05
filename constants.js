@@ -1,12 +1,12 @@
 import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
-import { pathToFileURL } from 'url';
+import { pathToFileURL, fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
 dotenv.config();
 // Since __dirname is not available in ES modules, we need to derive it
-const __filename = new URL(import.meta.url).pathname;
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Function to find the project root directory
