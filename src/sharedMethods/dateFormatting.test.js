@@ -57,9 +57,16 @@ describe('Date Formatting', () => {
   });
 
   describe('getCurrentTime', () => {
-    it('should return current time', () => {
+    it('should return current time as HHmmss in local timezone', () => {
       const result = getCurrentTime();
-      expect(result).toBe('083045');
+      const d = new Date();
+      const expected = [
+        String(d.getHours()).padStart(2, '0'),
+        String(d.getMinutes()).padStart(2, '0'),
+        String(d.getSeconds()).padStart(2, '0'),
+      ].join('');
+      expect(result).toBe(expected);
+      expect(result).toMatch(/^\d{6}$/);
     });
   });
 
