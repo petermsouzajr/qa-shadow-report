@@ -5,6 +5,16 @@ const keyFilePath = GOOGLE_KEYFILE_PATH();
 
 let auth, client, sheets, spreadsheetId;
 
+const getClient = async () => {
+  try {
+    client = await auth.getClient();
+    sheets = google.sheets({ version: 'v4', auth: client });
+  } catch (error) {
+    console.error('Error obtaining Google API client:', error);
+    client = null; // Set client to null if there's an error
+  }
+};
+
 if (keyFilePath) {
   try {
     spreadsheetId = GOOGLE_SHEET_ID();
@@ -12,16 +22,6 @@ if (keyFilePath) {
       keyFile: keyFilePath,
       scopes: 'https://www.googleapis.com/auth/spreadsheets',
     });
-
-    async function getClient() {
-      try {
-        client = await auth.getClient();
-        sheets = google.sheets({ version: 'v4', auth: client });
-      } catch (error) {
-        console.error('Error obtaining Google API client:', error);
-        client = null; // Set client to null if there's an error
-      }
-    }
 
     await getClient();
   } catch (error) {

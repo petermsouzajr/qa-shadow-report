@@ -12,12 +12,12 @@ import chalk from 'chalk';
 import { getFormattedMonth } from './sharedMethods/dateFormatting.js';
 import { WEEKLY_SUMMARY_ENABLED } from '../constants.js';
 
-let topLevelSpreadsheetData = {};
-let summaryTabData = {};
-let todaysReportData = {};
-let lastMonthSheetValues = [];
-let lastWeekSheetValues = [];
-let weeklySummaryTabData = {};
+const topLevelSpreadsheetData = {};
+const summaryTabData = {};
+const todaysReportData = {};
+const lastMonthSheetValues = [];
+const lastWeekSheetValues = [];
+const weeklySummaryTabData = {};
 
 export const dataObjects = {
   topLevelSpreadsheetData,

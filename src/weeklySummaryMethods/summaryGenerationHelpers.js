@@ -115,7 +115,7 @@ export const findLongestHeaderWithinWeeklySeries = async (
   weeklyTabValues,
   columnMetrics
 ) => {
-  let updatedColumnMetrics = { ...columnMetrics };
+  const updatedColumnMetrics = { ...columnMetrics };
   try {
     for (const sourceTabTitle of sourceTabTitles) {
       const sourceData = await findTabTitleDataInArray(
@@ -586,7 +586,7 @@ export const processWeeklySourceTabTitles = async (
   destinationTabTitle,
   headerIndicatorsLength
 ) => {
-  for (let title of titles) {
+  for (const title of titles) {
     const headerFooterData =
       await getHeaderAndFooterDataByWeeklyTabTitle(title);
     const sourcePageId = await getTabIdFromWeeklyTitle(title);

@@ -64,7 +64,7 @@ describe('Date Formatting', () => {
   });
 
   describe('getPreviousMonthsYear', () => {
-    it("should return previous month's year", () => {
+    it('should return previous month\'s year', () => {
       const result = getPreviousMonthsYear('Mar');
       expect(result).toBe('2024');
     });
@@ -76,7 +76,7 @@ describe('Date Formatting', () => {
   });
 
   describe('getTodaysFormattedDate', () => {
-    it("should return today's formatted date", () => {
+    it('should return today\'s formatted date', () => {
       const result = getTodaysFormattedDate();
       expect(result).toBe('Mar 20, 2024');
     });
@@ -84,19 +84,19 @@ describe('Date Formatting', () => {
 
   describe('formatDuration', () => {
     it('should format duration in minutes:seconds:milliseconds format', () => {
-      expect(formatDuration(125000)).toBe("'2:5:0");
+      expect(formatDuration(125000)).toBe('\'2:5:0');
     });
 
     it('should handle zero duration', () => {
-      expect(formatDuration(0)).toBe("'0:0:0");
+      expect(formatDuration(0)).toBe('\'0:0:0');
     });
 
     it('should handle large durations', () => {
-      expect(formatDuration(3661000)).toBe("'61:1:0");
+      expect(formatDuration(3661000)).toBe('\'61:1:0');
     });
 
     it('should handle milliseconds correctly', () => {
-      expect(formatDuration(1001)).toBe("'0:1:1");
+      expect(formatDuration(1001)).toBe('\'0:1:1');
     });
   });
 

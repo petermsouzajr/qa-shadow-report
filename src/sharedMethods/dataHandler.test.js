@@ -32,7 +32,7 @@ describe('Data Handler', () => {
 
     it('should handle file read errors', async () => {
       const error = new Error(
-        "ENOENT: no such file or directory, open 'nonexistent.json'"
+        'ENOENT: no such file or directory, open \'nonexistent.json\''
       );
       mockReadFile.mockRejectedValueOnce(error);
 
@@ -45,7 +45,7 @@ describe('Data Handler', () => {
       );
       const loggedError = console.error.mock.calls[0][1];
       expect(loggedError.message).toBe(
-        "ENOENT: no such file or directory, open 'nonexistent.json'"
+        'ENOENT: no such file or directory, open \'nonexistent.json\''
       );
       expect(loggedError.code).toBe('ENOENT');
     });
