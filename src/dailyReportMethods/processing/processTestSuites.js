@@ -8,7 +8,7 @@ import { constructReportPayloadEntry } from '../buildReport.js';
  */
 export const processTestSuites = async (results, playwright) => {
   const processSuite = async (suites, resultData) => {
-    let payloads = [];
+    const payloads = [];
     for (const suite of suites) {
       if (suite.tests && suite.tests.length > 0) {
         const suitePayloads = await Promise.all(

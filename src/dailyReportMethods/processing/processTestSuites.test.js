@@ -208,7 +208,7 @@ describe('processTestSuites', () => {
         manualTestId: '',
         priority: '',
         spec: 'file',
-        speed: "'NaN:NaN:NaN",
+        speed: '\'NaN:NaN:NaN',
         state: '',
         status: '',
         team: '',

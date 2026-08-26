@@ -3,31 +3,12 @@ import fs from 'fs';
 import path from 'path';
 import { pathToFileURL } from 'url';
 import dotenv from 'dotenv';
+import { getModulePaths, findProjectRoot } from './src/utils/projectPaths.js';
 
 dotenv.config();
-// Since __dirname is not available in ES modules, we need to derive it
-const __filename = new URL(import.meta.url).pathname;
-const __dirname = path.dirname(__filename);
 
-// Function to find the project root directory
-const findProjectRoot = (startPath) => {
-  let currentDir = startPath;
-
-  while (currentDir !== path.parse(currentDir).root) {
-    const packageJsonPath = path.join(currentDir, 'package.json');
-
-    if (fs.existsSync(packageJsonPath)) {
-      // Check if the current directory is inside a node_modules directory
-      if (!currentDir.includes(path.sep + 'node_modules')) {
-        return currentDir;
-      }
-    }
-
-    currentDir = path.dirname(currentDir);
-  }
-
-  return null;
-};
+// Cross-platform ESM __dirname (Windows-safe; replaces import.meta.url.pathname)
+const { dirname: __dirname } = getModulePaths(import.meta.url);
 
 // Function to find the config file
 const findConfigFile = (startPath, baseFileName) => {
@@ -85,6 +66,18 @@ try {
   console.error(chalk.red(error.message));
 }
 
+/**
+ * Runtime config: prefer test-injected global, else file-loaded module config.
+ * Keeps a single constants module usable in both CLI and unit tests.
+ */
+function getActiveShadowConfig() {
+  const g = globalThis.shadowConfigDetails;
+  if (g && typeof g === 'object' && Object.keys(g).length > 0) {
+    return g;
+  }
+  return shadowConfigDetails || {};
+}
+
 // Define the formula keys for daily report header metrics.
 export const FORMULA_KEYS = [
   'formula tests passed',
@@ -97,10 +90,10 @@ export const GOOGLE_SHEET_ID = () => {
   let sheetId = '';
 
   if (
-    shadowConfigDetails &&
-    typeof shadowConfigDetails.googleSpreadsheetUrl === 'string'
+    getActiveShadowConfig() &&
+    typeof getActiveShadowConfig().googleSpreadsheetUrl === 'string'
   ) {
-    const envVarMatch = shadowConfigDetails.googleSpreadsheetUrl.match(
+    const envVarMatch = getActiveShadowConfig().googleSpreadsheetUrl.match(
       /^process\.env\.(\w+)$/
     );
 
@@ -112,9 +105,13 @@ export const GOOGLE_SHEET_ID = () => {
         sheetId = process.env[envVarName].split('/d/')[1].split('/')[0] || ''; // Set the value from process.env
       }
     } else {
-      sheetId = shadowConfigDetails.googleSpreadsheetUrl
-        .split('/d/')[1]
-        .split('/')[0]; // Use the raw config value if it's not an environment variable
+      const url = getActiveShadowConfig().googleSpreadsheetUrl;
+      if (url.includes('/d/')) {
+        sheetId = url.split('/d/')[1].split('/')[0];
+      } else {
+        // Direct spreadsheet ID (not a full URL)
+        sheetId = url;
+      }
     }
   }
 
@@ -125,10 +122,10 @@ export const GOOGLE_KEYFILE_PATH = () => {
   let keyFilePath = '';
 
   if (
-    shadowConfigDetails &&
-    typeof shadowConfigDetails.googleKeyFilePath === 'string'
+    getActiveShadowConfig() &&
+    typeof getActiveShadowConfig().googleKeyFilePath === 'string'
   ) {
-    const envVarMatch = shadowConfigDetails.googleKeyFilePath.match(
+    const envVarMatch = getActiveShadowConfig().googleKeyFilePath.match(
       /^process\.env\.(\w+)$/
     );
 
@@ -140,7 +137,7 @@ export const GOOGLE_KEYFILE_PATH = () => {
         keyFilePath = process.env[envVarName] || ''; // Set the value from process.env
       }
     } else {
-      keyFilePath = shadowConfigDetails.googleKeyFilePath; // Use the raw config value if it's not an environment variable
+      keyFilePath = getActiveShadowConfig().googleKeyFilePath; // Use the raw config value if it's not an environment variable
     }
   }
 
@@ -148,7 +145,7 @@ export const GOOGLE_KEYFILE_PATH = () => {
 };
 
 export const TEST_DATA = (cypress) => {
-  const shadowConfigFile = shadowConfigDetails && shadowConfigDetails.testData;
+  const shadowConfigFile = getActiveShadowConfig() && getActiveShadowConfig().testData;
   const cypressFile = 'cypressTestResults.json';
   const playwrightFile = 'playwrightTestResults.json';
 
@@ -168,7 +165,7 @@ export const TEST_DATA = (cypress) => {
   if (!fs.existsSync(configPath)) {
     console.error(
       chalk.yellow(
-        `Configuration file not found. ` + `run ${chalk.green('qasr-setup')}.`
+        'Configuration file not found. ' + `run ${chalk.green('qasr-setup')}.`
       )
     );
     process.exit(1);
@@ -187,7 +184,7 @@ export const TEST_DATA = (cypress) => {
     console.error(
       chalk.yellow(
         `Test results file ${chalk.green(`testData:"${testData}`)}" not found at path: ${chalk.green(testDataPath)}. ` +
-          `Please ensure the file is present.`
+          'Please ensure the file is present.'
       )
     );
     process.exit(1);
@@ -207,6 +204,11 @@ export const FORMULA_TEMPLATES = [
 const cache = {};
 
 function getCachedOrCompute(key, computeFunction) {
+  // Skip cache when tests inject global config (avoids stale values across cases)
+  const g = globalThis.shadowConfigDetails;
+  if (g && typeof g === 'object' && Object.keys(g).length > 0) {
+    return computeFunction();
+  }
   if (cache[key]) {
     return cache[key];
   }
@@ -244,9 +246,9 @@ export const COLUMNS_AVAILABLE = (playwright) => {
         baseColumns = ['browser', ...baseColumns];
       }
 
-      if (shadowConfigDetails && Array.isArray(shadowConfigDetails.columns)) {
+      if (getActiveShadowConfig() && Array.isArray(getActiveShadowConfig().columns)) {
         // console.info(chalk.green('Using custom columns list.'));
-        return shadowConfigDetails.columns;
+        return getActiveShadowConfig().columns;
       } else {
         // console.info(chalk.blue('Using default columns list.'));
         return baseColumns;
@@ -283,25 +285,25 @@ export const CSV_DOWNLOADS_PATH = () => {
   const framework = detectFramework();
 
   let downloadsPath =
-    shadowConfigDetails &&
-    typeof shadowConfigDetails.csvDownloadsPath === 'string'
-      ? path.resolve(projectRoot, shadowConfigDetails.csvDownloadsPath) // Use the user-specified path
+    getActiveShadowConfig() &&
+    typeof getActiveShadowConfig().csvDownloadsPath === 'string'
+      ? path.resolve(projectRoot, getActiveShadowConfig().csvDownloadsPath) // Use the user-specified path
       : path.join(projectRoot, framework, 'downloads'); // Fallback to system default
 
   return getCachedOrCompute('csvDownloadsPath', () => {
     const hasCustomTypes =
-      shadowConfigDetails &&
-      Array.isArray(shadowConfigDetails.csvDownloadsPath) &&
-      shadowConfigDetails.csvDownloadsPath.length > 0;
+      getActiveShadowConfig() &&
+      Array.isArray(getActiveShadowConfig().csvDownloadsPath) &&
+      getActiveShadowConfig().csvDownloadsPath.length > 0;
 
     if (hasCustomTypes) {
-      downloadsPath = shadowConfigDetails.csvDownloadsPath;
+      downloadsPath = getActiveShadowConfig().csvDownloadsPath;
       console.info(
         chalk.green(
           `downloading CSV to custom downloads folder path ${downloadsPath}.`
         )
       );
-      return shadowConfigDetails.csvDownloadsPath;
+      return getActiveShadowConfig().csvDownloadsPath;
     } else {
       console.info(chalk.blue('Using default downloads folder.'));
     }
@@ -312,12 +314,12 @@ export const CSV_DOWNLOADS_PATH = () => {
 export const TEST_TYPES_AVAILABLE = () => {
   return getCachedOrCompute('testTypes', () => {
     const hasCustomTypes =
-      shadowConfigDetails &&
-      Array.isArray(shadowConfigDetails.testTypes) &&
-      shadowConfigDetails.testTypes.length > 0;
+      getActiveShadowConfig() &&
+      Array.isArray(getActiveShadowConfig().testTypes) &&
+      getActiveShadowConfig().testTypes.length > 0;
     if (hasCustomTypes) {
       console.info(chalk.green('Using custom test types list.'));
-      return shadowConfigDetails.testTypes;
+      return getActiveShadowConfig().testTypes;
     } else {
       console.info(chalk.blue('Using default test types list.'));
       return [
@@ -340,12 +342,12 @@ export const TEST_TYPES_AVAILABLE = () => {
 export const TEST_CATEGORIES_AVAILABLE = () => {
   return getCachedOrCompute('testCategories', () => {
     const hasCustomCategories =
-      shadowConfigDetails &&
-      Array.isArray(shadowConfigDetails.testCategories) &&
-      shadowConfigDetails.testCategories.length > 0;
+      getActiveShadowConfig() &&
+      Array.isArray(getActiveShadowConfig().testCategories) &&
+      getActiveShadowConfig().testCategories.length > 0;
     if (hasCustomCategories) {
       console.info(chalk.green('Using custom test category list.'));
-      return shadowConfigDetails.testCategories;
+      return getActiveShadowConfig().testCategories;
     } else {
       console.info(chalk.blue('Using default test category list.'));
       return [
@@ -367,19 +369,18 @@ export const TEST_CATEGORIES_AVAILABLE = () => {
 
 export const WEEK_START = () => {
   return getCachedOrCompute('startDay', () => {
-    return shadowConfigDetails.weeklySummaryStartDay;
+    return getActiveShadowConfig().weeklySummaryStartDay || 'Monday';
   });
 };
 
 export const WEEKLY_SUMMARY_ENABLED = () => {
   return getCachedOrCompute('active', () => {
-    const weeklySummaryActive =
-      shadowConfigDetails && shadowConfigDetails.weeklySummaryStartDay;
-    if (weeklySummaryActive) {
-      return true;
-    } else {
-      return false;
+    const cfg = getActiveShadowConfig() || {};
+    if (typeof cfg.weeklySummaryEnabled === 'boolean') {
+      return cfg.weeklySummaryEnabled;
     }
+    // Legacy: presence of weeklySummaryStartDay meant weekly summaries are on
+    return Boolean(cfg.weeklySummaryStartDay);
   });
 };
 
@@ -397,12 +398,12 @@ export const FOOTER_ROW = '- END -';
 export const ALL_TEAM_NAMES = () => {
   return getCachedOrCompute('teamNames', () => {
     const hasCustomTeams =
-      shadowConfigDetails &&
-      Array.isArray(shadowConfigDetails.teamNames) &&
-      shadowConfigDetails.teamNames.length > 0;
+      getActiveShadowConfig() &&
+      Array.isArray(getActiveShadowConfig().teamNames) &&
+      getActiveShadowConfig().teamNames.length > 0;
     if (hasCustomTeams) {
       console.info(chalk.green('Using custom team names list.'));
-      return shadowConfigDetails.teamNames;
+      return getActiveShadowConfig().teamNames;
     } else {
       console.info(chalk.blue('Using default team names list.'));
       return [

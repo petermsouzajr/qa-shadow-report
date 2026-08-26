@@ -24,7 +24,7 @@ export const combineReports = (allReportEntries, placeholders) => {
     throw new Error('Invalid placeholder entry: Expected an array.');
   }
 
-  let combinedReports = [];
+  const combinedReports = [];
 
   try {
     // Find the maximum number of type pairs across all reports
@@ -40,8 +40,8 @@ export const combineReports = (allReportEntries, placeholders) => {
 
     // For each type pair
     for (let i = 0; i < maxTypeCount; i++) {
-      let combinedRowTests = [];
-      let combinedRowPassed = [];
+      const combinedRowTests = [];
+      const combinedRowPassed = [];
 
       // For each report
       allReportEntries.forEach((report) => {

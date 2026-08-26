@@ -131,13 +131,13 @@ export const calculateDailySummaryMetrics = (testData) => {
     ]
   );
   const overallMetrics = [
-    `# passed tests`,
+    '# passed tests',
     `${counters.passed} (${calculatePercentage(counters.passed, counters.total)}%)`,
-    `# failed tests`,
+    '# failed tests',
     `${counters.failed} (${calculatePercentage(counters.failed, counters.total)}%)`,
-    `# skipped/pending tests`,
+    '# skipped/pending tests',
     `${counters.skippedPending} (${calculatePercentage(counters.skippedPending, counters.total)}%)`,
-    `# total tests`,
+    '# total tests',
     `${counters.total}`,
   ];
 

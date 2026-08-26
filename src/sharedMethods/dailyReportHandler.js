@@ -69,13 +69,13 @@ export const handleDailyReport = async ({
         ]
       )
         ? fullDailyPayload.headerPayload[
-            fullDailyPayload.headerPayload.length - 1
-          ]
+          fullDailyPayload.headerPayload.length - 1
+        ]
         : [
-            fullDailyPayload.headerPayload[
-              fullDailyPayload.headerPayload.length - 1
-            ],
-          ];
+          fullDailyPayload.headerPayload[
+            fullDailyPayload.headerPayload.length - 1
+          ],
+        ];
 
       // Pad the original header to match body row length (12 columns)
       const bodyRowLength = fullDailyPayload.bodyPayload[0]?.length || 12;
@@ -94,10 +94,10 @@ export const handleDailyReport = async ({
       const todaysReportExists = await doesTodaysReportExist();
       const noReportMessage = chalk.yellow(`Today\`s report already exists.
       If you would like to create a duplicate, use the optional flag ${chalk.green(
-        '--duplicate'
-      )} in your reporting command,e.g. ${chalk.yellow(
-        'qa-shadow-report --duplicate'
-      )}.`);
+    '--duplicate'
+  )} in your reporting command,e.g. ${chalk.yellow(
+  'qa-shadow-report --duplicate'
+)}.`);
       if (todaysReportExists && !duplicate) {
         console.info(noReportMessage);
         return;

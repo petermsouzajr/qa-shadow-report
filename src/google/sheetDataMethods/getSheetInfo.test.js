@@ -179,7 +179,7 @@ describe('Google Sheets Info Operations', () => {
     beforeEach(() => {
       jest.clearAllMocks();
       createSummaryTitle.mockReturnValue('Summary Title');
-      getTodaysFormattedDate.mockReturnValue("Today's Date");
+      getTodaysFormattedDate.mockReturnValue('Today\'s Date');
     });
 
     it.skip('should throw an error if tabTitle is not a valid string', async () => {
@@ -200,7 +200,7 @@ describe('Google Sheets Info Operations', () => {
       expect(tabId).toBeNull();
     });
 
-    it.skip("should return the sheet ID for summary or today's report titles", async () => {
+    it.skip('should return the sheet ID for summary or today\'s report titles', async () => {
       const mockSheetId = 12345;
       dataObjects.summaryTabData = {
         data: {
@@ -216,7 +216,7 @@ describe('Google Sheets Info Operations', () => {
       let tabId = await getTabIdFromTitle('Summary Title');
       expect(tabId).toBe(mockSheetId);
 
-      tabId = await getTabIdFromTitle("Today's Date");
+      tabId = await getTabIdFromTitle('Today\'s Date');
       expect(tabId).toBe(mockSheetId);
     });
 

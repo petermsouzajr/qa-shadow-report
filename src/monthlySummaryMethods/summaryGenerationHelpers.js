@@ -115,7 +115,7 @@ export const findLongestHeaderWithinSeries = async (
   lastMonthTabValues,
   columnMetrics
 ) => {
-  let updatedColumnMetrics = { ...columnMetrics };
+  const updatedColumnMetrics = { ...columnMetrics };
   try {
     for (const sourceTabTitle of sourceTabTitles) {
       const sourceData = await findTabTitleDataInArray(
@@ -587,7 +587,7 @@ export const processSourceTabTitles = async (
   destinationTabTitle,
   headerIndicatorsLength
 ) => {
-  for (let title of titles) {
+  for (const title of titles) {
     const headerFooterData = await getHeaderAndFooterDataByTabTitle(title);
     const sourcePageId = await getTabIdFromTitle(title);
     await processSourceColumns(

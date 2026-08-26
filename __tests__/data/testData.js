@@ -283,11 +283,11 @@ export const REPORT_TEST_DATA = {
                 fail: true,
                 pending: false,
                 context: null,
-                code: "cart_1.CartsPage.elements.addToCartBtn().should('be.visible');",
+                code: 'cart_1.CartsPage.elements.addToCartBtn().should(\'be.visible\');',
                 err: {
                   message: SAMPLE_TEST_DATA.test1.error,
                   estack:
-                    "CypressError: `cy.task('ctrLogFiles')` failed with the following error:\n\nThe task 'ctrLogFiles' was not handled in the setupNodeEvents method. The following tasks are registered: getLocalConfig, dispatchSignIn, fileExists, safeReadJson, deleteFile\n\nFix this in your setupNodeEvents method here:",
+                    'CypressError: `cy.task(\'ctrLogFiles\')` failed with the following error:\n\nThe task \'ctrLogFiles\' was not handled in the setupNodeEvents method. The following tasks are registered: getLocalConfig, dispatchSignIn, fileExists, safeReadJson, deleteFile\n\nFix this in your setupNodeEvents method here:',
                   diff: null,
                 },
                 uuid: '8f2f42fd-e603-4b7b-8c66-dfhjd456456',
@@ -361,7 +361,7 @@ export const REPORT_TEST_DATA = {
                     err: {
                       message: SAMPLE_TEST_DATA.test2.error,
                       estack:
-                        "CypressError: `cy.task('ctrLogFiles')` failed with the  error:\n\nThe task 'ctrLogFiles' was not handled in the setupNodeEvents method. The following tasks are registered: getLocalConfig, dispatchSignIn, fileExists, safeReadJson, deleteFile\n\nFix this in your setupNodeEvents method here:",
+                        'CypressError: `cy.task(\'ctrLogFiles\')` failed with the  error:\n\nThe task \'ctrLogFiles\' was not handled in the setupNodeEvents method. The following tasks are registered: getLocalConfig, dispatchSignIn, fileExists, safeReadJson, deleteFile\n\nFix this in your setupNodeEvents method here:',
                       diff: null,
                     },
                     uuid: 'dgh6545-4555-45a0-a3cc-1068c2155ed6',
