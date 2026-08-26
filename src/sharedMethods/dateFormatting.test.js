@@ -119,8 +119,15 @@ describe('Date Formatting', () => {
     });
 
     it('should handle case-insensitive day names', () => {
-      const result = getDayIndex('MONDAY');
-      expect(result).toBe(0);
+      expect(getDayIndex('MONDAY')).toBe(1);
+      expect(getDayIndex('monday')).toBe(1);
+      expect(getDayIndex('Sunday')).toBe(0);
+    });
+
+    it('should default to Monday for missing/invalid names', () => {
+      expect(getDayIndex('')).toBe(1);
+      expect(getDayIndex(undefined)).toBe(1);
+      expect(getDayIndex('NotADay')).toBe(1);
     });
   });
 });
