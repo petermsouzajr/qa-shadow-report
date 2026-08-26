@@ -5,41 +5,13 @@ import { execSync } from 'child_process';
 import readline from 'readline';
 import chalk from 'chalk';
 import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import { isProjectConfigured } from './configuredStatus.js';
+import { getModulePaths, findProjectRoot } from '../src/utils/projectPaths.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const { dirname: __dirname } = getModulePaths(import.meta.url);
 
 // Get the directory name of the current script
 const configFileName = 'shadowReportConfig.js';
-
-/**
- * Finds the root directory of the project by looking for package.json.
- * @param {string} startPath - The path to start searching from.
- * @returns {string|null} The path to the project root or null if not found.
- */
-const findProjectRoot = (startPath) => {
-  let currentDir = startPath;
-
-  while (currentDir !== path.parse(currentDir).root) {
-    const packageJsonPath = path.join(currentDir, 'package.json');
-
-    if (fs.existsSync(packageJsonPath)) {
-      const nodeModulesPath = path.join(currentDir, 'node_modules');
-
-      // Check if the current directory is inside a node_modules directory
-      if (!currentDir.includes(path.sep + 'node_modules' + path.sep)) {
-        return currentDir;
-      }
-    }
-
-    currentDir = path.dirname(currentDir);
-  }
-
-  return null;
-};
 
 const projectRootPath = findProjectRoot(__dirname);
 
@@ -198,15 +170,15 @@ const createConfigFile = () => {
       encoding: 'utf-8',
     });
     console.info(
-      chalk.blue(`Config file created at: `),
+      chalk.blue('Config file created at: '),
       chalk.green(`${projectRootPath}/${configFileName}`)
     );
     console.info(
-      chalk.yellow(`Please update the `),
-      chalk.green(`testData `),
-      chalk.yellow(`sourcepath in `),
+      chalk.yellow('Please update the '),
+      chalk.green('testData '),
+      chalk.yellow('sourcepath in '),
       chalk.green(`${configFileName} `),
-      chalk.yellow(`to match your project's setup.`)
+      chalk.yellow('to match your project\'s setup.')
     );
   }
 };
@@ -259,10 +231,10 @@ const proceedWithFrameworkSpecificInstructions = (framework) => {
   if (framework === 'pw') {
     console.info(
       chalk.yellow('Please ensure'),
-      chalk.green("'playwright.config.js'"),
+      chalk.green('\'playwright.config.js\''),
       chalk.yellow(' is updated to use the JSON reporter,'),
       chalk.green(
-        " reporter: [['json', { outputFile: 'test-results/output.json' }]]"
+        ' reporter: [[\'json\', { outputFile: \'test-results/output.json\' }]]'
       )
     );
     finalizeSetup();

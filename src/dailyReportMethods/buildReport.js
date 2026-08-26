@@ -18,9 +18,9 @@ export const constructReportPayloadEntry = async (result, test, playwright) => {
     const area = playwright
       ? test.projectName
       : await dataExtraction.extractAreaFromFullFile(
-          result.fullFile,
-          typesAvailable
-        );
+        result.fullFile,
+        typesAvailable
+      );
 
     const spec = await dataExtraction.extractSpecFromFullFile(result.fullFile);
     const type = await dataExtraction.extractTypeFromFullFile(
@@ -44,7 +44,7 @@ export const constructReportPayloadEntry = async (result, test, playwright) => {
 
     const errorMessage = playwright ? test.err : test.err?.message;
 
-    let payloadEntry = {
+    const payloadEntry = {
       area,
       spec,
       testName,

@@ -30,7 +30,7 @@ export const buildDailyPayload = async (dataSet, playwright) => {
       throw new Error('Invalid columnsAvailable: Expected an array.');
     }
 
-    let fullDailyPayload = initializeDailyPayload();
+    const fullDailyPayload = initializeDailyPayload();
     const payloadEntries = await processTestSuites(dataSet, playwright);
     fullDailyPayload.bodyPayload = payloadEntries;
 
@@ -51,7 +51,7 @@ export const buildDailyPayload = async (dataSet, playwright) => {
     const headerRowIndex = findHeaderRowIndex(fullDailyPayload.headerPayload);
     const headerRow = fullDailyPayload.headerPayload[headerRowIndex - 1];
     const statusTargetIndex = headerRow.indexOf('state');
-    let footerArray = new Array(statusTargetIndex).fill('').concat(FOOTER_ROW);
+    const footerArray = new Array(statusTargetIndex).fill('').concat(FOOTER_ROW);
 
     fullDailyPayload.footerPayload.push(footerArray);
 

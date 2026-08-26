@@ -74,7 +74,7 @@ export const formatDuration = (durationMillis) => {
   const minutes = Math.floor(durationMillis / 60000);
   const seconds = Math.floor((durationMillis % 60000) / 1000);
   const milliseconds = durationMillis % 1000;
-  return `${"'"}${minutes}:${seconds}:${milliseconds}`;
+  return `${'\''}${minutes}:${seconds}:${milliseconds}`;
 };
 
 /**
@@ -84,5 +84,21 @@ export const formatDuration = (durationMillis) => {
  * @returns {number} Day index.
  */
 export const getDayIndex = (dayName) => {
-  return DAYS[dayName] || 0;
+  if (!dayName || typeof dayName !== 'string') {
+    return 1; // Monday default
+  }
+  if (Object.prototype.hasOwnProperty.call(DAYS, dayName)) {
+    return DAYS[dayName];
+  }
+  // Normalize "monday" / "MONDAY" → "Monday" (DAYS keys are title case)
+  const titled =
+    dayName.charAt(0).toUpperCase() + dayName.slice(1).toLowerCase();
+  if (Object.prototype.hasOwnProperty.call(DAYS, titled)) {
+    return DAYS[titled];
+  }
+  const lower = dayName.toLowerCase();
+  if (Object.prototype.hasOwnProperty.call(DAYS, lower)) {
+    return DAYS[lower];
+  }
+  return 1;
 };

@@ -8,6 +8,22 @@
   },
   "description": "npm package that prints formatted test reports into a google sheet or csv file",
   "main": "src/index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "cli.js",
+    "constants.js",
+    "src/**/*.js",
+    "!src/**/*.test.js",
+    "scripts/postInstall.js",
+    "scripts/configuredStatus.js",
+    "README.md",
+    "LICENSE",
+    "SECURITY.md",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "lint": "eslint . --report-unused-disable-directives",
     "lint:fix": "npm run lint -- --fix",
@@ -15,7 +31,8 @@
     "test:sanity": "node --experimental-vm-modules node_modules/.bin/jest --testNamePattern='\\[sanity\\]'",
     "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
     "test:coverage": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
-    "docs": "jsdoc -c jsdoc.json"
+    "docs": "jsdoc -c jsdoc.json",
+    "prepublishOnly": "npm test && npm run lint"
   },
   "repository": "git+ssh://git@github.com/petermsouzajr/qa-shadow-report.git",
   "keywords": [
@@ -41,7 +58,7 @@
     "@types/jest": "^29.5.12",
     "babel-jest": "^30.4.1",
     "docdash": "^2.0.2",
-    "eslint": "^10.8.1",
+    "eslint": "^8.57.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsdoc": "^50.6.6",
     "eslint-plugin-n": "^16.0.2",
@@ -54,6 +71,5 @@
     "dotenv": "^17.4.2",
     "googleapis": "^174.0.1",
     "prettier": "^3.9.6"
-  },
-  "type": "module"
+  }
 }

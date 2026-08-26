@@ -57,14 +57,21 @@ describe('Date Formatting', () => {
   });
 
   describe('getCurrentTime', () => {
-    it('should return current time', () => {
+    it('should return current time as HHmmss in local timezone', () => {
       const result = getCurrentTime();
-      expect(result).toBe('083045');
+      const d = new Date();
+      const expected = [
+        String(d.getHours()).padStart(2, '0'),
+        String(d.getMinutes()).padStart(2, '0'),
+        String(d.getSeconds()).padStart(2, '0'),
+      ].join('');
+      expect(result).toBe(expected);
+      expect(result).toMatch(/^\d{6}$/);
     });
   });
 
   describe('getPreviousMonthsYear', () => {
-    it("should return previous month's year", () => {
+    it('should return previous month\'s year', () => {
       const result = getPreviousMonthsYear('Mar');
       expect(result).toBe('2024');
     });
@@ -76,7 +83,7 @@ describe('Date Formatting', () => {
   });
 
   describe('getTodaysFormattedDate', () => {
-    it("should return today's formatted date", () => {
+    it('should return today\'s formatted date', () => {
       const result = getTodaysFormattedDate();
       expect(result).toBe('Mar 20, 2024');
     });
@@ -84,19 +91,19 @@ describe('Date Formatting', () => {
 
   describe('formatDuration', () => {
     it('should format duration in minutes:seconds:milliseconds format', () => {
-      expect(formatDuration(125000)).toBe("'2:5:0");
+      expect(formatDuration(125000)).toBe('\'2:5:0');
     });
 
     it('should handle zero duration', () => {
-      expect(formatDuration(0)).toBe("'0:0:0");
+      expect(formatDuration(0)).toBe('\'0:0:0');
     });
 
     it('should handle large durations', () => {
-      expect(formatDuration(3661000)).toBe("'61:1:0");
+      expect(formatDuration(3661000)).toBe('\'61:1:0');
     });
 
     it('should handle milliseconds correctly', () => {
-      expect(formatDuration(1001)).toBe("'0:1:1");
+      expect(formatDuration(1001)).toBe('\'0:1:1');
     });
   });
 
@@ -112,8 +119,15 @@ describe('Date Formatting', () => {
     });
 
     it('should handle case-insensitive day names', () => {
-      const result = getDayIndex('MONDAY');
-      expect(result).toBe(0);
+      expect(getDayIndex('MONDAY')).toBe(1);
+      expect(getDayIndex('monday')).toBe(1);
+      expect(getDayIndex('Sunday')).toBe(0);
+    });
+
+    it('should default to Monday for missing/invalid names', () => {
+      expect(getDayIndex('')).toBe(1);
+      expect(getDayIndex(undefined)).toBe(1);
+      expect(getDayIndex('NotADay')).toBe(1);
     });
   });
 });

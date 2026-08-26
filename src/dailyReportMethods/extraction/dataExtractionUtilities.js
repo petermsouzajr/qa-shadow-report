@@ -56,10 +56,10 @@ export const extractCategoryFromTest = (test, testCategoriesAvailable) => {
   }
 
   const categoryMatches = test.fullTitle.match(/\[(\w+)\]/g);
-  let categories = [];
+  const categories = [];
 
   if (categoryMatches) {
-    for (let match of categoryMatches) {
+    for (const match of categoryMatches) {
       const extractedCategory = match.replace(/[[\]]/g, '');
       if (testCategoriesAvailable.includes(extractedCategory)) {
         categories.push(extractedCategory);

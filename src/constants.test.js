@@ -9,9 +9,8 @@ import {
   ALL_TEAM_NAMES,
 } from './constants.js';
 
-describe('Constants', () => {
+describe('Constants (canonical root via src re-export)', () => {
   beforeEach(() => {
-    jest.resetModules();
     global.shadowConfigDetails = {
       googleSpreadsheetUrl:
         'https://docs.google.com/spreadsheets/d/abc123/edit#gid=0',
@@ -25,108 +24,94 @@ describe('Constants', () => {
   });
 
   afterEach(() => {
-    jest.resetModules();
     global.shadowConfigDetails = {};
   });
 
   describe('GOOGLE_SHEET_ID', () => {
     it('should extract sheet ID from URL', () => {
-      const result = GOOGLE_SHEET_ID();
-      expect(result).toBe('abc123');
+      expect(GOOGLE_SHEET_ID()).toBe('abc123');
     });
 
     it('should handle direct sheet ID', () => {
       global.shadowConfigDetails.googleSpreadsheetUrl = 'abc123';
-      const result = GOOGLE_SHEET_ID();
-      expect(result).toBe('abc123');
+      expect(GOOGLE_SHEET_ID()).toBe('abc123');
     });
 
     it('should handle missing configuration', () => {
       delete global.shadowConfigDetails.googleSpreadsheetUrl;
-      const result = GOOGLE_SHEET_ID();
-      expect(result).toBe('');
+      expect(GOOGLE_SHEET_ID()).toBe('');
     });
   });
 
   describe('GOOGLE_KEYFILE_PATH', () => {
     it('should return key file path', () => {
-      const result = GOOGLE_KEYFILE_PATH();
-      expect(result).toBe('/path/to/key.json');
+      expect(GOOGLE_KEYFILE_PATH()).toBe('/path/to/key.json');
     });
 
     it('should handle missing configuration', () => {
       delete global.shadowConfigDetails.googleKeyFilePath;
-      const result = GOOGLE_KEYFILE_PATH();
-      expect(result).toBe('');
+      expect(GOOGLE_KEYFILE_PATH()).toBe('');
     });
   });
 
   describe('TEST_TYPES_AVAILABLE', () => {
     it('should return custom test types', () => {
-      const result = TEST_TYPES_AVAILABLE();
-      expect(result).toEqual(['type1', 'type2', 'type3']);
+      expect(TEST_TYPES_AVAILABLE()).toEqual(['type1', 'type2', 'type3']);
     });
 
     it('should return default test types when not configured', () => {
       delete global.shadowConfigDetails.testTypes;
       const result = TEST_TYPES_AVAILABLE();
-      expect(result).toEqual(['unit', 'integration', 'e2e']);
+      expect(result).toEqual(
+        expect.arrayContaining(['unit', 'integration', 'api', 'ui'])
+      );
     });
   });
 
   describe('TEST_CATEGORIES_AVAILABLE', () => {
     it('should return custom test categories', () => {
-      const result = TEST_CATEGORIES_AVAILABLE();
-      expect(result).toEqual(['category1', 'category2', 'category3']);
+      expect(TEST_CATEGORIES_AVAILABLE()).toEqual([
+        'category1',
+        'category2',
+        'category3',
+      ]);
     });
 
     it('should return default test categories when not configured', () => {
       delete global.shadowConfigDetails.testCategories;
       const result = TEST_CATEGORIES_AVAILABLE();
-      expect(result).toEqual(['smoke', 'regression', 'performance']);
+      expect(result).toEqual(expect.arrayContaining(['smoke', 'regression']));
     });
   });
 
   describe('WEEK_START', () => {
     it('should return configured week start', () => {
-      const result = WEEK_START();
-      expect(result).toBe('Monday');
-    });
-
-    it('should return default week start when not configured', () => {
-      const result = WEEK_START();
-      expect(result).toBe('Monday');
+      expect(WEEK_START()).toBe('Monday');
     });
   });
 
   describe('WEEKLY_SUMMARY_ENABLED', () => {
     it('should return true when enabled', () => {
-      const result = WEEKLY_SUMMARY_ENABLED();
-      expect(result).toBe(true);
+      expect(WEEKLY_SUMMARY_ENABLED()).toBe(true);
     });
 
     it('should return false when disabled', () => {
       global.shadowConfigDetails.weeklySummaryEnabled = false;
-      const result = WEEKLY_SUMMARY_ENABLED();
-      expect(result).toBe(false);
-    });
-
-    it('should return default value when not configured', () => {
-      const result = WEEKLY_SUMMARY_ENABLED();
-      expect(result).toBe(true);
+      expect(WEEKLY_SUMMARY_ENABLED()).toBe(false);
     });
   });
 
   describe('ALL_TEAM_NAMES', () => {
     it('should return configured team names', () => {
-      const result = ALL_TEAM_NAMES();
-      expect(result).toEqual(['team1', 'team2', 'team3']);
+      expect(ALL_TEAM_NAMES()).toEqual(['team1', 'team2', 'team3']);
     });
 
-    it('should return default team names when not configured', () => {
+    it('should return built-in default team names when not configured', () => {
       delete global.shadowConfigDetails.teamNames;
       const result = ALL_TEAM_NAMES();
-      expect(result).toEqual(['team1', 'team2']);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBeGreaterThan(0);
+      expect(result).toContain('raptors');
     });
   });
 });

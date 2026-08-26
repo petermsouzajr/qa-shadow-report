@@ -16,13 +16,13 @@ describe('Daily Report Required', () => {
     getTodaysFormattedDate.mockReturnValue(mockDate);
   });
 
-  it.skip("should return true when today's report exists", async () => {
+  it.skip('should return true when today\'s report exists', async () => {
     const result = await doesTodaysReportExist();
     expect(result).toBe(true);
     expect(getTodaysFormattedDate).toHaveBeenCalled();
   });
 
-  it.skip("should return false when today's report does not exist", async () => {
+  it.skip('should return false when today\'s report does not exist', async () => {
     const result = await doesTodaysReportExist();
     expect(result).toBe(false);
   });

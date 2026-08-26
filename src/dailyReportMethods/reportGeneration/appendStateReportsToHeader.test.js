@@ -225,7 +225,7 @@ describe('appendStateReportsToHeader', () => {
           defaultHeaderMetrics,
           playwright
         )
-      ).toThrow("Cannot read properties of null (reading 'length')");
+      ).toThrow('Cannot read properties of null (reading \'length\')');
     });
 
     it('should handle header payload at index not being an array', () => {
@@ -242,7 +242,7 @@ describe('appendStateReportsToHeader', () => {
           defaultHeaderMetrics,
           playwright
         )
-      ).toThrow("Cannot read properties of null (reading 'length')");
+      ).toThrow('Cannot read properties of null (reading \'length\')');
     });
 
     it('should handle malformed header payload structure', () => {

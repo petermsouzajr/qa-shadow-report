@@ -31,7 +31,7 @@ export const constructPayloadForCopyPaste = async (
     });
     const lastMonthTabValues = await fetchLastMonthTabValues(sortedTitles);
     const summaryPayload = initializeReportPayload();
-    let columnMetrics = initializeReportColumnMetrics(headerIndicatorsLength);
+    const columnMetrics = initializeReportColumnMetrics(headerIndicatorsLength);
     const destinationTabId = await getTabIdFromTitle(destinationTabTitle);
 
     columnMetrics.longestHeaderEnd = await findLongestHeaderWithinSeries(

@@ -48,7 +48,7 @@ export const constructWeeklyPayloadForCopyPaste = async (
     });
     const lastWeekTabValues = await fetchLastWeekTabValues(weeklyTabTitles);
     const summaryPayload = initializeWeeklyReportPayload();
-    let columnMetrics = initializeReportColumnMetrics(headerIndicatorsLength);
+    const columnMetrics = initializeReportColumnMetrics(headerIndicatorsLength);
     const destinationTabId = await getTabIdFromWeeklyTitle(destinationTabTitle);
 
     columnMetrics.longestHeaderEnd = await findLongestHeaderWithinWeeklySeries(
