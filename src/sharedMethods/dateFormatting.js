@@ -85,8 +85,20 @@ export const formatDuration = (durationMillis) => {
  */
 export const getDayIndex = (dayName) => {
   if (!dayName || typeof dayName !== 'string') {
-    return DAYS.monday ?? 1;
+    return 1; // Monday default
   }
-  const key = dayName.toLowerCase();
-  return DAYS[key] ?? DAYS.monday ?? 1;
+  if (Object.prototype.hasOwnProperty.call(DAYS, dayName)) {
+    return DAYS[dayName];
+  }
+  // Normalize "monday" / "MONDAY" → "Monday" (DAYS keys are title case)
+  const titled =
+    dayName.charAt(0).toUpperCase() + dayName.slice(1).toLowerCase();
+  if (Object.prototype.hasOwnProperty.call(DAYS, titled)) {
+    return DAYS[titled];
+  }
+  const lower = dayName.toLowerCase();
+  if (Object.prototype.hasOwnProperty.call(DAYS, lower)) {
+    return DAYS[lower];
+  }
+  return 1;
 };
