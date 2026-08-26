@@ -84,5 +84,9 @@ export const formatDuration = (durationMillis) => {
  * @returns {number} Day index.
  */
 export const getDayIndex = (dayName) => {
-  return DAYS[dayName] || 0;
+  if (!dayName || typeof dayName !== 'string') {
+    return DAYS.monday ?? 1;
+  }
+  const key = dayName.toLowerCase();
+  return DAYS[key] ?? DAYS.monday ?? 1;
 };

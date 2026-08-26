@@ -9,6 +9,8 @@ jobs:
   test:
     name: Test & lint (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
+    env:
+      TZ: UTC
     strategy:
       fail-fast: false
       matrix:

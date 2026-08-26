@@ -268,7 +268,8 @@ describe('Summary Required', () => {
     });
 
     it('should return true when weekly summary is needed and it is end of week (Sunday)', async () => {
-      jest.setSystemTime(new Date('2024-02-18T12:00:00.000Z')); // Sunday
+      // Local Sunday noon (avoid UTC ISO that can cross day boundaries by TZ)
+      jest.setSystemTime(new Date(2024, 1, 18, 12, 0, 0));
       mockCreateWeeklySummaryTitle.mockReturnValue('Weekly_2024_02_12'); // For week starting Mon Feb 12
       if (typeof mockGetExistingTabTitlesInRange !== 'function')
         // Use the top-level mock
@@ -284,7 +285,7 @@ describe('Summary Required', () => {
     });
 
     it('should return false when weekly summary already exists', async () => {
-      jest.setSystemTime(new Date('2024-02-18T12:00:00.000Z')); // Sunday
+      jest.setSystemTime(new Date(2024, 1, 18, 12, 0, 0)); // local Sunday
       const weeklySummaryTitle = mockCreateWeeklySummaryTitle(); // 'Weekly_2024_02_12'
       if (typeof mockGetExistingTabTitlesInRange !== 'function')
         // Use the top-level mock

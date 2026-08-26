@@ -369,7 +369,7 @@ export const TEST_CATEGORIES_AVAILABLE = () => {
 
 export const WEEK_START = () => {
   return getCachedOrCompute('startDay', () => {
-    return getActiveShadowConfig().weeklySummaryStartDay;
+    return getActiveShadowConfig().weeklySummaryStartDay || 'Monday';
   });
 };
 

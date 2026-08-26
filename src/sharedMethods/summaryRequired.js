@@ -178,9 +178,10 @@ const isWeeklySummaryNeeded = (tabTitles) => {
     }
 
     const now = new Date();
+    const weekStartName = WEEK_START() || 'Monday';
     const startDate = new Date(now);
     startDate.setDate(
-      now.getDate() - ((now.getDay() + 7 - getDayIndex(WEEK_START())) % 7)
+      now.getDate() - ((now.getDay() + 7 - getDayIndex(weekStartName)) % 7)
     );
     startDate.setHours(0, 0, 0, 0);
 
