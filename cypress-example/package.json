@@ -1,25 +1,31 @@
 {
   "name": "cypress-example",
   "version": "1.0.0",
-  "description": "",
+  "description": "Example Cypress project demonstrating qa-shadow-report integration",
   "main": "index.js",
   "scripts": {
     "cypress:prerun": "rm -rf cypress/results",
-    "cypress:run": "npm run cypress:prerun && cypress run --headless --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=false,json=true",
+    "cypress:run": "npm run cypress:prerun && cypress run --headless --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=false,json=true --quiet || true",
     "postcypress:run": "npm run report:merge",
     "report:merge": "mochawesome-merge cypress/results/*.json > cypress/results/output.json && npm run report:generate",
     "report:generate": "qa-shadow-report cypress",
-    "test": "npm run cypress:run"
+    "test": "npm run cypress:run",
+    "cypress:open": "cypress open"
   },
-  "keywords": [],
+  "keywords": [
+    "cypress",
+    "qa-shadow-report",
+    "testing",
+    "demo"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^14.1.0",
+    "cypress": "^16.0.0",
     "mochawesome": "^7.1.3",
     "mochawesome-merge": "^4.3.0"
   },
   "dependencies": {
-    "qa-shadow-report": "^1.1.34"
+    "qa-shadow-report": "file:.."
   }
 }
