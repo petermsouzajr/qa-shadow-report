@@ -6,6 +6,11 @@ jest.unstable_mockModule('fs', () => ({
   },
 }));
 
+afterAll(async () => {
+  jest.unstable_unmockModule('fs');
+  jest.resetModules();
+});
+
 // Mock the googleapis module
 jest.unstable_mockModule('googleapis', () => ({
   google: {
