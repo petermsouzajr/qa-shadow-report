@@ -4,6 +4,7 @@ import path from 'path';
 import { pathToFileURL } from 'url';
 import dotenv from 'dotenv';
 import { getModulePaths, findProjectRoot } from './src/utils/projectPaths.js';
+import { validateAndReportConfig } from './src/utils/configValidator.js';
 
 dotenv.config();
 
@@ -58,6 +59,13 @@ try {
   if (fs.existsSync(configPath)) {
     const shadowConfig = await import(pathToFileURL(configPath).href);
     shadowConfigDetails = shadowConfig.default || {};
+    
+    // Validate config if it's not empty and not in test mode
+    if (Object.keys(shadowConfigDetails).length > 0 && !process.env.JEST_WORKER_ID) {
+      // Don't exit on error here - let the specific functions handle missing values
+      // This allows for CSV-only mode where Google Sheets config isn't required
+      validateAndReportConfig(shadowConfigDetails, configPath, false);
+    }
   }
 } catch (error) {
   console.error(
