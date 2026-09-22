@@ -56,6 +56,12 @@ import {
   startSetup,
 } from './postInstall.js';
 
+afterAll(() => {
+  jest.unmock('fs');
+  jest.unmock('path');
+  jest.resetModules();
+});
+
 describe('Post Install Script', () => {
   const mockProjectRoot = '/mock/project/root';
   const mockPackageJsonPath = '/mock/project/root/package.json';
