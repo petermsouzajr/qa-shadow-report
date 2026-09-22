@@ -94,7 +94,7 @@ const createConfigFile = (framework = 'cy') => {
       teamNames: string[];
       testTypes: string[];
       testCategories: string[];
-      googleSpreadsheetId: string;
+      googleSpreadsheetUrl: string;
       googleKeyFilePath: string;
       testData: string;
       csvDownloadsPath: string;
@@ -102,20 +102,44 @@ const createConfigFile = (framework = 'cy') => {
     }} */
     
     const config = {
-      // Uncomment the relevant teams or add your own in the Describe block or It block:
+      // Uncomment the teams you use, or add your own in a describe or it title:
       //  describe('[oregano] Unit test our math functions', () => {
       //    context('math', () => {
       //      it('can add numbers [C2452][smoke]', () => {
       teamNames: [
         'team',
+        // 'oregano',
+        // 'wilkins',
+        // 'canonicus',
       ],
+      // Uncomment the types you use, or match them to your folder names:
+      // [framework]/ui/1-getting-started/todo.cy.js
       testTypes: [
         'api',
         'ui',
+        // 'unit',
+        // 'integration',
+        // 'endToEnd',
+        // 'performance',
+        // 'security',
+        // 'database',
+        // 'accessibility',
+        // 'mobile',
       ],
+      // Uncomment the categories you use, or add them in a describe or it title:
+      //  it('can add numbers [C2452][smoke]', () => {
       testCategories: [
         'smoke',
         'regression',
+        // 'sanity',
+        // 'exploratory',
+        // 'functional',
+        // 'load',
+        // 'stress',
+        // 'usability',
+        // 'compatibility',
+        // 'alpha',
+        // 'beta',
       ],
       // Leave blank for CSV-only reports. Required for Google Sheets.
       googleSpreadsheetUrl: '',
