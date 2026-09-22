@@ -311,16 +311,28 @@ const startSetup = () => {
   );
 };
 
+const { filename: thisFile } = getModulePaths(import.meta.url);
+const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : '';
+let invokedDirectly = false;
 try {
-  confirmReconfigure();
-} catch (error) {
-  console.error(
-    chalk.red(
-      `An error occurred during the post-installation script. Check the setup guide information on dependencies ${setupLink}`
-    ),
-    error
-  );
-  process.exit(1);
+  invokedDirectly = invokedPath && fs.realpathSync(invokedPath) === fs.realpathSync(thisFile);
+} catch {
+  invokedDirectly = invokedPath === thisFile;
+}
+
+// Only the setup command should prompt. Importing this file for tests must not.
+if (invokedDirectly) {
+  try {
+    confirmReconfigure();
+  } catch (error) {
+    console.error(
+      chalk.red(
+        `An error occurred during the post-installation script. Check the setup guide information on dependencies ${setupLink}`
+      ),
+      error
+    );
+    process.exit(1);
+  }
 }
 
 // Export functions for testing

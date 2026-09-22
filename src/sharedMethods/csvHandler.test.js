@@ -27,6 +27,12 @@ import { saveCSV, calculateDailySummaryMetrics } from './csvHandler.js';
 import { getCurrentTime, getTodaysFormattedDate } from './dateFormatting.js';
 import { CSV_DOWNLOADS_PATH } from '../../constants.js';
 
+afterAll(() => {
+  jest.unmock('fs');
+  jest.unmock('path');
+  jest.resetModules();
+});
+
 describe('CSV Handler', () => {
   beforeEach(() => {
     jest.clearAllMocks();
