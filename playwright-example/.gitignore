@@ -1,9 +1,27 @@
-playwright/results/
-playwright/screenshots/
+# Test results and artifacts
+test-results/
+playwright-report/
+blob-report/
+downloads/
+
+# Playwright cache
+playwright/.cache/
+
+# Dependencies
 node_modules/
+package-lock.json
+
+# Google Sheets credentials (NEVER COMMIT)
 googleCredentials.json
+googleCredentials.json.gpg
+
+# Local configuration (copy from .example file)
 shadowReportConfig.js
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

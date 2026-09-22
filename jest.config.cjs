@@ -22,4 +22,9 @@ module.exports = {
     '**/__tests__/**/*.js',
     '**/?(*.)+(spec|test).js',
   ],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/cypress-example/',
+    '/playwright-example/',
+  ],
 };
