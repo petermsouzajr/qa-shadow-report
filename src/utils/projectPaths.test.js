@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import { getModulePaths, findProjectRoot } from './projectPaths.js';
 
 describe('projectPaths [sanity]', () => {
@@ -16,6 +17,9 @@ describe('projectPaths [sanity]', () => {
     const { dirname } = getModulePaths(import.meta.url);
     const root = findProjectRoot(dirname);
     expect(root).toBeTruthy();
-    expect(root).toContain('qa-shadow-report');
+    expect(path.isAbsolute(root)).toBe(true);
+    // Verify package.json exists at root
+    const packageJsonPath = path.join(root, 'package.json');
+    expect(fs.existsSync(packageJsonPath)).toBe(true);
   });
 });

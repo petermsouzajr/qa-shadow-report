@@ -269,32 +269,32 @@ All commands require that test suite result data is present, in this example, th
   - If the Sheet has Tabs for the previous month (e.g., current month is April and sheet tabs exist for `Mar 24, 2024`, `Mar 25, 2024`), then a monthly summary will be generated with that previous month's data (`Summary Mar 2024`).
   - If you have activated the Weekly Summary feature, and the Sheet has Tabs for the previous week, a weekly summary will be generated with that week's data.
   - The reports will fail if test result data is not present in JSON format.
-  - Duplicate Sheet Tabs are not created by defualt, to create a duplicate Tab, use the flag `--duplicate`.
+  - Duplicate Sheet Tabs are not created by default, to create a duplicate Tab, use the flag `--duplicate`.
 
 - **To run the daily report only**
 
   - Run `npx qa-shadow-report [framework] todays-report`.
   - Ensure JSON data is present from framework test results output.
-  - Duplicate Sheet Tabs are not created by defualt, to create a duplicte Tab, use the flag `--duplicate`.
+  - Duplicate Sheet Tabs are not created by default, to create a duplicate Tab, use the flag `--duplicate`.
 
 - **To run the weekly summary report only**
 
   - Run `npx qa-shadow-report [framework] weekly-summary`.
   - Ensure daily reports from the previous week are present, otherwise no summary will be generated.
-  - Duplicate Sheet Tabs are not created by defualt, to create a duplicate Tab, use the flag `--duplicate`.
+  - Duplicate Sheet Tabs are not created by default, to create a duplicate Tab, use the flag `--duplicate`.
 
 - **To run the monthly summary report only**
 
   - Run `npx qa-shadow-report [framework] monthly-summary`.
   - Ensure daily reports from the previous month are present, otherwise no summary will be generated.
-  - Duplicate Sheet Tabs are not created by defualt, to create a duplicate Tab, use the flag `--duplicate`.
+  - Duplicate Sheet Tabs are not created by default, to create a duplicate Tab, use the flag `--duplicate`.
 
 ### To Generate Duplicates
 
 - Use the base commands with the optional flag `--duplicate`
   - `npx qa-shadow-report [framework] --duplicate`
   - `npx qa-shadow-report [framework] todays-report --duplicate`
-  - Monthly summary dupliactes must be created directly, using the command `npx qa-shadow-report [framework] monthly-summary --duplicate`.
+  - Monthly summary duplicates must be created directly, using the command `npx qa-shadow-report [framework] monthly-summary --duplicate`.
 
 ### Quick Command Reference
 
@@ -315,7 +315,7 @@ All commands require that test suite result data is present, in this example, th
 If you have team names or labels indicating ownership of a test or code feature, you need to specify them to ensure visibility on the report sheet. Add them to your `shadowReportConfig.*` (`.js`, or`.ts`) file:
 
 ```js
-// shdowReportConfig.js
+// shadowReportConfig.js
 module.exports = {
   teamNames: [
     'oregano',
@@ -389,7 +389,7 @@ module.exports = {
 };
 ```
 
-To incorporate a test Tpye into your [framework] report, it's essential, and highly recommended, to integrate the test Type into your [framework] file structure. This practice enhances organizational clarity within your team. For instance, in this example, 'api' is added after the e2e directory:
+To incorporate a test Type into your [framework] report, it's essential, and highly recommended, to integrate the test Type into your [framework] file structure. This practice enhances organizational clarity within your team. For instance, in this example, 'api' is added after the e2e directory:
 
 `[framework]/e2e/api/1-getting-started/todo.cy.js`
 
