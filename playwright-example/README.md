@@ -114,7 +114,7 @@ This produces a report row with:
 
 ## Configuration Files
 
-- **`playwright.config.js`** - Playwright configuration
+- **`playwright.config.mjs`** - Playwright configuration
 - **`shadowReportConfig.js.example`** - Template for qa-shadow-report configuration
 - **`shadowReportConfig.js`** - Your local config (gitignored, copy from .example)
 - **`package.json`** - Dependencies and scripts
@@ -197,7 +197,7 @@ npx playwright test -g "should fetch"
 - Check your internet connection
 - The UI tests use `https://demo.playwright.dev/todomvc`
 - The API tests use `https://jsonplaceholder.typicode.com`
-- Update `baseURL` in `playwright.config.js` if needed
+- Update `baseURL` in `playwright.config.mjs` if needed
 
 **Browser not found errors:**
 - Run `npx playwright install` to download browser binaries
@@ -205,7 +205,7 @@ npx playwright test -g "should fetch"
 
 **Report generation fails:**
 - Ensure `test-results/output.json` exists after running tests
-- Check that the JSON reporter is configured in `playwright.config.js`
+- Check that the JSON reporter is configured in `playwright.config.mjs`
 - Verify the `testData` path in `shadowReportConfig.js` matches the output file
 
 **Google Sheets authentication errors:**
