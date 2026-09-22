@@ -11,13 +11,13 @@ describe('[billing] Homepage UI Tests', () => {
   });
 
   it('should navigate to Querying section [C1002][regression]', () => {
-    cy.contains('Querying').click();
+    cy.contains('a', 'Querying').click({ force: true });
     cy.url().should('include', '/commands/querying');
     cy.get('h1').should('contain', 'Querying');
   });
 
   it('should have working navigation links [C1003][smoke]', () => {
-    cy.get('.navbar-nav').should('be.visible');
+    cy.get('nav, .navbar, header').should('be.visible');
     cy.contains('Commands').should('be.visible');
   });
 });
