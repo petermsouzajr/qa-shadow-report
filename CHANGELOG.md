@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.9
+
+### Fixed
+- `--help` no longer opens Google credentials or validates the config before printing help.
+- `--csv` no longer requires a spreadsheet URL or a credentials file.
+- `qasr-setup` writes a config the checker accepts: real team lists, a Cypress results path, and CommonJS only (no module-type warning).
+
 ## 2.1.8
 
 ### Fixed

@@ -7,32 +7,30 @@ import path from 'path';
  *
  * @param {import('./types.js').ShadowReportConfig} config - The configuration object to validate
  * @param {string} configPath - Path to the config file (for error messages)
+ * @param {{skipGoogle?: boolean}} [options] - skipGoogle skips spreadsheet and credentials checks
  * @returns {{valid: boolean, errors: string[]}} Validation result with any error messages
  */
-export function validateConfig(config, configPath) {
+export function validateConfig(config, configPath, options = {}) {
   const errors = [];
+  const skipGoogle = options.skipGoogle || process.argv.includes('--csv') || process.argv.includes('--help');
 
   // Helper to check if value is a non-empty string
   const isNonEmptyString = (val) => typeof val === 'string' && val.trim().length > 0;
 
-  // Helper to check if value is a non-empty array
-  const isNonEmptyArray = (val) => Array.isArray(val) && val.length > 0;
-
-  // Check googleSpreadsheetUrl (required for non-CSV mode)
-  if (!config.googleSpreadsheetUrl) {
+  // Google fields are required for Sheets, not for CSV.
+  if (!skipGoogle && !config.googleSpreadsheetUrl) {
     errors.push(
       `${chalk.red('Missing required field:')} ${chalk.yellow('googleSpreadsheetUrl')}\n` +
       '  Expected: A Google Sheets URL or spreadsheet ID\n' +
       '  Example: \'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit\''
     );
-  } else if (!isNonEmptyString(config.googleSpreadsheetUrl)) {
+  } else if (!skipGoogle && !isNonEmptyString(config.googleSpreadsheetUrl)) {
     errors.push(
       `${chalk.red('Invalid value for')} ${chalk.yellow('googleSpreadsheetUrl')}\n` +
       '  Expected: A non-empty string\n' +
       `  Received: ${typeof config.googleSpreadsheetUrl}`
     );
-  } else {
-    // Validate URL format if it's not an env var reference
+  } else if (!skipGoogle) {
     const isEnvVar = /^process\.env\.\w+$/.test(config.googleSpreadsheetUrl);
     if (!isEnvVar) {
       const hasSheetId = config.googleSpreadsheetUrl.includes('/d/') ||
@@ -47,24 +45,23 @@ export function validateConfig(config, configPath) {
     }
   }
 
-  // Check googleKeyFilePath (required for non-CSV mode)
-  if (!config.googleKeyFilePath) {
+  if (!skipGoogle && !config.googleKeyFilePath) {
     errors.push(
       `${chalk.red('Missing required field:')} ${chalk.yellow('googleKeyFilePath')}\n` +
       '  Expected: Path to your Google service account credentials JSON file\n' +
       '  Example: \'./googleCredentials.json\'\n' +
       '  See: https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication'
     );
-  } else if (!isNonEmptyString(config.googleKeyFilePath)) {
+  } else if (!skipGoogle && !isNonEmptyString(config.googleKeyFilePath)) {
     errors.push(
       `${chalk.red('Invalid value for')} ${chalk.yellow('googleKeyFilePath')}\n` +
       '  Expected: A non-empty string (file path)\n' +
       `  Received: ${typeof config.googleKeyFilePath}`
     );
-  } else {
+  } else if (!skipGoogle) {
     // Check if file exists (unless it's an env var reference)
     const isEnvVar = /^process\.env\.\w+$/.test(config.googleKeyFilePath);
-    if (!isEnvVar) {
+    if (!isEnvVar && config.googleKeyFilePath) {
       const configDir = path.dirname(configPath);
       const keyFilePath = path.resolve(configDir, config.googleKeyFilePath);
       if (!fs.existsSync(keyFilePath)) {
@@ -94,7 +91,7 @@ export function validateConfig(config, configPath) {
   }
 
   // Validate optional array fields
-  if (config.teamNames !== undefined && !isNonEmptyArray(config.teamNames)) {
+  if (config.teamNames !== undefined && !Array.isArray(config.teamNames)) {
     errors.push(
       `${chalk.red('Invalid value for')} ${chalk.yellow('teamNames')}\n` +
       '  Expected: An array of team name strings\n' +
@@ -102,7 +99,7 @@ export function validateConfig(config, configPath) {
     );
   }
 
-  if (config.testTypes !== undefined && !isNonEmptyArray(config.testTypes)) {
+  if (config.testTypes !== undefined && !Array.isArray(config.testTypes)) {
     errors.push(
       `${chalk.red('Invalid value for')} ${chalk.yellow('testTypes')}\n` +
       '  Expected: An array of test type strings\n' +
@@ -110,7 +107,7 @@ export function validateConfig(config, configPath) {
     );
   }
 
-  if (config.testCategories !== undefined && !isNonEmptyArray(config.testCategories)) {
+  if (config.testCategories !== undefined && !Array.isArray(config.testCategories)) {
     errors.push(
       `${chalk.red('Invalid value for')} ${chalk.yellow('testCategories')}\n` +
       '  Expected: An array of test category strings\n' +
@@ -118,7 +115,7 @@ export function validateConfig(config, configPath) {
     );
   }
 
-  if (config.columns !== undefined && !isNonEmptyArray(config.columns)) {
+  if (config.columns !== undefined && !Array.isArray(config.columns)) {
     errors.push(
       `${chalk.red('Invalid value for')} ${chalk.yellow('columns')}\n` +
       '  Expected: An array of column name strings\n' +

@@ -61,7 +61,9 @@ let shadowConfigDetails = {};
 try {
   if (fs.existsSync(configPath)) {
     const shadowConfig = await import(pathToFileURL(configPath).href);
-    shadowConfigDetails = shadowConfig.default || {};
+    const loaded = shadowConfig.default || {};
+    const hasFields = loaded.testData || loaded.googleSpreadsheetUrl || loaded.teamNames;
+    shadowConfigDetails = hasFields ? loaded : (shadowConfig.testData ? shadowConfig : loaded);
     
     // Validate config if it's not empty and not in test mode
     if (Object.keys(shadowConfigDetails).length > 0 && !process.env.JEST_WORKER_ID) {
