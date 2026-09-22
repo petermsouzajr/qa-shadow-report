@@ -72,6 +72,18 @@ jobs:
             exit 1
           fi
 
+      # Force-take example folders from main (source of truth for demos)
+      - name: Update example folders from main
+        run: |
+          echo "Updating example folders to match main..."
+          git checkout origin/main -- cypress-example/ playwright-example/ || echo "Example folders may not exist on main yet"
+          if git diff --cached --quiet; then
+            echo "No changes to example folders"
+          else
+            echo "Example folders updated from main"
+            git commit -m "Update example folders from main"
+          fi
+
       # Push changes to demo (no force needed)
       - name: Push changes to demo
         run: |
