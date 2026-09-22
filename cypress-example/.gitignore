@@ -1,5 +1,24 @@
+# Test results and artifacts
 cypress/results/
 cypress/screenshots/
+cypress/videos/
+downloads/
+
+# Dependencies
 node_modules/
+package-lock.json
+
+# Google Sheets credentials (NEVER COMMIT)
 googleCredentials.json
+googleCredentials.json.gpg
+
+# Local configuration (copy from .example file)
 shadowReportConfig.js
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

@@ -1,0 +1,29 @@
+{
+  "name": "playwright-example",
+  "version": "1.0.0",
+  "description": "Example Playwright project demonstrating qa-shadow-report integration",
+  "main": "shadowReportConfig.js",
+  "scripts": {
+    "playwright:prerun": "rm -rf test-results",
+    "playwright:run": "npm run playwright:prerun && playwright test || true",
+    "report:generate": "qa-shadow-report playwright",
+    "test": "npm run playwright:run && npm run report:generate",
+    "playwright:ui": "playwright test --ui",
+    "playwright:debug": "playwright test --debug"
+  },
+  "keywords": [
+    "playwright",
+    "qa-shadow-report",
+    "testing",
+    "demo"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.10.0"
+  },
+  "dependencies": {
+    "qa-shadow-report": "file:.."
+  }
+}
