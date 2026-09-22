@@ -1,5 +1,11 @@
 import { jest } from '@jest/globals';
 
+jest.unstable_mockModule('fs', () => ({
+  default: {
+    existsSync: () => true,
+  },
+}));
+
 // Mock the googleapis module
 jest.unstable_mockModule('googleapis', () => ({
   google: {
