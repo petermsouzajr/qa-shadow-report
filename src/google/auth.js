@@ -1,21 +1,26 @@
+import fs from 'fs';
 import { google } from 'googleapis';
 import { GOOGLE_SHEET_ID, GOOGLE_KEYFILE_PATH } from '../../constants.js';
 
-const keyFilePath = GOOGLE_KEYFILE_PATH();
+let auth;
+let sheets;
+let spreadsheetId;
 
-let auth, client, sheets, spreadsheetId;
+const csvOnly = process.argv.includes('--csv');
+const keyFilePath = GOOGLE_KEYFILE_PATH();
+const keyFileExists = Boolean(keyFilePath) && fs.existsSync(keyFilePath);
 
 const getClient = async () => {
   try {
-    client = await auth.getClient();
+    const client = await auth.getClient();
     sheets = google.sheets({ version: 'v4', auth: client });
   } catch (error) {
     console.error('Error obtaining Google API client:', error);
-    client = null; // Set client to null if there's an error
   }
 };
 
-if (keyFilePath) {
+// CSV reports do not need Google. A missing key file must not crash --help or --csv.
+if (!csvOnly && keyFileExists) {
   try {
     spreadsheetId = GOOGLE_SHEET_ID();
     auth = new google.auth.GoogleAuth({
@@ -29,7 +34,7 @@ if (keyFilePath) {
       'Could not load the default credentials. Please ensure the Google credentials file exists and is properly configured.'
     );
     console.error(error);
-    auth = null; // Set auth to null if there's an error
+    auth = null;
   }
 }
 

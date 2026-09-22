@@ -1,14 +1,49 @@
-# Cypress & Playwright Reporting: Seamless Integration with Google Sheets and CSV
+# qa-shadow-report
 
-Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, streamlining test result integration and boosting team collaboration. It not only provides immediate insights into automation project health but also leads a paradigm shift in organizational methods, promoting clearer coordination and efficiency.
+Generate detailed test reports from Cypress or Playwright test results to CSV files or Google Sheets.
 
 **Note:** Cypress is a registered trademark of Cypress.io, Playwright is a registered trademark of Microsoft Corporation, and Google Sheets is a registered trademark of Google Inc. This application is not officially endorsed or certified by Playwright, Microsoft Corporation, Google Inc., or Cypress.io.
 
+## Try it in 5 minutes
+
+Get a CSV report without a Google account.
+
+1. **Install the package:**
+   ```bash
+   npm i qa-shadow-report
+   ```
+
+2. **Run setup:**
+   ```bash
+   npx qasr-setup
+   ```
+   Answer `cy` or `pw`. Say yes when it offers to create `shadowReportConfig.js`.
+   Cypress can skip the extra package install if you already have mochawesome.
+   The config sets `testData` to `./cypress/results/output.json` or `./test-results/output.json`.
+
+3. **Run your tests** so that JSON file exists.
+   The file must be real JSON from your reporter. An empty `output.json` will fail.
+
+4. **Generate a CSV report:**
+   ```bash
+   npx qa-shadow-report cypress --csv
+   # or
+   npx qa-shadow-report playwright --csv
+   ```
+   `--csv` does not need a Google spreadsheet or credentials file.
+
+5. **Find your report** in `downloads/`.
+
+Google Sheets is optional. See [Sheets Setup Guide](#sheets-setup-guide).
+
+## Just want to see a demo?
+
+Example Cypress and Playwright projects live on the `demo` branch. Use that branch to browse test structure. To try the published package the way a customer would, follow [Try it in 5 minutes](#try-it-in-5-minutes) in a new folder. Do not point an example at `file:..` if you want the version from npm.
+
 ## Table of Contents
 
-1. [Installation](#installation)
-2. [Quick Start](#quick-start)
-   - [Generate Reports in CSV Format](#generate-reports-in-csv-format)
+1. [Try it in 5 minutes](#try-it-in-5-minutes)
+2. [Just want to see a demo?](#just-want-to-see-a-demo)
 3. [Samples](#samples)
    - [Daily Report in Sheets](#daily-report-in-sheets)
    - [Weekly Summary in Sheets](#weekly-summary-in-sheets)
@@ -17,6 +52,7 @@ Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, 
 4. [Sheets Setup Guide](#sheets-setup-guide)
    - [Cypress - with video](#cypress---with-video)
    - [Playwright - with video](#playwright--with-video)
+   - [Generate Reports in Sheets](#to-generate-reports-in-sheets)
 5. [Sheets Enhanced Configuration](#sheets-enhanced-configuration)
    - [Column: Team](#column-team)
    - [Column: Type](#column-type)
@@ -29,59 +65,6 @@ Our package bridges Cypress and Playwright test runs with Google Sheets or CSV, 
    - [GitLab](#gitlab-ci-example)
    - [AWS](#aws-codebuild-example)
 8. [Demo Branch](#demo-branch)
-
-## Installation
-
-### qa-shadow-report Setup Guide
-
-After installing `qa-shadow-report` using the command:
-
-    npm i qa-shadow-report
-
-you will then need to run the command:
-
-    npx qasr-setup
-
-this initiates a series of `Yes` or `No` questions to guide you through setting up the tool for your testing framework and package manager. You may choose to exit the setup at any time by entering `EXIT`, which is not recommended. If you exit setup, you will then need to restart using the command `npx qasr-setup`
-
-**Note:** The commands in this guide assume the use of `npm/npx`. If you prefer to use `yarn`, replace `npm/npx` with `yarn` where appropriate.
-
-## Quick Start
-
-### Generate Reports in CSV Format
-
-- Ensure test result data is present in your framework's test results output folder, in the form of JSON. This output should be present after you finish `qasr-setup` AND run your test suite. test results will usually be found in `results/output.json`.
-
-- A detailed CSV will be compiled and generated in the `[framework]/downloads` folder.
-
-- Only daily summmaries are available for CSV, monthly summary reports are not currently supported in CSV format.
-
-Use either command to generate reports using either **NPX** or **NPM scripts** with a framework of **Cypress** or **Playwright** and the optional flag `--csv`. These commands will generate a CSV report, and initiate setup if you havent yet run the qa-shadow-report setup.
-
-- **Using NPX:**
-  Run one of the following commands:
-
-      npx qa-shadow-report [framework] --csv
-
-  Or, the more verbose
-
-      npx qa-shadow-report [framework] todays-report --csv
-
-- **Using NPM Scripts:**
-
-  Add to your `package.json` scripts:
-
-  ```json
-  "scripts": {
-    "report:csv": "qa-shadow-report [framework] --csv",
-  }
-  ```
-
-  Then run:
-
-  ```
-  npm run report:csv
-  ```
 
 ## Samples
 
@@ -117,9 +100,9 @@ Before you begin, ensure you have the following packages and authentication, che
 
 `npm install --save-dev mochawesome mochawesome-merge`
 
-- **Google Spreadsheet URL:** Place the sheet's URL directly in an environment variable: `https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160`.
+- **Google Spreadsheet URL:** Place the sheet's URL directly in an environment variable: `https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=0` (replace `YOUR_SHEET_ID` with your actual Google Sheet ID).
 - **Service Account Credentials for Google Sheets:** Follow the detailed guide from `node-google-spreadsheet` they have a great document describing Google Service Accounts [node-google-spreadshee: Google Service Account](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=authentication-methods)
-  to set up and safely store your credentials. update `shadowReportConfig.*` (`js`, or `ts`) with the path to these credentials. Use `.gitignore` to secure your credentials within your project. Allow your service account to Edit the Google Sheet by sharing the google sheet with the service account emial address as an Editor.
+  to set up and safely store your credentials. update `shadowReportConfig.*` (`js`, or `ts`) with the path to these credentials. Use `.gitignore` to secure your credentials within your project. Allow your service account to Edit the Google Sheet by sharing the google sheet with the service account email address as an Editor.
 - **qa-shadow-report configuration file:** Usually installed by the setup wizard in the root of your Cypress project, named: `shadowReportConfig.*` (`js`, or `ts`).
 
   - `teamNames`: An array of identifiers representing different teams within your organization that may use or contribute to the testing process.
@@ -139,7 +122,7 @@ Before you begin, ensure you have the following packages and authentication, che
     testTypes: ['api', 'ui'],
     testCategories: ['smoke', 'sanity'],
     googleSpreadsheetUrl:
-      'https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160',
+      'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=0',
     googleKeyFilePath: './googleCredentials.json',
     testData: './cypress/results/output.json',
     csvDownloadsPath: './downloads',
@@ -177,9 +160,9 @@ Adjust these scripts as needed for your project's requirements.
 
 Before you begin, ensure you have the following packages and authentication, check the video for playwright install here: [Installing qa-shadow-report for Playwright](https://youtu.be/aJafudHpRtk). You can run the command `npx qasr-setup` which initiates a couple of Yes or No questions to guide you through setting up the tool for your testing framework and package manager:
 
-- **Google Spreadsheet URL:** Place the sheet's URL directly in an environment variable: `https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160`.
+- **Google Spreadsheet URL:** Place the sheet's URL directly in an environment variable: `https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=0` (replace `YOUR_SHEET_ID` with your actual Google Sheet ID).
 - **Service Account Credentials for Google Sheets:** Follow the detailed guide from `node-google-spreadsheet` they have a great document describing Google Service Accounts [node-google-spreadshee: Google Service Account](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=authentication-methods)
-  to set up and safely store your credentials. update `shadowReportConfig.*` (`js`, or `ts`) with the path to these credentials. Use `.gitignore` to secure your credentials within your project. Allow your service account to Edit the Google Sheet by sharing the google sheet with the service account emial address as an Editor.
+  to set up and safely store your credentials. update `shadowReportConfig.*` (`js`, or `ts`) with the path to these credentials. Use `.gitignore` to secure your credentials within your project. Allow your service account to Edit the Google Sheet by sharing the google sheet with the service account email address as an Editor.
 - **Playwright Configuration**: In the `playwright.config.js` file, specify the reporter like this:
 
   ```js
@@ -195,7 +178,7 @@ Before you begin, ensure you have the following packages and authentication, che
   - `testCategories`: Defines the categories of tests your project includes, such as smoke tests for quick checks or sanity tests for verifying vital features after builds.
   - `googleSpreadsheetUrl`: The URL of your Google Sheet. This is used to integrate and sync test result data.
   - `googleKeyFilePath`: The file path to your Google service account credentials, which are required to authenticate and interact with Google Sheets API.
-  - `testData`: The file path to where your test results in JSON format are stored, typically generated by Cypress or another testing framework.
+  - `testData`: The file path to where your test results in JSON format are stored, typically generated by Playwright or Cypress.
   - `csvDownloadsPath`: The directory path where the generated CSV files will be saved. This is useful for users who prefer to download and review test results in a CSV format.
   - `weeklySummaryStartDay`: This is where you choose the day that summary week begins, and will include the next 7 days. Uncommenting this line will activate the weekly summary, while keeping it commented will leave it inactive.
 
@@ -206,9 +189,9 @@ Before you begin, ensure you have the following packages and authentication, che
     testTypes: ['api', 'ui'],
     testCategories: ['smoke', 'sanity'],
     googleSpreadsheetUrl:
-      'https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160',
+      'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=0',
     googleKeyFilePath: './googleCredentials.json',
-    testData: './cypress/results/output.json',
+    testData: './test-results/output.json',
     csvDownloadsPath: './downloads',
     weeklySummaryStartDay: 'Monday',
   };
@@ -304,7 +287,7 @@ All commands require that test suite result data is present, in this example, th
 - `npx qa-shadow-report [framework] weekly-summary` - Generates a weekly summary in Sheets, if none exist.
 - `npx qa-shadow-report [framework] monthly-summary` - Generates a monthly summary in Sheets, if none exist.
 - `npx qasr-setup` - Initiates the setup process for either Cypress or Playwright.
-- `--csv` - Outputs the test results in cypress/downloads folder in csv format, if none exist.
+- `--csv` - Outputs the test results in the downloads folder (as configured in `shadowReportConfig.js`) in CSV format, if none exist.
 - `--duplicate` - Allows duplicate daily reports to be created.
 - `--help` - Outputs a summary of available commands and their usage.
 
@@ -326,7 +309,7 @@ module.exports = {
     'canonicus',
   ],
   googleSpreadsheetUrl:
-    'https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160',
+    'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=0',
   googleKeyFilePath: './googleCredentials.json',
   testData: './[framework]/results/output.json',
   csvDownloadsPath: './downloads',
@@ -381,7 +364,7 @@ module.exports = {
     'mobile',
   ],
   googleSpreadsheetUrl:
-    'https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160',
+    'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=0',
   googleKeyFilePath: './googleCredentials.json',
   testData: './[framework]/results/output.json',
   csvDownloadsPath: './downloads',
@@ -424,7 +407,7 @@ module.exports = {
     'beta',
   ],
   googleSpreadsheetUrl:
-    'https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160',
+    'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=0',
   googleKeyFilePath: './googleCredentials.json',
   testData: './[framework]/results/output.json',
   csvDownloadsPath: './downloads',
@@ -497,7 +480,7 @@ module.exports = {
   testTypes: ['api', 'ui', 'accessibility', 'mobile'],
   testCategories: ['smoke', 'compatibility', 'alpha', 'beta'],
   googleSpreadsheetUrl:
-    'https://docs.google.com/spreadsheets/d/1Y8tQWmo3oSB3zIlr1mySs/edit?gid=160#gid=19160',
+    'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=0',
   googleKeyFilePath: './googleCredentials.json',
   testData: './[framework]/results/output.json',
   csvDownloadsPath: './downloads',
@@ -707,12 +690,11 @@ Both example projects include:
    npm link qa-shadow-report
    ```
 
-4. **Run tests (CSV mode - no credentials needed):**
+4. **Run tests:**
    ```bash
    npm test
    ```
-   
-   This runs the test suite and generates a CSV report in the `downloads/` folder.
+   This runs the example tests. Generate the CSV with `npx qa-shadow-report cypress --csv` (or `playwright`) after the results JSON exists.
 
 5. **Optional: Set up Google Sheets reporting:**
    
