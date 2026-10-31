@@ -1,0 +1,11 @@
+url: http://localhost:8765/signup.html
+name: sign up new user
+---
+- launchApp
+- assertVisible:
+    text: "Create account"
+    label: "[Onboarding][smoke][C3001] shows the sign up form"
+- tapOn: "Accept terms"
+- assertVisible:
+    text: "Welcome"
+    label: "[Onboarding][smoke][C3002] lands on the welcome screen"

@@ -1,0 +1,257 @@
+[
+  {
+    "command": {
+      "defineVariablesCommand": {
+        "env": {
+          "MAESTRO_FILENAME": "reorder",
+          "MAESTRO_DEVICE_UDID": "chromium",
+          "MAESTRO_SHARD_ID": "1",
+          "MAESTRO_SHARD_INDEX": "0"
+        },
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484312497,
+      "duration": 1,
+      "sequenceNumber": 0,
+      "depth": 0,
+      "evaluatedCommand": {
+        "defineVariablesCommand": {
+          "env": {
+            "MAESTRO_FILENAME": "reorder",
+            "MAESTRO_DEVICE_UDID": "chromium",
+            "MAESTRO_SHARD_ID": "1",
+            "MAESTRO_SHARD_INDEX": "0"
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "applyConfigurationCommand": {
+        "config": {
+          "appId": "http://localhost:8765/index.html",
+          "name": "reorder last purchase"
+        },
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484312499,
+      "duration": 0,
+      "sequenceNumber": 1,
+      "depth": 0,
+      "evaluatedCommand": {
+        "applyConfigurationCommand": {
+          "config": {
+            "appId": "http://localhost:8765/index.html",
+            "name": "reorder last purchase"
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "runFlowCommand": {
+        "commands": [
+          {
+            "applyConfigurationCommand": {
+              "config": {
+                "appId": "http://localhost:8765/index.html"
+              },
+              "optional": false
+            }
+          },
+          {
+            "launchAppCommand": {
+              "appId": "http://localhost:8765/index.html",
+              "optional": false
+            }
+          },
+          {
+            "assertConditionCommand": {
+              "condition": {
+                "visible": {
+                  "textRegex": "Cart",
+                  "optional": false
+                }
+              },
+              "label": "[Checkout][smoke][C9999] subflow label",
+              "optional": false
+            }
+          }
+        ],
+        "sourceDescription": "../../common/open-cart.yaml",
+        "config": {
+          "appId": "http://localhost:8765/index.html"
+        },
+        "label": "[Checkout][smoke][C1060] opens the cart",
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484312499,
+      "duration": 379,
+      "sequenceNumber": 2,
+      "depth": 0,
+      "evaluatedCommand": {
+        "runFlowCommand": {
+          "commands": [
+            {
+              "applyConfigurationCommand": {
+                "config": {
+                  "appId": "http://localhost:8765/index.html"
+                },
+                "optional": false
+              }
+            },
+            {
+              "launchAppCommand": {
+                "appId": "http://localhost:8765/index.html",
+                "optional": false
+              }
+            },
+            {
+              "assertConditionCommand": {
+                "condition": {
+                  "visible": {
+                    "textRegex": "Cart",
+                    "optional": false
+                  }
+                },
+                "label": "[Checkout][smoke][C9999] subflow label",
+                "optional": false
+              }
+            }
+          ],
+          "sourceDescription": "../../common/open-cart.yaml",
+          "config": {
+            "appId": "http://localhost:8765/index.html"
+          },
+          "label": "[Checkout][smoke][C1060] opens the cart",
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "applyConfigurationCommand": {
+        "config": {
+          "appId": "http://localhost:8765/index.html"
+        },
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484312500,
+      "duration": 0,
+      "sequenceNumber": 3,
+      "depth": 1,
+      "evaluatedCommand": {
+        "applyConfigurationCommand": {
+          "config": {
+            "appId": "http://localhost:8765/index.html"
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "launchAppCommand": {
+        "appId": "http://localhost:8765/index.html",
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484312500,
+      "duration": 28,
+      "sequenceNumber": 4,
+      "depth": 1,
+      "evaluatedCommand": {
+        "launchAppCommand": {
+          "appId": "http://localhost:8765/index.html",
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "textRegex": "Cart",
+            "optional": false
+          }
+        },
+        "label": "[Checkout][smoke][C9999] subflow label",
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484312529,
+      "duration": 349,
+      "sequenceNumber": 5,
+      "depth": 1,
+      "evaluatedCommand": {
+        "assertConditionCommand": {
+          "condition": {
+            "visible": {
+              "textRegex": "Cart",
+              "optional": false
+            }
+          },
+          "label": "[Checkout][smoke][C9999] subflow label",
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "textRegex": "Vitamin D x1",
+            "optional": false
+          }
+        },
+        "label": "[Checkout][regression][C1061] shows last purchase",
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484312878,
+      "duration": 347,
+      "sequenceNumber": 6,
+      "depth": 0,
+      "evaluatedCommand": {
+        "assertConditionCommand": {
+          "condition": {
+            "visible": {
+              "textRegex": "Vitamin D x1",
+              "optional": false
+            }
+          },
+          "label": "[Checkout][regression][C1061] shows last purchase",
+          "optional": false
+        }
+      }
+    }
+  }
+]

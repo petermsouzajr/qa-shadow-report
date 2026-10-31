@@ -7,7 +7,7 @@ import path from 'path';
  *
  * @param {import('./types.js').ShadowReportConfig} config - The configuration object to validate
  * @param {string} configPath - Path to the config file (for error messages)
- * @param {{skipGoogle?: boolean}} [options] - skipGoogle skips spreadsheet and credentials checks
+ * @param {{skipGoogle?: boolean, maestro?: boolean}} [options] - skipGoogle skips spreadsheet and credentials checks; maestro makes testData optional
  * @returns {{valid: boolean, errors: string[]}} Validation result with any error messages
  */
 export function validateConfig(config, configPath, options = {}) {
@@ -75,8 +75,15 @@ export function validateConfig(config, configPath, options = {}) {
     }
   }
 
-  // Check testData (required)
-  if (!config.testData) {
+  // Maestro reads maestroReport (or its default) instead of testData
+  const isMaestroRun =
+    options.maestro ||
+    process.argv.includes('maestro') ||
+    process.argv.includes('ms') ||
+    config.maestroReport !== undefined;
+
+  // Check testData (required for Cypress and Playwright)
+  if (!config.testData && !isMaestroRun) {
     errors.push(
       `${chalk.red('Missing required field:')} ${chalk.yellow('testData')}\n` +
       '  Expected: Path to your test results JSON file\n' +
@@ -131,6 +138,16 @@ export function validateConfig(config, configPath, options = {}) {
       '  Example: \'./downloads\''
     );
   }
+
+  ['maestroReport', 'maestroOutputDir', 'maestroFlowsDir'].forEach((key) => {
+    if (config[key] !== undefined && !isNonEmptyString(config[key])) {
+      errors.push(
+        `${chalk.red('Invalid value for')} ${chalk.yellow(key)}\n` +
+        '  Expected: A non-empty string (file or directory path)\n' +
+        '  Example: \'./maestro-results/report.xml\' or \'./maestro-results\''
+      );
+    }
+  });
 
   if (config.weeklySummaryStartDay !== undefined) {
     if (!isNonEmptyString(config.weeklySummaryStartDay)) {

@@ -1,0 +1,159 @@
+[
+  {
+    "command": {
+      "defineVariablesCommand": {
+        "env": {
+          "MAESTRO_FILENAME": "edit-avatar",
+          "MAESTRO_DEVICE_UDID": "chromium",
+          "MAESTRO_SHARD_ID": "1",
+          "MAESTRO_SHARD_INDEX": "0"
+        },
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484289112,
+      "duration": 8,
+      "sequenceNumber": 0,
+      "depth": 0,
+      "evaluatedCommand": {
+        "defineVariablesCommand": {
+          "env": {
+            "MAESTRO_FILENAME": "edit-avatar",
+            "MAESTRO_DEVICE_UDID": "chromium",
+            "MAESTRO_SHARD_ID": "1",
+            "MAESTRO_SHARD_INDEX": "0"
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "applyConfigurationCommand": {
+        "config": {
+          "appId": "http://localhost:8765/profile.html",
+          "name": "edit avatar",
+          "tags": [
+            "smoke"
+          ],
+          "properties": {
+            "team": "Profile",
+            "caseId": "C2210"
+          }
+        },
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484289121,
+      "duration": 1,
+      "sequenceNumber": 1,
+      "depth": 0,
+      "evaluatedCommand": {
+        "applyConfigurationCommand": {
+          "config": {
+            "appId": "http://localhost:8765/profile.html",
+            "name": "edit avatar",
+            "tags": [
+              "smoke"
+            ],
+            "properties": {
+              "team": "Profile",
+              "caseId": "C2210"
+            }
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "launchAppCommand": {
+        "appId": "http://localhost:8765/profile.html",
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484289122,
+      "duration": 46,
+      "sequenceNumber": 2,
+      "depth": 0,
+      "evaluatedCommand": {
+        "launchAppCommand": {
+          "appId": "http://localhost:8765/profile.html",
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "tapOnElement": {
+        "selector": {
+          "textRegex": "Save avatar",
+          "optional": false
+        },
+        "retryIfNoChange": false,
+        "waitUntilVisible": false,
+        "longPress": false,
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484289168,
+      "duration": 2090,
+      "sequenceNumber": 3,
+      "depth": 0,
+      "evaluatedCommand": {
+        "tapOnElement": {
+          "selector": {
+            "textRegex": "Save avatar",
+            "optional": false
+          },
+          "retryIfNoChange": false,
+          "waitUntilVisible": false,
+          "longPress": false,
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "textRegex": "Avatar saved",
+            "optional": false
+          }
+        },
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484291258,
+      "duration": 371,
+      "sequenceNumber": 4,
+      "depth": 0,
+      "evaluatedCommand": {
+        "assertConditionCommand": {
+          "condition": {
+            "visible": {
+              "textRegex": "Avatar saved",
+              "optional": false
+            }
+          },
+          "optional": false
+        }
+      }
+    }
+  }
+]

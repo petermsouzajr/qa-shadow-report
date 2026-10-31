@@ -1,0 +1,14 @@
+url: http://localhost:8765/index.html
+name: checkout with saved card
+---
+- launchApp
+- assertVisible:
+    text: "Pay with saved card"
+    label: "[Checkout][smoke][C1042] shows the saved card"
+- tapOn: "Pay with saved card"
+- assertVisible:
+    text: "Payment complete"
+    label: "[Checkout][smoke][C1043] completes payment with saved card"
+- assertVisible:
+    text: "Receipt emailed"
+    label: "[Checkout][regression][C1044] sends a receipt"

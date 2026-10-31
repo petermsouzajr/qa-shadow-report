@@ -69,12 +69,19 @@ const noReportMessage = chalk.yellow(
  * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day.
  * @param {boolean} options.cypress - If true, parses test result JSON in cypress format.
  * @param {boolean} options.playwright - If true, parses test result JSON in playwright format.
+ * @param {boolean} [options.maestro] - If true, reads Maestro JUnit XML, step logs and flow YAML.
  * @returns {Promise<void>} A promise that resolves when the operation completes.
  */
-export const main = async ({ csv, duplicate, cypress, playwright }) => {
+export const main = async ({
+  csv,
+  duplicate,
+  cypress,
+  playwright,
+  maestro = false,
+}) => {
   try {
     if (csv) {
-      handleDailyReport({ csv, duplicate, cypress, playwright });
+      handleDailyReport({ csv, duplicate, cypress, playwright, maestro });
       return;
     }
 
@@ -91,7 +98,7 @@ export const main = async ({ csv, duplicate, cypress, playwright }) => {
     if (todaysReportExists && !duplicate) {
       // console.info(noReportMessage);
     } else {
-      await handleDailyReport({ csv, duplicate, cypress, playwright });
+      await handleDailyReport({ csv, duplicate, cypress, playwright, maestro });
     }
 
     if (WEEKLY_SUMMARY_ENABLED() && weeklySummaryRequired) {

@@ -1,0 +1,17 @@
+url: http://localhost:8765/index.html
+name: apply promo code
+tags:
+  - regression
+---
+- launchApp
+- tapOn: "Apply promo"
+- assertVisible:
+    text: "Discount applied"
+    label: "[Checkout][regression][C1050] applies a promo code"
+- assertVisible:
+    text: "Free shipping"
+    optional: true
+    label: "[Checkout][regression][C1051] shows free shipping banner"
+- assertVisible:
+    text: "Vitamin D x1"
+    label: "[Checkout][smoke][C1052] keeps the cart items"

@@ -71,6 +71,7 @@ export const calculateDailySummaryMetrics = (testData) => {
     passed: 0,
     failed: 0,
     skippedPending: 0,
+    notRun: 0,
     byType: {},
     byCategory: {},
     byTeam: {},
@@ -94,7 +95,12 @@ export const calculateDailySummaryMetrics = (testData) => {
     // Update overall counters
     if (status.toLowerCase() === 'passed') counters.passed++;
     if (status.toLowerCase() === 'failed') counters.failed++;
-    if (status.toLowerCase() !== 'passed' && status.toLowerCase() !== 'failed')
+    if (status.toLowerCase() === 'not run') counters.notRun++;
+    if (
+      status.toLowerCase() !== 'passed' &&
+      status.toLowerCase() !== 'failed' &&
+      status.toLowerCase() !== 'not run'
+    )
       counters.skippedPending++;
 
     // Aggregate by TYPE, CATEGORY, TEAM
@@ -130,15 +136,30 @@ export const calculateDailySummaryMetrics = (testData) => {
       generateMetricValue(passed, total),
     ]
   );
-  const overallMetrics = [
-    '# passed tests',
-    `${counters.passed} (${calculatePercentage(counters.passed, counters.total)}%)`,
-    '# failed tests',
-    `${counters.failed} (${calculatePercentage(counters.failed, counters.total)}%)`,
-    '# skipped/pending tests',
-    `${counters.skippedPending} (${calculatePercentage(counters.skippedPending, counters.total)}%)`,
-    '# total tests',
-    `${counters.total}`,
+  // "not run" (Maestro steps blocked by an earlier failure) is only listed when present,
+  // so Cypress and Playwright CSVs keep their exact layout.
+  const overallMetricPairs = [
+    [
+      '# passed tests',
+      `${counters.passed} (${calculatePercentage(counters.passed, counters.total)}%)`,
+    ],
+    [
+      '# failed tests',
+      `${counters.failed} (${calculatePercentage(counters.failed, counters.total)}%)`,
+    ],
+    ...(counters.notRun > 0
+      ? [
+        [
+          '# not run tests',
+          `${counters.notRun} (${calculatePercentage(counters.notRun, counters.total)}%)`,
+        ],
+      ]
+      : []),
+    [
+      '# skipped/pending tests',
+      `${counters.skippedPending} (${calculatePercentage(counters.skippedPending, counters.total)}%)`,
+    ],
+    ['# total tests', `${counters.total}`],
   ];
 
   // Determine the number of rows (at least 4 for overall metrics)
@@ -147,7 +168,7 @@ export const calculateDailySummaryMetrics = (testData) => {
     categoryMetrics.length,
     teamMetrics.length
   );
-  const minRows = 4; // Ensure at least 4 rows for overall metrics
+  const minRows = overallMetricPairs.length; // Ensure a row for each overall metric
   const maxRows = Math.max(maxUniqueMetrics, minRows);
 
   // Build the 2D header with dynamically determined rows
@@ -166,18 +187,8 @@ export const calculateDailySummaryMetrics = (testData) => {
     row.push(teamMetrics[i]?.[0] || '', teamMetrics[i]?.[1] || '');
     // Column 7: Placeholder
     row.push('');
-    // Columns 8-9: Overall metrics (fixed to first 4 rows)
-    if (i === 0) {
-      row.push(overallMetrics[0] || '', overallMetrics[1] || '');
-    } else if (i === 1) {
-      row.push(overallMetrics[2] || '', overallMetrics[3] || '');
-    } else if (i === 2) {
-      row.push(overallMetrics[4] || '', overallMetrics[5] || '');
-    } else if (i === 3) {
-      row.push(overallMetrics[6] || '', overallMetrics[7] || '');
-    } else {
-      row.push('', '');
-    }
+    // Columns 8-9: Overall metrics (one per row, from the top)
+    row.push(overallMetricPairs[i]?.[0] || '', overallMetricPairs[i]?.[1] || '');
     // Columns 10-12: Placeholders
     row.push('', '', '');
 

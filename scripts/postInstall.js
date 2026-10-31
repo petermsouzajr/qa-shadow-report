@@ -74,6 +74,13 @@ const createConfigFile = (framework = 'cy') => {
   const testData = framework === 'pw'
     ? './test-results/output.json'
     : './cypress/results/output.json';
+  // Maestro reads a JUnit report plus step logs instead of testData
+  const resultsConfig = framework === 'ms'
+    ? `// Maestro JUnit report and step-log folder (from --output and --test-output-dir)
+      maestroReport: './maestro-results/report.xml',
+      maestroOutputDir: './maestro-results',`
+    : `// Results JSON. Cypress: ./cypress/results/output.json  Playwright: ./test-results/output.json
+      testData: '${testData}',`;
   console.info(
     chalk.blue('Checking if config file exists at path:'),
     chalk.green(` '${configFilePath}'`)
@@ -96,7 +103,9 @@ const createConfigFile = (framework = 'cy') => {
       testCategories: string[];
       googleSpreadsheetUrl: string;
       googleKeyFilePath: string;
-      testData: string;
+      testData?: string;
+      maestroReport?: string;
+      maestroOutputDir?: string;
       csvDownloadsPath: string;
       weeklySummaryStartDay: string;
     }} */
@@ -144,8 +153,7 @@ const createConfigFile = (framework = 'cy') => {
       // Leave blank for CSV-only reports. Required for Google Sheets.
       googleSpreadsheetUrl: '',
       googleKeyFilePath: './googleCredentials.json',
-      // Results JSON. Cypress: ./cypress/results/output.json  Playwright: ./test-results/output.json
-      testData: '${testData}',
+      ${resultsConfig}
 
       // Directory for saving CSV downloads (optional). Uncomment and replace with your preferred path or use an environment variable.
       csvDownloadsPath: './downloads',
@@ -166,7 +174,7 @@ const createConfigFile = (framework = 'cy') => {
     );
     console.info(
       chalk.yellow('Please update the '),
-      chalk.green('testData '),
+      chalk.green(framework === 'ms' ? 'maestroReport ' : 'testData '),
       chalk.yellow('sourcepath in '),
       chalk.green(`${configFileName} `),
       chalk.yellow('to match your project\'s setup.')
@@ -227,6 +235,19 @@ const proceedWithFrameworkSpecificInstructions = (framework) => {
       chalk.green(
         ' reporter: [[\'json\', { outputFile: \'test-results/output.json\' }]]'
       )
+    );
+    finalizeSetup();
+  } else if (framework === 'ms') {
+    console.info(
+      chalk.yellow('Run Maestro with a JUnit report and step logs, then run qa-shadow-report:'),
+      chalk.green(
+        '\n  maestro test maestro/ --format junit --output maestro-results/report.xml --test-output-dir maestro-results/' +
+        '\n  npx qa-shadow-report maestro'
+      )
+    );
+    console.info(
+      chalk.yellow('Give a step a row by labeling it with a case ID, e.g.'),
+      chalk.green('- tapOn:\n    id: "pay"\n    label: "[C1043] pay with saved card"')
     );
     finalizeSetup();
   } else if (framework === 'cy') {
@@ -297,12 +318,12 @@ const confirmReconfigure = () => {
 
 const startSetup = () => {
   promptUser(
-    `Are you using Playwright (pw) or Cypress (cy)? ${chalk.green(
-      '[pw/cy]'
+    `Are you using Playwright (pw), Cypress (cy) or Maestro (ms)? ${chalk.green(
+      '[pw/cy/ms]'
     )}: `,
-    ['pw', 'cy'],
+    ['pw', 'cy', 'ms'],
     (framework) => {
-      if (['pw', 'cy'].includes(framework)) {
+      if (['pw', 'cy', 'ms'].includes(framework)) {
         handlePostInstallTasks(framework);
       } else {
         confirmExit();

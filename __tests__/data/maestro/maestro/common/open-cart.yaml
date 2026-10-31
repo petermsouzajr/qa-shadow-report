@@ -1,0 +1,6 @@
+url: http://localhost:8765/index.html
+---
+- launchApp
+- assertVisible:
+    text: "Cart"
+    label: "[Checkout][smoke][C9999] subflow label"

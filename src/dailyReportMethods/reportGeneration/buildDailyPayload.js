@@ -2,6 +2,7 @@ import {
   COLUMNS_AVAILABLE,
   DEFAULT_HEADER_METRICS,
   FOOTER_ROW,
+  NOT_RUN_HEADER_METRIC,
 } from '../../../constants.js';
 import { findHeaderRowIndex } from '../../monthlySummaryMethods/summaryGenerationHelpers.js';
 import { appendStateReportsToHeader } from './appendStateReportsToHeader.js';
@@ -9,6 +10,18 @@ import { constructHeaderReport } from './constructHeaderReport.js';
 import { initializeDailyPayload } from '../initialization/initializeDailyPayload.js';
 import { processTestSuites } from '../processing/processTestSuites.js';
 import { sortPayload } from '../processing/sortDailyReportRows.js';
+
+/**
+ * Adds the "# not run tests" metric right after "# failed tests".
+ * @param {Array<string>} metrics - The default header metrics.
+ * @returns {Array<string>} A new metrics array.
+ */
+export const withNotRunMetric = (metrics) => {
+  const result = [...metrics];
+  const failedIndex = result.indexOf('# failed tests');
+  result.splice(failedIndex === -1 ? result.length : failedIndex + 1, 0, NOT_RUN_HEADER_METRIC);
+  return result;
+};
 
 /**
  * Asynchronously extracts, arranges, and manipulates data set into structured format.
@@ -35,6 +48,13 @@ export const buildDailyPayload = async (dataSet, playwright) => {
     fullDailyPayload.bodyPayload = payloadEntries;
 
     sortPayload(fullDailyPayload);
+    // Maestro steps that never ran (blocked by an earlier failure) get their own
+    // header count. Cypress/Playwright reports never have them, so their layout is unchanged.
+    const headerMetrics = fullDailyPayload.bodyPayload.some(
+      (entry) => entry && entry.state === 'not run'
+    )
+      ? withNotRunMetric(DEFAULT_HEADER_METRICS)
+      : DEFAULT_HEADER_METRICS;
     fullDailyPayload.bodyPayload = fullDailyPayload.bodyPayload.map(
       Object.values
     );
@@ -43,7 +63,7 @@ export const buildDailyPayload = async (dataSet, playwright) => {
     );
     appendStateReportsToHeader(
       fullDailyPayload.headerPayload,
-      DEFAULT_HEADER_METRICS,
+      headerMetrics,
       playwright
     );
     fullDailyPayload.headerPayload.push(columnsAvailable);

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites>
+  <testsuite name="Test Suite" tests="5" failures="2" time="63.513" timestamp="2026-10-31T15:04:48">
+    <testcase id="edit avatar" name="edit avatar" classname="edit avatar" file="maestro/mobile/profile/edit-avatar.yaml" time="3.362" timestamp="2026-10-31T15:04:48" status="SUCCESS">
+      <properties>
+        <property name="team" value="Profile"/>
+        <property name="caseId" value="C2210"/>
+        <property name="tags" value="smoke"/>
+      </properties>
+    </testcase>
+    <testcase id="checkout with saved card" name="checkout with saved card" classname="checkout with saved card" file="maestro/mobile/checkout/saved-card.yaml" time="20.544" timestamp="2026-10-31T15:04:51" status="ERROR">
+      <failure>Assertion is false: "Payment complete" is visible</failure>
+    </testcase>
+    <testcase id="reorder last purchase" name="reorder last purchase" classname="reorder last purchase" file="maestro/mobile/checkout/reorder.yaml" time="0.739" timestamp="2026-10-31T15:05:12" status="SUCCESS"/>
+    <testcase id="apply promo code" name="apply promo code" classname="apply promo code" file="maestro/mobile/checkout/promo-code.yaml" time="20.687" timestamp="2026-10-31T15:05:13" status="SUCCESS">
+      <properties>
+        <property name="tags" value="regression"/>
+      </properties>
+    </testcase>
+    <testcase id="sign up new user" name="sign up new user" classname="sign up new user" file="maestro/mobile/onboarding/sign-up.yaml" time="18.161" timestamp="2026-10-31T15:05:33" status="ERROR">
+      <failure>Element not found: Text matching regex: Accept terms</failure>
+    </testcase>
+  </testsuite>
+</testsuites>
