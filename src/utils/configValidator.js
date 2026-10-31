@@ -89,7 +89,7 @@ export function validateConfig(config, configPath, options = {}) {
       '  Expected: Path to your test results JSON file\n' +
       '  Example: \'./cypress/results/output.json\' or \'./test-results/output.json\''
     );
-  } else if (!isNonEmptyString(config.testData)) {
+  } else if (config.testData !== undefined && !isNonEmptyString(config.testData)) {
     errors.push(
       `${chalk.red('Invalid value for')} ${chalk.yellow('testData')}\n` +
       '  Expected: A non-empty string (file path)\n' +

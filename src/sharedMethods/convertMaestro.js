@@ -460,9 +460,18 @@ export const transformMaestroToFriendlyFormat = ({
 
   return flows.map((flow) => {
     const flowPath = resolveFlowFile(flow.file, baseDirs, flowsDir);
-    const relativeFile = flowPath
-      ? toPosix(path.relative(projectRoot, flowPath))
-      : toPosix(flow.file || `${flow.name}.yaml`);
+    // Maestro writes `file` relative to the folder it ran in; keep that path when it
+    // still points at the flow, so Area/Type match the maestro/<type>/<area> layout.
+    const ranRelative =
+      flowPath &&
+      flow.file &&
+      !path.isAbsolute(flow.file) &&
+      toPosix(flowPath).endsWith(toPosix(path.normalize(flow.file)));
+    const relativeFile = ranRelative
+      ? toPosix(path.normalize(flow.file))
+      : flowPath
+        ? toPosix(path.relative(projectRoot, flowPath))
+        : toPosix(flow.file || `${flow.name}.yaml`);
 
     let tests = [];
     const commandsFile =
