@@ -3,7 +3,7 @@ import { jest } from '@jest/globals';
 const originalArgv = process.argv;
 const originalCI = process.env.CI;
 
-const loadCli = async ({ args = [], configured = true, keyFile = 'key.json', sheetId = 'sheet-id', ci = originalCI, dailyError, spawnError = false } = {}) => {
+const loadCli = async ({ args = [], configured = true, keyFile = 'key.json', sheetId = 'sheet-id', ci = undefined, dailyError, spawnError = false } = {}) => {
   jest.resetModules();
   process.argv = ['node', 'cli.js', ...args];
   if (ci === undefined) delete process.env.CI;
