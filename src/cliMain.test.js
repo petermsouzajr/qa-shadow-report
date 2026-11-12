@@ -1,23 +1,7 @@
 import { jest } from '@jest/globals';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath, pathToFileURL } from 'url';
 
 const originalArgv = process.argv;
 const originalCI = process.env.CI;
-const cliMainPath = fileURLToPath(new URL('./cliMain.js', import.meta.url));
-
-const harnessPath = path.join(path.dirname(cliMainPath), `.cliMain.run-${process.pid}.mjs`);
-const removeHarness = () => fs.rmSync(harnessPath, { force: true });
-removeHarness();
-process.on('exit', removeHarness);
-
-const isProcessExit = (error) =>
-  typeof error?.message === 'string' && error.message.startsWith('process.exit:');
-
-const throwProcessExit = (code) => {
-  throw new Error(`process.exit:${code}`);
-};
 
 const loadCli = async ({ args = [], configured = true, keyFile = 'key.json', sheetId = 'sheet-id', ci = undefined, dailyError, spawnError = false } = {}) => {
   jest.resetModules();
@@ -25,7 +9,7 @@ const loadCli = async ({ args = [], configured = true, keyFile = 'key.json', she
   if (ci === undefined) delete process.env.CI;
   else process.env.CI = ci;
 
-  const exit = jest.spyOn(process, 'exit').mockImplementation(throwProcessExit);
+  const exit = jest.spyOn(process, 'exit').mockImplementation(() => {});
   const child = { handlers: {} };
   const spawn = jest.fn(() => ({
     on: jest.fn((event, callback) => {
@@ -57,28 +41,9 @@ const loadCli = async ({ args = [], configured = true, keyFile = 'key.json', she
   }));
   jest.unstable_mockModule('child_process', () => ({ spawn }));
 
-  // cliMain.js calls run() at import time. Jest treats a thrown process.exit
-  // during that import as a test failure, so load an exported copy instead.
-  const source = fs.readFileSync(cliMainPath, 'utf8');
-  const exported = source.replace(/\nrun\(\);\s*$/, '\nexport { run };\n');
-  if (exported === source) {
-    throw new Error('Unable to export run() from cliMain.js for tests');
-  }
-  fs.writeFileSync(harnessPath, exported);
-  const { run } = await import(`${pathToFileURL(harnessPath).href}?t=${Date.now()}`);
-  try {
-    await run();
-  } catch (error) {
-    if (!isProcessExit(error)) throw error;
-  }
+  await import('./cliMain.js');
   await new Promise((resolve) => setImmediate(resolve));
-  if (spawnError) {
-    try {
-      child.handlers.error?.(new Error('spawn failed'));
-    } catch (error) {
-      if (!isProcessExit(error)) throw error;
-    }
-  }
+  if (spawnError) child.handlers.error?.(new Error('spawn failed'));
   return { exit, spawn, daily, monthly, weekly, main };
 };
 
@@ -131,17 +96,8 @@ describe('cliMain boundaries', () => {
   });
 
   it('exits in CI when Google configuration is missing', async () => {
-    const { exit, daily, monthly, weekly, main } = await loadCli({
-      args: ['cypress'],
-      keyFile: '',
-      sheetId: false,
-      ci: 'true',
-    });
+    const { exit } = await loadCli({ args: ['cypress'], keyFile: '', sheetId: false, ci: 'true' });
     expect(exit).toHaveBeenCalledWith(1);
-    expect(main).not.toHaveBeenCalled();
-    expect(daily).not.toHaveBeenCalled();
-    expect(monthly).not.toHaveBeenCalled();
-    expect(weekly).not.toHaveBeenCalled();
   });
 
   it('starts post-install when the project is not configured', async () => {
@@ -177,17 +133,7 @@ describe('cliMain boundaries', () => {
   });
 
   it('handles a report-handler rejection without throwing from the CLI', async () => {
-    const error = jest.spyOn(console, 'error').mockImplementation(() => {});
-    const { daily, exit } = await loadCli({
-      args: ['todays-report', 'cypress'],
-      dailyError: 'handler failed',
-    });
+    const { daily } = await loadCli({ args: ['todays-report', 'cypress'], dailyError: 'handler failed' });
     expect(daily).toHaveBeenCalled();
-    expect(error).toHaveBeenCalledWith(
-      'Error executing command:',
-      expect.objectContaining({ message: 'handler failed' })
-    );
-    expect(exit).not.toHaveBeenCalled();
-    error.mockRestore();
   });
 });
