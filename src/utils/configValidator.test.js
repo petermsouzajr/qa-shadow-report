@@ -94,6 +94,33 @@ describe('validateConfig', () => {
     expect(validate({ ...validConfig(), weeklySummaryStartDay: 1 }).errors[0]).toContain('weeklySummaryStartDay');
     expect(validate({ ...validConfig(), csvDownloadsPath: './downloads', weeklySummaryStartDay: 'Monday', weeklySummaryEnabled: false }).valid).toBe(true);
   });
+
+  it('makes testData optional for Maestro runs', () => {
+    const sheets = {
+      googleSpreadsheetUrl: 'sheet_ID-123',
+      googleKeyFilePath: 'process.env.GOOGLE_KEY_FILE',
+    };
+    expect(validate(sheets, { maestro: true })).toEqual({ valid: true, errors: [] });
+
+    process.argv = ['node', 'cli.js', 'maestro'];
+    expect(validate(sheets)).toEqual({ valid: true, errors: [] });
+
+    process.argv = ['node', 'cli.js', 'ms'];
+    expect(validate(sheets)).toEqual({ valid: true, errors: [] });
+
+    process.argv = ['node', 'cli.js'];
+    expect(validate({ ...sheets, maestroReport: './maestro-results/report.xml' })).toEqual({ valid: true, errors: [] });
+
+    process.argv = ['node', 'cli.js', 'maestro', '--csv'];
+    expect(validate({})).toEqual({ valid: true, errors: [] });
+  });
+
+  it.each(['maestroReport', 'maestroOutputDir', 'maestroFlowsDir'])('rejects invalid %s', (field) => {
+    const result = validate({ ...validConfig(), [field]: ' ' });
+    expect(result.valid).toBe(false);
+    expect(result.errors).toHaveLength(1);
+    expect(result.errors[0]).toContain(`Invalid value for ${field}`);
+  });
 });
 
 describe('validateAndReportConfig', () => {
