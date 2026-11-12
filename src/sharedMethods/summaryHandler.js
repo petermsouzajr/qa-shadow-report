@@ -76,25 +76,33 @@ const sendSummaryBody = async (payload) => {
  * @param {string[]} headerIndicators - Headers to calculate the number of columns.
  * @param {Object[]} payload - Data objects containing information about where data should be pasted in the sheet.
  * @param {string} destinationTabTitle - The title of the destination tab in the sheet.
+ * @param dataObjectsRef
  * @returns {Promise<void>}
  */
 const addColumnsAndRows = async (
   lastMonthSheetTitles,
   headerIndicators,
   payload,
-  destinationTabTitle
+  destinationTabTitle,
+  dataObjectsRef
 ) => {
   try {
     const numberOfColumnsNeeded =
       lastMonthSheetTitles.length * headerIndicators.length;
     const numberOfRowsNeeded = Math.max(
-      ...payload.map((item) => item.copyPaste.destination.endRowIndex)
+      ...payload.map((item) => item.copyPaste.destination.endRowIndex),
     );
 
     let destinationTabId;
-    destinationTabId = await getTabIdFromTitle(destinationTabTitle);
+    destinationTabId = await getTabIdFromTitle(
+      destinationTabTitle,
+      dataObjectsRef
+    );
     if (!destinationTabId) {
-      destinationTabId = await getTabIdFromWeeklyTitle(destinationTabTitle);
+      destinationTabId = await getTabIdFromWeeklyTitle(
+        destinationTabTitle,
+        dataObjectsRef
+      );
     }
     await addColumnsAndRowsToTabId(
       destinationTabId,
@@ -158,15 +166,14 @@ const summaryHeaderStyling = async (payload) => {
  * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day.
  * @param {boolean} options.cypress - If true, parses test result JSON in cypress format.
  * @param {boolean} options.playwright - If true, parses test result JSON in playwright format.
+ * @param dataObjectsRef
  */
-export const handleSummary = async ({
-  csv,
-  duplicate,
-  cypress,
-  playwright,
-}) => {
+export const handleSummary = async (
+  { csv, duplicate },
+  dataObjectsRef
+) => {
   try {
-    const summaryRequired = await isSummaryRequired({ csv });
+    const summaryRequired = await isSummaryRequired({ csv }, dataObjectsRef);
 
     const lastMonth = getFormattedMonth('lastMonth');
     const noSummaryMessage = chalk.yellow(
@@ -185,7 +192,10 @@ export const handleSummary = async ({
       return;
     }
 
-    const existingSheetTitles = await getExistingTabTitlesInRange();
+    const existingSheetTitles = await getExistingTabTitlesInRange(
+      '',
+      dataObjectsRef
+    );
     const lastMonthSheetTitles =
       await getLastMonthTabTitles(existingSheetTitles);
     const summaryTitle = createSummaryTitle();
@@ -195,17 +205,19 @@ export const handleSummary = async ({
       ? `${summaryTitle}_${currentTime}`
       : summaryTitle;
 
-    await createNewTab(summaryPageTitle);
+    await createNewTab(summaryPageTitle, undefined, dataObjectsRef);
     const fullSummaryPayload = await constructPayloadForCopyPaste(
       lastMonthSheetTitles,
-      summaryPageTitle
+      summaryPageTitle,
+      dataObjectsRef
     );
 
     await addColumnsAndRows(
       lastMonthSheetTitles,
       HEADER_INDICATORS,
       fullSummaryPayload.bodyPayload,
-      summaryPageTitle
+      summaryPageTitle,
+      dataObjectsRef
     );
     await sendSummaryHeaders(fullSummaryPayload.headerPayload);
     await sendSummaryBody(fullSummaryPayload.bodyPayload);
@@ -281,13 +293,12 @@ function getFormattedWeekRange() {
  * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the week.
  * @param {boolean} options.cypress - If true, parses test result JSON in Cypress format.
  * @param {boolean} options.playwright - If true, parses test result JSON in Playwright format.
+ * @param dataObjectsRef
  */
-export const handleWeeklySummary = async ({
-  csv,
-  duplicate,
-  cypress,
-  playwright,
-}) => {
+export const handleWeeklySummary = async (
+  { csv, duplicate },
+  dataObjectsRef
+) => {
   try {
     if (csv) {
       console.warn(
@@ -295,24 +306,27 @@ export const handleWeeklySummary = async ({
       );
       return;
     }
-    const summaryRequired = await isWeeklySummaryRequired({ csv });
+    const summaryRequired = await isWeeklySummaryRequired(
+      { csv },
+      dataObjectsRef
+    );
 
     if (!summaryRequired && !duplicate) {
       const weekRange = getFormattedWeekRange();
       console.info(
         chalk.yellow(
-          `No summary required for week ${weekRange}. If you would like to create a duplicate, use the Weekly Summary command with the ${chalk.green('--duplicate')} flag, e.g., ${chalk.green('qa-shadow-report weekly-summary --duplicate')}.`
+          `No summary required for week ${weekRange}. If you would like to create a duplicate, use the Weekly Summary command with the ${chalk.green('--duplicate')} flag, e.g., ${chalk.green('qa-shadow-report weekly-summary --duplicate')}.`,
         )
       );
       return;
     }
-    const existingSheetTitles = await getExistingTabTitlesInWeeklyRange();
+    const existingSheetTitles = await getExistingTabTitlesInWeeklyRange(dataObjectsRef);
     const currentTime = getCurrentTime();
     const summaryTitle = createWeeklySummaryTitle();
     const summaryPageTitle = duplicate
       ? `${summaryTitle}_${currentTime}`
       : summaryTitle;
-    await createNewWeeklyTab(summaryPageTitle);
+    await createNewWeeklyTab(summaryPageTitle, undefined, dataObjectsRef);
     const { startDate, endDate } = getWeeklyDateRange();
     const weeklySheetTitles = existingSheetTitles.filter((title) => {
       const tabDate = new Date(title);
@@ -320,7 +334,8 @@ export const handleWeeklySummary = async ({
     });
     const fullSummaryPayload = await constructWeeklyPayloadForCopyPaste(
       weeklySheetTitles,
-      summaryPageTitle
+      summaryPageTitle,
+      dataObjectsRef
     );
 
     const updatedWeeklySheetTitles = weeklySheetTitles.map((title) => {
@@ -356,7 +371,8 @@ export const handleWeeklySummary = async ({
       updatedWeeklySheetTitles,
       HEADER_INDICATORS,
       fullSummaryPayload.bodyPayload,
-      summaryPageTitle
+      summaryPageTitle,
+      dataObjectsRef
     );
     await sendSummaryHeaders(fullSummaryPayload.headerPayload);
     await sendSummaryBody(fullSummaryPayload.bodyPayload);

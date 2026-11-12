@@ -10,6 +10,7 @@ import { spawn } from 'child_process';
 import { GOOGLE_KEYFILE_PATH, GOOGLE_SHEET_ID } from '../constants.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { findProjectRoot } from './utils/projectPaths.js';
 
 /**
  * Resolves the path to the postInstall.js script.
@@ -29,6 +30,15 @@ const resolvePostInstallScript = () => {
 };
 
 /**
+ * Resolves the consumer project root independently of the current directory.
+ * @returns {string|null} The resolved project root.
+ */
+const resolveProjectRoot = () => {
+  const moduleDirectory = path.dirname(fileURLToPath(import.meta.url));
+  return findProjectRoot(moduleDirectory);
+};
+
+/**
  * Main execution function for the command-line interface.
  * Processes command line arguments to determine the desired operation and configuration.
  * Supports generating daily and monthly reports with optional CSV output and duplication.
@@ -45,7 +55,7 @@ export async function run() {
   const frameworkArg = args.find((arg) =>
     ['cypress', 'playwright', 'cy', 'pw'].includes(arg)
   );
-  const isConfigured = isProjectConfigured();
+  const isConfigured = isProjectConfigured(resolveProjectRoot());
   const framework = frameworkArg || '';
   const isCypress = framework === 'cypress' || framework === 'cy';
   const isPlaywright = framework === 'playwright' || framework === 'pw';
@@ -132,10 +142,11 @@ export async function run() {
   }
 }
 
-const isDirectEntry =
+const isDirectEntry = () =>
   Boolean(process.argv[1]) &&
-  path.resolve(fileURLToPath(import.meta.url)) === path.resolve(process.argv[1]);
+  path.resolve(fileURLToPath(import.meta.url)) ===
+    path.resolve(process.argv[1]);
 
-if (isDirectEntry) {
+if (isDirectEntry()) {
   run();
 }

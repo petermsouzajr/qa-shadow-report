@@ -37,15 +37,14 @@ import { buildDailyPayload } from '../dailyReportMethods/reportGeneration/buildD
  * @param {Object} options - Configuration options for generating reports.
  * @param {boolean} options.csv - If true, outputs in CSV format.
  * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day.
+ * @param dataObjectsRef
  * @param {boolean} options.cypress - If true, parses test result JSON in cypress format.
  * @param {boolean} options.playwright - If true, parses test result JSON in playwright format.
  * */
-export const handleDailyReport = async ({
-  csv,
-  duplicate,
-  cypress,
-  playwright,
-}) => {
+export const handleDailyReport = async (
+  { csv, duplicate, cypress, playwright },
+  dataObjectsRef
+) => {
   try {
     const todaysDate = getTodaysFormattedDate();
     const currentTime = getCurrentTime();
@@ -91,7 +90,7 @@ export const handleDailyReport = async ({
       ];
       saveCSV(reportPayload, duplicate);
     } else {
-      const todaysReportExists = await doesTodaysReportExist();
+      const todaysReportExists = await doesTodaysReportExist(dataObjectsRef);
       const noReportMessage = chalk.yellow(`Today\`s report already exists.
       If you would like to create a duplicate, use the optional flag ${chalk.green(
     '--duplicate'
@@ -102,8 +101,11 @@ export const handleDailyReport = async ({
         console.info(noReportMessage);
         return;
       }
-      await createNewTab(todaysTitle);
-      const destinationTabId = await getTabIdFromTitle(todaysTitle);
+      await createNewTab(todaysTitle, undefined, dataObjectsRef);
+      const destinationTabId = await getTabIdFromTitle(
+        todaysTitle,
+        dataObjectsRef
+      );
       const headerRowIndex = fullDailyPayload.headerPayload.length + 1;
       const bodyRowCount = fullDailyPayload.bodyPayload.length;
       const totalNumberOfRows = headerRowIndex + bodyRowCount - 1;
