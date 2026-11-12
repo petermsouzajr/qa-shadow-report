@@ -33,7 +33,7 @@ const resolvePostInstallScript = () => {
  * Processes command line arguments to determine the desired operation and configuration.
  * Supports generating daily and monthly reports with optional CSV output and duplication.
  */
-async function run() {
+export async function run() {
   const args = process.argv.slice(2);
   const commands = args.filter((arg) =>
     ['todays-report', 'monthly-summary', 'weekly-summary'].includes(arg)
@@ -132,4 +132,10 @@ async function run() {
   }
 }
 
-run();
+const isDirectEntry =
+  Boolean(process.argv[1]) &&
+  path.resolve(fileURLToPath(import.meta.url)) === path.resolve(process.argv[1]);
+
+if (isDirectEntry) {
+  run();
+}

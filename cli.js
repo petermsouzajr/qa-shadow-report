@@ -7,4 +7,5 @@ if (process.argv.includes('--help')) {
   process.exit(0);
 }
 
-await import('./src/cliMain.js');
+const { run } = await import('./src/cliMain.js');
+await run();
