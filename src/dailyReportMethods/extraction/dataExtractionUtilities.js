@@ -74,7 +74,7 @@ export const extractCategoryFromTest = (test, testCategoriesAvailable) => {
  * Extracts the spec name from a full file path, assuming the file name ends with '.spec.ts'.
  *
  * @param {string} fullFilePath The full file path from which to extract the spec name.
- * @returns {string} The extracted spec name without the '.spec.ts', '.cy.js', '.test.jsx', etc. extension.
+ * @returns {string} The extracted spec name without the '.spec.ts', '.cy.js', '.test.jsx', '.yaml', etc. extension.
  * @throws {TypeError} If the fullFilePath is not a string.
  * @throws {Error} If the file name format is unexpected.
  */
@@ -85,14 +85,16 @@ export const extractSpecFromFullFile = (fullFilePath) => {
   const segments = fullFilePath.split('/');
   const fileName = segments.pop();
   const regex = /\.(spec|cy|test)\.(ts|js|jsx|tsx)$/;
+  // Maestro flows are plain YAML files, e.g. saved-card.yaml
+  const maestroRegex = /\.ya?ml$/;
 
-  if (!regex.test(fileName)) {
+  if (!regex.test(fileName) && !maestroRegex.test(fileName)) {
     throw new Error(
-      'The file name format is unexpected. It should end with .spec.ts, .cy.js, .test.jsx, etc.'
+      'The file name format is unexpected. It should end with .spec.ts, .cy.js, .test.jsx, .yaml, etc.'
     );
   }
 
-  const spec = fileName.replace(regex, '');
+  const spec = fileName.replace(regex, '').replace(maestroRegex, '');
   return spec;
 };
 

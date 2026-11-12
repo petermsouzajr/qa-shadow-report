@@ -59,7 +59,7 @@ try {
   if (fs.existsSync(configPath)) {
     const shadowConfig = await import(pathToFileURL(configPath).href);
     const loaded = shadowConfig.default || {};
-    const hasFields = loaded.testData || loaded.googleSpreadsheetUrl || loaded.teamNames;
+    const hasFields = loaded.testData || loaded.maestroReport || loaded.googleSpreadsheetUrl || loaded.teamNames;
     shadowConfigDetails = hasFields ? loaded : (shadowConfig.testData ? shadowConfig : loaded);
     
     // Validate config if it's not empty and not in test mode
@@ -203,11 +203,50 @@ export const TEST_DATA = (cypress) => {
   return testData;
 };
 
+/**
+ * Resolves an optional path setting from the config, relative to the project root.
+ * @param {string} key - Config key.
+ * @returns {string|null} The absolute path, or null when unset.
+ */
+const resolveConfigPath = (key) => {
+  const value = getActiveShadowConfig() && getActiveShadowConfig()[key];
+  if (typeof value !== 'string' || value.trim() === '') return null;
+  return path.resolve(projectRootPath, value);
+};
+
+/**
+ * Maestro JUnit report (`maestro test --format junit --output <path>`).
+ * @returns {string} Absolute path to the report.
+ */
+export const MAESTRO_REPORT = () =>
+  resolveConfigPath('maestroReport') ||
+  path.resolve(projectRootPath, 'maestro-results/report.xml');
+
+/**
+ * Maestro step logs folder (`maestro test --test-output-dir <path>`).
+ * @returns {string} Absolute path to the folder.
+ */
+export const MAESTRO_OUTPUT_DIR = () =>
+  resolveConfigPath('maestroOutputDir') ||
+  path.dirname(MAESTRO_REPORT());
+
+/**
+ * Optional folder to search for flow YAML files.
+ * @returns {string|null} Absolute path, or null when unset.
+ */
+export const MAESTRO_FLOWS_DIR = () => resolveConfigPath('maestroFlowsDir');
+
+/**
+ * Folder Maestro ran from; relative flow paths in the report resolve here.
+ * @returns {string} The project root.
+ */
+export const PROJECT_ROOT = () => projectRootPath;
+
 // Define the formula template for daily report header metrics.
 export const FORMULA_TEMPLATES = [
   '=COUNTIFS({subjectColumn}{headerRowIndex}:{subjectColumn}{totalNumberOfRows}, "*{type}*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "passed")&" of "&COUNTIFS({subjectColumn}{headerRowIndex}:{subjectColumn}{totalNumberOfRows}, "*{type}*")&"  -  "&"("&ROUND(COUNTIFS({subjectColumn}{headerRowIndex}:{subjectColumn}{totalNumberOfRows}, "*{type}*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "passed")/(COUNTIFS({subjectColumn}{headerRowIndex}:{subjectColumn}{totalNumberOfRows}, "*{type}*")) * 100)&"%)"',
   '=COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "*{type}*")&" ("&ROUND(COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "*{type}*")/{bodyRowCount} * 100)&"%)"',
-  '=COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*passed*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*failed*")&" ("&ROUND(COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*passed*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*failed*")/{bodyRowCount} * 100)&"%)"',
+  '=COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*passed*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*failed*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>not run")&" ("&ROUND(COUNTIFS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*passed*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>*failed*", {stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows}, "<>not run")/{bodyRowCount} * 100)&"%)"',
   '=ROWS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows})',
 ];
 
@@ -400,6 +439,13 @@ export const DEFAULT_HEADER_METRICS = [
   '# skipped/pending tests',
   '# total tests',
 ];
+
+/**
+ * Header metric added only when a report contains "not run" rows (Maestro steps
+ * that never ran because an earlier step failed). Kept out of the default list
+ * so Cypress and Playwright reports keep their exact layout.
+ */
+export const NOT_RUN_HEADER_METRIC = '# not run tests';
 
 export const HEADER_INDICATORS = ['test name', 'state'];
 

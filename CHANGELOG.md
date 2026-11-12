@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- Maestro support: `qa-shadow-report maestro` (or `qasr ms`). It reads the JUnit report, the step logs from `--test-output-dir`, and the flow YAML. Each step with a `label:` becomes a row, and its `[tags]` fill Team, Category and Manual Case. A flow with no labels is one row.
+- New `not run` state for steps blocked by an earlier failure, with a `# not run tests` header count. The count only appears when such rows exist.
+- Optional config fields: `maestroReport`, `maestroOutputDir`, `maestroFlowsDir`. `testData` is not required for Maestro.
+- `qasr-setup` offers Maestro (`ms`).
+
+### Changed
+- The `# skipped/pending tests` formula excludes `not run`. Cypress and Playwright counts are unchanged.
+
 ## 2.1.9
 
 ### Fixed

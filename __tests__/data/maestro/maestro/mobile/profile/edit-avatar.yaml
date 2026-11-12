@@ -1,0 +1,11 @@
+url: http://localhost:8765/profile.html
+name: edit avatar
+tags:
+  - smoke
+properties:
+  team: Profile
+  caseId: C2210
+---
+- launchApp
+- tapOn: "Save avatar"
+- assertVisible: "Avatar saved"

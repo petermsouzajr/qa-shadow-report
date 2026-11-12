@@ -1,0 +1,219 @@
+[
+  {
+    "command": {
+      "defineVariablesCommand": {
+        "env": {
+          "MAESTRO_FILENAME": "promo-code",
+          "MAESTRO_DEVICE_UDID": "chromium",
+          "MAESTRO_SHARD_ID": "1",
+          "MAESTRO_SHARD_INDEX": "0"
+        },
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484313239,
+      "duration": 1,
+      "sequenceNumber": 0,
+      "depth": 0,
+      "evaluatedCommand": {
+        "defineVariablesCommand": {
+          "env": {
+            "MAESTRO_FILENAME": "promo-code",
+            "MAESTRO_DEVICE_UDID": "chromium",
+            "MAESTRO_SHARD_ID": "1",
+            "MAESTRO_SHARD_INDEX": "0"
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "applyConfigurationCommand": {
+        "config": {
+          "appId": "http://localhost:8765/index.html",
+          "name": "apply promo code",
+          "tags": [
+            "regression"
+          ]
+        },
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484313240,
+      "duration": 0,
+      "sequenceNumber": 1,
+      "depth": 0,
+      "evaluatedCommand": {
+        "applyConfigurationCommand": {
+          "config": {
+            "appId": "http://localhost:8765/index.html",
+            "name": "apply promo code",
+            "tags": [
+              "regression"
+            ]
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "launchAppCommand": {
+        "appId": "http://localhost:8765/index.html",
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484313240,
+      "duration": 25,
+      "sequenceNumber": 2,
+      "depth": 0,
+      "evaluatedCommand": {
+        "launchAppCommand": {
+          "appId": "http://localhost:8765/index.html",
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "tapOnElement": {
+        "selector": {
+          "textRegex": "Apply promo",
+          "optional": false
+        },
+        "retryIfNoChange": false,
+        "waitUntilVisible": false,
+        "longPress": false,
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484313266,
+      "duration": 1925,
+      "sequenceNumber": 3,
+      "depth": 0,
+      "evaluatedCommand": {
+        "tapOnElement": {
+          "selector": {
+            "textRegex": "Apply promo",
+            "optional": false
+          },
+          "retryIfNoChange": false,
+          "waitUntilVisible": false,
+          "longPress": false,
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "textRegex": "Discount applied",
+            "optional": false
+          }
+        },
+        "label": "[Checkout][regression][C1050] applies a promo code",
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484315192,
+      "duration": 347,
+      "sequenceNumber": 4,
+      "depth": 0,
+      "evaluatedCommand": {
+        "assertConditionCommand": {
+          "condition": {
+            "visible": {
+              "textRegex": "Discount applied",
+              "optional": false
+            }
+          },
+          "label": "[Checkout][regression][C1050] applies a promo code",
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "textRegex": "Free shipping",
+            "optional": true
+          }
+        },
+        "label": "[Checkout][regression][C1051] shows free shipping banner",
+        "optional": true
+      }
+    },
+    "metadata": {
+      "status": "WARNED",
+      "timestamp": 1793484315540,
+      "duration": 17663,
+      "sequenceNumber": 5,
+      "depth": 0,
+      "evaluatedCommand": {
+        "assertConditionCommand": {
+          "condition": {
+            "visible": {
+              "textRegex": "Free shipping",
+              "optional": true
+            }
+          },
+          "label": "[Checkout][regression][C1051] shows free shipping banner",
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "textRegex": "Vitamin D x1",
+            "optional": false
+          }
+        },
+        "label": "[Checkout][smoke][C1052] keeps the cart items",
+        "optional": false
+      }
+    },
+    "metadata": {
+      "status": "COMPLETED",
+      "timestamp": 1793484333573,
+      "duration": 344,
+      "sequenceNumber": 6,
+      "depth": 0,
+      "evaluatedCommand": {
+        "assertConditionCommand": {
+          "condition": {
+            "visible": {
+              "textRegex": "Vitamin D x1",
+              "optional": false
+            }
+          },
+          "label": "[Checkout][smoke][C1052] keeps the cart items",
+          "optional": false
+        }
+      }
+    }
+  }
+]

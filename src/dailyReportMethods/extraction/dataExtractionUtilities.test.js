@@ -228,7 +228,16 @@ describe('Extraction Functions', () => {
 
     it('should throw a TypeError if the file name does not match the expected format', () => {
       expect(() => extractSpecFromFullFile(TEST_PATHS.noExtension)).toThrow(
-        'The file name format is unexpected. It should end with .spec.ts, .cy.js, .test.jsx, etc.'
+        'The file name format is unexpected. It should end with .spec.ts, .cy.js, .test.jsx, .yaml, etc.'
+      );
+    });
+
+    it('should extract the spec name from a Maestro flow file', () => {
+      expect(
+        extractSpecFromFullFile('maestro/mobile/checkout/saved-card.yaml')
+      ).toEqual('saved-card');
+      expect(extractSpecFromFullFile('maestro/mobile/login.yml')).toEqual(
+        'login'
       );
     });
 

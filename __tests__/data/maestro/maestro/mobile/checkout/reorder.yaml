@@ -1,0 +1,9 @@
+url: http://localhost:8765/index.html
+name: reorder last purchase
+---
+- runFlow:
+    file: ../../common/open-cart.yaml
+    label: "[Checkout][smoke][C1060] opens the cart"
+- assertVisible:
+    text: "Vitamin D x1"
+    label: "[Checkout][regression][C1061] shows last purchase"

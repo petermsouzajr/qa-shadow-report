@@ -31,9 +31,18 @@
  * reference an environment variable using the format 'process.env.VARIABLE_NAME'.
  * Example: './googleCredentials.json'
  *
- * @property {string} testData - Path to your test results JSON file. For Cypress, this is
+ * @property {string} [testData] - Path to your test results JSON file (Cypress and Playwright; not used for Maestro). For Cypress, this is
  * typically the merged mochawesome output. For Playwright, this is the JSON reporter output.
  * Example: './cypress/results/output.json' or './test-results/output.json'
+ *
+ * @property {string} [maestroReport] - Maestro only. Path to the JUnit report from
+ * `maestro test --format junit --output <path>`. Default: './maestro-results/report.xml'
+ *
+ * @property {string} [maestroOutputDir] - Maestro only. Folder passed to
+ * `--test-output-dir`, holding the per-step logs. Default: the folder of `maestroReport`.
+ *
+ * @property {string} [maestroFlowsDir] - Maestro only. Folder to search for flow YAML files
+ * if they are not at the path in the report.
  *
  * @property {string} [csvDownloadsPath] - Directory path where generated CSV files will be saved.
  * Used when the `--csv` flag is provided.

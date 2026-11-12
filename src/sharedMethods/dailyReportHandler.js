@@ -18,10 +18,17 @@ import {
   createTextAlignmentPayload,
   setTextWrappingToClip,
 } from './styles.js';
-import { TEST_DATA } from '../../constants.js';
+import {
+  TEST_DATA,
+  MAESTRO_REPORT,
+  MAESTRO_OUTPUT_DIR,
+  MAESTRO_FLOWS_DIR,
+  PROJECT_ROOT,
+} from '../../constants.js';
 import { calculateDailySummaryMetrics, saveCSV } from './csvHandler.js';
 import { doesTodaysReportExist } from './dailyReportRequired.js';
 import { transformPlaywrightToFriendlyFormat } from './convertPayloads.js';
+import { transformMaestroToFriendlyFormat } from './convertMaestro.js';
 import chalk from 'chalk';
 import { processHeaderWithFormulas } from '../dailyReportMethods/reportGeneration/processHeaderWithFormulas.js';
 import { buildDailyPayload } from '../dailyReportMethods/reportGeneration/buildDailyPayload.js';
@@ -39,23 +46,37 @@ import { buildDailyPayload } from '../dailyReportMethods/reportGeneration/buildD
  * @param {boolean} options.duplicate - If true, allows creating a duplicate report for the day.
  * @param {boolean} options.cypress - If true, parses test result JSON in cypress format.
  * @param {boolean} options.playwright - If true, parses test result JSON in playwright format.
+ * @param {boolean} [options.maestro] - If true, reads Maestro JUnit XML + step logs + flow YAML.
  * */
 export const handleDailyReport = async ({
   csv,
   duplicate,
   cypress,
   playwright,
+  maestro = false,
 }) => {
   try {
     const todaysDate = getTodaysFormattedDate();
     const currentTime = getCurrentTime();
     const todaysTitle = duplicate ? `${todaysDate}_${currentTime}` : todaysDate;
-    const jsonFilePath = TEST_DATA(cypress);
-    const dataSet = await loadJSON(jsonFilePath);
-    let testPayload = cypress ? dataSet.results : dataSet.suites;
+    let testPayload;
+    if (maestro) {
+      // Maestro results are shaped like Cypress results, so the rest of the
+      // pipeline runs in its default (non-Playwright) mode.
+      testPayload = transformMaestroToFriendlyFormat({
+        reportPath: MAESTRO_REPORT(),
+        outputDir: MAESTRO_OUTPUT_DIR(),
+        flowsDir: MAESTRO_FLOWS_DIR(),
+        projectRoot: PROJECT_ROOT(),
+      });
+    } else {
+      const jsonFilePath = TEST_DATA(cypress);
+      const dataSet = await loadJSON(jsonFilePath);
+      testPayload = cypress ? dataSet.results : dataSet.suites;
 
-    if (playwright) {
-      testPayload = transformPlaywrightToFriendlyFormat(testPayload);
+      if (playwright) {
+        testPayload = transformPlaywrightToFriendlyFormat(testPayload);
+      }
     }
     const fullDailyPayload = await buildDailyPayload(testPayload, playwright);
     if (csv) {

@@ -43,12 +43,13 @@ export async function run() {
   const isCSV = args.includes('--csv');
   const isDuplicate = args.includes('--duplicate');
   const frameworkArg = args.find((arg) =>
-    ['cypress', 'playwright', 'cy', 'pw'].includes(arg)
+    ['cypress', 'playwright', 'maestro', 'cy', 'pw', 'ms'].includes(arg)
   );
   const isConfigured = isProjectConfigured();
   const framework = frameworkArg || '';
   const isCypress = framework === 'cypress' || framework === 'cy';
   const isPlaywright = framework === 'playwright' || framework === 'pw';
+  const isMaestro = framework === 'maestro' || framework === 'ms';
   const unsupportedCsvForSummary =
     isCSV &&
     (command.includes('monthly-summary') || command.includes('weekly-summary'));
@@ -61,6 +62,7 @@ export async function run() {
     duplicate: isDuplicate,
     cypress: isCypress,
     playwright: isPlaywright,
+    maestro: isMaestro,
   };
 
   if ((!GOOGLE_KEYFILE_PATH() || GOOGLE_SHEET_ID() === false) && !isCSV) {
@@ -99,8 +101,10 @@ export async function run() {
     console.info(
       chalk.yellow('Sheet not created. Please specify a framework:'),
       chalk.green('cypress'),
+      chalk.yellow(','),
+      chalk.green('playwright'),
       chalk.yellow('or'),
-      chalk.green('playwright')
+      chalk.green('maestro')
     );
     process.exit(1);
   } else if (unsupportedCsvForSummary || unsupportedDuplicateCsvForSummary) {

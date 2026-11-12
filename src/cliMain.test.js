@@ -81,6 +81,7 @@ describe('cliMain boundaries', () => {
       duplicate: false,
       cypress: true,
       playwright: false,
+      maestro: false,
     });
   });
 
@@ -94,6 +95,7 @@ describe('cliMain boundaries', () => {
       duplicate: true,
       cypress: false,
       playwright: true,
+      maestro: false,
     });
   });
 
@@ -104,6 +106,7 @@ describe('cliMain boundaries', () => {
       duplicate: false,
       cypress: true,
       playwright: false,
+      maestro: false,
     });
   });
 
@@ -142,8 +145,37 @@ describe('cliMain boundaries', () => {
   });
 
   it('exits when no framework is provided', async () => {
+    const info = jest.spyOn(console, 'info').mockImplementation(() => {});
     const { exit } = await loadCli({ args: [] });
     expect(exit).toHaveBeenCalledWith(1);
+    const output = info.mock.calls.flat().map(String).join(' ');
+    expect(output).toContain('Please specify a framework');
+    expect(output).toContain('cypress');
+    expect(output).toContain('playwright');
+    expect(output).toContain('maestro');
+    info.mockRestore();
+  });
+
+  it('dispatches todays-report for the maestro alias', async () => {
+    const { daily } = await loadCli({ args: ['todays-report', 'ms'] });
+    expect(daily).toHaveBeenCalledWith({
+      csv: false,
+      duplicate: false,
+      cypress: false,
+      playwright: false,
+      maestro: true,
+    });
+  });
+
+  it('dispatches the maestro framework to the default main flow', async () => {
+    const { main } = await loadCli({ args: ['maestro'] });
+    expect(main).toHaveBeenCalledWith({
+      csv: false,
+      duplicate: false,
+      cypress: false,
+      playwright: false,
+      maestro: true,
+    });
   });
 
   it.each([

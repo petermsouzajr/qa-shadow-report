@@ -3,7 +3,7 @@ import chalk from 'chalk';
 /** Print CLI help. Must not import config or Google clients. */
 export function printHelp() {
   console.log(`
-${chalk.bold.cyan('qa-shadow-report')} - Test reporting for Cypress & Playwright
+${chalk.bold.cyan('qa-shadow-report')} - Test reporting for Cypress, Playwright & Maestro
 
 ${chalk.bold('USAGE:')}
   ${chalk.green('qa-shadow-report')} ${chalk.yellow('<framework>')} ${chalk.gray('[command] [options]')}
@@ -12,6 +12,7 @@ ${chalk.bold('USAGE:')}
 ${chalk.bold('FRAMEWORK:')} ${chalk.dim('(required)')}
   ${chalk.yellow('cypress')}, ${chalk.yellow('cy')}    Generate reports for Cypress test results
   ${chalk.yellow('playwright')}, ${chalk.yellow('pw')} Generate reports for Playwright test results
+  ${chalk.yellow('maestro')}, ${chalk.yellow('ms')}    Generate reports for Maestro flows (JUnit XML + step logs)
 
 ${chalk.bold('COMMANDS:')} ${chalk.dim('(optional - default: generate all applicable reports)')}
   ${chalk.gray('todays-report')}      Generate only today's daily report
@@ -43,13 +44,20 @@ ${chalk.bold('EXAMPLES:')}
   ${chalk.dim('# Shorthand commands:')}
   ${chalk.green('qasr cy')}              ${chalk.dim('(same as: qa-shadow-report cypress)')}
   ${chalk.green('qasr pw --csv')}        ${chalk.dim('(same as: qa-shadow-report playwright --csv)')}
+  ${chalk.green('qasr ms --csv')}        ${chalk.dim('(same as: qa-shadow-report maestro --csv)')}
+
+  ${chalk.dim('# Maestro: run flows with a JUnit report and step logs, then report:')}
+  ${chalk.green('maestro test maestro/ --format junit --output maestro-results/report.xml --test-output-dir maestro-results/')}
+  ${chalk.green('qa-shadow-report maestro')}
 
 ${chalk.bold('DOCUMENTATION:')}
   ${chalk.cyan('https://github.com/petermsouzajr/qa-shadow-report#readme')}
 
 ${chalk.bold('CONFIGURATION:')}
   Create ${chalk.yellow('shadowReportConfig.js')} in your project root, or run ${chalk.green('qasr-setup')}
-  Required for every report: testData
+  Required for Cypress/Playwright reports: testData
+  Maestro (optional, defaults shown): maestroReport ('./maestro-results/report.xml'),
+    maestroOutputDir (folder of maestroReport), maestroFlowsDir
   Required for Google Sheets only: googleSpreadsheetUrl, googleKeyFilePath
   `);
 }
