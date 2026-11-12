@@ -17,12 +17,14 @@ import {
  *
  * @param {string[]} sourceTabTitles - Array of titles of the source tabs to be processed (expected to be date-based, e.g., "2025-03-01").
  * @param {string} destinationTabTitle - Title of the destination tab where the weekly summary will be pasted.
+ * @param dataObjectsRef
  * @returns {Promise<object>} A promise resolving to the constructed payload.
  * @throws {Error} If there is an issue fetching tab details or processing source tab titles.
  */
 export const constructWeeklyPayloadForCopyPaste = async (
   sourceTabTitles,
-  destinationTabTitle
+  destinationTabTitle,
+  dataObjectsRef
 ) => {
   try {
     const headerIndicatorsLength = getHeaderIndicatorsLength();
@@ -46,25 +48,33 @@ export const constructWeeklyPayloadForCopyPaste = async (
       const tabDate = new Date(title);
       return tabDate >= startDate && tabDate <= endDate;
     });
-    const lastWeekTabValues = await fetchLastWeekTabValues(weeklyTabTitles);
+    const lastWeekTabValues = await fetchLastWeekTabValues(
+      weeklyTabTitles,
+      dataObjectsRef
+    );
     const summaryPayload = initializeWeeklyReportPayload();
     const columnMetrics = initializeReportColumnMetrics(headerIndicatorsLength);
-    const destinationTabId = await getTabIdFromWeeklyTitle(destinationTabTitle);
+    const destinationTabId = await getTabIdFromWeeklyTitle(
+      destinationTabTitle,
+      dataObjectsRef
+    );
 
     columnMetrics.longestHeaderEnd = await findLongestHeaderWithinWeeklySeries(
       weeklyTabTitles,
       lastWeekTabValues,
-      columnMetrics
+      columnMetrics,
     );
 
-    await processWeeklySourceTabTitles(
+    const processArguments = [
       weeklyTabTitles,
       destinationTabId,
       summaryPayload,
       columnMetrics,
       destinationTabTitle,
       headerIndicatorsLength
-    );
+    ];
+    if (dataObjectsRef) processArguments.push(dataObjectsRef);
+    await processWeeklySourceTabTitles(...processArguments);
 
     summaryPayload.metadata = {
       ...summaryPayload.metadata,

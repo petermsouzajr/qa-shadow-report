@@ -78,11 +78,13 @@ describe('Google Sheets Authentication', () => {
       }));
 
       // Import the module
-      const { auth, sheets, spreadsheetId } = await import('./auth.js');
+      const { auth, sheets, spreadsheetId, getAuthContext } =
+        await import('./auth.js');
 
       expect(auth).toBeDefined();
       expect(sheets).toBeDefined();
       expect(spreadsheetId).toBe('dummy-spreadsheet-id');
+      expect(getAuthContext()).toEqual({ auth, sheets, spreadsheetId });
     });
 
     test('should handle missing key file path', async () => {
@@ -175,9 +177,9 @@ describe('Google Sheets Authentication', () => {
       // Import the module
       const { auth, sheets, spreadsheetId } = await import('./auth.js');
 
-      expect(auth).toBeDefined();
+      expect(auth).toBeUndefined();
       expect(sheets).toBeUndefined();
-      expect(spreadsheetId).toBe('dummy-spreadsheet-id');
+      expect(spreadsheetId).toBeUndefined();
       expect(mockConsoleError).toHaveBeenCalledWith(
         'Error obtaining Google API client:',
         expect.any(Error)
@@ -205,11 +207,11 @@ describe('Google Sheets Authentication', () => {
       // Import the module
       const { auth, sheets, spreadsheetId } = await import('./auth.js');
 
-      expect(auth).toBeNull();
+      expect(auth).toBeUndefined();
       expect(sheets).toBeUndefined();
-      expect(spreadsheetId).toBe('dummy-spreadsheet-id');
+      expect(spreadsheetId).toBeUndefined();
       expect(mockConsoleError).toHaveBeenCalledWith(
-        'Could not load the default credentials. Please ensure the Google credentials file exists and is properly configured.'
+        'Could not load the default credentials. Please ensure the Google credentials file exists and is properly configured.',
       );
       expect(mockConsoleError).toHaveBeenCalledWith(expect.any(Error));
     });
@@ -237,9 +239,9 @@ describe('Google Sheets Authentication', () => {
       // Import the module
       const { auth, sheets, spreadsheetId } = await import('./auth.js');
 
-      expect(auth).toBeDefined();
+      expect(auth).toBeUndefined();
       expect(sheets).toBeUndefined();
-      expect(spreadsheetId).toBe('dummy-spreadsheet-id');
+      expect(spreadsheetId).toBeUndefined();
       expect(mockConsoleError).toHaveBeenCalledWith(
         'Error obtaining Google API client:',
         expect.any(Error)

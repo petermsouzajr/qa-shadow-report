@@ -18,9 +18,13 @@ import { DEFAULT_HEADER_METRICS, HEADER_INDICATORS } from '../../constants.js';
  * Asynchronously fetches values for given tab titles from the previous month.
  *
  * @param {string[]} titles - An array of tab titles to fetch values for.
+ * @param dataObjectsRef
  * @returns {Promise<object[]>} - A promise that resolves to an array of tab values corresponding to the provided titles.
  */
-export const fetchLastMonthTabValues = async (titles) => {
+export const fetchLastMonthTabValues = async (
+  titles,
+  dataObjectsRef = dataObjects
+) => {
   // Define the additional arguments that getTabValuesByTitle expects
   const sheetsInstance = '';
   const authParam = '';
@@ -29,9 +33,9 @@ export const fetchLastMonthTabValues = async (titles) => {
   const data = await Promise.all(
     titles.map((title) =>
       getTabValuesByTitle(title, sheetsInstance, authParam, spreadsheetIdParam)
-    )
+    ),
   );
-  dataObjects.lastMonthSheetValues.push(data);
+  dataObjectsRef.lastMonthSheetValues.push(data);
   return data;
 };
 
@@ -68,13 +72,19 @@ export const findHeaderRowIndex = (rows) => {
  *
  * @param {string} title - The title to search for.
  * @param {Array} defaultHeaderMetrics - Default header metrics to consider.
+ * @param dataObjectsRef
  * @returns {Promise<number>} - Starting column index for header metrics.
  */
 export const getHeaderMetricsSourceColumnStart = async (
   title,
-  defaultHeaderMetrics
+  defaultHeaderMetrics,
+  dataObjectsRef
 ) => {
-  return await findMatchingColumnByTabId(title, defaultHeaderMetrics);
+  return await findMatchingColumnByTabId(
+    title,
+    defaultHeaderMetrics,
+    dataObjectsRef
+  );
 };
 
 /**
@@ -177,6 +187,7 @@ export const initializeReportPayload = () => ({
  * @param {Object} columnMetrics - Metrics associated with columns being processed.
  * @param {string} destinationTabTitle - Title of the destination tab.
  * @param {number} headerIndicatorsLength - Length of header indicators to process.
+ * @param dataObjectsRef
  */
 const processSourceColumns = async (
   headerFooterData,
@@ -186,7 +197,8 @@ const processSourceColumns = async (
   summaryPayload,
   columnMetrics,
   destinationTabTitle,
-  headerIndicatorsLength
+  headerIndicatorsLength,
+  dataObjectsRef
 ) => {
   const lightGrey = { red: 0.9, green: 0.9, blue: 0.9 }; // Light grey color (e.g., #D9D9D9)
   const headerAndFooterRowFormat = {
@@ -197,11 +209,15 @@ const processSourceColumns = async (
 
   const sourceColumnNumbers = getSourceColumnNumbers(
     HEADER_INDICATORS,
-    headerFooterData
+    headerFooterData,
   );
 
   const headerMetricsSourceColumnStart =
-    await getHeaderMetricsSourceColumnStart(title, DEFAULT_HEADER_METRICS);
+    await getHeaderMetricsSourceColumnStart(
+      title,
+      DEFAULT_HEADER_METRICS,
+      dataObjectsRef
+    );
   const headerMetricsSourceColumnEnd = getHeaderMetricsSourceColumnEnd(
     headerMetricsSourceColumnStart,
     headerIndicatorsLength
@@ -577,6 +593,7 @@ const processSourceColumns = async (
  * @param {string} destinationTabTitle - Title of the destination tab.
  * @param {number} headerIndicatorsLength - Number of header indicators/columns to adjust columns by.
  *
+ * @param dataObjectsRef
  * @returns {Promise<void>}
  */
 export const processSourceTabTitles = async (
@@ -585,11 +602,15 @@ export const processSourceTabTitles = async (
   summaryPayload,
   columnMetrics,
   destinationTabTitle,
-  headerIndicatorsLength
+  headerIndicatorsLength,
+  dataObjectsRef,
 ) => {
   for (const title of titles) {
-    const headerFooterData = await getHeaderAndFooterDataByTabTitle(title);
-    const sourcePageId = await getTabIdFromTitle(title);
+    const headerFooterData = await getHeaderAndFooterDataByTabTitle(
+      title,
+      dataObjectsRef
+    );
+    const sourcePageId = await getTabIdFromTitle(title, dataObjectsRef);
     await processSourceColumns(
       headerFooterData,
       title,
@@ -598,7 +619,8 @@ export const processSourceTabTitles = async (
       summaryPayload,
       columnMetrics,
       destinationTabTitle,
-      headerIndicatorsLength
+      headerIndicatorsLength,
+      dataObjectsRef
     );
   }
 };

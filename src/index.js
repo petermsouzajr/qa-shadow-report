@@ -8,54 +8,24 @@ import {
   isSummaryRequired,
   isWeeklySummaryRequired,
 } from './sharedMethods/summaryRequired.js';
-import chalk from 'chalk';
-import { getFormattedMonth } from './sharedMethods/dateFormatting.js';
 import { WEEKLY_SUMMARY_ENABLED } from '../constants.js';
 
-const topLevelSpreadsheetData = {};
-const summaryTabData = {};
-const todaysReportData = {};
-const lastMonthSheetValues = [];
-const lastWeekSheetValues = [];
-const weeklySummaryTabData = {};
-
-export const dataObjects = {
-  topLevelSpreadsheetData,
-  summaryTabData,
-  weeklySummaryTabData,
-  todaysReportData,
-  lastMonthSheetValues,
-  lastWeekSheetValues,
-};
-
 /**
- * @constant {string} lastMonth - Formatted string representing the current month.
- * @constant {string} duplicateInstruction - Formatted string informing the usage of the 'duplicate' flag.
- * @constant {string} noSummaryMessage - Message indicating no summary is required.
- * @constant {string} noReportMessage - Message indicating today's report already exists.
+ * Creates the mutable state used during one report-generation run.
+ * @returns {Object} A new report context.
  */
-const lastMonth = getFormattedMonth('lastMonth');
-const dailyduplicateInstruction = ` e.g. ${chalk.green(
-  'qa-shadow-report --duplicate'
-)}`;
-const summaryDuplicateInstruction = ` ${chalk.green(
-  'qa-shadow-report monthly-summary --duplicate'
-)}`;
-const weeklySummaryDuplicateInstruction = ` ${chalk.green(
-  'qa-shadow-report weekly-summary --duplicate'
-)}`;
-const duplicateInstruction = ` If you would like to create a duplicate, use the optional flag ${chalk.green(
-  '--duplicate'
-)} in your reporting command,`;
-const noSummaryMessage = chalk.yellow(
-  `No ${lastMonth} summary required${duplicateInstruction}${summaryDuplicateInstruction}.`
-);
-const noWeeklySummaryMessage = chalk.yellow(
-  `No weekly summary required${duplicateInstruction}${weeklySummaryDuplicateInstruction}.`
-);
-const noReportMessage = chalk.yellow(
-  `Today\`s report already exists${duplicateInstruction}${dailyduplicateInstruction}.`
-);
+export const createReportContext = () => ({
+  topLevelSpreadsheetData: {},
+  summaryTabData: {},
+  weeklySummaryTabData: {},
+  todaysReportData: {},
+  lastMonthSheetValues: [],
+  lastWeekSheetValues: [],
+});
+
+// Compatibility context for modules that still use the legacy export.
+export const dataObjects = createReportContext();
+
 /**
  * Handles report and summary tasks based on pre-existing conditions.
  * - If the CSV option is selected, handles daily report creation immediately.
@@ -72,30 +42,49 @@ const noReportMessage = chalk.yellow(
  * @returns {Promise<void>} A promise that resolves when the operation completes.
  */
 export const main = async ({ csv, duplicate, cypress, playwright }) => {
+  const reportContext = createReportContext();
   try {
     if (csv) {
-      handleDailyReport({ csv, duplicate, cypress, playwright });
+      await handleDailyReport(
+        { csv, duplicate, cypress, playwright },
+        reportContext
+      );
       return;
     }
 
-    const monthlySummaryRequired = await isSummaryRequired({ csv });
-    const weeklySummaryRequired = await isWeeklySummaryRequired({ csv });
+    const monthlySummaryRequired = await isSummaryRequired(
+      { csv },
+      reportContext,
+    );
+    const weeklySummaryRequired = await isWeeklySummaryRequired(
+      { csv },
+      reportContext,
+    );
 
     if (monthlySummaryRequired) {
-      await handleSummary({ csv, duplicate, cypress, playwright });
+      await handleSummary(
+        { csv, duplicate, cypress, playwright },
+        reportContext,
+      );
       // } else {
       //   console.info(noSummaryMessage);
     }
 
-    const todaysReportExists = await doesTodaysReportExist();
+    const todaysReportExists = await doesTodaysReportExist(reportContext);
     if (todaysReportExists && !duplicate) {
       // console.info(noReportMessage);
     } else {
-      await handleDailyReport({ csv, duplicate, cypress, playwright });
+      await handleDailyReport(
+        { csv, duplicate, cypress, playwright },
+        reportContext,
+      );
     }
 
     if (WEEKLY_SUMMARY_ENABLED() && weeklySummaryRequired) {
-      await handleWeeklySummary({ csv, duplicate, cypress, playwright });
+      await handleWeeklySummary(
+        { csv, duplicate, cypress, playwright },
+        reportContext,
+      );
       // } else {
       //   console.info(chalk.yellow(noWeeklySummaryMessage));
     }
