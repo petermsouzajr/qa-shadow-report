@@ -67,6 +67,7 @@ const loadCli = async ({ args = [], configured = true, keyFile = 'key.json', she
 
 afterEach(() => {
   process.argv = originalArgv;
+  process.exitCode = undefined;
   if (originalCI === undefined) delete process.env.CI;
   else process.env.CI = originalCI;
   jest.restoreAllMocks();
@@ -167,10 +168,9 @@ describe('cliMain boundaries', () => {
     });
     expect(daily).toHaveBeenCalled();
     expect(error).toHaveBeenCalledWith(
-      'Error executing command:',
-      expect.objectContaining({ message: 'handler failed' })
+      'Error executing command: handler failed'
     );
-    expect(exit).not.toHaveBeenCalled();
+    expect(process.exitCode).toBe(1);
     error.mockRestore();
   });
 });

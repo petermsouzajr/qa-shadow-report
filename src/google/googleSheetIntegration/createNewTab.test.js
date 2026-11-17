@@ -105,7 +105,10 @@ describe('Google Sheets Tab Creation', () => {
           mockDataObjects,
           mockSheetsAPI
         )
-      ).rejects.toThrow('API Error');
+      ).rejects.toMatchObject({
+        message: `Failed to create sheet "${mockSheetName}".`,
+        cause: mockError,
+      });
 
       expect(mockBatchUpdate).toHaveBeenCalledWith({
         auth: { dummyAuth: true },
@@ -114,10 +117,6 @@ describe('Google Sheets Tab Creation', () => {
           requests: [{ addSheet: { properties: { title: mockSheetName } } }],
         },
       });
-      expect(console.error).toHaveBeenCalledWith(
-        '"createNewTab": Error creating new sheet:',
-        mockError
-      );
     });
 
     it('should call createSummaryTitle with correct parameters', async () => {
@@ -238,7 +237,10 @@ describe('Google Sheets Tab Creation', () => {
           mockDataObjects,
           mockSheetsAPI
         )
-      ).rejects.toThrow('Weekly API Error');
+      ).rejects.toMatchObject({
+        message: `Failed to create sheet "${mockSheetName}".`,
+        cause: mockError,
+      });
 
       expect(mockBatchUpdate).toHaveBeenCalledWith({
         auth: { dummyAuth: true },
@@ -247,10 +249,6 @@ describe('Google Sheets Tab Creation', () => {
           requests: [{ addSheet: { properties: { title: mockSheetName } } }],
         },
       });
-      expect(console.error).toHaveBeenCalledWith(
-        '"createNewTab": Error creating new sheet:',
-        mockError
-      );
     });
   });
 

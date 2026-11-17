@@ -7,7 +7,7 @@
  */
 export const enforceMaxLength = (str, maxLength) => {
   if (!Number.isInteger(maxLength) || maxLength < 0) {
-    throw new Error('maxLength must be a positive integer');
+    throw new RangeError('maxLength must be a non-negative integer');
   }
 
   if (str == null) {
@@ -18,8 +18,7 @@ export const enforceMaxLength = (str, maxLength) => {
     const result =
       typeof str === 'number' || typeof str === 'string' ? String(str) : '';
     return result.substring(0, maxLength);
-  } catch (error) {
-    console.error('Error in enforceMaxLength:', error);
+  } catch {
     return '';
   }
 };

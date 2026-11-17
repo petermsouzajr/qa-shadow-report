@@ -12,8 +12,9 @@ export const loadJSON = async (path) => {
     const data = await readFile(path, 'utf8');
     return JSON.parse(data);
   } catch (error) {
-    console.error('Error loading test results JSON data:', error);
-    throw new Error('Failed to load and parse test results JSON file.');
+    throw new Error('Failed to load and parse test results JSON file.', {
+      cause: error,
+    });
   }
 };
 

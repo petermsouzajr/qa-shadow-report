@@ -85,7 +85,6 @@ export const constructWeeklyPayloadForCopyPaste = async (
 
     return summaryPayload;
   } catch (error) {
-    console.error('Error building weekly copy-paste payload:', error);
-    throw new Error('Error building weekly copy-paste payload.');
+    throw new Error('Failed to build weekly copy-paste payload.', { cause: error });
   }
 };

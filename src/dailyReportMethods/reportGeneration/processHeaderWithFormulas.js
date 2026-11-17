@@ -24,17 +24,17 @@ export const processHeaderWithFormulas = (
   playwright
 ) => {
   if (!Array.isArray(headerPayload)) {
-    throw new Error('Invalid headerPayload: Expected an array of arrays.');
+    throw new TypeError('Invalid headerPayload: Expected an array of arrays.');
   }
   if (
     typeof headerRowIndex !== 'number' ||
     typeof totalNumberOfRows !== 'number' ||
     typeof bodyRowCount !== 'number'
   ) {
-    throw new Error('Invalid row or count values: Expected numbers.');
+    throw new TypeError('Invalid row or count values: Expected numbers.');
   }
   if (typeof playwright !== 'boolean') {
-    throw new Error('Invalid playwright value: Expected a boolean.');
+    throw new TypeError('Invalid playwright value: Expected a boolean.');
   }
 
   try {
@@ -75,7 +75,6 @@ export const processHeaderWithFormulas = (
       });
     });
   } catch (error) {
-    console.error('Error processing header with formulas:', error);
-    throw new Error('Failed to process header with formulas:');
+    throw new Error('Failed to process header with formulas.', { cause: error });
   }
 };

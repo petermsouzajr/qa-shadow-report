@@ -158,8 +158,7 @@ export const findLongestHeaderWithinWeeklySeries = async (
     }
     return updatedColumnMetrics.longestHeaderEnd;
   } catch (error) {
-    console.error('Failed to find longest header within series:', error);
-    throw error;
+    throw new Error('Failed to find the longest weekly summary header.', { cause: error });
   }
 };
 

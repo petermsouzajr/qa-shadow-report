@@ -35,7 +35,6 @@ export const sortPayload = (payload) => {
         a.testName.localeCompare(b.testName)
     );
   } catch (error) {
-    console.error('Error sorting payload:', error);
-    throw error; // Propagate the error
+    throw new Error('Failed to sort daily report payload.', { cause: error });
   }
 };

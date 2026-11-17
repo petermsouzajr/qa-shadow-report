@@ -19,15 +19,15 @@ import { sortPayload } from '../processing/sortDailyReportRows.js';
 export const buildDailyPayload = async (dataSet, playwright) => {
   try {
     if (typeof dataSet !== 'object' || dataSet === null) {
-      throw new Error('Invalid dataSet: Expected an object.');
+      throw new TypeError('Invalid dataSet: Expected an object.');
     }
     if (typeof playwright !== 'boolean') {
-      throw new Error('Invalid playwright flag: Expected a boolean.');
+      throw new TypeError('Invalid playwright flag: Expected a boolean.');
     }
 
     const columnsAvailable = COLUMNS_AVAILABLE(playwright);
     if (!Array.isArray(columnsAvailable)) {
-      throw new Error('Invalid columnsAvailable: Expected an array.');
+      throw new TypeError('Invalid columnsAvailable: Expected an array.');
     }
 
     const fullDailyPayload = initializeDailyPayload();
@@ -57,7 +57,6 @@ export const buildDailyPayload = async (dataSet, playwright) => {
 
     return fullDailyPayload;
   } catch (error) {
-    console.error('Error building daily payload:', error);
-    throw error;
+    throw new Error('Failed to build daily report payload.', { cause: error });
   }
 };

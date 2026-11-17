@@ -157,8 +157,7 @@ export const findLongestHeaderWithinSeries = async (
     }
     return updatedColumnMetrics.longestHeaderEnd;
   } catch (error) {
-    console.error('Failed to find longest header within series:', error);
-    throw error;
+    throw new Error('Failed to find the longest monthly summary header.', { cause: error });
   }
 };
 

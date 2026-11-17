@@ -23,8 +23,8 @@ const resolvePostInstallScript = () => {
     const postInstallPath = path.join(__dirname, '../scripts/postInstall.js');
     return postInstallPath;
   } catch (error) {
-    console.error('Error: Unable to resolve the path to postInstall.js.');
-    console.error(error);
+    console.error(`Error resolving postInstall.js: ${error.message}`);
+    process.exitCode = 1;
     process.exit(1);
   }
 };
@@ -137,7 +137,8 @@ export async function run() {
         break;
       }
     } catch (error) {
-      console.error('Error executing command:', error);
+      console.error(`Error executing command: ${error.message}`);
+      process.exitCode = 1;
     }
   }
 }

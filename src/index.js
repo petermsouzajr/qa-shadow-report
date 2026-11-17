@@ -43,52 +43,48 @@ export const dataObjects = createReportContext();
  */
 export const main = async ({ csv, duplicate, cypress, playwright }) => {
   const reportContext = createReportContext();
-  try {
-    if (csv) {
-      await handleDailyReport(
-        { csv, duplicate, cypress, playwright },
-        reportContext
-      );
-      return;
-    }
+  if (csv) {
+    await handleDailyReport(
+      { csv, duplicate, cypress, playwright },
+      reportContext
+    );
+    return;
+  }
 
-    const monthlySummaryRequired = await isSummaryRequired(
-      { csv },
+  const monthlySummaryRequired = await isSummaryRequired(
+    { csv },
+    reportContext,
+  );
+  const weeklySummaryRequired = await isWeeklySummaryRequired(
+    { csv },
+    reportContext,
+  );
+
+  if (monthlySummaryRequired) {
+    await handleSummary(
+      { csv, duplicate, cypress, playwright },
       reportContext,
     );
-    const weeklySummaryRequired = await isWeeklySummaryRequired(
-      { csv },
+    // } else {
+    //   console.info(noSummaryMessage);
+  }
+
+  const todaysReportExists = await doesTodaysReportExist(reportContext);
+  if (todaysReportExists && !duplicate) {
+    // console.info(noReportMessage);
+  } else {
+    await handleDailyReport(
+      { csv, duplicate, cypress, playwright },
       reportContext,
     );
+  }
 
-    if (monthlySummaryRequired) {
-      await handleSummary(
-        { csv, duplicate, cypress, playwright },
-        reportContext,
-      );
-      // } else {
-      //   console.info(noSummaryMessage);
-    }
-
-    const todaysReportExists = await doesTodaysReportExist(reportContext);
-    if (todaysReportExists && !duplicate) {
-      // console.info(noReportMessage);
-    } else {
-      await handleDailyReport(
-        { csv, duplicate, cypress, playwright },
-        reportContext,
-      );
-    }
-
-    if (WEEKLY_SUMMARY_ENABLED() && weeklySummaryRequired) {
-      await handleWeeklySummary(
-        { csv, duplicate, cypress, playwright },
-        reportContext,
-      );
-      // } else {
-      //   console.info(chalk.yellow(noWeeklySummaryMessage));
-    }
-  } catch (error) {
-    console.error('Error occurred:', error);
+  if (WEEKLY_SUMMARY_ENABLED() && weeklySummaryRequired) {
+    await handleWeeklySummary(
+      { csv, duplicate, cypress, playwright },
+      reportContext,
+    );
+    // } else {
+    //   console.info(chalk.yellow(noWeeklySummaryMessage));
   }
 };

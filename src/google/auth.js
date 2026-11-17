@@ -6,18 +6,14 @@ const initializeAuth = async () => {
   let auth;
   let sheets;
   let spreadsheetId;
+  let initializationError;
   const csvOnly = process.argv.includes('--csv');
   const keyFilePath = GOOGLE_KEYFILE_PATH();
   const keyFileExists = Boolean(keyFilePath) && fs.existsSync(keyFilePath);
 
   const getClient = async () => {
-    try {
-      const client = await auth.getClient();
-      sheets = google.sheets({ version: 'v4', auth: client });
-    } catch (error) {
-      console.error('Error obtaining Google API client:', error);
-      throw error;
-    }
+    const client = await auth.getClient();
+    sheets = google.sheets({ version: 'v4', auth: client });
   };
 
   // CSV reports do not need Google. A missing key file must not crash --help or --csv.
@@ -31,24 +27,25 @@ const initializeAuth = async () => {
 
       await getClient();
     } catch (error) {
-      console.error(
-        'Could not load the default credentials. Please ensure the Google credentials file exists and is properly configured.',
-      );
-      console.error(error);
-      return { auth: undefined, sheets: undefined, spreadsheetId: undefined };
+      // Keep module loading safe for CSV/help flows; Google operations report
+      // the configuration failure when they are actually requested.
+      auth = undefined;
+      sheets = undefined;
+      spreadsheetId = undefined;
+      initializationError = error;
     }
   }
 
-  return { auth, sheets, spreadsheetId };
+  return { auth, sheets, spreadsheetId, initializationError };
 };
 
 const authContext = await initializeAuth();
 
 /**
  * Returns the initialized Google integration dependencies.
- * @returns {{auth: Object|undefined, sheets: Object|undefined, spreadsheetId: string|undefined}}
+ * @returns {{auth: Object|undefined, sheets: Object|undefined, spreadsheetId: string|undefined, initializationError: Error|undefined}}
  */
 export const getAuthContext = () => authContext;
 
 // Retain the existing named exports for downstream consumers.
-export const { auth, sheets, spreadsheetId } = authContext;
+export const { auth, sheets, spreadsheetId, initializationError } = authContext;

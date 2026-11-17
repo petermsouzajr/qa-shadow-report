@@ -48,7 +48,8 @@ export const addColumnsAndRowsToTabId = async (
       await batchUpdateMasterSheet(payload);
     }
   } catch (error) {
-    console.error('Error adding columns and rows to tab ID:', error);
-    throw error;
+    throw new Error('Failed to add columns and rows to the sheet.', {
+      cause: error,
+    });
   }
 };

@@ -75,8 +75,7 @@ export const isSummaryRequired = async (options = {}, dataObjectsRef) => {
     // );
 
     return sheetsFromLastMonthExist;
-  } catch (error) {
-    console.error('Error in isSummaryRequired:', error);
+  } catch {
     return false;
   }
 };
@@ -101,8 +100,7 @@ export const isWeeklySummaryRequired = async ({ csv }, dataObjectsRef) => {
     );
 
     return isWeeklySummaryNeeded(existingTabTitles);
-  } catch (error) {
-    console.error('Error in isWeeklySummaryRequired:', error);
+  } catch {
     return false;
   }
 };
@@ -149,8 +147,7 @@ const isWeeklySummaryNeeded = (tabTitles) => {
     });
     // console.log('[SUT DEBUG] isWeeklySummaryNeeded - summaryExists:', summaryExists);
     return !summaryExists;
-  } catch (error) {
-    console.error('Error in isWeeklySummaryNeeded:', error);
+  } catch {
     return false;
   }
 };

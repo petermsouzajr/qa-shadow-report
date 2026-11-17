@@ -27,6 +27,7 @@ import {
 } from './summaryRequired.js';
 import chalk from 'chalk';
 import { WEEK_START, DAYS, SHORT_DAYS, MONTHS } from '../../constants.js';
+import { withErrorContext } from '../utils/errors.js';
 
 export const getHeaderIndicatorsLength = () => {
   return HEADER_INDICATORS.length;
@@ -64,8 +65,7 @@ const sendSummaryBody = async (payload) => {
       },
     });
   } catch (error) {
-    console.error(`Error writing to project: ${spreadsheetId}`, error);
-    throw new Error('Failed to send summary body.');
+    throw withErrorContext(`Failed to send summary body to spreadsheet ${spreadsheetId}.`, error);
   }
 };
 
@@ -110,8 +110,7 @@ const addColumnsAndRows = async (
       numberOfRowsNeeded
     );
   } catch (error) {
-    console.error('Error in adding columns and rows:', error);
-    throw new Error('Unable to add columns and rows to the sheet.');
+    throw withErrorContext('Unable to add columns and rows to the sheet.', error);
   }
 };
 
@@ -132,8 +131,7 @@ const sendSummaryHeaders = async (payload) => {
       },
     });
   } catch (error) {
-    console.error('An error occurred while sending summary headers:', error);
-    throw new Error('Failed to send summary headers.');
+    throw withErrorContext('Failed to send summary headers.', error);
   }
 };
 
@@ -153,8 +151,7 @@ const summaryHeaderStyling = async (payload) => {
       },
     });
   } catch (error) {
-    console.error('An error occurred while applying header styling:', error);
-    throw new Error('Failed to apply summary header styling.');
+    throw withErrorContext('Failed to apply summary header styling.', error);
   }
 };
 
@@ -228,8 +225,7 @@ export const handleSummary = async (
       )
     );
   } catch (error) {
-    console.error('An error occurred in handleSummary:', error);
-    throw new Error('Failed to handle summary.');
+    throw new Error('Failed to handle summary.', { cause: error });
   }
 };
 
@@ -381,7 +377,6 @@ export const handleWeeklySummary = async (
       chalk.green(`Weekly Summary created for ${getFormattedWeekRange()}.`)
     );
   } catch (error) {
-    console.error('An error occurred in handleWeeklySummary:', error);
-    throw new Error('Failed to handle weekly summary.');
+    throw new Error('Failed to handle weekly summary.', { cause: error });
   }
 };

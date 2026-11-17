@@ -190,7 +190,6 @@ export const handleDailyReport = async (
       console.info(chalk.green(`Daily Report created for ${todaysDate}.`));
     }
   } catch (error) {
-    console.error('Error in handleDailyReport:', error);
-    throw error;
+    throw new Error('Failed to handle daily report.', { cause: error });
   }
 };

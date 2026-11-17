@@ -18,8 +18,7 @@ export const doesTodaysReportExist = async (dataObjectsRef) => {
     const todaysTitle = getTodaysFormattedDate();
 
     return existingTabTitles.includes(todaysTitle);
-  } catch (error) {
-    console.error('Error checking if today\'s report exists:', error);
-    throw error;
+  } catch {
+    return false;
   }
 };

@@ -1,7 +1,8 @@
 import { dataObjects } from '../../index.js';
-import { sheets, auth, spreadsheetId } from '../auth.js';
+import { sheets, auth, spreadsheetId, initializationError } from '../auth.js';
 import { createSummaryTitle } from '../sheetDataMethods/createTabNames.js';
 import { createWeeklySummaryTitle } from '../../sharedMethods/summaryHandler.js';
+import { requireSheetsClient, withErrorContext } from '../../utils/errors.js';
 
 export const createNewTab = async (
   sheetName,
@@ -11,7 +12,7 @@ export const createNewTab = async (
   sheetsInstance // Injected dependency for testing
 ) => {
   // Use the injected sheetsInstance or fall back to the actual sheets object
-  const sheetsAPI = sheetsInstance || sheets;
+  const sheetsAPI = requireSheetsClient(sheetsInstance || sheets, initializationError);
   const authToUse = (sheetsInstance && sheetsInstance.auth) || auth;
   const spreadsheetIdToUse =
     (sheetsInstance && sheetsInstance.spreadsheetId) || spreadsheetId;
@@ -33,8 +34,7 @@ export const createNewTab = async (
     }
     return response;
   } catch (error) {
-    console.error('"createNewTab": Error creating new sheet:', error);
-    throw error;
+    throw withErrorContext(`Failed to create sheet "${sheetName}".`, error);
   }
 };
 
@@ -46,7 +46,7 @@ export const createNewWeeklyTab = async (
   sheetsInstance // Injected dependency for testing
 ) => {
   // Use the injected sheetsInstance or fall back to the actual sheets object
-  const sheetsAPI = sheetsInstance || sheets;
+  const sheetsAPI = requireSheetsClient(sheetsInstance || sheets, initializationError);
   const authToUse = (sheetsInstance && sheetsInstance.auth) || auth;
   const spreadsheetIdToUse =
     (sheetsInstance && sheetsInstance.spreadsheetId) || spreadsheetId;
@@ -68,7 +68,6 @@ export const createNewWeeklyTab = async (
     }
     return response;
   } catch (error) {
-    console.error('"createNewTab": Error creating new sheet:', error);
-    throw error;
+    throw withErrorContext(`Failed to create sheet "${sheetName}".`, error);
   }
 };

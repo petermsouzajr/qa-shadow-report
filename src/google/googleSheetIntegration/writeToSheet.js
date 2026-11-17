@@ -1,4 +1,5 @@
-import { sheets, auth, spreadsheetId } from '../auth.js';
+import { sheets, auth, spreadsheetId, initializationError } from '../auth.js';
+import { requireSheetsClient, withErrorContext } from '../../utils/errors.js';
 
 /**
  * Appends values to a specified sheet within the spreadsheet.
@@ -8,7 +9,7 @@ import { sheets, auth, spreadsheetId } from '../auth.js';
  * @param sheetsInstance
  */
 export const writeToSheet = async (sheetTitle, values, sheetsInstance) => {
-  const sheetsAPI = sheetsInstance || sheets;
+  const sheetsAPI = requireSheetsClient(sheetsInstance || sheets, initializationError);
   const authToUse = sheetsInstance ? sheetsInstance.auth : auth;
   const spreadsheetIdToUse =
     sheetsInstance && sheetsInstance.spreadsheetId
@@ -23,8 +24,7 @@ export const writeToSheet = async (sheetTitle, values, sheetsInstance) => {
       resource: { values },
     });
   } catch (error) {
-    console.error(`Error writing to sheet "${sheetTitle}":`, error);
-    throw error;
+    throw withErrorContext(`Failed to write to sheet "${sheetTitle}".`, error);
   }
 };
 
@@ -35,7 +35,7 @@ export const writeToSheet = async (sheetTitle, values, sheetsInstance) => {
  * @param sheetsInstance
  */
 export const batchUpdateMasterSheet = async (payload, sheetsInstance) => {
-  const sheetsAPI = sheetsInstance || sheets;
+  const sheetsAPI = requireSheetsClient(sheetsInstance || sheets, initializationError);
   const authToUse =
     sheetsInstance && sheetsInstance.auth ? sheetsInstance.auth : auth;
   const spreadsheetIdToUse =
@@ -50,7 +50,6 @@ export const batchUpdateMasterSheet = async (payload, sheetsInstance) => {
       resource: payload,
     });
   } catch (error) {
-    console.error('Error applying batch update:', error);
-    throw error;
+    throw withErrorContext('Failed to apply spreadsheet batch update.', error);
   }
 };

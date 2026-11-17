@@ -16,7 +16,7 @@ export const getTopLevelSpreadsheetData = async (
     });
     return response.data;
   } catch (error) {
-    throw new Error(`Failed to get spreadsheet data: ${error.message}`);
+    throw new Error('Failed to get spreadsheet data.', { cause: error });
   }
 };
 
@@ -42,7 +42,7 @@ export const getTabValuesByTitle = async (
     });
     return response.data.values || [];
   } catch (error) {
-    throw new Error(`Failed to get tab values: ${error.message}`);
+    throw new Error('Failed to get tab values.', { cause: error });
   }
 };
 
@@ -60,7 +60,7 @@ export const getTabIdFromTitle = async (tabTitle) => {
     );
     return sheet ? sheet.properties.sheetId : null;
   } catch (error) {
-    throw new Error(`Failed to get tab ID: ${error.message}`);
+    throw new Error('Failed to get tab ID.', { cause: error });
   }
 };
 
@@ -78,7 +78,7 @@ export const getTabIdFromWeeklyTitle = async (tabTitle) => {
     );
     return sheet ? sheet.properties.sheetId : null;
   } catch (error) {
-    throw new Error(`Failed to get weekly tab ID: ${error.message}`);
+    throw new Error('Failed to get weekly tab ID.', { cause: error });
   }
 };
 
@@ -100,6 +100,6 @@ export const getExistingTabTitlesInRange = async (startDate, endDate) => {
         return date >= startDate && date <= endDate;
       });
   } catch (error) {
-    throw new Error(`Failed to get tab titles in range: ${error.message}`);
+    throw new Error('Failed to get tab titles in range.', { cause: error });
   }
 };

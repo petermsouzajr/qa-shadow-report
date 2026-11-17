@@ -60,7 +60,6 @@ export const constructPayloadForCopyPaste = async (
     await processSourceTabTitles(...processArguments);
     return summaryPayload;
   } catch (error) {
-    console.error('Error building copy-paste payload:', error);
-    throw new Error('Error building copy-paste payload.');
+    throw new Error('Failed to build monthly copy-paste payload.', { cause: error });
   }
 };
