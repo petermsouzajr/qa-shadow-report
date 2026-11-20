@@ -10,6 +10,7 @@ import { spawn } from 'child_process';
 import { GOOGLE_KEYFILE_PATH, GOOGLE_SHEET_ID } from '../constants.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { findProjectRoot } from './utils/projectPaths.js';
 
 /**
  * Resolves the path to the postInstall.js script.
@@ -22,10 +23,19 @@ const resolvePostInstallScript = () => {
     const postInstallPath = path.join(__dirname, '../scripts/postInstall.js');
     return postInstallPath;
   } catch (error) {
-    console.error('Error: Unable to resolve the path to postInstall.js.');
-    console.error(error);
+    console.error(`Error resolving postInstall.js: ${error.message}`);
+    process.exitCode = 1;
     process.exit(1);
   }
+};
+
+/**
+ * Resolves the consumer project root independently of the current directory.
+ * @returns {string|null} The resolved project root.
+ */
+const resolveProjectRoot = () => {
+  const moduleDirectory = path.dirname(fileURLToPath(import.meta.url));
+  return findProjectRoot(moduleDirectory);
 };
 
 /**
@@ -45,7 +55,7 @@ export async function run() {
   const frameworkArg = args.find((arg) =>
     ['cypress', 'playwright', 'cy', 'pw'].includes(arg)
   );
-  const isConfigured = isProjectConfigured();
+  const isConfigured = isProjectConfigured(resolveProjectRoot());
   const framework = frameworkArg || '';
   const isCypress = framework === 'cypress' || framework === 'cy';
   const isPlaywright = framework === 'playwright' || framework === 'pw';
@@ -127,15 +137,17 @@ export async function run() {
         break;
       }
     } catch (error) {
-      console.error('Error executing command:', error);
+      console.error(`Error executing command: ${error.message}`);
+      process.exitCode = 1;
     }
   }
 }
 
-const isDirectEntry =
+const isDirectEntry = () =>
   Boolean(process.argv[1]) &&
-  path.resolve(fileURLToPath(import.meta.url)) === path.resolve(process.argv[1]);
+  path.resolve(fileURLToPath(import.meta.url)) ===
+    path.resolve(process.argv[1]);
 
-if (isDirectEntry) {
+if (isDirectEntry()) {
   run();
 }

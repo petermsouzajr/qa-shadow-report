@@ -43,7 +43,6 @@ export const processTestSuites = async (results, playwright) => {
     const nestedPayloadEntries = await Promise.all(payloadEntriesPromises);
     return nestedPayloadEntries.flat(Infinity);
   } catch (error) {
-    console.error('Error processing test suites:', error);
-    throw error;
+    throw new Error('Failed to process test suites.', { cause: error });
   }
 };

@@ -42,7 +42,6 @@ export const getFormulas = (
       stateColumn
     );
   } catch (error) {
-    console.error('Error generating formulas:', error);
-    throw new Error('Failed to generate formulas');
+    throw new Error('Failed to generate formulas.', { cause: error });
   }
 };

@@ -64,7 +64,6 @@ export const appendStateReportsToHeader = (
       headerPayload[i].push(...newReport[i]); // Append the new report for the metric at index i
     }
   } catch (error) {
-    console.error('Error appending state reports to header:', error);
-    throw error;
+    throw new Error('Failed to append state reports to header.', { cause: error });
   }
 };

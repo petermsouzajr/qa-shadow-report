@@ -54,7 +54,6 @@ export const constructHeaderReport = async (payload) => {
 
     return combineReports(allReportEntries, placeholders);
   } catch (error) {
-    console.error('Error constructing header report:', error);
-    throw new Error('Failed to construct header report');
+    throw new Error('Failed to construct header report.', { cause: error });
   }
 };

@@ -42,10 +42,14 @@ export const findTabTitleDataInArray = (sheetValuesArray, sheetTitle) => {
 /**
  * Fetches existing tab titles in range based on the given criteria.
  * @param {string} when - Time frame filter criteria.
+ * @param dataObjectsRef
  * @returns {Promise<Array>} An array of titles that match the given criteria.
  * @throws {Error} If fetching or processing data fails.
  */
-export const getExistingTabTitlesInRange = async (when = '') => {
+export const getExistingTabTitlesInRange = async (
+  when = '',
+  dataObjectsRef = dataObjects
+) => {
   if (typeof when !== 'string') {
     throw new TypeError('Invalid input: "when" must be a string.');
   }
@@ -56,9 +60,14 @@ export const getExistingTabTitlesInRange = async (when = '') => {
 
   try {
     const metaData =
-      Object.keys(dataObjects.topLevelSpreadsheetData).length === 0
-        ? await getTopLevelSpreadsheetData()
-        : dataObjects.topLevelSpreadsheetData;
+      Object.keys(dataObjectsRef.topLevelSpreadsheetData).length === 0
+        ? await getTopLevelSpreadsheetData(
+          undefined,
+          undefined,
+          undefined,
+          dataObjectsRef
+        )
+        : dataObjectsRef.topLevelSpreadsheetData;
 
     if (!metaData || !metaData.data || !Array.isArray(metaData.data.sheets)) {
       throw new Error('Invalid spreadsheet metadata format.');
@@ -79,17 +88,19 @@ export const getExistingTabTitlesInRange = async (when = '') => {
             /^([A-Z][a-z]{2} \d{1,2}, \d{4})$/.test(title)
       );
   } catch (error) {
-    console.error('Error fetching sheet titles in range:', error);
-    throw new Error('Unable to fetch sheet titles in range.');
+    throw new Error('Unable to fetch sheet titles in range.', { cause: error });
   }
 };
 
 /**
  * Fetches existing tab titles within the current weekly range.
+ * @param dataObjectsRef
  * @returns {Promise<Array>} An array of tab titles that fall within the weekly range.
  * @throws {Error} If fetching or processing data fails.
  */
-export const getExistingTabTitlesInWeeklyRange = async () => {
+export const getExistingTabTitlesInWeeklyRange = async (
+  dataObjectsRef = dataObjects
+) => {
   try {
     const now = new Date();
     const startDate = new Date(now);
@@ -101,9 +112,14 @@ export const getExistingTabTitlesInWeeklyRange = async () => {
     endDate.setDate(startDate.getDate() + 6);
     endDate.setHours(23, 59, 59, 999);
     const metaData =
-      Object.keys(dataObjects.topLevelSpreadsheetData).length === 0
-        ? await getTopLevelSpreadsheetData()
-        : dataObjects.topLevelSpreadsheetData;
+      Object.keys(dataObjectsRef.topLevelSpreadsheetData).length === 0
+        ? await getTopLevelSpreadsheetData(
+          undefined,
+          undefined,
+          undefined,
+          dataObjectsRef
+        )
+        : dataObjectsRef.topLevelSpreadsheetData;
 
     if (!metaData || !metaData.data || !Array.isArray(metaData.data.sheets)) {
       throw new Error('Invalid spreadsheet metadata format.');
@@ -120,33 +136,34 @@ export const getExistingTabTitlesInWeeklyRange = async () => {
       return tabDate >= startDate && tabDate <= endDate;
     });
   } catch (error) {
-    console.error('Error fetching sheet titles in weekly range:', error);
-    throw new Error('Unable to fetch sheet titles in weekly range.');
+    throw new Error('Unable to fetch sheet titles in weekly range.', { cause: error });
   }
 };
 
 /**
  * Gets the ID of the tab by its title.
  * @param {string} tabTitle - The title of the tab.
+ * @param dataObjectsRef
  * @returns {Promise<number|null>} The ID of the tab or null if not found.
  * @throws {Error} If fetching or processing data fails.
  */
-export const getTabIdFromTitle = async (tabTitle) => {
+export const getTabIdFromTitle = async (tabTitle,
+  dataObjectsRef = dataObjects
+) => {
   if (typeof tabTitle !== 'string' || tabTitle.trim() === '') {
-    throw new Error('Invalid tabTitle: Expected a non-empty string.');
+    throw new TypeError('Invalid tabTitle: Expected a non-empty string.');
   }
 
   let sheetList;
   if (tabTitle.includes(createSummaryTitle())) {
-    sheetList = dataObjects.summaryTabData;
+    sheetList = dataObjectsRef.summaryTabData;
   } else if (tabTitle.includes(getTodaysFormattedDate())) {
-    sheetList = dataObjects.todaysReportData;
+    sheetList = dataObjectsRef.todaysReportData;
   } else {
-    sheetList = dataObjects.topLevelSpreadsheetData;
+    sheetList = dataObjectsRef.topLevelSpreadsheetData;
   }
 
   if (!sheetList || Object.keys(sheetList).length === 0) {
-    console.error('Sheet list data is not available');
     return null;
   }
 
@@ -163,36 +180,38 @@ export const getTabIdFromTitle = async (tabTitle) => {
     );
     return sheet ? sheet.properties.sheetId : null;
   } catch (error) {
-    console.error('Error fetching tab ID from title:', error);
-    throw new Error('Unable to fetch tab ID from title.');
+    throw new Error('Unable to fetch tab ID from title.', { cause: error });
   }
 };
 
 /**
  * Gets the ID of the tab by its title.
  * @param {string} tabTitle - The title of the tab.
+ * @param dataObjectsRef
  * @returns {Promise<number|null>} The ID of the tab or null if not found.
  * @throws {Error} If fetching or processing data fails.
  */
-export const getTabIdFromWeeklyTitle = async (tabTitle) => {
+export const getTabIdFromWeeklyTitle = async (
+  tabTitle,
+  dataObjectsRef = dataObjects
+) => {
   if (typeof tabTitle !== 'string' || tabTitle.trim() === '') {
-    throw new Error('Invalid tabTitle: Expected a non-empty string.');
+    throw new TypeError('Invalid tabTitle: Expected a non-empty string.');
   }
 
   let sheetList;
   if (tabTitle.includes(createWeeklySummaryTitle())) {
-    sheetList = dataObjects.weeklySummaryTabData;
+    sheetList = dataObjectsRef.weeklySummaryTabData;
   } else if (
     tabTitle.includes(getTodaysFormattedDate()) &&
     !WEEKLY_SUMMARY_ENABLED()
   ) {
-    sheetList = dataObjects.todaysReportData;
+    sheetList = dataObjectsRef.todaysReportData;
   } else {
-    sheetList = dataObjects.topLevelSpreadsheetData;
+    sheetList = dataObjectsRef.topLevelSpreadsheetData;
   }
 
   if (!sheetList || Object.keys(sheetList).length === 0) {
-    console.error('Sheet list data is not available');
     return null;
   }
 
@@ -209,8 +228,7 @@ export const getTabIdFromWeeklyTitle = async (tabTitle) => {
     );
     return sheet ? sheet.properties.sheetId : null;
   } catch (error) {
-    console.error('Error fetching tab ID from title:', error);
-    throw new Error('Unable to fetch tab ID from title.');
+    throw new Error('Unable to fetch tab ID from title.', { cause: error });
   }
 };
 
@@ -218,15 +236,17 @@ export const getTabIdFromWeeklyTitle = async (tabTitle) => {
  * Finds the index of the column whose header matches any of the default metrics.
  * @param {string} sheetId - The ID of the sheet/tab to look into.
  * @param {Array<string>} defaultHeaderMetrics - An array of metric names to match against.
+ * @param dataObjectsRef
  * @returns {Promise<number|null>} The index of the matching column or null if no match is found.
  * @throws {Error} If fetching or processing data fails.
  */
 export const findMatchingColumnByWeeklyTabId = async (
   sheetId,
-  defaultHeaderMetrics
+  defaultHeaderMetrics,
+  dataObjectsRef = dataObjects
 ) => {
   if (typeof sheetId !== 'string' || sheetId.trim() === '') {
-    throw new Error('Invalid sheetId: Expected a non-empty string.');
+    throw new TypeError('Invalid sheetId: Expected a non-empty string.');
   }
 
   if (
@@ -239,7 +259,7 @@ export const findMatchingColumnByWeeklyTabId = async (
   }
 
   try {
-    const metaData = dataObjects.lastWeekSheetValues[0].find((item) =>
+    const metaData = dataObjectsRef.lastWeekSheetValues[0].find((item) =>
       item.data.range.startsWith(`'${sheetId}'`)
     );
 
@@ -252,13 +272,12 @@ export const findMatchingColumnByWeeklyTabId = async (
     const headers = metaData.data.values[0];
 
     const matchingIndex = headers.findIndex((header) =>
-      defaultHeaderMetrics.some((metric) => header.trim().includes(metric))
+      defaultHeaderMetrics.some((metric) => header.trim().includes(metric)),
     );
 
     return matchingIndex !== -1 ? matchingIndex : null;
   } catch (error) {
-    console.error('Error finding matching column by tab ID:', error);
-    throw new Error('Unable to find matching column by tab ID.');
+    throw new Error('Unable to find matching column by tab ID.', { cause: error });
   }
 };
 
@@ -266,15 +285,17 @@ export const findMatchingColumnByWeeklyTabId = async (
  * Finds the index of the column whose header matches any of the default metrics.
  * @param {string} sheetId - The ID of the sheet/tab to look into.
  * @param {Array<string>} defaultHeaderMetrics - An array of metric names to match against.
+ * @param dataObjectsRef
  * @returns {Promise<number|null>} The index of the matching column or null if no match is found.
  * @throws {Error} If fetching or processing data fails.
  */
 export const findMatchingColumnByTabId = async (
   sheetId,
-  defaultHeaderMetrics
+  defaultHeaderMetrics,
+  dataObjectsRef = dataObjects
 ) => {
   if (typeof sheetId !== 'string' || sheetId.trim() === '') {
-    throw new Error('Invalid sheetId: Expected a non-empty string.');
+    throw new TypeError('Invalid sheetId: Expected a non-empty string.');
   }
 
   if (
@@ -287,7 +308,7 @@ export const findMatchingColumnByTabId = async (
   }
 
   try {
-    const metaData = dataObjects.lastMonthSheetValues[0].find((item) =>
+    const metaData = dataObjectsRef.lastMonthSheetValues[0].find((item) =>
       item.data.range.startsWith(`'${sheetId}'`)
     );
 
@@ -305,20 +326,22 @@ export const findMatchingColumnByTabId = async (
 
     return matchingIndex !== -1 ? matchingIndex : null;
   } catch (error) {
-    console.error('Error finding matching column by tab ID:', error);
-    throw new Error('Unable to find matching column by tab ID.');
+    throw new Error('Unable to find matching column by tab ID.', { cause: error });
   }
 };
 
 /**
  * Retrieves header and footer data of a tab by its title.
  * @param {string} sheetTitle - The title of the tab.
+ * @param dataObjectsRef
  * @returns {Promise<Object|null>} An object containing header row, footer row, and header values, or null if not found.
  * @throws {Error} Throws an error if data retrieval fails.
  */
-export const getHeaderAndFooterDataByTabTitle = async (sheetTitle) => {
+export const getHeaderAndFooterDataByTabTitle = async (sheetTitle,
+  dataObjectsRef = dataObjects
+) => {
   if (typeof sheetTitle !== 'string' || sheetTitle.trim() === '') {
-    throw new Error('Invalid sheetTitle: Expected a non-empty string.');
+    throw new TypeError('Invalid sheetTitle: Expected a non-empty string.');
   }
 
   try {
@@ -326,12 +349,11 @@ export const getHeaderAndFooterDataByTabTitle = async (sheetTitle) => {
     let footerRow = 0;
     let headerValues = [];
 
-    const metaData = dataObjects.lastMonthSheetValues[0].find((item) =>
+    const metaData = dataObjectsRef.lastMonthSheetValues[0].find((item) =>
       item.data.range.startsWith(`'${sheetTitle}'`)
     );
 
     if (!metaData) {
-      console.error(`No data found for sheet title: ${sheetTitle}`);
       return null;
     }
 
@@ -347,20 +369,22 @@ export const getHeaderAndFooterDataByTabTitle = async (sheetTitle) => {
 
     return { headerRow, footerRow, headerValues };
   } catch (error) {
-    console.error('Error retrieving header and footer data:', error);
-    throw new Error('Unable to retrieve header and footer data.');
+    throw new Error('Unable to retrieve header and footer data.', { cause: error });
   }
 };
 
 /**
  * Retrieves header and footer data of a tab by its title.
  * @param {string} sheetTitle - The title of the tab.
+ * @param dataObjectsRef
  * @returns {Promise<Object|null>} An object containing header row, footer row, and header values, or null if not found.
  * @throws {Error} Throws an error if data retrieval fails.
  */
-export const getHeaderAndFooterDataByWeeklyTabTitle = async (sheetTitle) => {
+export const getHeaderAndFooterDataByWeeklyTabTitle = async (sheetTitle,
+  dataObjectsRef = dataObjects
+) => {
   if (typeof sheetTitle !== 'string' || sheetTitle.trim() === '') {
-    throw new Error('Invalid sheetTitle: Expected a non-empty string.');
+    throw new TypeError('Invalid sheetTitle: Expected a non-empty string.');
   }
 
   try {
@@ -368,12 +392,11 @@ export const getHeaderAndFooterDataByWeeklyTabTitle = async (sheetTitle) => {
     let footerRow = 0;
     let headerValues = [];
 
-    const metaData = dataObjects.lastWeekSheetValues[0].find((item) =>
+    const metaData = dataObjectsRef.lastWeekSheetValues[0].find((item) =>
       item.data.range.startsWith(`'${sheetTitle}'`)
     );
 
     if (!metaData) {
-      console.error(`No data found for sheet title: ${sheetTitle}`);
       return null;
     }
 
@@ -389,7 +412,6 @@ export const getHeaderAndFooterDataByWeeklyTabTitle = async (sheetTitle) => {
 
     return { headerRow, footerRow, headerValues };
   } catch (error) {
-    console.error('Error retrieving header and footer data:', error);
-    throw new Error('Unable to retrieve header and footer data.');
+    throw new Error('Unable to retrieve header and footer data.', { cause: error });
   }
 };

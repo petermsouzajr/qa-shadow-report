@@ -1,5 +1,6 @@
 import { dataObjects } from '../../index.js';
-import { sheets, auth, spreadsheetId } from '../auth.js';
+import { sheets, auth, spreadsheetId, initializationError } from '../auth.js';
+import { requireSheetsClient, withErrorContext } from '../../utils/errors.js';
 
 /**
  * Retrieves the top-level data from the spreadsheet.
@@ -16,7 +17,7 @@ export const getTopLevelSpreadsheetData = async (
   dataObjectsRef = dataObjects
 ) => {
   try {
-    const sheetsAPI = sheetsInstance || sheets;
+    const sheetsAPI = requireSheetsClient(sheetsInstance || sheets, initializationError);
     const authToUse = authParam || auth;
     const spreadsheetIdToUse = spreadsheetIdParam || spreadsheetId;
 
@@ -27,8 +28,7 @@ export const getTopLevelSpreadsheetData = async (
     dataObjectsRef.topLevelSpreadsheetData = data;
     return data;
   } catch (error) {
-    console.error('Failed to fetch top-level spreadsheet data:', error);
-    throw new Error('Error fetching top-level spreadsheet data.');
+    throw withErrorContext('Failed to fetch top-level spreadsheet data.', error);
   }
 };
 
@@ -47,10 +47,12 @@ export const getTabValuesByTitle = async (
   spreadsheetIdParam
 ) => {
   try {
-    const sheetsAPI =
+    const sheetsAPI = requireSheetsClient(
       sheetsInstance && typeof sheetsInstance.spreadsheets === 'object'
         ? sheetsInstance
-        : sheets;
+        : sheets,
+      initializationError
+    );
 
     const authToUse = typeof authParam === 'string' ? auth : authParam;
     const spreadsheetIdToUse = spreadsheetIdParam || spreadsheetId;
@@ -61,7 +63,6 @@ export const getTabValuesByTitle = async (
     });
     return data;
   } catch (error) {
-    console.error(`Failed to fetch values for tab: ${tabTitle}:`, error);
-    throw new Error(`Error fetching values for tab: ${tabTitle}`);
+    throw withErrorContext(`Failed to fetch values for tab: ${tabTitle}.`, error);
   }
 };

@@ -59,11 +59,19 @@ try {
   if (fs.existsSync(configPath)) {
     const shadowConfig = await import(pathToFileURL(configPath).href);
     const loaded = shadowConfig.default || {};
-    const hasFields = loaded.testData || loaded.googleSpreadsheetUrl || loaded.teamNames;
-    shadowConfigDetails = hasFields ? loaded : (shadowConfig.testData ? shadowConfig : loaded);
-    
+    const hasFields =
+      loaded.testData || loaded.googleSpreadsheetUrl || loaded.teamNames;
+    shadowConfigDetails = hasFields
+      ? loaded
+      : shadowConfig.testData
+        ? shadowConfig
+        : loaded;
+
     // Validate config if it's not empty and not in test mode
-    if (Object.keys(shadowConfigDetails).length > 0 && !process.env.JEST_WORKER_ID) {
+    if (
+      Object.keys(shadowConfigDetails).length > 0 &&
+      !process.env.JEST_WORKER_ID
+    ) {
       // Don't exit on error here - let the specific functions handle missing values
       // This allows for CSV-only mode where Google Sheets config isn't required
       validateAndReportConfig(shadowConfigDetails, configPath, false);
@@ -155,7 +163,8 @@ export const GOOGLE_KEYFILE_PATH = () => {
 };
 
 export const TEST_DATA = (cypress) => {
-  const shadowConfigFile = getActiveShadowConfig() && getActiveShadowConfig().testData;
+  const shadowConfigFile =
+    getActiveShadowConfig() && getActiveShadowConfig().testData;
   const cypressFile = 'cypressTestResults.json';
   const playwrightFile = 'playwrightTestResults.json';
 
@@ -211,21 +220,23 @@ export const FORMULA_TEMPLATES = [
   '=ROWS({stateColumn}{headerRowIndex}:{stateColumn}{totalNumberOfRows})',
 ];
 
-const cache = {};
+const getCachedOrCompute = (() => {
+  const values = {};
 
-function getCachedOrCompute(key, computeFunction) {
-  // Skip cache when tests inject global config (avoids stale values across cases)
-  const g = globalThis.shadowConfigDetails;
-  if (g && typeof g === 'object' && Object.keys(g).length > 0) {
-    return computeFunction();
-  }
-  if (cache[key]) {
-    return cache[key];
-  }
-  const data = computeFunction();
-  cache[key] = data;
-  return data;
-}
+  return (key, computeFunction) => {
+    // Skip cache when tests inject global config (avoids stale values across cases)
+    const g = globalThis.shadowConfigDetails;
+    if (g && typeof g === 'object' && Object.keys(g).length > 0) {
+      return computeFunction();
+    }
+    if (values[key]) {
+      return values[key];
+    }
+    const data = computeFunction();
+    values[key] = data;
+    return data;
+  };
+})();
 
 /**
  * Gets the available columns for test reports, adjusted for Playwright if specified.
@@ -256,7 +267,10 @@ export const COLUMNS_AVAILABLE = (playwright) => {
         baseColumns = ['browser', ...baseColumns];
       }
 
-      if (getActiveShadowConfig() && Array.isArray(getActiveShadowConfig().columns)) {
+      if (
+        getActiveShadowConfig() &&
+        Array.isArray(getActiveShadowConfig().columns)
+      ) {
         // console.info(chalk.green('Using custom columns list.'));
         return getActiveShadowConfig().columns;
       } else {

@@ -63,7 +63,7 @@ jest.mock('./index.js', () => {
 });
 
 // Import after mocking
-import { main } from './index.js';
+import { createReportContext, main } from './index.js';
 
 let mockProcessExit;
 
@@ -130,6 +130,18 @@ describe('main function', () => {
   });
 
   describe('CSV mode', () => {
+    it('creates isolated contexts for separate report runs', () => {
+      const firstContext = createReportContext();
+      firstContext.lastMonthSheetValues.push(['run one']);
+      firstContext.topLevelSpreadsheetData.value = 'run one';
+
+      const secondContext = createReportContext();
+
+      expect(secondContext).not.toBe(firstContext);
+      expect(secondContext.lastMonthSheetValues).toEqual([]);
+      expect(secondContext.topLevelSpreadsheetData).toEqual({});
+    });
+
     it.skip('should handle CSV reports directly without checking other conditions', async () => {
       const options = { csv: true };
       await main(options);
@@ -222,14 +234,12 @@ describe('main function', () => {
   });
 
   describe('Error handling', () => {
-    it.skip('should handle errors gracefully', async () => {
+    it('should reject errors for the CLI boundary to handle', async () => {
       const testError = new Error('Test error');
-      mockIsSummaryRequired.mockRejectedValue(testError);
+      mockHandleDailyReport.mockRejectedValue(testError);
 
-      await main({});
-
-      expect(console.error).toHaveBeenCalledWith('Error occurred:', testError);
-      expect(console.error).toHaveBeenCalledTimes(1);
+      await expect(main({ csv: true })).rejects.toBe(testError);
+      expect(console.error).not.toHaveBeenCalled();
     });
   });
 });

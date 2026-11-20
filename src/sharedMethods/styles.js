@@ -70,7 +70,9 @@ export const sendGridStyle = async (destinationTabId, fullDailyPayload) => {
   try {
     await batchUpdateMasterSheet(requestBody);
   } catch (error) {
-    console.error('sendGridStyle: An error occurred:', error);
+    throw new Error('Failed to apply spreadsheet grid styles.', {
+      cause: error,
+    });
   }
 };
 

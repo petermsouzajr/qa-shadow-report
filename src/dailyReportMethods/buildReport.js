@@ -65,7 +65,6 @@ export const constructReportPayloadEntry = async (result, test, playwright) => {
 
     return payloadEntry;
   } catch (error) {
-    console.error('Error constructing report payload entry:', error);
-    throw error;
+    throw new Error('Failed to construct report payload entry.', { cause: error });
   }
 };

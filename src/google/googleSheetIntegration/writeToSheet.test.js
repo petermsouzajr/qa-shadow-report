@@ -68,12 +68,10 @@ describe('Google Sheets Write Operations', () => {
 
       await expect(
         writeToSheet(mockSheetTitle, mockValues, mockSheetsAPI)
-      ).rejects.toThrow('API Error');
-
-      expect(console.error).toHaveBeenCalledWith(
-        `Error writing to sheet "${mockSheetTitle}":`,
-        mockError
-      );
+      ).rejects.toMatchObject({
+        message: `Failed to write to sheet "${mockSheetTitle}".`,
+        cause: mockError,
+      });
     });
 
     it('should use default parameters when not provided', async () => {
@@ -187,12 +185,10 @@ describe('Google Sheets Write Operations', () => {
 
       await expect(
         batchUpdateMasterSheet(mockPayload, mockSheetsAPI)
-      ).rejects.toThrow('API Error');
-
-      expect(console.error).toHaveBeenCalledWith(
-        'Error applying batch update:',
-        mockError
-      );
+      ).rejects.toMatchObject({
+        message: 'Failed to apply spreadsheet batch update.',
+        cause: mockError,
+      });
     });
 
     it('should use default parameters when not provided', async () => {

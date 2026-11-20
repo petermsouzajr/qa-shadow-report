@@ -243,7 +243,7 @@ describe('Summary Required', () => {
       expect(result).toBe(true);
     });
 
-    it('should return false and log error if getExistingTabTitlesInRange fails', async () => {
+    it('should return false without logging if getExistingTabTitlesInRange fails', async () => {
       if (typeof mockGetExistingTabTitlesInRange !== 'function')
         // Use the top-level mock
         throw new Error('Mock is not a function in test');
@@ -254,10 +254,7 @@ describe('Summary Required', () => {
       const result = await isSummaryRequired_SUT({ csv: false });
       expect(mockGetExistingTabTitlesInRange).toHaveBeenCalled(); // Use the top-level mock
       expect(result).toBe(false);
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        'Error in isSummaryRequired:',
-        expect.any(Error)
-      );
+      expect(consoleErrorSpy).not.toHaveBeenCalled();
     });
   });
 
@@ -328,7 +325,7 @@ describe('Summary Required', () => {
       expect(result).toBe(false);
     });
 
-    it('should return false and log error if getExistingTabTitlesInRange fails', async () => {
+    it('should return false without logging if getExistingTabTitlesInRange fails', async () => {
       jest.setSystemTime(new Date('2024-02-18T12:00:00.000Z')); // Sunday
       if (typeof mockGetExistingTabTitlesInRange !== 'function')
         // Use the top-level mock
@@ -340,10 +337,7 @@ describe('Summary Required', () => {
       const result = await isWeeklySummaryRequired_SUT({ csv: false });
       expect(mockGetExistingTabTitlesInRange).toHaveBeenCalled(); // Use the top-level mock
       expect(result).toBe(false);
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        'Error in isWeeklySummaryRequired:',
-        expect.any(Error)
-      );
+      expect(consoleErrorSpy).not.toHaveBeenCalled();
     });
   });
 });

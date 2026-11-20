@@ -21,7 +21,6 @@ export const createSummaryTitle = () => {
 
     return `Monthly summary ${lastMonth} ${previousMonthsYear}`;
   } catch (error) {
-    console.error('Error in createSummaryTitle:', error);
-    throw error;
+    throw new Error('Could not generate summary title due to date formatting error.', { cause: error });
   }
 };

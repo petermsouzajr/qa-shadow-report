@@ -120,3 +120,21 @@ While the prerequisites above must be satisfied prior to having your pull reques
 - Write tests that cover core functionalities and edge cases.
 - Ensure tests are reproducible and run consistently.
 - Follow test-driven development (TDD) practices when applicable.
+
+### Error Handling
+
+Use native JavaScript errors consistently. Throw `TypeError` for invalid argument
+types, `RangeError` for invalid numeric or range values, and `Error` for
+operational failures. Lower-level modules should throw errors rather than log
+them; add operation context when wrapping an integration failure and preserve
+the original error as its `cause`. The CLI and public application boundaries
+are responsible for the final user-facing message and non-zero exit status.
+
+```js
+throw new TypeError('Input must be a string.');
+throw new Error('Failed to fetch spreadsheet data.', { cause: error });
+```
+
+Do not log an error immediately before rethrowing it, because that produces
+duplicate diagnostics. Keep `console.warn` and `console.info` for expected,
+user-actionable conditions.
